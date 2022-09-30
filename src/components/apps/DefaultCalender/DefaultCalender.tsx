@@ -16,10 +16,7 @@ class DefaultCalender extends React.Component<any> {
 
     return (
       <div>
-        {/* <!-- PAGE-HEADER --> */}
         <PageHeader titles="Default Calender" active="Default Calender" items={['Apps']} />
-
-        {/* <!-- ROW OPEN--> */}
         <div className="">
           <Card>
             <Card.Body>
@@ -40,7 +37,6 @@ class DefaultCalender extends React.Component<any> {
             </Card.Body>
           </Card>
         </div>
-        {/* <!-- ROW CLOSE--> */}
       </div>
     )
   }
