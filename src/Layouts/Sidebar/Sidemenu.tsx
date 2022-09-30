@@ -12,7 +12,7 @@ export const MENUITEMS = [
             {
                 title: 'Setup', icon: "fe fe-slack", type: 'sub', Name:"",Names:"", active: false, selected: false, children: [
 
-                    { path: `/apps/carddesigns`, type: 'link', active: false, selected: false, title: 'Business Setup' },
+                    { path: `/setup/businesssetup`, type: 'link', active: false, selected: false, title: 'Business Setup' },
                     { path: `/setup/propertysetup`, type: 'link', active: false, selected: false, title: 'Property Setup' },
                     { path: `/setup/propertyspace`, type: 'link', active: false, selected: false, title: 'Property Space' },
                     { path: `/apps/charts`, type: 'link', active: false, selected: false, title: 'Rate setup' },

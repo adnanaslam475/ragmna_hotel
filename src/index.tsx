@@ -150,6 +150,7 @@ const FrontOffice = lazy(()=> import('./components/FrontOffice/FrontOffice'));
 const PropertySpace = lazy(()=> import('./components/Setup/PropertySpace/PropertySpace'));
 const GuestServices = lazy(()=> import('./components/GuestServices/GuestServices'));
 const PropertySetup = lazy(()=> import('./components/Setup/PropertySetup/PropertySetup'))
+const BusinessSetup = lazy(()=> import('./components/Setup/BusinessSetup/BusinessSetup'))
 
 
 const container: HTMLElement | any = document.getElementById('root');
@@ -175,6 +176,7 @@ root.render(
                   <Route path={`/dashboard`} element={<Dashboard />} />
                   <Route path={`/frontoffice`} element={<FrontOffice />} />
                   <Route path={`/guestservices`} element={<GuestServices />} />
+                  <Route path={`/setup/businesssetup`} element={<BusinessSetup />} />
                   <Route path={`/setup/propertysetup`} element={<PropertySetup />} />
                   <Route path={`/setup/propertyspace`} element={<PropertySpace />} />
                   <Route path={`/apps/carddesigns`} element={<CardsDesign />} />,

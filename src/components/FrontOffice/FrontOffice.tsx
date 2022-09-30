@@ -69,7 +69,6 @@ const FrontOffice = () => {
                                                                 <Form.Group className='mb-2'>
                                                                     <Form.Label >Country <span className="text-red">*</span></Form.Label>
                                                                     <Select classNamePrefix="Select" options={Country} placeholder='country' />
-
                                                                 </Form.Group>
                                                             </Col>
                                                             <Col md={12}>
