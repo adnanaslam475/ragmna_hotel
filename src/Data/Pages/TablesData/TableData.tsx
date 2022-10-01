@@ -1763,40 +1763,30 @@ export const DataTabless = () => {
 
   const columns:any = [
     {
-      name: "S.NO",
+      name: "Account Number",
       selector: (row) => [row.SNO],
       sortable: false,
     },
     {
-      name: "FIRST NAME",
+      name: "Account Name",
       selector: (row) => [row.FNAME],
       sortable: true,
     },
     {
-      name: "LAST NAME",
+      name: "Account Since",
       selector: (row) => [row.LNAME],
       sortable: false,
     },
     {
-      name: "POSITION",
+      name: "Reservation",
       selector: (row) => [row.POSITION],
       sortable: true,
     },
     {
-      name: "START DATE",
+      name: "status",
       selector: (row) => [row.START],
       sortable: true,
-    },
-    {
-      name: "SALARY",
-      selector: (row) => [row.SALARY],
-      sortable: true,
-    },
-    {
-      name: "MAIL",
-      selector: (row) => [row.MAIL],
-      sortable: false,
-    },
+    }
   ];
   const contextActions = React.useMemo(() => {
     const handleDelete = (SNO) => {
@@ -1804,7 +1794,7 @@ export const DataTabless = () => {
         setToggleCleared(!toggleCleared);
         setData(differenceBy(data, selectedRows, "SNO"));
       
-    };
+    }
 
     return (
       <Button variant="" className="btn btn-primary mt-2" key="delete" onClick={handleDelete}>
