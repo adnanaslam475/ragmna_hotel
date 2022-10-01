@@ -8,4 +8,38 @@
         justify-content: center !important;
     }
 }
+
+.Filter-column{
+    .col-lg-2{
+        border: 1px solid #05c3fb;
+        max-width: 16% !important;
+        padding: 10px;
+        border-radius: 10px;
+        margin-right: 4px;
+
+        &:hover{
+            background-color: #f2f2f2;
+        }
+    }
     
+}
+.counter-res{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    .h1{
+        font-weight: 900;
+        color:  var(--primary-bg-color);
+    }
+    p{
+        color: gray;
+        margin-bottom: 0;
+    }
+    
+}
+
+.res-button{
+    background: #05c3fb !important;
+    color: white !important;
+}
