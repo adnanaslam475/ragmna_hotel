@@ -94,10 +94,10 @@ export const Sidebar = () => {
             items.active = false;
             items.selected = false;
             if (
-              location.pathname === "/sash/preview/" ||
-              location.pathname === "/sash/preview")
+              location.pathname === "" ||
+              location.pathname === "/")
              {
-              location.pathname = "/Dashboard/";
+              location.pathname = "/dashboard/";
             }
             
             if (location.pathname === items.path + '/') {
