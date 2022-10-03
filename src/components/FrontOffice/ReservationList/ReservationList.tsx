@@ -18,10 +18,13 @@ const ReservationList = () => {
 
     return (
       <>
-        <div {...props} ref={ref} style={{ display: "block" }}>
-          <span className="datepicker-month">{myArray[0]}</span>
-          <span>{myArray[1]}</span>
-          <span>{myArray[2]}</span>
+        <div {...props} ref={ref} className="date-box">
+          <h4 className="datepicker-month">{myArray[0]}</h4>
+          <div className="main-date">
+          <h1>{myArray[1]}</h1>
+          <i className="icon fa fa-chevron-down"/>
+          </div>
+          <h4>{myArray[2]}</h4>
         </div>
       </>
     );
@@ -146,7 +149,7 @@ const ReservationList = () => {
             <Card.Body>
               <div className="table-responsive Reservation-table">
                 {!isAdvance ? (
-                  <Row>
+                  <Row className="align-items-center">
                     <Col lg={5}>
                       <div className="d-flex align-items-center">
                         <InputGroup className="mb-2">
@@ -216,9 +219,8 @@ const ReservationList = () => {
                       </Row>
                     </Col>
                   </Row>
-                ) : (
-                  <AdvanceResForm />
-                )}
+                ) :
+                  <AdvanceResForm setIsAdvance={setIsAdvance}/>}
                 <DataTabless
                   resTableDataItems={resTableDataItems}
                   columns={columns}

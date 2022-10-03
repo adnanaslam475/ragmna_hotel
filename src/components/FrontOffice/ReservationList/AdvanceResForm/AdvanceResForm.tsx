@@ -8,8 +8,14 @@ import { TextField } from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
+interface AdvanceResFormProps {
+    setIsAdvance:React.Dispatch<React.SetStateAction<boolean>>
+}
 
-const AdvanceResForm = () => {
+const AdvanceResForm = (props:AdvanceResFormProps) => {
+    const{
+        setIsAdvance
+    } = props
     const [stayFrom, setStayFrom] = React.useState<Date | null>(null);
     const [stayTo, setStayTo] = React.useState<Date | null>(null);
     const [bookFrom, setBookFrom] = React.useState<Date | null>(null);
@@ -214,11 +220,13 @@ const AdvanceResForm = () => {
                     </Col>
                 </Row>
                 <Select classNamePrefix="Select" options={states} placeholder='Referral' />
-                <div>
-                    <i className='icon fe fe-close'/>
+            </Col>
+            <div className='d-flex justify-content-end mb-4'>
+                <div className='d-flex align-items-center'>
+                    <i className='icon fa fa-close p-2 fs-5 close-btn' onClick={()=>setIsAdvance(false)}/>
                     <button className="btn btn-primary"> Search</button>
                 </div>
-            </Col>
+            </div>
         </Row>
     </React.Fragment>
     )

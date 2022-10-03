@@ -493,7 +493,7 @@ export const BasicDataTable = () => {
               </option>
             ))}
           </select>
-          <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+          {/* <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} /> */}
         </div>
 
         <Table
@@ -613,18 +613,18 @@ export const BasicDataTable = () => {
     </>
   );
 };
-const GlobalFilter = ({ filter, setFilter }) => {
-  return (
-    <span className="d-flex ms-auto">
-      <input
-        value={filter || ""}
-        onChange={(e) => setFilter(e.target.value)}
-        className="form-control mb-4"
-        placeholder="Search..."
-      />
-    </span>
-  );
-};
+// const GlobalFilter = ({ filter, setFilter }) => {
+//   return (
+//     <span className="d-flex ms-auto">
+//       <input
+//         value={filter || ""}
+//         onChange={(e) => setFilter(e.target.value)}
+//         className="form-control mb-4"
+//         placeholder="Search..."
+//       />
+//     </span>
+//   );
+// };
 
 // Basic Table Data END******
 
@@ -1116,7 +1116,7 @@ export const ResponsiveDataTable = () => {
               </option>
             ))}
           </select>
-          <GlobalResFilter filter={globalFilter} setFilter={setGlobalFilter} />
+          {/* <GlobalResFilter filter={globalFilter} setFilter={setGlobalFilter} /> */}
         </div>
 
         <Table
