@@ -12,6 +12,7 @@ import DatePicker from "react-datepicker";
 const ReservationList = () => {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [isAdvance, setIsAdvance] = useState<boolean>(false);
+  const [showPopup, setShowPopup] = useState<boolean>(false);
 
   const CustomInput = forwardRef((props: any, ref) => {
     const myArray = props.value.split(" ");
@@ -21,8 +22,8 @@ const ReservationList = () => {
         <div {...props} ref={ref} className="date-box">
           <h4 className="datepicker-month">{myArray[0]}</h4>
           <div className="main-date">
-          <h1>{myArray[1]}</h1>
-          <i className="icon fa fa-chevron-down"/>
+            <h1>{myArray[1]}</h1>
+            <i className="icon fa fa-chevron-down" />
           </div>
           <h4>{myArray[2]}</h4>
         </div>
@@ -195,13 +196,17 @@ const ReservationList = () => {
                         <Col lg={2}>
                           <div className="counter-res">
                             <CountUp className="h1" end={10} />
-                            <p>All Arrivals</p>
+                            <p>All Arrivals <i className="icon fa fa-chevron-down icon-details" onClick={() => setShowPopup(!showPopup)} /> </p>
                           </div>
+                          {/* {showPopup ? <div className="counter-res">
+                            <CountUp className="h1" end={0} />
+                            <p>Unassigned</p>
+                          </div> : null} */}
                         </Col>
                         <Col lg={2}>
                           <div className="counter-res">
                             <CountUp className="h1" end={20} />
-                            <p>All Departure</p>
+                            <p>All Departure <i className="icon fa fa-chevron-down icon-details" /> </p>
                           </div>
                         </Col>
                         <Col lg={2}>
@@ -220,7 +225,7 @@ const ReservationList = () => {
                     </Col>
                   </Row>
                 ) :
-                  <AdvanceResForm setIsAdvance={setIsAdvance}/>}
+                  <AdvanceResForm setIsAdvance={setIsAdvance} />}
                 <DataTabless
                   resTableDataItems={resTableDataItems}
                   columns={columns}

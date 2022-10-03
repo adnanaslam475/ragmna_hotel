@@ -1,5 +1,5 @@
 import React from "react";
-import {Card, Col, Form, Row } from "react-bootstrap";
+import { Card, Col, Form, Row } from "react-bootstrap";
 import { DataTabless } from "../../../Data/Pages/TablesData/TableData";
 import "./GuestHistory.scss";
 import { Currency } from "../../Types/Types";
@@ -12,6 +12,9 @@ const GuestHistory = () => {
   const SelectStatus: Currency[] = [
     { value: "Active", label: "Active" },
   ];
+  const NameFilter = [
+    '#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'All'
+  ]
   const columns: any = [
     {
       name: "Account Number",
@@ -114,8 +117,19 @@ const GuestHistory = () => {
                         className="form-control mb-2"
                       />
                     </span>
+                    <div className="history-search">
+                      <button className="btn btn-primary">clear</button>
+                      <button className="btn btn-primary">Search</button>
+                    </div>
                   </Col>
                 </Row>
+                <div className="d-flex">
+                  {NameFilter.map((filteredName) => (
+                    <div style={{ border: '1px solid black', padding: '10px' }}>
+                      {filteredName}
+                    </div>
+                  ))}
+                </div>
                 <DataTabless
                   resTableDataItems={guestTableDataItems}
                   columns={columns}
@@ -124,8 +138,8 @@ const GuestHistory = () => {
             </Card.Body>
           </Card>
         </Col>
-      </Row>
-    </div>
+      </Row >
+    </div >
   );
 };
 

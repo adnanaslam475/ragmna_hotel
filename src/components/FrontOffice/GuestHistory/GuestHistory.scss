@@ -22,3 +22,11 @@
     border: 1px solid #e9edf4 !important;
     }
 }
+.history-search{
+    display: flex;
+    justify-content: flex-end;
+
+    .btn:last-child{
+        margin-left: 8px;
+    }
+}
