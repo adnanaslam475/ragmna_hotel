@@ -5,6 +5,7 @@ import Loader from './Layouts/Loader/Loader';
 import "./index.scss"
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
+import "react-datepicker/dist/react-datepicker.css";
 
 const Auth = lazy(() => import('./components/Authentication/firebaseAuth/auth'));
 const App = lazy(() => import('./components/app'));
