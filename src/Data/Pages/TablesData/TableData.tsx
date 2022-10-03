@@ -1244,6 +1244,7 @@ const GlobalResFilter = ({ filter, setFilter }) => {
         placeholder="Search..."
       />
     </span>
+    
   );
 };
 // Responsive Table Data END******
