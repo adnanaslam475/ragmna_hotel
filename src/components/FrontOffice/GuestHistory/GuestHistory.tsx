@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import {Card, Col, Form, Row } from "react-bootstrap";
 import { DataTabless } from "../../../Data/Pages/TablesData/TableData";
 import "./GuestHistory.scss";
 import { Currency } from "../../Types/Types";
@@ -7,10 +7,10 @@ import Select from "react-select";
 
 const GuestHistory = () => {
   const AccountType: Currency[] = [
-    { value: "Rupee", label: "Rupee" },
-    { value: "Dollar", label: "Dollar" },
-    { value: "Ruble", label: "Ruble" },
-    { value: "Yen", label: "Yen" },
+    { value: "Guest Profile", label: "Guest Profile" },
+  ];
+  const SelectStatus: Currency[] = [
+    { value: "Active", label: "Active" },
   ];
   const columns: any = [
     {
@@ -72,45 +72,46 @@ const GuestHistory = () => {
             </Card.Header>
             <Card.Body>
               <div>
-                <Row>
+                <Row className="mb-2 top-select">
                   <Col lg={6}>
-                    <label className="form-label">Account Type </label>
+                    <label className="form-label">ACCOUNT TYPE</label>
                     <Select
-                      classNamePrefix="Select"
+                      classNamePrefix="Select custom-controls-stacked"
                       options={AccountType}
-                      placeholder="Select Currency"
+                      placeholder="Select Account Type"
                     />
                   </Col>
                   <Col lg={6}>
-                    <label className="form-label">Account Type </label>
+                    <label className="form-label">STATUS</label>
                     <Select
-                      classNamePrefix="Select"
-                      options={AccountType}
-                      placeholder="Select Currency"
+                      classNamePrefix="Select custom-controls-stacked"
+                      options={SelectStatus}
+                      placeholder="Select Status"
                     />
                   </Col>
                 </Row>
                 <Row>
                   <Col lg={6}>
+                    <label className="form-label">ACCOUNT NAME</label>
                     <span className="d-flex ms-auto">
-                      <label className="form-label">Account Type </label>
                       <input
-                        className="form-control mb-4"
-                        placeholder="Search..."
+                        className="form-control mb-2"
+                        placeholder="First Name"
                       />
-                      <label className="form-label">STATUS: </label>
                       <input
-                        className="form-control mb-4"
-                        placeholder="Search..."
+                        className="form-control mb-2"
+                        placeholder="Last Name"
                       />
+                      <span className="custom-controls-stacked Guest-check">
+                        <Form.Check label="Combine" type='checkbox' />
+                      </span>
                     </span>
                   </Col>
                   <Col lg={6}>
+                    <label className="form-label">ACCOUNT #:</label>
                     <span className="d-flex ms-auto">
-                      <label className="form-label">STATUS: </label>
                       <input
-                        className="form-control mb-4"
-                        placeholder="Search..."
+                        className="form-control mb-2"
                       />
                     </span>
                   </Col>

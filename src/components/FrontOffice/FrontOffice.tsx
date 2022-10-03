@@ -1,7 +1,6 @@
 import React from 'react';
 import './FrontOffice.scss'
 import { Tab, Row, Col, Nav, Card } from 'react-bootstrap';
-import Userlist from '../apps/Userlist/Userlist';
 import ReservationList from './ReservationList/ReservationList';
 import GuestHistory from './GuestHistory/GuestHistory';
 import DefaultCalender from '../apps/DefaultCalender/DefaultCalender';
@@ -28,7 +27,7 @@ const FrontOffice = () => {
                                             </Nav.Item>
                                         </Nav>
                                     </div>
-                                    <div className='tab-content'>
+                                    <div className='tab-data'>
                                         <Tab.Content>
                                             <Tab.Pane eventKey="first">
                                                 <ReservationList />

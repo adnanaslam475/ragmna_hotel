@@ -1,0 +1,35 @@
+.guest-info {
+    margin-top: 5px;
+
+    i {
+        width: 44px;
+        height: 44px;
+        border: 2px solid #ececec;
+        border-radius: 22px;
+        float: left;
+        padding-left: 6px;
+        padding-top: 5px;
+        font-size: 28px;
+    }
+
+    .txt-highlight {
+        margin-left: 10px;
+        border-bottom: 2px solid #78b722;
+        font-size: 20px;
+        color: #555;
+        line-height: 44px;
+    }
+
+    .txt-normal {
+        padding-left: 5px;
+        font-size: 20px;
+        color: #555;
+        line-height: 44px;
+    }
+}
+
+.res-input{
+    input{
+        border-color: hsl(0, 0%, 80%) !important;
+    }
+}

@@ -1,12 +1,15 @@
-import React from "react";
-import { Button, Card, Col, Row } from "react-bootstrap";
+import React, { useState } from "react";
+import { Card, FormControl, InputGroup, Row, Col} from 'react-bootstrap';
 import { DataTabless } from "../../../Data/Pages/TablesData/TableData";
 import { TableData } from "../FrontOfficeTypes";
 import "./ReservationList.scss";
 import { DefaultDatePicker } from "../../../Data/Pages/Forms/FormAdvanceData/DataFormAdvanced";
 import CountUp from "react-countup";
+import { Link } from "react-router-dom";
+import AdvanceResForm from "./AdvanceResForm/AdvanceResForm";
 
 const ReservationList = () => {
+  const [isAdvance, setIsAdvance] = useState<boolean>(false)
   const columns: any[] = [
     {
       name: "PROPERTY",
@@ -117,39 +120,31 @@ const ReservationList = () => {
     <div>
       <Row className="row-sm">
         <Col lg={12}>
-          <Card>
+          <Card className="res-card">
             <Card.Header>
               <Card.Title as="h3">Reservation List</Card.Title>
             </Card.Header>
             <Card.Body>
               <div className="table-responsive Reservation-table">
-                <Row>
+                {!isAdvance ? <Row>
                   <Col lg={5}>
-                    <div>
-                      <span className="d-flex ms-auto">
-                        <input
-                          className="form-control mb-4"
-                          placeholder="Guest Name"
-                        />
-                        <input
-                          className="form-control mb-4"
-                          placeholder="Res Number"
-                        />
-                      </span>
-                    </div>
-                    <div className="d-grid gap-2">
-                      <Button
-                        className="mb-1 res-button"
-                        variant="secondary-light"
-                      >
-                        Search
-                      </Button>
+                    <div className="d-flex align-items-center">
+                      <InputGroup className="mb-2">
+                        <FormControl type="text" className="form-control" placeholder="Guest Name" />
+                        <FormControl type="text" className="form-control" placeholder="Res Number" />
+                        <InputGroup.Text className="btn btn-primary">
+                          <i className="icon fe fe-search"></i>
+                        </InputGroup.Text>
+                      </InputGroup>
+                      <Link to='' className="p-2" onClick={() => setIsAdvance(true)}>Advanced</Link>
                     </div>
                   </Col>
                   <Col lg={7}>
                     <Row className="Filter-column">
                       <Col lg={2}>
-                        <DefaultDatePicker />
+                        <div className="counter-res">
+                          <DefaultDatePicker />
+                        </div>
                       </Col>
                       <Col lg={2}>
                         <div className="counter-res">
@@ -184,6 +179,8 @@ const ReservationList = () => {
                     </Row>
                   </Col>
                 </Row>
+                  :
+                  <AdvanceResForm />}
                 <DataTabless
                   resTableDataItems={resTableDataItems}
                   columns={columns}
@@ -191,9 +188,9 @@ const ReservationList = () => {
               </div>
             </Card.Body>
           </Card>
-        </Col>
-      </Row>
-    </div>
+        </Col >
+      </Row >
+    </div >
   );
 };
 
