@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, Form, Row } from "react-bootstrap";
 import { DataTabless } from "../../../Data/Pages/TablesData/TableData";
 import "./GuestHistory.scss";
@@ -6,15 +6,42 @@ import { Currency } from "../../Types/Types";
 import Select from "react-select";
 
 const GuestHistory = () => {
+  const [user, setUser] = useState(null);
+
   const AccountType: Currency[] = [
     { value: "Guest Profile", label: "Guest Profile" },
   ];
-  const SelectStatus: Currency[] = [
-    { value: "Active", label: "Active" },
-  ];
+  const SelectStatus: Currency[] = [{ value: "Active", label: "Active" }];
   const NameFilter = [
-    '#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'All'
-  ]
+    "#",
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+    "All",
+  ];
   const columns: any = [
     {
       name: "Account Number",
@@ -65,6 +92,7 @@ const GuestHistory = () => {
       STATUS: "Active",
     },
   ];
+
   return (
     <div>
       <Row className="row-sm">
@@ -88,6 +116,7 @@ const GuestHistory = () => {
                     <label className="form-label">STATUS</label>
                     <Select
                       classNamePrefix="Select custom-controls-stacked"
+                      name="status"
                       options={SelectStatus}
                       placeholder="Select Status"
                     />
@@ -99,37 +128,37 @@ const GuestHistory = () => {
                     <span className="d-flex ms-auto">
                       <input
                         className="form-control mb-2"
+                        name="account name"
                         placeholder="First Name"
                       />
                       <input
                         className="form-control mb-2"
+                        name="account name"
                         placeholder="Last Name"
                       />
                       <span className="custom-controls-stacked Guest-check">
-                        <Form.Check label="Combine" type='checkbox' />
+                        <Form.Check label="Combine" type="checkbox" />
                       </span>
                     </span>
                   </Col>
                   <Col lg={6}>
                     <label className="form-label">ACCOUNT #:</label>
                     <span className="d-flex ms-auto">
-                      <input
-                        className="form-control mb-2"
-                      />
+                      <input className="form-control mb-2" />
                     </span>
                     <div className="history-search">
-                      <button className="btn btn-primary">clear</button>
+                      <button className="btn btn-primary" type="button">
+                        clear
+                      </button>
                       <button className="btn btn-primary">Search</button>
                     </div>
                   </Col>
                 </Row>
-                <div className="d-flex">
+                <Row className="justify-content-center mt-3 alphabet-filter">
                   {NameFilter.map((filteredName) => (
-                    <div style={{ border: '1px solid black', padding: '10px' }}>
-                      {filteredName}
-                    </div>
+                    <Col className="border">{filteredName}</Col>
                   ))}
-                </div>
+                </Row>
                 <DataTabless
                   resTableDataItems={guestTableDataItems}
                   columns={columns}
@@ -138,8 +167,8 @@ const GuestHistory = () => {
             </Card.Body>
           </Card>
         </Col>
-      </Row >
-    </div >
+      </Row>
+    </div>
   );
 };
 
