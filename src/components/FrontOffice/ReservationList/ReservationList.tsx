@@ -1,9 +1,8 @@
 import { Card, FormControl, InputGroup, Row, Col } from "react-bootstrap";
 import React, { useState, useRef, forwardRef } from "react";
 import { DataTabless } from "../../../Data/Pages/TablesData/TableData";
-import { TableData } from "../FrontOfficeTypes";
+import { ArrivalsDetails, TableData } from "../FrontOfficeTypes";
 import "./ReservationList.scss";
-import { DefaultDatePicker } from "../../../Data/Pages/Forms/FormAdvanceData/DataFormAdvanced";
 import CountUp from "react-countup";
 import { Link } from "react-router-dom";
 import AdvanceResForm from "./AdvanceResForm/AdvanceResForm";
@@ -12,7 +11,54 @@ import DatePicker from "react-datepicker";
 const ReservationList = () => {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [isAdvance, setIsAdvance] = useState<boolean>(false);
-  const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [showArrivalPopup, setShowArrivalPopup] = useState<boolean>(false);
+  const [showDeparturePopup, setShowDeparturePopup] = useState<boolean>(false);
+
+  let ArrivalDetail = [
+    {
+      id: 1,
+      name: "All Arrivals",
+      counts: 10,
+      isActive: true
+    },
+    {
+      id: 2,
+      name: "Pending Arrivals",
+      counts: 12,
+      isActive: false
+    },
+    {
+      id: 3,
+      name: "Arrivals & Departure",
+      counts: 15,
+      isActive: false
+    }
+  ]
+  const [showArrivalDetails, setShowArrivalDetails] = useState<ArrivalsDetails[]>(ArrivalDetail);
+
+  let DepartureDetail = [
+    {
+      id: 1,
+      name: "All Departure",
+      counts: 20,
+      isActive: true
+    },
+    {
+      id: 2,
+      name: "Pending Departure",
+      counts: 22,
+      isActive: false
+    },
+    {
+      id: 3,
+      name: "Arrivals & Departure",
+      counts: 15,
+      isActive: false
+    }
+  ]
+  const [showDepartureDetails, setShowDepartureDetails] = useState<ArrivalsDetails[]>(DepartureDetail);
+
+
 
   const CustomInput = forwardRef((props: any, ref) => {
     const myArray = props.value.split(" ");
@@ -139,6 +185,31 @@ const ReservationList = () => {
       TASK: "123",
     },
   ];
+
+  const onbtnclick = (id: number, index: number, name: string) => {
+
+    switch (name) {
+
+      case "showArrivalDetails":
+        ArrivalDetail.forEach((val) => {
+          val.id == id ?
+            val.isActive = true : val.isActive = false
+        })
+        setShowArrivalDetails(ArrivalDetail)
+        break;
+
+      case "DepartureDetails":
+        DepartureDetail.forEach((val) => {
+          val.id == id ?
+            val.isActive = true : val.isActive = false
+        })
+        setShowDepartureDetails(DepartureDetail)
+        break;
+
+      default:
+        break;
+    }
+  }
   return (
     <div>
       <Row className="row-sm">
@@ -151,8 +222,8 @@ const ReservationList = () => {
               <div className="table-responsive Reservation-table">
                 {!isAdvance ? (
                   <Row className="align-items-center">
-                    <Col lg={5}>
-                      <div className="d-flex align-items-center">
+                    <Col lg={4}>
+                      <Row className="d-flex align-items-center">
                         <InputGroup className="mb-2">
                           <FormControl
                             type="text"
@@ -168,16 +239,16 @@ const ReservationList = () => {
                             <i className="icon fe fe-search"></i>
                           </InputGroup.Text>
                         </InputGroup>
-                        <Link
-                          to=""
-                          className="p-2"
-                          onClick={() => setIsAdvance(true)}
-                        >
-                          Advanced
-                        </Link>
-                      </div>
+                      </Row>
+                      <Link
+                        to=""
+                        className="d-flex justify-content-end"
+                        onClick={() => setIsAdvance(true)}
+                      >
+                        Advanced
+                      </Link>
                     </Col>
-                    <Col lg={7}>
+                    <Col lg={8}>
                       <Row className="Filter-column">
                         <Col lg={2}>
                           <DatePicker
@@ -194,20 +265,87 @@ const ReservationList = () => {
                           </div>
                         </Col>
                         <Col lg={2}>
-                          <div className="counter-res">
-                            <CountUp className="h1" end={10} />
-                            <p>All Arrivals <i className="icon fa fa-chevron-down icon-details" onClick={() => setShowPopup(!showPopup)} /> </p>
-                          </div>
-                          {/* {showPopup ? <div className="counter-res">
-                            <CountUp className="h1" end={0} />
-                            <p>Unassigned</p>
-                          </div> : null} */}
+                          {
+                            showArrivalDetails.map((value, index) => {
+                              if (value.isActive) {
+                                return (
+                                  <div className="counter-res arrival">
+                                    <CountUp className="h1" end={value.counts} />
+                                    <p>{value.name}
+                                      <i className="icon fa fa-chevron-down icon-details" onClick={() => {
+                                        setShowArrivalPopup(!showArrivalPopup)
+                                        onbtnclick(value.id, index, "showArrivalDetails")
+                                      }} /></p>
+                                  </div>
+                                )
+                              }
+                            })
+                          }
+                          {
+                            showArrivalPopup
+                              ?
+                              <div className='arrival-popup'>
+                                {
+                                  showArrivalDetails.map((value, index) => {
+                                    if (!value.isActive) {
+                                      return (
+                                        <div className="counter-res" onClick={() => {
+                                          onbtnclick(value.id, index, "showArrivalDetails")
+                                          setShowArrivalPopup(!showArrivalPopup)
+                                        }}>
+                                          {/* <CountUp className="h1" end={value.counts} /> */}
+                                          <h1 className="h1">{value.counts}</h1>
+                                          <p>{value.name}</p>
+                                        </div>
+                                      )
+                                    }
+                                  })
+                                }
+                              </div>
+                              :
+                              null
+                          }
                         </Col>
                         <Col lg={2}>
-                          <div className="counter-res">
-                            <CountUp className="h1" end={20} />
-                            <p>All Departure <i className="icon fa fa-chevron-down icon-details" /> </p>
-                          </div>
+                          {
+                            showDepartureDetails.map((value, index) => {
+                              if (value.isActive) {
+                                return (
+                                  <div className="counter-res arrival">
+                                    <CountUp className="h1" end={value.counts} />
+                                    <p>{value.name} <i className="icon fa fa-chevron-down icon-details" onClick={() => {
+                                      setShowDeparturePopup(!showDeparturePopup)
+                                      onbtnclick(value.id, index, "DepartureDetails")
+                                    }} /> </p>
+                                  </div>
+                                )
+                              }
+                            })
+                          }
+                          {
+                            showDeparturePopup
+                              ?
+                              <div className='arrival-popup'>
+                                {
+                                  showDepartureDetails.map((value, index) => {
+                                    if (!value.isActive) {
+                                      return (
+                                        <div className="counter-res" onClick={() => {
+                                          onbtnclick(value.id, index, "DepartureDetails")
+                                          setShowDeparturePopup(!showDeparturePopup)
+                                        }}>
+                                          {/* <CountUp className="h1" end={value.counts} /> */}
+                                          <h1 className="h1">{value.counts}</h1>
+                                          <p>{value.name}</p>
+                                        </div>
+                                      )
+                                    }
+                                  })
+                                }
+                              </div>
+                              :
+                              null
+                          }
                         </Col>
                         <Col lg={2}>
                           <div className="counter-res">
