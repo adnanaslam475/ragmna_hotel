@@ -1,11 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './FrontOffice.scss'
 import { Tab, Row, Col, Nav, Card } from 'react-bootstrap';
 import ReservationList from './ReservationList/ReservationList';
 import GuestHistory from './GuestHistory/GuestHistory';
 import DefaultCalender from '../apps/DefaultCalender/DefaultCalender';
+import { tabArraies } from './FrontOfficeTypes';
 
 const FrontOffice = () => {
+
+    let tabArray: tabArraies[] = [
+        {
+            eventkey: "first",
+            tabLable: "Reservations",
+            isCloseable: false
+        },
+        {
+            eventkey: "second",
+            tabLable: "Calendar",
+            isCloseable: false
+        },
+        {
+            eventkey: "third",
+            tabLable: "Guest History",
+            isCloseable: false
+        }
+    ]
+    const [tab, SetTab] = useState(tabArray)
+
+    const addTab = (row) => {
+        console.log(row, 'row');
+        console.log(tabArray,"tabArray");
+        tabArray.push({
+            isCloseable: true,
+            eventkey: (tabArray.length + 1).toString(),
+            tabLable: row.GUEST_NAME
+        })
+        SetTab(tabArray)
+    }
+
+
     return (
         <div>
             <Row>
@@ -16,7 +49,7 @@ const FrontOffice = () => {
                                 <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                                     <div className='tab-name'>
                                         <Nav variant="pills" className='panel-tabs nav-tabs panel-secondary'>
-                                            <Nav.Item>
+                                            {/* <Nav.Item>
                                                 <Nav.Link eventKey="first"><i className="fe fe-user me-1"></i>Reservations</Nav.Link>
                                             </Nav.Item>
                                             <Nav.Item>
@@ -24,16 +57,25 @@ const FrontOffice = () => {
                                             </Nav.Item>
                                             <Nav.Item>
                                                 <Nav.Link eventKey="third"><i className="fe fe-settings me-1"></i>Guest History</Nav.Link>
+                                            </Nav.Item> */}
+                                            <Nav.Item>
+                                                {
+                                                    tab.map((value) => {
+                                                        return (
+                                                            <Nav.Link eventKey={value.eventkey}><i className="fe fe-calendar me-1"></i>{value.tabLable}</Nav.Link>
+                                                        )
+                                                    })
+                                                }
                                             </Nav.Item>
                                         </Nav>
                                     </div>
                                     <div className='tab-data'>
                                         <Tab.Content>
                                             <Tab.Pane eventKey="first">
-                                                <ReservationList />
+                                                <ReservationList addTab={addTab} />
                                             </Tab.Pane>
                                             <Tab.Pane eventKey="second">
-                                                <DefaultCalender/>
+                                                <DefaultCalender />
                                             </Tab.Pane>
                                             <Tab.Pane eventKey="third">
                                                 <GuestHistory />

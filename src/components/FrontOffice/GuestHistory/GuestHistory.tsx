@@ -92,7 +92,9 @@ const GuestHistory = () => {
       STATUS: "Active",
     },
   ];
-
+  const onRowClick = (row) =>{
+      
+  }
   return (
     <div>
       <Row className="row-sm">
@@ -162,6 +164,7 @@ const GuestHistory = () => {
                 <DataTabless
                   resTableDataItems={guestTableDataItems}
                   columns={columns}
+                  onRowClick={(row)=>onRowClick(row)}
                 />
               </div>
             </Card.Body>

@@ -1244,7 +1244,7 @@ const GlobalResFilter = ({ filter, setFilter }) => {
         placeholder="Search..."
       />
     </span>
-    
+
   );
 };
 // Responsive Table Data END******
@@ -1753,27 +1753,13 @@ const GlobalResFilter = ({ filter, setFilter }) => {
 //     MAIL: "j.acosta@datatables.net",
 //   }
 // ];
-export const newdata = [
-  {
-    PROPERTY: 'lhgtygvf',
-    GUEST_NAME: 'string',
-    ACCOUNT_NAME: 'string',
-    RES: 1,
-    ADULTS: 1,
-    CHILD: 1,
-    STATUS: 'string',
-    ROOM: 'string',
-    ARRIVE: 'string',
-    NIGHT: 1,
-    TASK: '123'
-  }
-]
 export interface DataTablessProps {
   resTableDataItems?: TableData[] | [] | undefined
   columns?: Column[] | []
+  onRowClick?: (row:any , e: React.MouseEvent) => void;
 }
 export const DataTabless = (props: DataTablessProps) => {
-  const { resTableDataItems, columns } = props
+  const { resTableDataItems, columns, onRowClick} = props
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [toggleCleared, setToggleCleared] = React.useState(false);
   const [data, setData] = React.useState<TableData[] | [] | undefined>(resTableDataItems);
@@ -1846,6 +1832,7 @@ export const DataTabless = (props: DataTablessProps) => {
           selectableRows
           contextActions={contextActions}
           onSelectedRowsChange={handleRowSelected}
+          onRowClicked = {onRowClick}
           clearSelectedRows={toggleCleared}
           pagination
         />

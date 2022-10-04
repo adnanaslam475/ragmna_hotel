@@ -30,3 +30,13 @@ export interface ArrivalsDetails {
     counts:number
     isActive?:boolean
 }
+
+export interface tabArraies {
+    eventkey?:string
+    tabLable?:string
+    isCloseable?:boolean
+}
+
+export interface ReservationListProps{
+    addTab?:(row:any) => void;
+}

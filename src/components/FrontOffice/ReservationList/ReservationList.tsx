@@ -1,19 +1,22 @@
 import { Card, FormControl, InputGroup, Row, Col } from "react-bootstrap";
-import React, { useState, useRef, forwardRef } from "react";
+import React, { useState, useRef, forwardRef, FC } from "react";
 import { DataTabless } from "../../../Data/Pages/TablesData/TableData";
-import { ArrivalsDetails, TableData } from "../FrontOfficeTypes";
+import { ArrivalsDetails, ReservationListProps, TableData } from "../FrontOfficeTypes";
 import "./ReservationList.scss";
 import CountUp from "react-countup";
 import { Link } from "react-router-dom";
 import AdvanceResForm from "./AdvanceResForm/AdvanceResForm";
 import DatePicker from "react-datepicker";
 
-const ReservationList = () => {
+const ReservationList = (props:ReservationListProps) => {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [isAdvance, setIsAdvance] = useState<boolean>(false);
   const [showArrivalPopup, setShowArrivalPopup] = useState<boolean>(false);
   const [showDeparturePopup, setShowDeparturePopup] = useState<boolean>(false);
 
+  const {
+    addTab
+  } = props
   let ArrivalDetail = [
     {
       id: 1,
@@ -82,7 +85,7 @@ const ReservationList = () => {
     {
       name: "PROPERTY",
       selector: (row) => [row.PROPERTY],
-      sortable: false,
+      sortable: true,
     },
     {
       name: "GUEST NAME",
@@ -92,7 +95,7 @@ const ReservationList = () => {
     {
       name: "ACCOUNT NAME",
       selector: (row) => [row.ACCOUNT_NAME],
-      sortable: false,
+      sortable: true,
     },
     {
       name: "RES#",
@@ -112,27 +115,27 @@ const ReservationList = () => {
     {
       name: "STATUS",
       selector: (row) => [row.STATUS],
-      sortable: false,
+      sortable: true,
     },
     {
       name: "ROOM",
       selector: (row) => [row.ROOM],
-      sortable: false,
+      sortable: true,
     },
     {
       name: "ARRIVE",
       selector: (row) => [row.ARRIVE],
-      sortable: false,
+      sortable: true,
     },
     {
       name: "DEPART",
       selector: (row) => [row.DEPART],
-      sortable: false,
+      sortable: true,
     },
     {
       name: "NIGHT",
       selector: (row) => [row.NIGHT],
-      sortable: false,
+      sortable: true,
     },
     {
       name: "TASK",
@@ -209,6 +212,11 @@ const ReservationList = () => {
       default:
         break;
     }
+  }
+
+  const onRowClick = (row) => {
+    console.log(row.GUEST_NAME);
+    addTab?.(row)
   }
   return (
     <div>
@@ -367,6 +375,7 @@ const ReservationList = () => {
                 <DataTabless
                   resTableDataItems={resTableDataItems}
                   columns={columns}
+                  onRowClick={(row) => onRowClick(row)}
                 />
               </div>
             </Card.Body>
