@@ -1,0 +1,48 @@
+.Guest-card{
+    box-shadow: none !important;
+}
+
+.form-group{
+    display: flex;
+}
+
+.business-form {
+    background-color: white;
+    padding: 25px;
+    margin-top: 30px;
+}
+
+.Guest-check{
+    margin-left: 10px;
+    margin-top: 8px;
+}
+
+.top-select{
+    .css-1s2u09g-control{
+    border: 1px solid #e9edf4 !important;
+    }
+}
+.history-search{
+    display: flex;
+    justify-content: flex-end;
+
+    .btn:last-child{
+        margin-left: 8px;
+    }
+}
+.alphabet-filter{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 3px;
+
+    .col{
+        border-radius: 4px;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        padding: 0;
+        max-width: 43px;
+        height: 42px;
+        width: 43px;
+    }
+}

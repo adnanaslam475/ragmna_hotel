@@ -23,3 +23,10 @@ export interface Column {
     selector?: (row:any, rowIndex?: number) => Primitive;
     sortable?: boolean
 }
+
+export interface ArrivalsDetails {
+    id:number
+    name?:string
+    counts:number
+    isActive?:boolean
+}

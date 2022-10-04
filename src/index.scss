@@ -635,7 +635,7 @@ ol.progtrckr li.progtrckr-doing {
 }
 
 .nav-tabs {
-    margin: -1px 0.25rem;
+    margin: 0px !important;
 }
 
 svg g text {
@@ -1425,6 +1425,7 @@ tr {
     float: right !important;
     border: 1px solid $border !important;
     border-radius: 5px !important;
+    display: none !important;
 
     .icon {
         display: none !important;
@@ -2121,3 +2122,4 @@ ol.progtrckr li.progtrckr-doing:hover:before {
     text-align: center;
     z-index: 999;
 }
+

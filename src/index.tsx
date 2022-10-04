@@ -5,6 +5,7 @@ import Loader from './Layouts/Loader/Loader';
 import "./index.scss"
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
+import "react-datepicker/dist/react-datepicker.css";
 
 const Auth = lazy(() => import('./components/Authentication/firebaseAuth/auth'));
 const App = lazy(() => import('./components/app'));
@@ -146,11 +147,20 @@ const Landing = lazy(() => import("./components/Landing"))
 
 const AuthLogin = lazy(() => import('./components/Authentication/firebaseAuth/AuthLogin'));
 const SignUp = lazy(() => import('./components/Authentication/firebaseAuth/Signup'));
-const FrontOffice = lazy(()=> import('./components/FrontOffice/FrontOffice'));
-const PropertySpace = lazy(()=> import('./components/Setup/PropertySpace/PropertySpace'));
-const GuestServices = lazy(()=> import('./components/GuestServices/GuestServices'));
-const PropertySetup = lazy(()=> import('./components/Setup/PropertySetup/PropertySetup'))
-const BusinessSetup = lazy(()=> import('./components/Setup/BusinessSetup/BusinessSetup'))
+const FrontOffice = lazy(() => import('./components/FrontOffice/FrontOffice'));
+const PropertySpace = lazy(() => import('./components/Setup/PropertySpace/PropertySpace'));
+const GuestServices = lazy(() => import('./components/GuestServices/GuestServices'));
+const PropertySetup = lazy(() => import('./components/Setup/PropertySetup/PropertySetup'))
+const BusinessSetup = lazy(() => import('./components/Setup/BusinessSetup/BusinessSetup'))
+const RateSetup = lazy(() => import("./components/Setup/RateSetup/RateSetup"));
+const OwnerAddOn = lazy(() => import('./components/Setup/OwnerAddOn/OwnerAddOn'));
+const SPNAddOn = lazy(() => import('./components/Setup/SPNAddOn/SPNAddOn'));
+const HKMaintenance = lazy(() => import('./components/Setup/HKMaintenance/HKMaintenance'))
+const ChannelMgt = lazy(() => import('./components/Setup/ChannelMgt/ChannelMgt'))
+const Accounts = lazy(() => import('./components/Accounts/Accounts'))
+const Rates = lazy(() => import('./components/Rates/Rates'))
+const Marketing = lazy(() => import('./components/Marketing/Marketing'))
+const Communication = lazy(() => import('./components/Communication/Communication'))
 
 
 const container: HTMLElement | any = document.getElementById('root');
@@ -158,224 +168,235 @@ const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-      <Fragment>
-        <BrowserRouter>
-          <React.Suspense fallback={<Loader />}>
-            <Routes>
+    <Fragment>
+      <BrowserRouter>
+        <React.Suspense fallback={<Loader />}>
+          <Routes>
 
-              <Route path={`/`} element={<Auth />}>
-                <Route index element={<AuthLogin />} />
-                <Route path={`/Authentication/firebaseAuth/login`} element={<AuthLogin />} />
-                <Route path={`/Authentication/firebaseAuth/SignUp`} element={<SignUp />} />
-              </Route>
-              <Route path={``} element={<App />} >
-
-
-                {/* Apps */}
-                <Route>
-                  <Route path={`/dashboard`} element={<Dashboard />} />
-                  <Route path={`/frontoffice`} element={<FrontOffice />} />
-                  <Route path={`/guestservices`} element={<GuestServices />} />
-                  <Route path={`/setup/businesssetup`} element={<BusinessSetup />} />
-                  <Route path={`/setup/propertysetup`} element={<PropertySetup />} />
-                  <Route path={`/setup/propertyspace`} element={<PropertySpace />} />
-                  <Route path={`/apps/carddesigns`} element={<CardsDesign />} />,
-                  <Route path={`/apps/chat`} element={<Chat />} />,
-                  <Route path={`/apps/charts`} element={<Charts />} />,
-                  <Route path={`/apps/scrollbar`} element={<ContentScrollbar />} />,
-                  <Route path={`/apps/counter`} element={<Counters />} />,
-                  <Route path={`/apps/cryptocurrencies`} element={<CryptoCurrencies />} />,
-                  <Route path={`/apps/defaultcalender`} element={<DefaultCalender />} />,
-                  <Route path={`/apps/footer`} element={<Footers />} />,
-                  <Route path={`/apps/fullcalender`} element={<FullCalender />} />,
-                  <Route path={`/apps/loader`} element={<Loaders />} />,
-                  <Route path={`/apps/notification`} element={<Notifications />} />,
-                  <Route path={`/apps/rangeslider`} element={<RangeSlider />} />,
-                  <Route path={`/apps/rating`} element={<Rating />} />,
-                  <Route path={`/apps/search`} element={<Search />} />,
-                  <Route path={`/apps/sweet`} element={<Sweet />} />,
-                  <Route path={`/apps/timeline`} element={<Timeline />} />,
-                  <Route path={`/apps/treeview`} element={<TreeView />} />,
-                  <Route path={`/apps/userlist`} element={<Userlist />} />,
-                  <Route path={`/apps/widgets`} element={<Widgets />} />,
-                </Route>
-
-                {/* bootstrap */}
-                <Route>
-                  <Route path={`/bootstrap/accordian`} element={<Accordians />} />,
-                  <Route path={`/bootstrap/bootstrapalerts`} element={<BootstrapAlerts />} />,
-                  <Route path={`/bootstrap/avatarradius`} element={<AvatarRadius />} />,
-                  <Route path={`/bootstrap/avatarsquare`} element={<AvatarSquare />} />,
-                  <Route path={`/bootstrap/avatarrounded`} element={<AvatarRounded />} />,
-                  <Route path={`/bootstrap/badgespills`} element={<BadgesPills />} />,
-                  <Route path={`/bootstrap/breadcrumbs`} element={<Breadcrumbs />} />,
-                  <Route path={`/bootstrap/buttons`} element={<Buttons />} />,
-                  <Route path={`/bootstrap/carousels`} element={<Carousels />} />,
-                  <Route path={`/bootstrap/colors`} element={<Colors />} />,
-                  <Route path={`/bootstrap/dropdowns`} element={<DropDowns />} />,
-                  <Route path={`/bootstrap/listgroups`} element={<ListGroups />} />,
-                  <Route path={`/bootstrap/mediaobject`} element={<MediaObject />} />,
-                  <Route path={`/bootstrap/modal`} element={<Modals />} />,
-                  <Route path={`/bootstrap/navigation`} element={<Navigation />} />,
-                  <Route path={`/bootstrap/offcanvas`} element={<OffCanvas />} />,
-                  <Route path={`/bootstrap/pagination`} element={<Pagination />} />,
-                  <Route path={`/bootstrap/panels`} element={<Panels />} />,
-                  <Route path={`/bootstrap/progress`} element={<Progress />} />,
-                  <Route path={`/bootstrap/tabs`} element={<Tabs />} />,
-                  <Route path={`/bootstrap/tags`} element={<Tags />} />,
-                  <Route path={`/bootstrap/thumbnails`} element={<Thumbnails />} />,
-                  <Route path={`/bootstrap/toast`} element={<Toast />} />,
-                  <Route path={`/bootstrap/tooltippopover`} element={<TooltipPopover />} />,
-                  <Route path={`/bootstrap/typography`} element={<Typography />} />,
-                  <Route path={`/bootstrap/ribbons`} element={<Ribbons />} />,
-                </Route>
+            <Route path={`/`} element={<Auth />}>
+              <Route index element={<AuthLogin />} />
+              <Route path={`/Authentication/firebaseAuth/login`} element={<AuthLogin />} />
+              <Route path={`/Authentication/firebaseAuth/SignUp`} element={<SignUp />} />
+            </Route>
+            <Route path={``} element={<App />} >
 
 
-
-
-                {/* Charts */}
-                <Route>
-
-                  <Route path={`/charts/chartjs`} element={<Chartjs />} />,
-
-                  <Route path={`/charts/echart/lines`} element={<Lines />} />,
-                  <Route path={`/charts/echart/bar`} element={<Bars />} />,
-                  <Route path={`/charts/echart/candlestick`} element={<CandleSticks />} />,
-                  <Route path={`/charts/echart/scatter`} element={<Scatters />} />,
-                  <Route path={`/charts/echart/tree`} element={<Trees />} />,
-
-                  <Route path={`/charts/apexchart/line`} element={<Line />} />,
-                  <Route path={`/charts/apexchart/area`} element={<Area />} />,
-                  <Route path={`/charts/apexchart/column`} element={<Column />} />,
-                  <Route path={`/charts/apexchart/bar`} element={<Bar />} />,
-                  <Route path={`/charts/apexchart/mixed`} element={<Mixed />} />,
-                  <Route path={`/charts/apexchart/timeline`} element={<Timelines />} />,
-                  <Route path={`/charts/apexchart/candlestick`} element={<CandleStick />} />,
-                  <Route path={`/charts/apexchart/boxplot`} element={<Boxplot />} />,
-                  <Route path={`/charts/apexchart/treemap`} element={<Treemap />} />,
-                  <Route path={`/charts/apexchart/pie`} element={<Pie />} />,
-                  <Route path={`/charts/apexchart/radialbar`} element={<Radialbar />} />,
-                  <Route path={`/charts/apexchart/radar`} element={<Radar />} />,
-                  <Route path={`/charts/apexchart/polararea`} element={<Polararea />} />,
-
-                </Route>
-
-                {/* E-commerce */}
-                <Route>
-                  <Route path={`/ecommerce/addproduct`} element={<AddProduct />} />,
-                  <Route path={`/ecommerce/checkout`} element={<Checkout />} />,
-                  <Route path={`/ecommerce/productdetails`} element={<ProductDetails />} />,
-                  <Route path={`/ecommerce/shop`} element={<Shop />} />,
-                  <Route path={`/ecommerce/shoppingcart`} element={<ShoppingCart />} />,
-                  <Route path={`/ecommerce/wishlist`} element={<Wishlist />} />,
-                </Route>
-
-                {/* File-Manager */}
-                <Route>
-                  <Route path={`/filemanager/fileattachments`} element={<FileAttachments />} />,
-                  <Route path={`/filemanager/filedetails`} element={<FileDetails />} />,
-                  <Route path={`/filemanager/filemanager`} element={<FileManager />} />,
-                  <Route path={`/filemanager/filemanagerlist`} element={<FileManagerList />} />,
-                </Route>
-
-                {/* Icons */}
-                <Route>
-                  <Route path={`/icons/bootstrapicons`} element={<BootstrapIcons />} />,
-                  <Route path={`/icons/feathericons`} element={<FeatherIcons />} />,
-                  <Route path={`/icons/flagicons`} element={<FlagIcons />} />,
-                  <Route path={`/icons/fontawesome`} element={<FontAwesome />} />,
-                  <Route path={`/icons/ionicicons`} element={<IonicIcons />} />,
-                  <Route path={`/icons/materialdesignicons`} element={<MaterialDesignIcons />} />,
-                  <Route path={`/icons/pe7icons`} element={<Pe7Icons />} />,
-                  <Route path={`/icons/simplelineicons`} element={<SimpleLineIcons />} />,
-                  <Route path={`/icons/themifyicons`} element={<ThemifyIcons />} />,
-                  <Route path={`/icons/typiconsicons`} element={<TypiconsIcons />} />,
-                  <Route path={`/icons/weathericons`} element={<WeatherIcons />} />,
-                </Route>
-
-                {/* Maps */}
-                <Route>
-                  <Route path={`/maps/leafletmaps`} element={<LeafletMaps />} />,
-                  <Route path={`/maps/simplemaps`} element={<SimpleMaps />} />,
-                </Route>
-
-                {/* Pages */}
-                <Route>
-                  <Route path={`/pages/editprofile`} element={<Editprofile />} />,
-                  <Route path={`/pages/extension/aboutcompany`} element={<AboutCompany />} />,
-                  <Route path={`/pages/extension/blogdetails`} element={<BlogDetails />} />,
-                  <Route path={`/pages/extension/blogpost`} element={<BlogPost />} />,
-                  <Route path={`/pages/extension/blogs`} element={<Blogs />} />,
-                  <Route path={`/pages/extension/emptypage`} element={<EmptyPage />} />,
-                  <Route path={`/pages/extension/faqs`} element={<FAQS />} />,
-                  <Route path={`/pages/extension/invoice`} element={<Invoice />} />,
-                  <Route path={`/pages/extension/pricing`} element={<Pricing />} />,
-                  <Route path={`/pages/extension/services`} element={<Services />} />,
-                  <Route path={`/pages/extension/setting`} element={<Settings />} />,
-                  <Route path={`/pages/extension/term`} element={<Terms />} />,
-                  <Route path={`/pages/forms/formadvanced`} element={<FormAdvanced />} />,
-                  <Route path={`/pages/forms/formeditor`} element={<FormEditor />} />,
-                  <Route path={`/pages/forms/formelements`} element={<FormElements />} />,
-                  <Route path={`/pages/forms/formlayouts`} element={<FormLayouts />} />,
-                  <Route path={`/pages/forms/formvalidation`} element={<FormValidation />} />,
-                  <Route path={`/pages/forms/forminputspinner`} element={<FormInputSpinners />} />,
-                  <Route path={`/pages/forms/formwizard`} element={<FormWizard />} />,
-                  <Route path={`/pages/gallery`} element={<Gallery />} />,
-                  <Route path={`/pages/mailcompose`} element={<MailCompose />} />,
-                  <Route path={`/pages/mailinbox`} element={<MailInbox />} />,
-                  <Route path={`/pages/mailread`} element={<MailRead />} />,
-                  <Route path={`/pages/notificationlist`} element={<NotificationList />} />,
-                  <Route path={`/pages/profile`} element={<Profile />} />,
-
-                  <Route path={`/pages/tables/datatables`} element={<DataTable />} />,
-
-                  <Route path={`/pages/tables/edittables`} element={<EditTable />} />,
-                </Route>
-                <Route>
-                  <Route path={`/pages/tables/defaulttables`} element={<DefaultTable />} />,
-                </Route>
-              </Route>
-
-              {/* Authentication Pages */}
-              <Route path={`/`} element={<AuthenticationPage />}>
-                <Route path={`/authentication/login`} element={<Login />} />
-                <Route path={`/authentication/register`} element={<Register />} />
-                <Route path={`/authentication/forgotpassword`} element={<ForgotPassword />} />
-                <Route path={`/authentication/lockscreen`} element={<LockScreen />} />,
-              </Route>
-
-              {/* Custom Pages for UnderConstruction */}
-
-              <Route path={`/`} element={<CustomPage />}>
-                <Route path={`/pages/extension/underconstruction`} element={<UnderConstruction />} />
-              </Route>
-
-              {/* Authentication Error Pages */}
-              <Route path={``} element={<ErrorPages />}>
-                <Route path={`/authentication/errorpage/error400`} element={<Error400 />} />
-                <Route path={`/authentication/errorpage/error401`} element={<Error401 />} />
-                <Route path={`/authentication/errorpage/error403`} element={<Error403 />} />
-                <Route path={`/authentication/errorpage/error404`} element={<Error404 />} />
-                <Route path={`/authentication/errorpage/error500`} element={<Error500 />} />
-                <Route path={`/authentication/errorpage/error503`} element={<Error503 />} />,
-              </Route>
-              {/* Firebase Authentication */}
-
-
+              {/* Apps */}
               <Route>
-                <Route path={`/pages/switcher/switcherstyle1`} element={<Switcherapp />} />,
-              </Route>
-              <Route >
-                <Route path={`/landingPage/landingPage`} element={<Landing />} />
-              </Route>
-              <Route path="*" element={<Error500 />} />
+                <Route path={`/dashboard`} element={<Dashboard />} />
+                <Route path={`/frontoffice`} element={<FrontOffice />} />
+                <Route path={`/accounts`} element={<Accounts />} />
+                <Route path={`/rates`} element={<Rates />} />
+                <Route path={`/guestservices`} element={<GuestServices />} />
+                <Route path={`/marketing`} element={<Marketing />} />
+                <Route path={`/communication`} element={<Communication />} />
+                <Route path={`/setup/businesssetup`} element={<BusinessSetup />} />
+                <Route path={`/setup/propertysetup`} element={<PropertySetup />} />
+                <Route path={`/setup/propertyspace`} element={<PropertySpace />} />
+                <Route path={`/setup/ratesetup`} element={<RateSetup />} />
+                <Route path={`/setup/owneraddon`} element={<OwnerAddOn />} />
+                <Route path={`/setup/spnaddon`} element={<SPNAddOn />}></Route>
+                <Route path={`/setup/hkmaintenance`} element={<HKMaintenance />} />
+                <Route path={`/setup/channelmgt`} element={<ChannelMgt />} />
 
-            </Routes>
-          </React.Suspense>
-        </BrowserRouter>
-      </Fragment>
 
-  </React.StrictMode>
+                <Route path={`/apps/carddesigns`} element={<CardsDesign />} />,
+                <Route path={`/apps/chat`} element={<Chat />} />,
+                <Route path={`/apps/charts`} element={<Charts />} />,
+                <Route path={`/apps/scrollbar`} element={<ContentScrollbar />} />,
+                <Route path={`/apps/counter`} element={<Counters />} />,
+                <Route path={`/apps/cryptocurrencies`} element={<CryptoCurrencies />} />,
+                <Route path={`/apps/defaultcalender`} element={<DefaultCalender />} />,
+                <Route path={`/apps/footer`} element={<Footers />} />,
+                <Route path={`/apps/fullcalender`} element={<FullCalender />} />,
+                <Route path={`/apps/loader`} element={<Loaders />} />,
+                <Route path={`/apps/notification`} element={<Notifications />} />,
+                <Route path={`/apps/rangeslider`} element={<RangeSlider />} />,
+                <Route path={`/apps/rating`} element={<Rating />} />,
+                <Route path={`/apps/search`} element={<Search />} />,
+                <Route path={`/apps/sweet`} element={<Sweet />} />,
+                <Route path={`/apps/timeline`} element={<Timeline />} />,
+                <Route path={`/apps/treeview`} element={<TreeView />} />,
+                <Route path={`/apps/userlist`} element={<Userlist />} />,
+                <Route path={`/apps/widgets`} element={<Widgets />} />,
+              </Route>
+
+              {/* bootstrap */}
+              <Route>
+                <Route path={`/bootstrap/accordian`} element={<Accordians />} />,
+                <Route path={`/bootstrap/bootstrapalerts`} element={<BootstrapAlerts />} />,
+                <Route path={`/bootstrap/avatarradius`} element={<AvatarRadius />} />,
+                <Route path={`/bootstrap/avatarsquare`} element={<AvatarSquare />} />,
+                <Route path={`/bootstrap/avatarrounded`} element={<AvatarRounded />} />,
+                <Route path={`/bootstrap/badgespills`} element={<BadgesPills />} />,
+                <Route path={`/bootstrap/breadcrumbs`} element={<Breadcrumbs />} />,
+                <Route path={`/bootstrap/buttons`} element={<Buttons />} />,
+                <Route path={`/bootstrap/carousels`} element={<Carousels />} />,
+                <Route path={`/bootstrap/colors`} element={<Colors />} />,
+                <Route path={`/bootstrap/dropdowns`} element={<DropDowns />} />,
+                <Route path={`/bootstrap/listgroups`} element={<ListGroups />} />,
+                <Route path={`/bootstrap/mediaobject`} element={<MediaObject />} />,
+                <Route path={`/bootstrap/modal`} element={<Modals />} />,
+                <Route path={`/bootstrap/navigation`} element={<Navigation />} />,
+                <Route path={`/bootstrap/offcanvas`} element={<OffCanvas />} />,
+                <Route path={`/bootstrap/pagination`} element={<Pagination />} />,
+                <Route path={`/bootstrap/panels`} element={<Panels />} />,
+                <Route path={`/bootstrap/progress`} element={<Progress />} />,
+                <Route path={`/bootstrap/tabs`} element={<Tabs />} />,
+                <Route path={`/bootstrap/tags`} element={<Tags />} />,
+                <Route path={`/bootstrap/thumbnails`} element={<Thumbnails />} />,
+                <Route path={`/bootstrap/toast`} element={<Toast />} />,
+                <Route path={`/bootstrap/tooltippopover`} element={<TooltipPopover />} />,
+                <Route path={`/bootstrap/typography`} element={<Typography />} />,
+                <Route path={`/bootstrap/ribbons`} element={<Ribbons />} />,
+              </Route>
+
+
+
+
+              {/* Charts */}
+              <Route>
+
+                <Route path={`/charts/chartjs`} element={<Chartjs />} />,
+
+                <Route path={`/charts/echart/lines`} element={<Lines />} />,
+                <Route path={`/charts/echart/bar`} element={<Bars />} />,
+                <Route path={`/charts/echart/candlestick`} element={<CandleSticks />} />,
+                <Route path={`/charts/echart/scatter`} element={<Scatters />} />,
+                <Route path={`/charts/echart/tree`} element={<Trees />} />,
+
+                <Route path={`/charts/apexchart/line`} element={<Line />} />,
+                <Route path={`/charts/apexchart/area`} element={<Area />} />,
+                <Route path={`/charts/apexchart/column`} element={<Column />} />,
+                <Route path={`/charts/apexchart/bar`} element={<Bar />} />,
+                <Route path={`/charts/apexchart/mixed`} element={<Mixed />} />,
+                <Route path={`/charts/apexchart/timeline`} element={<Timelines />} />,
+                <Route path={`/charts/apexchart/candlestick`} element={<CandleStick />} />,
+                <Route path={`/charts/apexchart/boxplot`} element={<Boxplot />} />,
+                <Route path={`/charts/apexchart/treemap`} element={<Treemap />} />,
+                <Route path={`/charts/apexchart/pie`} element={<Pie />} />,
+                <Route path={`/charts/apexchart/radialbar`} element={<Radialbar />} />,
+                <Route path={`/charts/apexchart/radar`} element={<Radar />} />,
+                <Route path={`/charts/apexchart/polararea`} element={<Polararea />} />,
+
+              </Route>
+
+              {/* E-commerce */}
+              <Route>
+                <Route path={`/ecommerce/addproduct`} element={<AddProduct />} />,
+                <Route path={`/ecommerce/checkout`} element={<Checkout />} />,
+                <Route path={`/ecommerce/productdetails`} element={<ProductDetails />} />,
+                <Route path={`/ecommerce/shop`} element={<Shop />} />,
+                <Route path={`/ecommerce/shoppingcart`} element={<ShoppingCart />} />,
+                <Route path={`/ecommerce/wishlist`} element={<Wishlist />} />,
+              </Route>
+
+              {/* File-Manager */}
+              <Route>
+                <Route path={`/filemanager/fileattachments`} element={<FileAttachments />} />,
+                <Route path={`/filemanager/filedetails`} element={<FileDetails />} />,
+                <Route path={`/filemanager/filemanager`} element={<FileManager />} />,
+                <Route path={`/filemanager/filemanagerlist`} element={<FileManagerList />} />,
+              </Route>
+
+              {/* Icons */}
+              <Route>
+                <Route path={`/icons/bootstrapicons`} element={<BootstrapIcons />} />,
+                <Route path={`/icons/feathericons`} element={<FeatherIcons />} />,
+                <Route path={`/icons/flagicons`} element={<FlagIcons />} />,
+                <Route path={`/icons/fontawesome`} element={<FontAwesome />} />,
+                <Route path={`/icons/ionicicons`} element={<IonicIcons />} />,
+                <Route path={`/icons/materialdesignicons`} element={<MaterialDesignIcons />} />,
+                <Route path={`/icons/pe7icons`} element={<Pe7Icons />} />,
+                <Route path={`/icons/simplelineicons`} element={<SimpleLineIcons />} />,
+                <Route path={`/icons/themifyicons`} element={<ThemifyIcons />} />,
+                <Route path={`/icons/typiconsicons`} element={<TypiconsIcons />} />,
+                <Route path={`/icons/weathericons`} element={<WeatherIcons />} />,
+              </Route>
+
+              {/* Maps */}
+              <Route>
+                <Route path={`/maps/leafletmaps`} element={<LeafletMaps />} />,
+                <Route path={`/maps/simplemaps`} element={<SimpleMaps />} />,
+              </Route>
+
+              {/* Pages */}
+              <Route>
+                <Route path={`/pages/editprofile`} element={<Editprofile />} />,
+                <Route path={`/pages/extension/aboutcompany`} element={<AboutCompany />} />,
+                <Route path={`/pages/extension/blogdetails`} element={<BlogDetails />} />,
+                <Route path={`/pages/extension/blogpost`} element={<BlogPost />} />,
+                <Route path={`/pages/extension/blogs`} element={<Blogs />} />,
+                <Route path={`/pages/extension/emptypage`} element={<EmptyPage />} />,
+                <Route path={`/pages/extension/faqs`} element={<FAQS />} />,
+                <Route path={`/pages/extension/invoice`} element={<Invoice />} />,
+                <Route path={`/pages/extension/pricing`} element={<Pricing />} />,
+                <Route path={`/pages/extension/services`} element={<Services />} />,
+                <Route path={`/pages/extension/setting`} element={<Settings />} />,
+                <Route path={`/pages/extension/term`} element={<Terms />} />,
+                <Route path={`/pages/forms/formadvanced`} element={<FormAdvanced />} />,
+                <Route path={`/pages/forms/formeditor`} element={<FormEditor />} />,
+                <Route path={`/pages/forms/formelements`} element={<FormElements />} />,
+                <Route path={`/pages/forms/formlayouts`} element={<FormLayouts />} />,
+                <Route path={`/pages/forms/formvalidation`} element={<FormValidation />} />,
+                <Route path={`/pages/forms/forminputspinner`} element={<FormInputSpinners />} />,
+                <Route path={`/pages/forms/formwizard`} element={<FormWizard />} />,
+                <Route path={`/pages/gallery`} element={<Gallery />} />,
+                <Route path={`/pages/mailcompose`} element={<MailCompose />} />,
+                <Route path={`/pages/mailinbox`} element={<MailInbox />} />,
+                <Route path={`/pages/mailread`} element={<MailRead />} />,
+                <Route path={`/pages/notificationlist`} element={<NotificationList />} />,
+                <Route path={`/pages/profile`} element={<Profile />} />,
+
+                <Route path={`/pages/tables/datatables`} element={<DataTable />} />,
+
+                <Route path={`/pages/tables/edittables`} element={<EditTable />} />,
+              </Route>
+              <Route>
+                <Route path={`/pages/tables/defaulttables`} element={<DefaultTable />} />,
+              </Route>
+            </Route>
+
+            {/* Authentication Pages */}
+            <Route path={`/`} element={<AuthenticationPage />}>
+              <Route path={`/authentication/login`} element={<Login />} />
+              <Route path={`/authentication/register`} element={<Register />} />
+              <Route path={`/authentication/forgotpassword`} element={<ForgotPassword />} />
+              <Route path={`/authentication/lockscreen`} element={<LockScreen />} />,
+            </Route>
+
+            {/* Custom Pages for UnderConstruction */}
+
+            <Route path={`/`} element={<CustomPage />}>
+              <Route path={`/pages/extension/underconstruction`} element={<UnderConstruction />} />
+            </Route>
+
+            {/* Authentication Error Pages */}
+            <Route path={``} element={<ErrorPages />}>
+              <Route path={`/authentication/errorpage/error400`} element={<Error400 />} />
+              <Route path={`/authentication/errorpage/error401`} element={<Error401 />} />
+              <Route path={`/authentication/errorpage/error403`} element={<Error403 />} />
+              <Route path={`/authentication/errorpage/error404`} element={<Error404 />} />
+              <Route path={`/authentication/errorpage/error500`} element={<Error500 />} />
+              <Route path={`/authentication/errorpage/error503`} element={<Error503 />} />,
+            </Route>
+            {/* Firebase Authentication */}
+
+
+            <Route>
+              <Route path={`/pages/switcher/switcherstyle1`} element={<Switcherapp />} />,
+            </Route>
+            <Route >
+              <Route path={`/landingPage/landingPage`} element={<Landing />} />
+            </Route>
+            <Route path="*" element={<Error500 />} />
+
+          </Routes>
+        </React.Suspense>
+      </BrowserRouter>
+    </Fragment>
+
+  </React.StrictMode >
 
 );
 
