@@ -92,9 +92,6 @@ const GuestHistory = () => {
       STATUS: "Active",
     },
   ];
-  const onRowClick = (row) =>{
-      
-  }
   return (
     <div>
       <Row className="row-sm">
@@ -157,14 +154,16 @@ const GuestHistory = () => {
                   </Col>
                 </Row>
                 <Row className="justify-content-center mt-3 alphabet-filter">
-                  {NameFilter.map((filteredName) => (
-                    <Col className="border">{filteredName}</Col>
+                  {NameFilter.map((filteredName, index) => (
+                    <Col key={index} className="border">
+                      {filteredName}
+                    </Col>
                   ))}
                 </Row>
                 <DataTabless
                   resTableDataItems={guestTableDataItems}
                   columns={columns}
-                  onRowClick={(row)=>onRowClick(row)}
+                  isSelectable={true}
                 />
               </div>
             </Card.Body>

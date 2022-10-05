@@ -6,11 +6,14 @@ export interface TableData {
     ACCOUNT_NAME?: string
     RES?: number
     ADULTS?: number
+    CATEGORY?: string,
+    DESC?:string,
     CHILD?: number
     STATUS?: string
     ROOM?: string
-    ARRIVE?: string
-    DEPART?:string
+    ARRIVE?: string | Date
+    DEPART?: string
+    id?: string | number
     NIGHT?: number
     TASK?: any
     ACCOUNT_NUMBER?: number
@@ -38,5 +41,6 @@ export interface tabArraies {
 }
 
 export interface ReservationListProps{
+    // addTab?:(row:any) => void;
     addTab?:(row:any) => void;
 }

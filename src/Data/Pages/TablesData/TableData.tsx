@@ -1756,10 +1756,11 @@ const GlobalResFilter = ({ filter, setFilter }) => {
 export interface DataTablessProps {
   resTableDataItems?: TableData[] | [] | undefined
   columns?: Column[] | []
-  onRowClick?: (row:any , e: React.MouseEvent) => void;
+  onRowClick?: (row: any, e: React.MouseEvent) => void;
+  isSelectable?:Boolean
 }
 export const DataTabless = (props: DataTablessProps) => {
-  const { resTableDataItems, columns, onRowClick} = props
+  const { resTableDataItems, columns, isSelectable,onRowClick} = props
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [toggleCleared, setToggleCleared] = React.useState(false);
   const [data, setData] = React.useState<TableData[] | [] | undefined>(resTableDataItems);
@@ -1825,17 +1826,29 @@ export const DataTabless = (props: DataTablessProps) => {
   return (
     <span className="datatable">
       <DataTableExtensions {...tableDatas}>
-        <DataTable
+        {isSelectable ?
+           <DataTable
           title
           columns={columns ? columns : []}
           data={data ? data : []}
           selectableRows
           contextActions={contextActions}
           onSelectedRowsChange={handleRowSelected}
-          onRowClicked = {onRowClick}
+          clearSelectedRows={toggleCleared}
+          pagination
+          />
+          :
+           <DataTable
+          title
+          columns={columns ? columns : []}
+          data={data ? data : []}
+          contextActions={contextActions}
+          onSelectedRowsChange={handleRowSelected}
           clearSelectedRows={toggleCleared}
           pagination
         />
+        }
+       
       </DataTableExtensions>
     </span>
   );
