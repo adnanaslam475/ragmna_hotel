@@ -42,13 +42,13 @@ const ReserveUser = () => {
                   <div className="tab-data">
                     <Tab.Content>
                       <Tab.Pane eventKey="first">
-                        <UserDetail></UserDetail>
+                        <UserDetail />
                       </Tab.Pane>
                       <Tab.Pane eventKey="second">
-                        <UserFolio></UserFolio>
+                        <UserFolio />
                       </Tab.Pane>
                       <Tab.Pane eventKey="third">
-                        <UserHistory></UserHistory>
+                        <UserHistory />
                       </Tab.Pane>
                     </Tab.Content>
                   </div>
