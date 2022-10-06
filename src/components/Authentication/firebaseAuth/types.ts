@@ -11,8 +11,8 @@ export interface SignupRequestBody {
     email: string,
     password: string,
     name: string,
-    phoneNumber: number,
-    countryCode: number
+    phoneNumber: string | null,
+    countryCode: string | number | undefined
 }
 
 export interface LogInRequestBody{

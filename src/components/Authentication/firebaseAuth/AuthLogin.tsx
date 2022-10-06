@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Form, Alert, InputGroup } from 'react-bootstrap';
+import { Form, Alert, InputGroup, Button } from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
 import { useLogInMutation } from './firebaseAuthApi';
+import { useUser } from './firebaseAuthSlice';
 
 
 const SignIn = () => {
@@ -16,16 +17,20 @@ const SignIn = () => {
     setData({ ...data, [e.target.name]: e.target.value })
     setError("");
   }
-  const [logIn ,Result] =  useLogInMutation()
+  const [logIn,Result] = useLogInMutation();
+  const { user } = useUser();
+  
   const OnLogin: any =  async(e) => {
     try {
       setLoader(true)
       await logIn(data) 
-      console.log(Result);
-      RouteChange()
-      setLoader(false)
+      if (user.accessToken) {
+        RouteChange()
+        setLoader(false)
+      }
     }
     catch (err:any) {
+        setLoader(false)
       console.log(err, 'errrr');
     }
     e.preventDefault();
@@ -69,7 +74,9 @@ const SignIn = () => {
                       onChange={changeHandler} required />{" "}
                   </InputGroup>
                   <div className="container-login100-form-btn">
-                    <Link to='#' onClick={OnLogin} className="login100-form-btn btn-primary">
+              {/* <Button className='login100-form-btn btn-primary' onClick={OnLogin} type="submit">Login{loading ? <span role="status" aria-hidden="true" className="spinner-border spinner-border-sm ms-2"></span> : ""}</Button> */}
+
+                    <Link to='#' onClick={OnLogin} type="submit" className="login100-form-btn btn-primary">
                       Login
                       {loading ? <span role="status" aria-hidden="true" className="spinner-border spinner-border-sm ms-2"></span> : ""}
                     </Link>

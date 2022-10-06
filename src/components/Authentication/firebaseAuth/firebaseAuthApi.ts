@@ -9,7 +9,6 @@ export const firebaseAuthApi = api.injectEndpoints({
                 method: 'POST',
                 body: payload
             }),
-
             invalidatesTags:["Auth"]
         }),
         logIn: builder.mutation<any,LogInRequestBody>({
@@ -18,7 +17,6 @@ export const firebaseAuthApi = api.injectEndpoints({
                 method: 'POST',
                 body: payload
             }),
-            transformResponse: (response: { data:any }, meta, arg) => response.data,
             invalidatesTags:["Auth"]
         }),
     }),
