@@ -8,7 +8,6 @@ export interface Supplier {
     }
 }
 export interface SignupRequestBody {
-    supplier: Supplier
     email: string,
     password: string,
     name: string,

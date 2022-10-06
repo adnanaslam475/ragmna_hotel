@@ -2,6 +2,7 @@ import React, { useState, useRef, forwardRef, FC } from "react";
 import { Card, Col, Nav, Row, Tab } from "react-bootstrap";
 import "./ReserveUser.scss";
 import UserDetail from "./UserDetail/UserDetail";
+import UserDocument from "./UserDocument/UserDocument";
 import UserFolio from "./UserFolio/UserFolio";
 import UserHistory from "./UserHistory/UserHistory";
 
@@ -49,6 +50,9 @@ const ReserveUser = () => {
                       </Tab.Pane>
                       <Tab.Pane eventKey="third">
                         <UserHistory />
+                      </Tab.Pane>
+                      <Tab.Pane eventKey="fourth">
+                        <UserDocument />
                       </Tab.Pane>
                     </Tab.Content>
                   </div>

@@ -6,21 +6,13 @@ import { useAppSelector } from "../../../Redux/hooks";
 import { selectFirebaseAuthList } from "./firebaseAuthSlice";
 import { useSignUpMutation } from "./firebaseAuthApi";
 import { SignupRequestBody } from "./types";
-import { CountrySelector } from '../../../Data/Pages/Forms/FormAdvanceData/DataFormAdvanced';
 import './firebaseAuth.scss'
+import PhoneInput from "react-phone-input-2";
+import 'react-phone-input-2/lib/style.css'
 const SignUp = () => {
   const [err, setError] = useState("");
   const [Loader, setLoader] = useState(false);
   const [data, setData] = React.useState<SignupRequestBody>({
-    "supplier": {
-      "name": "Parth",
-      "crNumber": "123",
-      "vatNumber": "321",
-      "contact": {
-        "name": "Parth Gondaliya",
-        "phone": 1234567897
-      }
-    },
     "email": "pgondaliya303@gmail.com",
     "password": "Test@123",
     "name": "Parth",
@@ -38,7 +30,7 @@ const SignUp = () => {
   const OnSignup = async (e) => {
     try {
       await signUp(data)
-      console.log(data,"data");
+      console.log(data, "data");
 
     }
     catch (err: any) {
@@ -78,7 +70,7 @@ const SignUp = () => {
                   <Link to="#" className="input-group-text bg-white text-muted">
                     <i className="mdi mdi-account" aria-hidden="true"></i>
                   </Link>
-                  <Form.Control className="input100 border-start-0 ms-0 form-control" type="text" name="fullname" placeholder="Name" value={name}
+                  <Form.Control className="input100 border-start-0 ms-0 form-control" type="text" name="name" placeholder="Name" value={name}
                     onChange={changeHandler} />
                 </div>
                 <div className="wrap-input100 validate-input input-group">
@@ -88,11 +80,6 @@ const SignUp = () => {
                   <Form.Control className="input100 border-start-0 ms-0 form-control" type="email" name="email" placeholder="Email" value={email}
                     onChange={changeHandler} />
                 </div>
-                <div className="wrap-input100 validate-input input-group">
-                    <Form className='CountrySelector registration'>
-                      {/* <Form.Control id="phone" name="phone" type="tel" /> */}<CountrySelector />
-                    </Form>
-                </div>
                 <InputGroup className="wrap-input100 validate-input" id="Password-toggle">
                   <InputGroup.Text id="basic-addon2" className="bg-white text-muted">
                     <Link to='#'><i className="zmdi zmdi-eye text-default" aria-hidden="true" ></i></Link>
@@ -101,6 +88,17 @@ const SignUp = () => {
                     onChange={changeHandler}
                     required />
                 </InputGroup>
+                <div className="wrap-input100 validate-input input-group">
+                  <Form className='CountrySelector registration'>
+                    <div>
+                      <PhoneInput
+                        country={"us"}
+                        value="1425652"
+                        onChange={phone => console.log({ phone })}
+                      />
+                    </div>
+                  </Form>
+                </div>
                 <label className="custom-control custom-checkbox mt-4">
                   <input type="checkbox" className="custom-control-input" />
                   <span className="custom-control-label">Agree the <Link to={`/pages/extension/term`}>terms and policy</Link></span>
