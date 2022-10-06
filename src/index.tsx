@@ -6,6 +6,7 @@ import "./index.scss"
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import "react-datepicker/dist/react-datepicker.css";
+import { Store } from './Redux/Store';
 
 const Auth = lazy(() => import('./components/Authentication/firebaseAuth/auth'));
 const App = lazy(() => import('./components/app'));
@@ -168,6 +169,7 @@ const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
+    <Provider store={Store}>
     <Fragment>
       <BrowserRouter>
         <React.Suspense fallback={<Loader />}>
@@ -175,8 +177,8 @@ root.render(
 
             <Route path={`/`} element={<Auth />}>
               <Route index element={<AuthLogin />} />
-              <Route path={`/Authentication/firebaseAuth/login`} element={<AuthLogin />} />
-              <Route path={`/Authentication/firebaseAuth/SignUp`} element={<SignUp />} />
+              <Route path={`/login`} element={<AuthLogin />} />
+              <Route path={`/SignUp`} element={<SignUp />} />
             </Route>
             <Route path={``} element={<App />} >
 
@@ -395,7 +397,7 @@ root.render(
         </React.Suspense>
       </BrowserRouter>
     </Fragment>
-
+    </Provider>
   </React.StrictMode >
 
 );

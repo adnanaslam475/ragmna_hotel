@@ -1,33 +1,42 @@
 import React, { useState } from 'react';
 import { Form, Alert, InputGroup } from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
-import { auth } from '../../../Firebase/firebase';
+import { useLogInMutation } from './firebaseAuthApi';
 
 
 const SignIn = () => {
   const [err, setError] = useState("");
   const [loading, setLoader] = useState(false);
   const [data, setData] = useState({
-    "email": "adminreact@gmail.com",
-    "password": "1234567890",
+    "email": "",
+    "password": "",
   })
   const { email, password } = data;
   const changeHandler = (e) => {
     setData({ ...data, [e.target.name]: e.target.value })
     setError("");
   }
-
-  const Login: any = (e) => {
-    setLoader(true)
+  const [logIn ,Result] =  useLogInMutation()
+  const OnLogin: any =  async(e) => {
+    try {
+      setLoader(true)
+      await logIn(data) 
+      console.log(Result);
+      RouteChange()
+      setLoader(false)
+    }
+    catch (err:any) {
+      console.log(err, 'errrr');
+    }
     e.preventDefault();
-    auth.signInWithEmailAndPassword(email, password).then(
-      user => { console.log(user); RouteChange(); setLoader(false) }).catch(err => { console.log(err); setError(err.message); setLoader(false) })
+    
   }
   let navigate = useNavigate();
   const RouteChange = () => {
     let path = `/dashboard`;
     navigate(path);
   }
+
   return (
     <div>
       <div className='login-img'>
@@ -60,7 +69,7 @@ const SignIn = () => {
                       onChange={changeHandler} required />{" "}
                   </InputGroup>
                   <div className="container-login100-form-btn">
-                    <Link to='#' onClick={Login} className="login100-form-btn btn-primary">
+                    <Link to='#' onClick={OnLogin} className="login100-form-btn btn-primary">
                       Login
                       {loading ? <span role="status" aria-hidden="true" className="spinner-border spinner-border-sm ms-2"></span> : ""}
                     </Link>
@@ -87,7 +96,7 @@ const SignIn = () => {
                     </Link>
 
                   </div>
-                  <Link to={`/Authentication/firebaseAuth/SignUp`} className='d-flex justify-content-center mt-4'>
+                  <Link to={`/SignUp`} className='d-flex justify-content-center mt-4'>
                     Create a new account ?
                   </Link>
 
