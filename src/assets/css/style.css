@@ -18741,7 +18741,7 @@ a.icon:hover {
 }
 
 #back-to-top {
-    color: #fff;
+    color: #fff !important;
     position: fixed;
     bottom: 20px;
     right: 20px;

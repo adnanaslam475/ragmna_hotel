@@ -1,64 +1,69 @@
 import { Card, FormControl, InputGroup, Row, Col } from "react-bootstrap";
-import React, { useState, useRef, forwardRef } from "react";
+import React, { useState, useRef, forwardRef, FC } from "react";
 import { DataTabless } from "../../../Data/Pages/TablesData/TableData";
-import { ArrivalsDetails, TableData } from "../FrontOfficeTypes";
+import {
+  ArrivalsDetails,
+  ReservationListProps,
+  TableData,
+} from "../FrontOfficeTypes";
 import "./ReservationList.scss";
 import CountUp from "react-countup";
 import { Link } from "react-router-dom";
 import AdvanceResForm from "./AdvanceResForm/AdvanceResForm";
 import DatePicker from "react-datepicker";
 
-const ReservationList = () => {
+const ReservationList = (props: ReservationListProps) => {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [isAdvance, setIsAdvance] = useState<boolean>(false);
   const [showArrivalPopup, setShowArrivalPopup] = useState<boolean>(false);
   const [showDeparturePopup, setShowDeparturePopup] = useState<boolean>(false);
 
+  const { addTab } = props;
   let ArrivalDetail = [
     {
       id: 1,
       name: "All Arrivals",
       counts: 10,
-      isActive: true
+      isActive: true,
     },
     {
       id: 2,
       name: "Pending Arrivals",
       counts: 12,
-      isActive: false
+      isActive: false,
     },
     {
       id: 3,
       name: "Arrivals & Departure",
       counts: 15,
-      isActive: false
-    }
-  ]
-  const [showArrivalDetails, setShowArrivalDetails] = useState<ArrivalsDetails[]>(ArrivalDetail);
+      isActive: false,
+    },
+  ];
+  const [showArrivalDetails, setShowArrivalDetails] =
+    useState<ArrivalsDetails[]>(ArrivalDetail);
 
   let DepartureDetail = [
     {
       id: 1,
       name: "All Departure",
       counts: 20,
-      isActive: true
+      isActive: true,
     },
     {
       id: 2,
       name: "Pending Departure",
       counts: 22,
-      isActive: false
+      isActive: false,
     },
     {
       id: 3,
       name: "Arrivals & Departure",
       counts: 15,
-      isActive: false
-    }
-  ]
-  const [showDepartureDetails, setShowDepartureDetails] = useState<ArrivalsDetails[]>(DepartureDetail);
-
-
+      isActive: false,
+    },
+  ];
+  const [showDepartureDetails, setShowDepartureDetails] =
+    useState<ArrivalsDetails[]>(DepartureDetail);
 
   const CustomInput = forwardRef((props: any, ref) => {
     const myArray = props.value.split(" ");
@@ -77,22 +82,34 @@ const ReservationList = () => {
     );
   });
   const inputRef = useRef(null);
-
+  const clickHandler = (event, row) => {
+    addTab?.(row);
+  };
   const columns: any[] = [
     {
       name: "PROPERTY",
       selector: (row) => [row.PROPERTY],
-      sortable: false,
+      sortable: true,
     },
     {
+      cell: (row) => (
+        <a
+          style={{ cursor: "pointer" }}
+          onClick={(e) => clickHandler(e, row)}
+          id={row.id}
+        >
+          {row.GUEST_NAME}
+        </a>
+      ),
+      ignoreRowClick: true,
       name: "GUEST NAME",
-      selector: (row) => [row.GUEST_NAME],
+      // selector: (row) => [row.GUEST_NAME],
       sortable: true,
     },
     {
       name: "ACCOUNT NAME",
       selector: (row) => [row.ACCOUNT_NAME],
-      sortable: false,
+      sortable: true,
     },
     {
       name: "RES#",
@@ -112,27 +129,27 @@ const ReservationList = () => {
     {
       name: "STATUS",
       selector: (row) => [row.STATUS],
-      sortable: false,
+      sortable: true,
     },
     {
       name: "ROOM",
       selector: (row) => [row.ROOM],
-      sortable: false,
+      sortable: true,
     },
     {
       name: "ARRIVE",
       selector: (row) => [row.ARRIVE],
-      sortable: false,
+      sortable: true,
     },
     {
       name: "DEPART",
       selector: (row) => [row.DEPART],
-      sortable: false,
+      sortable: true,
     },
     {
       name: "NIGHT",
       selector: (row) => [row.NIGHT],
-      sortable: false,
+      sortable: true,
     },
     {
       name: "TASK",
@@ -147,6 +164,7 @@ const ReservationList = () => {
       GUEST_NAME: "Pamela Roberts",
       ACCOUNT_NAME: "-",
       RES: 22138416,
+      id: 1,
       ADULTS: 2,
       CHILD: 0,
       STATUS: "Reserved",
@@ -163,6 +181,7 @@ const ReservationList = () => {
       RES: 22138398,
       ADULTS: 1,
       CHILD: 0,
+      id: 2,
       STATUS: "Reserved",
       ROOM: "DLXq:301",
       ARRIVE: "Oct 18 2022",
@@ -176,6 +195,7 @@ const ReservationList = () => {
       ACCOUNT_NAME: "New group",
       RES: 23214557,
       ADULTS: 2,
+      id: 3,
       CHILD: 0,
       STATUS: "Reserved",
       ROOM: "DLXq:301",
@@ -187,29 +207,26 @@ const ReservationList = () => {
   ];
 
   const onbtnclick = (id: number, index: number, name: string) => {
-
     switch (name) {
-
       case "showArrivalDetails":
         ArrivalDetail.forEach((val) => {
-          val.id == id ?
-            val.isActive = true : val.isActive = false
-        })
-        setShowArrivalDetails(ArrivalDetail)
+          val.id == id ? (val.isActive = true) : (val.isActive = false);
+        });
+        setShowArrivalDetails(ArrivalDetail);
         break;
 
       case "DepartureDetails":
         DepartureDetail.forEach((val) => {
-          val.id == id ?
-            val.isActive = true : val.isActive = false
-        })
-        setShowDepartureDetails(DepartureDetail)
+          val.id == id ? (val.isActive = true) : (val.isActive = false);
+        });
+        setShowDepartureDetails(DepartureDetail);
         break;
 
       default:
         break;
     }
-  }
+  };
+
   return (
     <div>
       <Row className="row-sm">
@@ -254,7 +271,7 @@ const ReservationList = () => {
                           <DatePicker
                             dateFormat="MMM dd yyyy"
                             selected={startDate}
-                            customInput={<CustomInput inputRef={inputRef} />}
+                            customInput={<CustomInput inputref={inputRef} />}
                             onChange={(date: Date) => setStartDate(date)}
                           />
                         </Col>
@@ -265,87 +282,116 @@ const ReservationList = () => {
                           </div>
                         </Col>
                         <Col lg={2}>
-                          {
-                            showArrivalDetails.map((value, index) => {
-                              if (value.isActive) {
-                                return (
-                                  <div className="counter-res arrival">
-                                    <CountUp className="h1" end={value.counts} />
-                                    <p>{value.name}
-                                      <i className="icon fa fa-chevron-down icon-details" onClick={() => {
-                                        setShowArrivalPopup(!showArrivalPopup)
-                                        onbtnclick(value.id, index, "showArrivalDetails")
-                                      }} /></p>
-                                  </div>
-                                )
-                              }
-                            })
-                          }
-                          {
-                            showArrivalPopup
-                              ?
-                              <div className='arrival-popup'>
-                                {
-                                  showArrivalDetails.map((value, index) => {
-                                    if (!value.isActive) {
-                                      return (
-                                        <div className="counter-res" onClick={() => {
-                                          onbtnclick(value.id, index, "showArrivalDetails")
-                                          setShowArrivalPopup(!showArrivalPopup)
-                                        }}>
-                                          {/* <CountUp className="h1" end={value.counts} /> */}
-                                          <h1 className="h1">{value.counts}</h1>
-                                          <p>{value.name}</p>
-                                        </div>
-                                      )
-                                    }
-                                  })
+                          {showArrivalDetails.map((value, index) => {
+                            if (value.isActive) {
+                              return (
+                                <div
+                                  key={index}
+                                  className="counter-res arrival"
+                                >
+                                  <CountUp className="h1" end={value.counts} />
+                                  <p>
+                                    {value.name}
+                                    <i
+                                      className="icon fa fa-chevron-down icon-details"
+                                      onClick={() => {
+                                        setShowArrivalPopup(!showArrivalPopup);
+                                        onbtnclick(
+                                          value.id,
+                                          index,
+                                          "showArrivalDetails"
+                                        );
+                                      }}
+                                    />
+                                  </p>
+                                </div>
+                              );
+                            }
+                          })}
+                          {showArrivalPopup ? (
+                            <div className="arrival-popup">
+                              {showArrivalDetails.map((value, index) => {
+                                if (!value.isActive) {
+                                  return (
+                                    <div
+                                      key={index}
+                                      className="counter-res"
+                                      onClick={() => {
+                                        onbtnclick(
+                                          value.id,
+                                          index,
+                                          "showArrivalDetails"
+                                        );
+                                        setShowArrivalPopup(!showArrivalPopup);
+                                      }}
+                                    >
+                                      {/* <CountUp className="h1" end={value.counts} /> */}
+                                      <h1 className="h1">{value.counts}</h1>
+                                      <p>{value.name}</p>
+                                    </div>
+                                  );
                                 }
-                              </div>
-                              :
-                              null
-                          }
+                              })}
+                            </div>
+                          ) : null}
                         </Col>
                         <Col lg={2}>
-                          {
-                            showDepartureDetails.map((value, index) => {
-                              if (value.isActive) {
-                                return (
-                                  <div className="counter-res arrival">
-                                    <CountUp className="h1" end={value.counts} />
-                                    <p>{value.name} <i className="icon fa fa-chevron-down icon-details" onClick={() => {
-                                      setShowDeparturePopup(!showDeparturePopup)
-                                      onbtnclick(value.id, index, "DepartureDetails")
-                                    }} /> </p>
-                                  </div>
-                                )
-                              }
-                            })
-                          }
-                          {
-                            showDeparturePopup
-                              ?
-                              <div className='arrival-popup'>
-                                {
-                                  showDepartureDetails.map((value, index) => {
-                                    if (!value.isActive) {
-                                      return (
-                                        <div className="counter-res" onClick={() => {
-                                          onbtnclick(value.id, index, "DepartureDetails")
-                                          setShowDeparturePopup(!showDeparturePopup)
-                                        }}>
-                                          {/* <CountUp className="h1" end={value.counts} /> */}
-                                          <h1 className="h1">{value.counts}</h1>
-                                          <p>{value.name}</p>
-                                        </div>
-                                      )
-                                    }
-                                  })
+                          {showDepartureDetails.map((value, index) => {
+                            if (value.isActive) {
+                              return (
+                                <div
+                                  key={index}
+                                  className="counter-res arrival"
+                                >
+                                  <CountUp className="h1" end={value.counts} />
+                                  <p>
+                                    {value.name}{" "}
+                                    <i
+                                      className="icon fa fa-chevron-down icon-details"
+                                      onClick={() => {
+                                        setShowDeparturePopup(
+                                          !showDeparturePopup
+                                        );
+                                        onbtnclick(
+                                          value.id,
+                                          index,
+                                          "DepartureDetails"
+                                        );
+                                      }}
+                                    />{" "}
+                                  </p>
+                                </div>
+                              );
+                            }
+                          })}
+                          {showDeparturePopup ? (
+                            <div className="arrival-popup">
+                              {showDepartureDetails.map((value, index) => {
+                                if (!value.isActive) {
+                                  return (
+                                    <div
+                                      className="counter-res"
+                                      key={index}
+                                      onClick={() => {
+                                        onbtnclick(
+                                          value.id,
+                                          index,
+                                          "DepartureDetails"
+                                        );
+                                        setShowDeparturePopup(
+                                          !showDeparturePopup
+                                        );
+                                      }}
+                                    >
+                                      {/* <CountUp className="h1" end={value.counts} /> */}
+                                      <h1 className="h1">{value.counts}</h1>
+                                      <p>{value.name}</p>
+                                    </div>
+                                  );
                                 }
-                              </div>
-                              :
-                              null
-                          }
+                              })}
+                            </div>
+                          ) : null}
                         </Col>
                         <Col lg={2}>
                           <div className="counter-res">
@@ -362,11 +408,13 @@ const ReservationList = () => {
                       </Row>
                     </Col>
                   </Row>
-                ) :
-                  <AdvanceResForm setIsAdvance={setIsAdvance} />}
+                ) : (
+                  <AdvanceResForm setIsAdvance={setIsAdvance} />
+                )}
                 <DataTabless
                   resTableDataItems={resTableDataItems}
                   columns={columns}
+                  isSelectable={true}
                 />
               </div>
             </Card.Body>

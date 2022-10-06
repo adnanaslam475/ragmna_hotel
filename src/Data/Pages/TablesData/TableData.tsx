@@ -1244,7 +1244,7 @@ const GlobalResFilter = ({ filter, setFilter }) => {
         placeholder="Search..."
       />
     </span>
-    
+
   );
 };
 // Responsive Table Data END******
@@ -1753,27 +1753,14 @@ const GlobalResFilter = ({ filter, setFilter }) => {
 //     MAIL: "j.acosta@datatables.net",
 //   }
 // ];
-export const newdata = [
-  {
-    PROPERTY: 'lhgtygvf',
-    GUEST_NAME: 'string',
-    ACCOUNT_NAME: 'string',
-    RES: 1,
-    ADULTS: 1,
-    CHILD: 1,
-    STATUS: 'string',
-    ROOM: 'string',
-    ARRIVE: 'string',
-    NIGHT: 1,
-    TASK: '123'
-  }
-]
 export interface DataTablessProps {
   resTableDataItems?: TableData[] | [] | undefined
   columns?: Column[] | []
+  onRowClick?: (row: any, e: React.MouseEvent) => void;
+  isSelectable?:Boolean
 }
 export const DataTabless = (props: DataTablessProps) => {
-  const { resTableDataItems, columns } = props
+  const { resTableDataItems, columns, isSelectable,onRowClick} = props
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [toggleCleared, setToggleCleared] = React.useState(false);
   const [data, setData] = React.useState<TableData[] | [] | undefined>(resTableDataItems);
@@ -1839,7 +1826,8 @@ export const DataTabless = (props: DataTablessProps) => {
   return (
     <span className="datatable">
       <DataTableExtensions {...tableDatas}>
-        <DataTable
+        {isSelectable ?
+           <DataTable
           title
           columns={columns ? columns : []}
           data={data ? data : []}
@@ -1848,7 +1836,19 @@ export const DataTabless = (props: DataTablessProps) => {
           onSelectedRowsChange={handleRowSelected}
           clearSelectedRows={toggleCleared}
           pagination
+          />
+          :
+           <DataTable
+          title
+          columns={columns ? columns : []}
+          data={data ? data : []}
+          contextActions={contextActions}
+          onSelectedRowsChange={handleRowSelected}
+          clearSelectedRows={toggleCleared}
+          pagination
         />
+        }
+       
       </DataTableExtensions>
     </span>
   );

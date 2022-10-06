@@ -6,7 +6,7 @@
 /*Dark Theme Variables*/
 /*Transparent variables*/
 a {
-    color: var(--primary-bg-color);
+    color: var(--primary-bg-color) !important;
 }
 
 a:hover {
