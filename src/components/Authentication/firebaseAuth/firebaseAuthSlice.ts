@@ -21,22 +21,25 @@ const firebaseAuthSlice = createSlice({
                 return state;
             }
         );
-        builder.addMatcher(
-            firebaseAuthApi.endpoints.signUp.matchFulfilled, (state, response) => {
-                state.signUpResponse = response.payload.data ? response.payload.data : response.payload;
-                return state;
-            }
-        );
+        // builder.addMatcher(
+        //     firebaseAuthApi.endpoints.signUp.matchFulfilled, (state, response) => {
+        //         state.signUpResponse = response.payload.data ? response.payload.data : response.payload;
+        //         return state;
+        //     }
+        // );
     }
 })
 
 export default firebaseAuthSlice.reducer
 
-export const selectUser = (state) => state.auth.user;
+export const selectUser = (state) => {
+    return state.auth.user
+};
 export const selectSignupResponse = (state) => state.auth.signUpResponse;
 
 export const useUser = () => {
     const user = useSelector(selectUser);
+    // return user;
     return useMemo(() => ({ user }), [user])
 }
 
