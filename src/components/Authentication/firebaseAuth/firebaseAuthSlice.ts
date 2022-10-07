@@ -4,8 +4,12 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/Store'
 import { firebaseAuthApi } from './firebaseAuthApi'
 
+const getDefaultUser = () => {
+    return JSON.parse(localStorage.getItem('user') || '{}')
+}
+
 const initialState = {
-    user: {},
+    user: localStorage.getItem('user') ? getDefaultUser() : {},
     signUpResponse:{}
 }
 
@@ -21,12 +25,12 @@ const firebaseAuthSlice = createSlice({
                 return state;
             }
         );
-        // builder.addMatcher(
-        //     firebaseAuthApi.endpoints.signUp.matchFulfilled, (state, response) => {
-        //         state.signUpResponse = response.payload.data ? response.payload.data : response.payload;
-        //         return state;
-        //     }
-        // );
+        builder.addMatcher(
+            firebaseAuthApi.endpoints.signUp.matchFulfilled, (state, response) => {
+                state.signUpResponse = response.payload.data ? response.payload.data : response.payload;
+                return state;
+            }
+        );
     }
 })
 
@@ -40,6 +44,7 @@ export const selectSignupResponse = (state) => state.auth.signUpResponse;
 export const useUser = () => {
     const user = useSelector(selectUser);
     // return user;
+    localStorage.setItem('user', JSON.stringify(user));
     return useMemo(() => ({ user }), [user])
 }
 

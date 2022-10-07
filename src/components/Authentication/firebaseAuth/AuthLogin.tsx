@@ -24,6 +24,7 @@ const SignIn = () => {
     navigate(path);
   };
   if (Result.isSuccess) {
+    localStorage.setItem('accessToken', Result.data.accessToken);
     setLoader(false);
     RouteChange();
   }
