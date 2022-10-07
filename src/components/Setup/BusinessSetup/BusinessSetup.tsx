@@ -35,10 +35,8 @@ const BusinessSetup = () => {
         timeZone: '',
     });
     const { data, isError, isLoading } = useGetSupplierByIdQuery({ id: user.supplierId })
-    console.log(isLoading, "data");
 
     React.useEffect(()=>{
-        console.log(data);
         if (!isLoading && data?.data) {
             setBusinessInfoParams({
                 name: data.data?.name,
@@ -69,10 +67,8 @@ const BusinessSetup = () => {
                 "phone" : payload["businessContactNumber"]
             }
             payload['id'] = user.supplierId
-            console.log("trytrytry");
           delete payload["businessContactPerson"]
           delete payload["businessContactNumber"]
-          console.log(payload);
           await updateSupplierById(payload);
         } catch (err: any) {
           console.log(err, "err");
