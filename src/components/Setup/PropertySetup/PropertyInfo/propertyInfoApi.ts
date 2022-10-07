@@ -1,10 +1,11 @@
 import { api } from "../../../../Redux/Services/api";
 import { GET_PROPERTY } from "../../../ConstAPI/ConstAPI";
+import { GetPropertyInfo } from "./types";
 
 
 export const propertyInfoApi =  api.injectEndpoints({
     endpoints: (builder) => ({
-        getPropertyInfo: builder.query<any,void>({
+        getPropertyInfo: builder.query<GetPropertyInfo,void>({
             query:() => ({
                 url: `${GET_PROPERTY}`,
                 method:'GET',
