@@ -9,7 +9,7 @@ import Alert from "sweetalert2";
 import "@fullcalendar/common/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
-import PageHeader from './../../../Layouts/PageHeader/PageHeader';
+import PageHeader from '../../../Layouts/PageHeader/PageHeader';
 import { Link } from 'react-router-dom';
 import listWeek from "@fullcalendar/list";
 import "@fullcalendar/list/main.css";

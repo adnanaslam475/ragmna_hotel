@@ -1,0 +1,104 @@
+.Reservation-table {
+	.rdt_TableCol {
+		padding: 5px 10px !important;
+		justify-content: center !important;
+	}
+	.rdt_TableCell {
+		padding: 5px 10px !important;
+		justify-content: center !important;
+	}
+}
+.rateplan {
+	border: 1px solid #e3e3e3;
+	display: flex;
+	align-items: center;
+	// margin-right: 1px;
+}
+.roomnumber {
+	background-color: whitesmoke;
+}
+.roomname {
+	background-color: blueviolet;
+}
+.days-column {
+	display: flex;
+	flex: 1;
+	margin-left: 1px;
+
+	.coldays {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		align-items: center;
+		justify-content: center;
+		border: 1px solid #e3e3e3;
+		cursor: pointer;
+		padding: 7px;
+		border-right: 0;
+		&:hover {
+			background-color: #337ab7;
+			color: white;
+		}
+		&:active {
+			background-color: #337ab7;
+			color: white;
+		}
+		&:last-child {
+			border-right: 1px solid #e3e3e3;
+		}
+		.h1-heading {
+			margin-bottom: 0;
+		}
+		// .fa-refresh:hover {
+		// 	color: white;
+		// }
+	}
+}
+.fa-refresh:hover {
+	color: white;
+}
+
+.Filter-column {
+	.col-lg-2 {
+		border: 1px solid #e3e3e3;
+		max-width: 16% !important;
+		padding: 10px;
+		border-radius: 10px;
+		margin-right: 4px;
+
+		&:hover {
+			background-color: #f2f2f2;
+		}
+	}
+}
+.counter-res {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	.h1 {
+		font-weight: 300;
+		color: var(--primary-bg-color);
+	}
+	p {
+		color: gray;
+		margin-bottom: 0;
+	}
+}
+
+.res-button {
+	background: #05c3fb !important;
+	color: white !important;
+}
+.availablerooms {
+	table {
+		td:first-child {
+			width: 160px !important;
+			color: white;
+		}
+		td {
+			width: 100px !important;
+			color: white;
+		}
+	}
+}
