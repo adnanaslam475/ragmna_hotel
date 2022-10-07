@@ -150,7 +150,7 @@ const SignUp = () => {
                     className="custom-control-input"
                   />
                   <span className="custom-control-label">
-                    Agree the{" "}
+                    Agree the
                     <Link to={`/pages/extension/term`}>terms and policy</Link>
                   </span>
                 </label>
@@ -163,7 +163,7 @@ const SignUp = () => {
                     type="submit"
                     className="login100-form-btn btn-primary"
                   >
-                    {" "}
+                    
                     Register
                     {Loader ? (
                       <span
