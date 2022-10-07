@@ -7,8 +7,6 @@ import { useGetPropertyInfoQuery } from './propertyInfoApi'
 const PropertyInfo = () => {
 
     const { data, isError, isLoading } = useGetPropertyInfoQuery()
-    console.log(data?.data);
-
     return (
         <div>
             <Row>
@@ -17,11 +15,10 @@ const PropertyInfo = () => {
                 </div>
             </Row>
             <Row>
-
                 {
                     data?.data.map((item, index) => {
                         return (
-                            <Col lg={6} xl={4}>
+                            <Col key={index} lg={6} xl={4}>
                                 <Card>
                                     <Card.Header>
                                         <Card.Title as="h3">{item.name}</Card.Title>
