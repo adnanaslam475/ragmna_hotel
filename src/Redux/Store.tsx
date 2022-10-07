@@ -1,12 +1,14 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import firebaseAuthSlice from '../components/Authentication/firebaseAuth/firebaseAuthSlice'
 import businessSetupSlice from '../components/Setup/BusinessSetup/businessSetupSlice'
+import propertyInfoSlice from '../components/Setup/PropertySetup/PropertyInfo/propertyInfoSlice'
 import { api } from './Services/api'
 
 const CombineReducer = combineReducers({
   [api.reducerPath]: api.reducer,
   auth:firebaseAuthSlice,
-  supplier:businessSetupSlice
+  supplier:businessSetupSlice,
+  proprtyInfo:propertyInfoSlice
 })
 
 export const Store = configureStore({

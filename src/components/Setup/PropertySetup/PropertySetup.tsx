@@ -8,6 +8,7 @@ import './PropertySetup.scss'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import Invoice from '../../pages/Extension/Invoice/Invoice';
 import Gallery from '../../pages/Gallery/Gallery';
+import PropertyInfo from './PropertyInfo/PropertyInfo';
 
 
 const PropertySetup = () => {
@@ -48,44 +49,7 @@ const PropertySetup = () => {
                                 <div className='tab-content'>
                                     <Tab.Content>
                                         <Tab.Pane eventKey="first">
-                                            <Row>
-                                                <Col lg={6} xl={4}>
-                                                    <Card>
-                                                        <Card.Header>
-                                                            <Card.Title as="h3">Property Info</Card.Title>
-                                                        </Card.Header>
-                                                        <Card.Body className="h-100">
-                                                            <div id="carousel-indicators2" className="carousel slide" data-bs-ride="carousel">
-                                                                <CarouselwithTopRightIndicator />
-                                                            </div>
-                                                        </Card.Body>
-                                                    </Card>
-                                                </Col>
-                                                <Col lg={6} xl={4}>
-                                                    <Card>
-                                                        <Card.Header>
-                                                            <Card.Title as="h3">Property Info</Card.Title>
-                                                        </Card.Header>
-                                                        <Card.Body className="h-100">
-                                                            <div id="carousel-indicators2" className="carousel slide" data-bs-ride="carousel">
-                                                                <CarouselwithTopRightIndicator />
-                                                            </div>
-                                                        </Card.Body>
-                                                    </Card>
-                                                </Col>
-                                                <Col lg={6} xl={4}>
-                                                    <Card>
-                                                        <Card.Header>
-                                                            <Card.Title as="h3">Property Info</Card.Title>
-                                                        </Card.Header>
-                                                        <Card.Body className="h-100">
-                                                            <div id="carousel-indicators2" className="carousel slide" data-bs-ride="carousel">
-                                                                <CarouselwithTopRightIndicator />
-                                                            </div>
-                                                        </Card.Body>
-                                                    </Card>
-                                                </Col>
-                                            </Row>
+                                            <PropertyInfo/>
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="second">
                                             <Row>

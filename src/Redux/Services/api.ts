@@ -13,7 +13,6 @@ export const api = createApi({
         // credentials: 'include',
         mode:'cors',
         prepareHeaders: async (headers, { getState, endpoint }) => {
-            console.log((getState()) as RootState);
             const { accessToken } = ((getState()) as RootState).auth.user
             if (accessToken) {
                 headers.set('Authorization', `Bearer ${accessToken}`
@@ -24,7 +23,7 @@ export const api = createApi({
     }),
     endpoints: (builder) => ({
     }),
-    tagTypes: ["Auth","Supplier"],
+    tagTypes: ["Auth","Supplier","ProprtyInfo"],
 })
 
 export const { } = api
