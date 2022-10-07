@@ -4,8 +4,12 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/Store'
 import { firebaseAuthApi } from './firebaseAuthApi'
 
+const getDefaultUser = () => {
+    return JSON.parse(localStorage.getItem('user') || '{}')
+}
+
 const initialState = {
-    user: {},
+    user: localStorage.getItem('user') ? getDefaultUser() : {},
     signUpResponse:{}
 }
 
@@ -32,11 +36,15 @@ const firebaseAuthSlice = createSlice({
 
 export default firebaseAuthSlice.reducer
 
-export const selectUser = (state) => state.auth.user;
+export const selectUser = (state) => {
+    return state.auth.user
+};
 export const selectSignupResponse = (state) => state.auth.signUpResponse;
 
 export const useUser = () => {
     const user = useSelector(selectUser);
+    // return user;
+    localStorage.setItem('user', JSON.stringify(user));
     return useMemo(() => ({ user }), [user])
 }
 
