@@ -4,19 +4,24 @@ import { CarouselwithTopRightIndicator } from '../../../Data/bootstrap/DataCarou
 import './PropertySetup.scss'
 import AddProperty from './PropertyInfo/AddProperty/AddProperty'
 import { useGetPropertyInfoQuery } from './PropertyInfo/propertyInfoApi'
+import { useNavigate } from 'react-router-dom'
 
 const PropertyInfo = () => {
     const { data, isError, isLoading } = useGetPropertyInfoQuery()
     const [addProperty, setAddProperty] = React.useState<boolean>(false)
+      let navigate = useNavigate();
+  const RouteChange = () => {
+    let path = `/setup/propertysetup/add-property`;
+    navigate(path);
+  };
     return (
         <React.Fragment>
             <Card className='mt-6'>
                 <Card.Body>
-                    {!addProperty ?
                         <div>
                             <Row>
                                 <div className='d-flex justify-content-end'>
-                                    <Button onClick={() => { setAddProperty(true) }}>Add Property</Button>
+                                    <Button onClick={() => { RouteChange() }}>Add Property</Button>
                                 </div>
                             </Row>
                             <Row>
@@ -40,7 +45,7 @@ const PropertyInfo = () => {
                                 }
 
                             </Row>
-                        </div> : <AddProperty setAddProperty={setAddProperty} />}
+                        </div>
                 </Card.Body>
             </Card>
         </React.Fragment>

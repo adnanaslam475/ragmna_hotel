@@ -1,8 +1,9 @@
 import React from 'react'
 import { Button, Card, Nav, Tab } from 'react-bootstrap'
+import PropertyInfo from '../PropertyInfo'
 
 interface AddPropertyProps {
-    setAddProperty: React.Dispatch<React.SetStateAction<boolean>>
+    setAddProperty?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const AddProperty = (props: AddPropertyProps) => {
@@ -13,6 +14,8 @@ const AddProperty = (props: AddPropertyProps) => {
 
     return (
         <React.Fragment>
+             <Card className="card-bg">
+                <Card.Body>
             <div className="panel panel-secondary">
                 <Tab.Container id="left-tabs-example p-0" defaultActiveKey="first">
                     <div className='tab-name d-flex justify-content-between'>
@@ -39,15 +42,16 @@ const AddProperty = (props: AddPropertyProps) => {
                                 <Nav.Link eventKey="seven"><i className="fe fe-settings me-1"></i>Amenities</Nav.Link>
                             </Nav.Item>
                         </Nav>
-                        <div>
+                        {/* <div>
                             <Button onClick={() => setAddProperty(false)}>
                                 close
                             </Button>
-                        </div>
+                        </div> */}
                     </div>
                     <div className='tab-content'>
                         <Tab.Content>
                             <Tab.Pane eventKey="first">
+                                <PropertyInfo />
                             </Tab.Pane>
                             <Tab.Pane eventKey="second">
                             </Tab.Pane>
@@ -62,7 +66,9 @@ const AddProperty = (props: AddPropertyProps) => {
                         </Tab.Content>
                     </div>
                 </Tab.Container>
-            </div>
+                    </div>
+                </Card.Body>
+                </Card>
         </React.Fragment>
     )
 }
