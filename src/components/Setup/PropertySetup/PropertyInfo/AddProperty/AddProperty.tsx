@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Card, Nav, Tab } from 'react-bootstrap'
 import PropertyInfo from '../PropertyInfo'
+import './AddProperty.scss'
 
 interface AddPropertyProps {
     setAddProperty?: React.Dispatch<React.SetStateAction<boolean>>
@@ -18,7 +19,7 @@ const AddProperty = (props: AddPropertyProps) => {
                 <Card.Body>
             <div className="panel panel-secondary">
                 <Tab.Container id="left-tabs-example p-0" defaultActiveKey="first">
-                    <div className='tab-name d-flex justify-content-between'>
+                    <div className='tab-name-container'>
                         <Nav variant="pills" className='panel-tabs nav-tabs panel-secondary'>
                             <Nav.Item>
                                 <Nav.Link eventKey="first"><i className="fe fe-user me-1"></i>Property Info</Nav.Link>
@@ -48,7 +49,7 @@ const AddProperty = (props: AddPropertyProps) => {
                             </Button>
                         </div> */}
                     </div>
-                    <div className='tab-content'>
+                    <div className='tab-content-container'>
                         <Tab.Content>
                             <Tab.Pane eventKey="first">
                                 <PropertyInfo />

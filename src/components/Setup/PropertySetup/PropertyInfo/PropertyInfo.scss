@@ -1,0 +1,36 @@
+
+.property-phone-wrap{
+    .Property-phone{
+        width: 100% !important;
+
+        .react-tel-input{
+            margin-right: 0 !important;
+        } 
+        .react-tel-input .form-control{
+            width: 100%;
+            height: 38px;
+
+        }
+        .react-tel-input .country-list{
+            max-height: 120px !important;
+        }
+    }
+}
+
+.Contect-details{
+    border: 1px solid #05c3fb;
+    border-radius: 10px;
+
+    h4{
+        font-weight: 600;
+    }
+}
+
+.error-border{
+    border-color: red !important;
+}
+
+.phone-error-border{
+    border: 1px solid red;
+    border-radius: 4px;
+}
