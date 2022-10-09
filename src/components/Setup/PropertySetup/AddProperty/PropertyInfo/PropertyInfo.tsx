@@ -3,10 +3,10 @@ import { Button, Card, Col, Row, Form } from 'react-bootstrap'
 import PhoneInput from 'react-phone-input-2'
 import './PropertyInfo.scss'
 import Select, { ActionMeta, Options } from 'react-select';
-import { CommanDropDownType, GoodFor, PropertyTypes, ProprtyInfo } from './types'
-import { useUser } from '../../../Authentication/firebaseAuth/firebaseAuthSlice'
+import { CommanDropDownType, GoodFor, PropertyTypes, ProprtyInfo } from './../types'
 import { ErrorMessage, Form as FormikForm, Formik, useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useUser } from '../../../../Authentication/firebaseAuth/firebaseAuthSlice';
 
 const PropertyInfo = () => {
     const goodFors = [
@@ -186,8 +186,6 @@ const PropertyInfo = () => {
 
     return (
         <React.Fragment>
-            <Card>
-                <Card.Body>
                     <form onSubmit={handleSubmit}>
                         <Row className='Contect-details p-4 mb-4'>
                             <h4>
@@ -436,13 +434,12 @@ const PropertyInfo = () => {
                                     </div>
                                 </div>
                             </Col>
-                        </Row>
-                        <div className='d-flex justify-content-end mt-4'>
+                </Row>
+                                            
+                        <div className='d-flex justify-content-end mt-4 me-3'>
                             <Button type='submit'>Submit</Button>
                         </div>
                     </form>
-                </Card.Body>
-            </Card>
         </React.Fragment>
     )
 }

@@ -2,11 +2,10 @@ import React from 'react'
 import { Button, Card, Col, Row } from 'react-bootstrap'
 import { CarouselwithTopRightIndicator } from '../../../Data/bootstrap/DataCarousels'
 import './PropertySetup.scss'
-import AddProperty from './PropertyInfo/AddProperty/AddProperty'
-import { useGetPropertyInfoQuery } from './PropertyInfo/propertyInfoApi'
 import { useNavigate } from 'react-router-dom'
+import { useGetPropertyInfoQuery } from './AddProperty/propertyInfoApi'
 
-const PropertyInfo = () => {
+const PropertySetup = () => {
     const { data, isError, isLoading } = useGetPropertyInfoQuery()
     const [addProperty, setAddProperty] = React.useState<boolean>(false)
       let navigate = useNavigate();
@@ -52,4 +51,4 @@ const PropertyInfo = () => {
     )
 }
 
-export default PropertyInfo
+export default PropertySetup

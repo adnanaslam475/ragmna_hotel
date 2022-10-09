@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Card, Nav, Tab } from 'react-bootstrap'
-import PropertyInfo from '../PropertyInfo'
+import PropertyInfo from '../PropertyInfo/PropertyInfo'
+import SystemConfig from '../SystemConfig/SystemConfig'
 import './AddProperty.scss'
 
 interface AddPropertyProps {
@@ -55,6 +56,7 @@ const AddProperty = (props: AddPropertyProps) => {
                                 <PropertyInfo />
                             </Tab.Pane>
                             <Tab.Pane eventKey="second">
+                                <SystemConfig />
                             </Tab.Pane>
                             <Tab.Pane eventKey="third">
                             </Tab.Pane>
