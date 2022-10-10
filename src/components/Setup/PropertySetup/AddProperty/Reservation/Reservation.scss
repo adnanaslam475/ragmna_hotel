@@ -1,0 +1,21 @@
+.switch-style{
+
+    .form-check-input{
+        border: 1px solid #e9edf4;
+        border-radius: 50px;
+        display: inline-block;
+        height: 1.5rem !important;
+        position: relative;
+        transition: border-color .3s,background-color .3s;
+        vertical-align: bottom;
+        width: 3rem !important;
+        margin-top: 0;
+        margin-right: 4px;
+    }
+}
+
+.Reservation-details{
+    border: 1px solid #05c3fb;
+    border-radius: 10px;
+    margin: 15px;
+}

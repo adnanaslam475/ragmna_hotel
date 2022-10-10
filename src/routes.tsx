@@ -1,6 +1,7 @@
 import React, { Fragment, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useUser } from "./components/Authentication/firebaseAuth/firebaseAuthSlice";
+import AddProperty from "./components/Setup/PropertySetup/AddProperty/AddProperty/AddProperty";
 import Loader from "./Layouts/Loader/Loader";
 const Auth = lazy(
   () => import("./components/Authentication/firebaseAuth/auth")
@@ -375,6 +376,10 @@ const RoutesMain = () => {
                   <Route
                     path={`/setup/propertysetup`}
                     element={<PropertySetup />}
+                                  />
+                <Route
+                    path={`/setup/propertysetup/add-property`}
+                    element={<AddProperty />}
                   />
                   <Route
                     path={`/setup/propertyspace`}

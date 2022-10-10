@@ -598,7 +598,7 @@ const Header = () => {
                         <Dropdown.Item className="dropdown-item" href={`/Authentication/lockscreen`}>
                           <i className="dropdown-icon fe fe-lock"></i> Lockscreen
                         </Dropdown.Item>
-                        <Dropdown.Item className="dropdown-item" href={`/`}>
+                        <Dropdown.Item className="dropdown-item" href={`/`} onClick={()=>{localStorage.clear()}}>
                           <i className="dropdown-icon fe fe-alert-circle"></i> Sign out
                         </Dropdown.Item>
                       </Dropdown.Menu>

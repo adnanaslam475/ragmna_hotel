@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../../Firebase/firebase";
 import { Alert, Button, Card, Form, InputGroup } from "react-bootstrap";
@@ -9,6 +9,7 @@ import { SignupRequestBody } from "./types";
 import "./firebaseAuth.scss";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { CenterDanger } from "../../../Redux/Services/toaster-service";
 const SignUp = () => {
   const [err, setError] = useState("");
   const [Loader, setLoader] = useState(false);
@@ -31,17 +32,30 @@ const SignUp = () => {
     });
   };
   const [signUp, Result] = useSignUpMutation();
+
   const { signUpResponse } = useSignupResponse();
   let navigate = useNavigate();
   const RouteChange = () => {
     let path = `/login`;
     navigate(path);
   };
-  if (Result.isSuccess) {
-    Result.reset();
-    setLoader(false);
-    RouteChange();
-  }
+
+  useEffect(() => {
+    if (Result.isError) {
+      let errors: any = Result.error;
+      setLoader(false);
+      if (errors.data.message) {
+        for (let i = 0; i < errors.data.message.length; i++) {
+          CenterDanger(errors.data.message[i]);
+        }
+      }
+      if (Result.isSuccess) {
+        setLoader(false);
+        RouteChange();
+      }
+    }
+  }, [Result.isError, Result.isSuccess]);
+
   const OnSignup = async (e) => {
     try {
       setLoader(true);
@@ -58,7 +72,6 @@ const SignUp = () => {
   //   auth.createUserWithEmailAndPassword(email, password).then(
   //     user =>{console.log(user); RouteChange(); setLoader(false)}).catch(err => { console.log(err);  setError(err.message); setLoader(false) })
   // }
-  
 
   return (
     <div>
@@ -150,7 +163,7 @@ const SignUp = () => {
                     className="custom-control-input"
                   />
                   <span className="custom-control-label">
-                    Agree the{" "}
+                    Agree the
                     <Link to={`/pages/extension/term`}>terms and policy</Link>
                   </span>
                 </label>
@@ -163,7 +176,6 @@ const SignUp = () => {
                     type="submit"
                     className="login100-form-btn btn-primary"
                   >
-                    {" "}
                     Register
                     {Loader ? (
                       <span

@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Col, Nav, Tab, Table, Row ,ListGroup,Button,Badge} from "react-bootstrap";
+import { Card, Col, Nav, Tab, Table, Row, ListGroup, Button, Badge } from "react-bootstrap";
 import './RateSetup.scss'
 
 const RateSetup = () => {
@@ -181,8 +181,267 @@ const RateSetup = () => {
                         </Row>
                       </Tab.Pane>
                       <Tab.Pane eventKey="third">
+                        <Row>
+                          <Card.Title as='h4' className="mt-4"></Card.Title>
+                          <Col sm={6} xl={3} md={6} lg={6}>
+                            <div className="panel price panel-color">
+                              <div className="ps-5 d-flex">
+                                <div>
+                                  <h3 className="pb-0 text-secondary">Team</h3>
+                                  <p>per agent per month</p>
+                                </div>
+                                <div className="panel-body ms-auto">
+                                  <p className="lead py-0"><strong>$40 </strong>/ month</p>
+                                </div>
+                              </div>
+                              <ListGroup variant="flush" className="pb-5">
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-secondary p-2 fs-16"></i><strong> 2 Free</strong> Domain Name</ListGroup.Item>
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-secondary p-2 fs-16"></i><strong>2 </strong> One-Click Apps</ListGroup.Item>
+                              </ListGroup>
+                              <div className="panel-footer text-center px-5 border-0 pb-5 br-7">
+                                <Button variant='secondary' className="btn-block btn-pill">Purchase Now!</Button>
+                              </div>
+                            </div>
+                          </Col>
+                          {/* <!-- COL-END --> */}
+                          <Col sm={6} xl={3} md={6} lg={6}>
+                            <div className="panel price panel-color border border-primary p-0 pb-1">
+                              <div className="p-0 ps-5 d-flex">
+                                <div>
+                                  <h3 className="pb-0 text-primary">Personal</h3>
+                                  <p>per agent per month</p>
+                                </div>
+                                <div className="panel-body ms-auto">
+                                  <p className="lead py-0"><strong>$15 </strong>/ month</p>
+                                </div>
+                              </div>
+                              <ListGroup variant="flush" className="pb-5">
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-primary p-2 fs-16"></i><strong> 3 Free</strong> Domain Name</ListGroup.Item>
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-primary p-2 fs-16"></i><strong>3 </strong> One-Click Apps</ListGroup.Item>
+                              </ListGroup>
+                              <div className="panel-footer text-center px-5 border-0 pb-5 br-7">
+                                <Button variant='primary' className="btn-block btn-pill">Purchase Now!</Button>
+                              </div>
+                            </div>
+                          </Col>
+                          {/* <!-- COL-END --> */}
+                          <Col sm={6} xl={3} md={6} lg={6}>
+                            <div className="panel price panel-color">
+                              <div className="ps-5 d-flex">
+                                <div>
+                                  <h3 className="pb-0 text-danger">Corporate</h3>
+                                  <p>per agent per month</p>
+                                </div>
+                                <div className="panel-body ms-auto">
+                                  <p className="lead py-0"><strong>$10 </strong>/ month</p>
+                                </div>
+                              </div>
+                              <ListGroup variant="flush" className="pb-5">
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-danger p-2 fs-16"></i><strong> 4 Free</strong> Domain Name</ListGroup.Item>
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-danger p-2 fs-16"></i><strong>4 </strong> One-Click Apps</ListGroup.Item>
+                              </ListGroup>
+                              <div className="panel-footer text-center px-5 border-0 pb-5 br-7">
+                                <Button variant='danger' className="btn-block btn-pill">Purchase Now!</Button>
+                              </div>
+                            </div>
+                          </Col>
+                          {/* <!-- COL-END --> */}
+                          <Col sm={6} xl={3} md={6} lg={6}>
+                            <div className="panel price panel-color">
+                              <div className="ps-5 d-flex">
+                                <div>
+                                  <h3 className="pb-0 text-success">Business</h3>
+                                  <p>per agent per month</p>
+                                </div>
+                                <div className="panel-body ms-auto">
+                                  <p className="lead py-0"><strong>$20 </strong>/ month</p>
+                                </div>
+                              </div>
+                              <ListGroup variant="flush" className="pb-5">
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-success p-2 fs-16"></i><strong> 5 Free</strong> Domain Name</ListGroup.Item>
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-success p-2 fs-16"></i><strong>5 </strong> One-Click Apps</ListGroup.Item>
+                              </ListGroup>
+                              <div className="panel-footer text-center px-5 border-0 pb-5 br-7">
+                                <Button variant='success' className="btn-block btn-pill">Purchase Now!</Button>
+                              </div>
+                            </div>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Card.Title as='h4' className="mt-4"></Card.Title>
+                          <Col sm={6} xl={3} md={6} lg={6}>
+                            <div className="panel price panel-color">
+                              <div className="ps-5 d-flex">
+                                <div>
+                                  <h3 className="pb-0 text-secondary">Team</h3>
+                                  <p>per agent per month</p>
+                                </div>
+                                <div className="panel-body ms-auto">
+                                  <p className="lead py-0"><strong>$30 </strong>/ month</p>
+                                </div>
+                              </div>
+                              <ListGroup variant="flush" className="pb-5">
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-secondary p-2 fs-16"></i><strong> 6 Free</strong> Domain Name</ListGroup.Item>
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-secondary p-2 fs-16"></i><strong>6 </strong> One-Click Apps</ListGroup.Item>
+                              </ListGroup>
+                              <div className="panel-footer text-center px-5 border-0 pb-5 br-7">
+                                <Button variant='secondary' className="btn-block btn-pill">Purchase Now!</Button>
+                              </div>
+                            </div>
+                          </Col>
+                          {/* <!-- COL-END --> */}
+                          <Col sm={6} xl={3} md={6} lg={6}>
+                            <div className="panel price panel-color border border-primary p-0 pb-1">
+                              <div className="p-0 ps-5 d-flex">
+                                <div>
+                                  <h3 className="pb-0 text-primary">Personal</h3>
+                                  <p>per agent per month</p>
+                                </div>
+                                <div className="panel-body ms-auto">
+                                  <p className="lead py-0"><strong>$35 </strong>/ month</p>
+                                </div>
+                              </div>
+                              <ListGroup variant="flush" className="pb-5">
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-primary p-2 fs-16"></i><strong> 7 Free</strong> Domain Name</ListGroup.Item>
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-primary p-2 fs-16"></i><strong>7 </strong> One-Click Apps</ListGroup.Item>
+                              </ListGroup>
+                              <div className="panel-footer text-center px-5 border-0 pb-5 br-7">
+                                <Button variant='primary' className="btn-block btn-pill">Purchase Now!</Button>
+                              </div>
+                            </div>
+                          </Col>
+                          {/* <!-- COL-END --> */}
+                          <Col sm={6} xl={3} md={6} lg={6}>
+                            <div className="panel price panel-color">
+                              <div className="ps-5 d-flex">
+                                <div>
+                                  <h3 className="pb-0 text-danger">Corporate</h3>
+                                  <p>per agent per month</p>
+                                </div>
+                                <div className="panel-body ms-auto">
+                                  <p className="lead py-0"><strong>$70 </strong>/ month</p>
+                                </div>
+                              </div>
+                              <ListGroup variant="flush" className="pb-5">
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-danger p-2 fs-16"></i><strong> 8 Free</strong> Domain Name</ListGroup.Item>
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-danger p-2 fs-16"></i><strong>8 </strong> One-Click Apps</ListGroup.Item>
+                              </ListGroup>
+                              <div className="panel-footer text-center px-5 border-0 pb-5 br-7">
+                                <Button variant='danger' className="btn-block btn-pill">Purchase Now!</Button>
+                              </div>
+                            </div>
+                          </Col>
+                          {/* <!-- COL-END --> */}
+                          <Col sm={6} xl={3} md={6} lg={6}>
+                            <div className="panel price panel-color">
+                              <div className="ps-5 d-flex">
+                                <div>
+                                  <h3 className="pb-0 text-success">Business</h3>
+                                  <p>per agent per month</p>
+                                </div>
+                                <div className="panel-body ms-auto">
+                                  <p className="lead py-0"><strong>$90 </strong>/ month</p>
+                                </div>
+                              </div>
+                              <ListGroup variant="flush" className="pb-5">
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-success p-2 fs-16"></i><strong> 9 Free</strong> Domain Name</ListGroup.Item>
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-success p-2 fs-16"></i><strong>9 </strong> One-Click Apps</ListGroup.Item>
+                              </ListGroup>
+                              <div className="panel-footer text-center px-5 border-0 pb-5 br-7">
+                                <Button variant='success' className="btn-block btn-pill">Purchase Now!</Button>
+                              </div>
+                            </div>
+                          </Col>
+                        </Row>
+
                       </Tab.Pane>
                       <Tab.Pane eventKey="forth">
+                        <Row>
+                          <Card.Title as='h4' className="mt-4"></Card.Title>
+                          <Col sm={6} xl={3} md={6} lg={6}>
+                            <div className="panel price panel-color">
+                              <div className="ps-5 d-flex">
+                                <div>
+                                  <h3 className="pb-0 text-secondary">Team</h3>
+                                  <p>per agent per month</p>
+                                </div>
+                                <div className="panel-body ms-auto">
+                                  <p className="lead py-0"><strong>$50 </strong>/ month</p>
+                                </div>
+                              </div>
+                              <ListGroup variant="flush" className="pb-5">
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-secondary p-2 fs-16"></i><strong> 3 Free</strong> Domain Name</ListGroup.Item>
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-secondary p-2 fs-16"></i><strong>4 </strong> One-Click Apps</ListGroup.Item>
+                              </ListGroup>
+                              <div className="panel-footer text-center px-5 border-0 pb-5 br-7">
+                                <Button variant='secondary' className="btn-block btn-pill">Purchase Now!</Button>
+                              </div>
+                            </div>
+                          </Col>
+                          {/* <!-- COL-END --> */}
+                          <Col sm={6} xl={3} md={6} lg={6}>
+                            <div className="panel price panel-color border border-primary p-0 pb-1">
+                              <div className="p-0 ps-5 d-flex">
+                                <div>
+                                  <h3 className="pb-0 text-primary">Personal</h3>
+                                  <p>per agent per month</p>
+                                </div>
+                                <div className="panel-body ms-auto">
+                                  <p className="lead py-0"><strong>$35 </strong>/ month</p>
+                                </div>
+                              </div>
+                              <ListGroup variant="flush" className="pb-5">
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-primary p-2 fs-16"></i><strong> 2 Free</strong> Domain Name</ListGroup.Item>
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-primary p-2 fs-16"></i><strong>3 </strong> One-Click Apps</ListGroup.Item>
+                              </ListGroup>
+                              <div className="panel-footer text-center px-5 border-0 pb-5 br-7">
+                                <Button variant='primary' className="btn-block btn-pill">Purchase Now!</Button>
+                              </div>
+                            </div>
+                          </Col>
+                          {/* <!-- COL-END --> */}
+                          <Col sm={6} xl={3} md={6} lg={6}>
+                            <div className="panel price panel-color">
+                              <div className="ps-5 d-flex">
+                                <div>
+                                  <h3 className="pb-0 text-danger">Corporate</h3>
+                                  <p>per agent per month</p>
+                                </div>
+                                <div className="panel-body ms-auto">
+                                  <p className="lead py-0"><strong>$70 </strong>/ month</p>
+                                </div>
+                              </div>
+                              <ListGroup variant="flush" className="pb-5">
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-danger p-2 fs-16"></i><strong> 4 Free</strong> Domain Name</ListGroup.Item>
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-danger p-2 fs-16"></i><strong>6 </strong> One-Click Apps</ListGroup.Item>
+                              </ListGroup>
+                              <div className="panel-footer text-center px-5 border-0 pb-5 br-7">
+                                <Button variant='danger' className="btn-block btn-pill">Purchase Now!</Button>
+                              </div>
+                            </div>
+                          </Col>
+                          {/* <!-- COL-END --> */}
+                          <Col sm={6} xl={3} md={6} lg={6}>
+                            <div className="panel price panel-color">
+                              <div className="ps-5 d-flex">
+                                <div>
+                                  <h3 className="pb-0 text-success">Business</h3>
+                                  <p>per agent per month</p>
+                                </div>
+                                <div className="panel-body ms-auto">
+                                  <p className="lead py-0"><strong>$90 </strong>/ month</p>
+                                </div>
+                              </div>
+                              <ListGroup variant="flush" className="pb-5">
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-success p-2 fs-16"></i><strong> 5 Free</strong> Domain Name</ListGroup.Item>
+                                <ListGroup.Item className="border-0"><i className="mdi mdi-checkbox-marked-circle-outline text-success p-2 fs-16"></i><strong>8 </strong> One-Click Apps</ListGroup.Item>
+                              </ListGroup>
+                              <div className="panel-footer text-center px-5 border-0 pb-5 br-7">
+                                <Button variant='success' className="btn-block btn-pill">Purchase Now!</Button>
+                              </div>
+                            </div>
+                          </Col>
+                        </Row>
                       </Tab.Pane>
                     </Tab.Content>
                   </div>

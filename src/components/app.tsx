@@ -7,6 +7,8 @@ import Switcher from './../Layouts/Switcher/Switcher';
 import * as  SwitcherData from "../Data/Pages/SwitcherData/SwitcherData"
 import BacktoTop from '../Layouts/Backtotop/Backtotop';
 import { Sidebar }  from '../Layouts/Sidebar/Sidebar';
+import "react-phone-input-2/lib/style.css";
+
 
 
 
