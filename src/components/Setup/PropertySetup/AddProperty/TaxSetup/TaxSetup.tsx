@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
-import * as Yup from 'yup'
+import * as Yup from "yup";
 
 const TaxSetup = () => {
   const initialValues = {
@@ -50,7 +50,7 @@ const TaxSetup = () => {
                     ? "form-control required error-border"
                     : "form-control required"
                 }
-                placeholder="Property Name"
+                placeholder="Name"
                 name="name"
                 value={values.name}
                 onChange={(e) => {
