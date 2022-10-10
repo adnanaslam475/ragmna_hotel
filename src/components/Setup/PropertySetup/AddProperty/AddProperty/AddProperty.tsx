@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Card, Nav, Tab } from "react-bootstrap";
 import PropertyInfo from "../PropertyInfo/PropertyInfo";
+import Reservation from "../Reservation/Reservation";
 import SystemConfig from "../SystemConfig/SystemConfig";
 import TaxSetup from "../TaxSetup/TaxSetup";
 import "./AddProperty.scss";
@@ -73,7 +74,9 @@ const AddProperty = (props: AddPropertyProps) => {
                   <Tab.Pane eventKey="second">
                     <SystemConfig />
                   </Tab.Pane>
-                  <Tab.Pane eventKey="third"></Tab.Pane>
+                  <Tab.Pane eventKey="third">
+                    <Reservation />
+                  </Tab.Pane>
                   <Tab.Pane eventKey="four"></Tab.Pane>
                   <Tab.Pane eventKey="five">
                     <TaxSetup />

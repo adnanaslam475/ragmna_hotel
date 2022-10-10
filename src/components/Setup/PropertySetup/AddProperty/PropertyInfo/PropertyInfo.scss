@@ -34,3 +34,19 @@
     border: 1px solid red;
     border-radius: 4px;
 }
+
+.pro-switch-style{
+
+    .form-check-input{
+        border: 1px solid #e9edf4;
+        border-radius: 50px;
+        display: inline-block;
+        height: 1.5rem !important;
+        position: relative;
+        transition: border-color .3s,background-color .3s;
+        vertical-align: bottom;
+        width: 3rem !important;
+        margin-top: 0;
+        margin-right: 4px;
+    }
+}

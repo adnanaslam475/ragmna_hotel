@@ -23,7 +23,7 @@ export const api = createApi({
     }),
     endpoints: (builder) => ({
     }),
-    tagTypes: ["Auth","Supplier","ProprtyInfo"],
+    tagTypes: ["Auth","Supplier","ProprtyInfo","ReservationDetail"],
 })
 
 export const { } = api

@@ -1,19 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { propertyInfoApi } from './propertyInfoApi'
-
+import { useMemo } from 'react'
+import { useSelector } from 'react-redux'
 
 const initialState = {
-
+    property : {}
 }
 
 const propertyInfoSlice = createSlice({
-    name: "user",
+    name: "property",
     initialState,
     reducers: {
     },
     extraReducers: (builder) => {
         builder.addMatcher(
             propertyInfoApi.endpoints.getPropertyInfo.matchFulfilled, (state, response) => {
+                state.property = response?.['payload']?.['data'];
                 return state;
             }
         );
@@ -29,5 +31,14 @@ const propertyInfoSlice = createSlice({
 export default propertyInfoSlice.reducer
 
 
+export const selectProperty = (state) => {
+    return state.auth.property
+};
+
+export const useProperyDetails = () => {
+    const property = useSelector(selectProperty);
+    // return property;
+    return useMemo(() => ({ property }), [property])
+}
 
 
