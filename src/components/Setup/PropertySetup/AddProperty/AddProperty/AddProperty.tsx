@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Card, Nav, Tab } from "react-bootstrap";
+import CheckInCheckOut from "../CheckInCheckOut/CheckInCheckOut";
 import PropertyInfo from "../PropertyInfo/PropertyInfo";
 import Reservation from "../Reservation/Reservation";
 import SystemConfig from "../SystemConfig/SystemConfig";
@@ -60,11 +61,7 @@ const AddProperty = (props: AddPropertyProps) => {
                     </Nav.Link>
                   </Nav.Item>
                 </Nav>
-                {/* <div>
-                            <Button onClick={() => setAddProperty(false)}>
-                                close
-                            </Button>
-                        </div> */}
+
               </div>
               <div className="tab-content-container">
                 <Tab.Content>
@@ -77,11 +74,15 @@ const AddProperty = (props: AddPropertyProps) => {
                   <Tab.Pane eventKey="third">
                     <Reservation />
                   </Tab.Pane>
-                  <Tab.Pane eventKey="four"></Tab.Pane>
+                  <Tab.Pane eventKey="four">
+                    <CheckInCheckOut />
+                  </Tab.Pane>
                   <Tab.Pane eventKey="five">
                     <TaxSetup />
                   </Tab.Pane>
                   <Tab.Pane eventKey="six"></Tab.Pane>
+                  <Tab.Pane eventKey="seven"></Tab.Pane>
+
                 </Tab.Content>
               </div>
             </Tab.Container>
