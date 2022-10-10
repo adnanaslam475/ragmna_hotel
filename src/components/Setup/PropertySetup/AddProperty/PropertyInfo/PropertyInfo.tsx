@@ -186,7 +186,7 @@ const PropertyInfo = () => {
                             <input
                                 type="email"
                                 className={touched.email && errors.email ? "form-control required error-border" : "form-control required"}
-                                placeholder="Property Name"
+                                placeholder="Email"
                                 name="email"
                                 value={values.email}
                                 onChange={(e) => { handleChange(e) }}
@@ -428,7 +428,7 @@ const PropertyInfo = () => {
                 </Row>
 
                 <div className='d-flex justify-content-end mt-4 me-3'>
-                    <Button type='submit'>Submit</Button>
+                    <Button type='submit'>Save & Next</Button>
                 </div>
             </form>
         </React.Fragment>

@@ -1,20 +1,43 @@
 import React from 'react'
 import { ErrorMessage, Form as FormikForm, Formik, useFormik } from 'formik'
-import { Col, Form, Row } from 'react-bootstrap'
+import { Button, Col, Form, Row } from 'react-bootstrap'
 import * as Yup from 'yup'
 import './Reservation.scss'
 import { useProperyDetails } from '../propertyInfoSlice'
+import { useReservationDetailsMutation } from './reservationApi'
 
 
 const Reservation = () => {
 
-    const onSubmit = (values) => {
-        console.log(values);
+    const { property } = useProperyDetails()
+
+    const [reservationDetails, Result] = useReservationDetailsMutation()
+
+    const onSubmit = async (values) => {
+        try {
+            let payload = Object.assign({}, values);
+            payload['propertyId'] = property._id
+            payload['roomTypeId'] = ''
+            payload['type'] = 1
+            payload['configurations'] = {
+                'automaticRoomAssignment': values.automaticRoomAssignment,
+                'emailDisplayName': values.emailDisplayName,
+                'replyToEmailAddress': values.replyToEmailAddress,
+                'sendCCOnAllEmails': values.sendCCOnAllEmails,
+                'setOccupiedRoomToDirty': values.setOccupiedRoomToDirty,
+                'allowOverBookingManually': values.allowOverBookingManually,
+                'addMarketSegment': [],
+            }
+            await reservationDetails(payload);
+            console.log(payload,"payload");
+            
+        } catch(err:any){
+            console.log(err);
+        }
+
     }
 
-    const {property} = useProperyDetails()
-    console.log(property,"property");
-    
+    console.log(property, "property");
 
     const initialValues = {
         automaticRoomAssignment: false,
@@ -45,21 +68,7 @@ const Reservation = () => {
     return (
         <React.Fragment>
             <form onSubmit={handleSubmit}>
-                <Row className='p-4 mb-4'>
-                    <Col lg={6} md={12} className='d-flex align-items-center'>
-                        <Form.Group>
-                            <Form.Check
-                                className="ps-6 switch-style d-flex align-items-center"
-                                type="switch"
-                                id="automaticRoomAssignment"
-                                label="Automatic Room Assignment"
-                                onChange={(e) => {
-                                    setFieldValue('automaticRoomAssignment', e.target.checked)
-                                }}
-                                checked={values.automaticRoomAssignment}
-                            />
-                        </Form.Group>
-                    </Col>
+                <Row className='Reservation-details p-4 mb-4'>
                     <Col lg={6} md={12}>
                         <div className="control-group form-group">
                             <label className="form-label">Email Display Name</label>
@@ -103,7 +112,7 @@ const Reservation = () => {
                         <div className="control-group form-group">
                             <label className="form-label">Set Occupied Room To Dirty</label>
                             <input
-                                type="email"
+                                type="text"
                                 className={touched.setOccupiedRoomToDirty && errors.setOccupiedRoomToDirty ? "form-control required error-border" : "form-control required"}
                                 placeholder="Set Occupied Room To Dirty"
                                 name="setOccupiedRoomToDirty"
@@ -115,7 +124,21 @@ const Reservation = () => {
                     <Col lg={6} md={12} className='d-flex align-items-center'>
                         <Form.Group>
                             <Form.Check
-                                className="ps-6 switch-style d-flex align-items-center"
+                                className="ps-6 switch-style d-flex align-items-center my-2"
+                                type="switch"
+                                id="automaticRoomAssignment"
+                                label="Automatic Room Assignment"
+                                onChange={(e) => {
+                                    setFieldValue('automaticRoomAssignment', e.target.checked)
+                                }}
+                                checked={values.automaticRoomAssignment}
+                            />
+                        </Form.Group>
+                    </Col>
+                    <Col lg={6} md={12} className='d-flex align-items-center'>
+                        <Form.Group>
+                            <Form.Check
+                                className="ps-6 switch-style d-flex align-items-center my-2"
                                 type="switch"
                                 id="allowOverBookingManually"
                                 label="Allow Over Booking Manually"
@@ -127,6 +150,9 @@ const Reservation = () => {
                         </Form.Group>
                     </Col>
                 </Row>
+                <div className='d-flex justify-content-end mt-4 me-3'>
+                    <Button type='submit'>Save & Next</Button>
+                </div>
             </form>
         </React.Fragment>
     )

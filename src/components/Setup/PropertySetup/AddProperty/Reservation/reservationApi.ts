@@ -1,7 +1,7 @@
 import { api } from "../../../../../Redux/Services/api"
 import { RESERVATION } from "../../../../ConstAPI/ConstAPI"
+import { useProperyDetails } from "../propertyInfoSlice"
 import { Reservation } from "./types"
-
 
 
 export const reservationApi =  api.injectEndpoints({
@@ -14,8 +14,8 @@ export const reservationApi =  api.injectEndpoints({
         //     providesTags:["ProprtyInfo"]
         // }),
         reservationDetails: builder.mutation<any, any >({
-            query: ({...payload}) => ({
-                url: `${RESERVATION}`,
+            query: (payload) => ({
+                url: `${payload.propertyId}/${RESERVATION}`,
                 method: 'POST',
                 body: payload
             }),
