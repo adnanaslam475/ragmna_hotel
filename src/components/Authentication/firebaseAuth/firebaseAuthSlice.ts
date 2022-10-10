@@ -25,12 +25,12 @@ const firebaseAuthSlice = createSlice({
                 return state;
             }
         );
-        builder.addMatcher(
-            firebaseAuthApi.endpoints.signUp.matchFulfilled, (state, response) => {
-                state.signUpResponse = response.payload.data ? response.payload.data : response.payload;
-                return state;
-            }
-        );
+        // builder.addMatcher(
+        //     firebaseAuthApi.endpoints.signUp.matchFulfilled, (state, response) => {
+        //         state.signUpResponse = response.payload.data ? response.payload.data : response.payload;
+        //         return state;
+        //     }
+        // );
     }
 })
 
