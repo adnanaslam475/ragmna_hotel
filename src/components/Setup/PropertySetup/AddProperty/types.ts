@@ -1,28 +1,5 @@
 import { string } from "prop-types"
 
-export interface GetPropertyInfoData {
-    availableForEntireRental: boolean
-    contact: number
-    createdAt: string
-    facilities: []
-    googleMapLocation: []
-    images: []
-    isActive: boolean
-    name: string
-    officialEmail: string
-    ownerId: string
-    propertyLocation: []
-    propertyType: string
-    reviews: []
-    updatedAt: string
-    virtualTourVideoLink: string
-    __v: number
-    _id: string
-}
-
-export interface GetPropertyInfo {
-    data: GetPropertyInfoData[]
-}
 
 export enum GoodFor {
     Singles = 1,
@@ -68,4 +45,10 @@ export interface ProprtyInfo {
     goodFor: string
     space: number
     sections: []
+}
+
+export enum PropertySetuptypes {
+    Reservation = 1,
+    CheckIn_Checkout = 2,
+    System = 3
 }

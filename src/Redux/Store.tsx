@@ -1,16 +1,18 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import firebaseAuthSlice from '../components/Authentication/firebaseAuth/firebaseAuthSlice'
 import businessSetupSlice from '../components/Setup/BusinessSetup/businessSetupSlice'
-import propertyInfoSlice from '../components/Setup/PropertySetup/AddProperty/propertyInfoSlice'
+import propertyInfoSlice from '../components/Setup/PropertySetup/AddProperty/PropertyInfo/propertyInfoSlice'
 import reservationSlice from '../components/Setup/PropertySetup/AddProperty/Reservation/reservationSlice'
+import propertySetupSlice from '../components/Setup/PropertySetup/propertySetupSlice'
 import { api } from './Services/api'
 
 const CombineReducer = combineReducers({
   [api.reducerPath]: api.reducer,
   auth:firebaseAuthSlice,
   supplier:businessSetupSlice,
-  proprtyInfo:propertyInfoSlice,
-  reservationDetail:reservationSlice,
+  proprtySetup:propertySetupSlice,
+  propertyInfo:propertyInfoSlice,
+  reservation:reservationSlice,
 })
 
 export const Store = configureStore({

@@ -3,11 +3,10 @@ import { Button, Card, Col, Row } from 'react-bootstrap'
 import { CarouselwithTopRightIndicator } from '../../../Data/bootstrap/DataCarousels'
 import './PropertySetup.scss'
 import { useNavigate } from 'react-router-dom'
-import { useGetPropertyInfoQuery } from './AddProperty/propertyInfoApi'
+import { useGetPropertySetupQuery } from './propertySetupApi'
 
 const PropertySetup = () => {
-    const { data, isError, isLoading } = useGetPropertyInfoQuery()
-    const [addProperty, setAddProperty] = React.useState<boolean>(false)
+    const { data, isError, isLoading } = useGetPropertySetupQuery()
       let navigate = useNavigate();
   const RouteChange = () => {
     let path = `/setup/propertysetup/add-property`;

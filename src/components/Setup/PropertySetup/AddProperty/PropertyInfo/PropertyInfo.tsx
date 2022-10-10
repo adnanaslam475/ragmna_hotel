@@ -5,17 +5,13 @@ import "./PropertyInfo.scss";
 import Select, { ActionMeta, Options } from "react-select";
 import {
   CommanDropDownType,
-  GoodFor,
-  PropertyTypes,
-  ProprtyInfo,
 } from "./../types";
 import { ErrorMessage, Form as FormikForm, Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import { useUser } from "../../../../Authentication/firebaseAuth/firebaseAuthSlice";
-import { useAddPropertyMutation } from "../propertyInfoApi";
-import { useRef } from "react";
 import { Country, State, City } from "country-state-city";
 import { ICountry, IState, ICity } from "country-state-city";
+import { useAddPropertyMutation } from "./propertyInfoApi";
 
 const PropertyInfo = () => {
   const goodFors = [

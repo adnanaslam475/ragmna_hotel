@@ -3,8 +3,9 @@ import { ErrorMessage, Form as FormikForm, Formik, useFormik } from 'formik'
 import { Button, Col, Form, Row } from 'react-bootstrap'
 import * as Yup from 'yup'
 import './Reservation.scss'
-import { useProperyDetails } from '../propertyInfoSlice'
 import { useReservationDetailsMutation } from './reservationApi'
+import { PropertySetuptypes } from '../types'
+import { useProperyDetails } from '../PropertyInfo/propertyInfoSlice'
 
 
 const Reservation = () => {
@@ -18,7 +19,7 @@ const Reservation = () => {
             let payload = Object.assign({}, values);
             payload['propertyId'] = property._id
             payload['roomTypeId'] = ''
-            payload['type'] = 1
+            payload['type'] = PropertySetuptypes.Reservation
             payload['configurations'] = {
                 'automaticRoomAssignment': values.automaticRoomAssignment,
                 'emailDisplayName': values.emailDisplayName,
@@ -36,8 +37,6 @@ const Reservation = () => {
         }
 
     }
-
-    console.log(property, "property");
 
     const initialValues = {
         automaticRoomAssignment: false,

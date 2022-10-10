@@ -8,7 +8,7 @@ const initialState = {
 }
 
 const reservationSlice = createSlice({
-    name: "propery",
+    name: "reservation",
     initialState,
     reducers: {
     },
@@ -18,12 +18,6 @@ const reservationSlice = createSlice({
                 return state;
             }
         );
-        // builder.addMatcher(
-        //     businessSetupApi.endpoints.signUp.matchFulfilled, (state, response) => {
-        //         state.signUpResponse = response.payload.data ? response.payload.data : response.payload;
-        //         return state;
-        //     }
-        // );
     }
 })
 
