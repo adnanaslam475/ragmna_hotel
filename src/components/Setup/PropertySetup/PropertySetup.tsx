@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { CarouselwithTopRightIndicator } from "../../../Data/bootstrap/DataCarousels";
 import "./PropertySetup.scss";
 import { useNavigate } from "react-router-dom";
-import { useGetPropertySetupQuery } from "./propertySetupApi";
+import { useDeletePropertySetupMutation, useGetPropertySetupQuery } from "./propertySetupApi";
+import ConformationPopup from "../../../Modals/ConformationPopup/ConformationPopup";
 
 const PropertySetup = () => {
   const { data, isError, isLoading } = useGetPropertySetupQuery();
@@ -12,6 +13,25 @@ const PropertySetup = () => {
     let path = `/setup/propertysetup/add-property`;
     navigate(path);
   };
+
+  const [isOpenDeletePopUp, SetIsOpenDeletePopUP] = useState(false)
+
+  const [deleteId, setDeleteId] = useState('')
+
+  const [deletePropertySetup , Result] = useDeletePropertySetupMutation()
+  const smallmodalClose = async (value) => {
+    if(value){
+      try{
+        await deletePropertySetup(deleteId)
+        setDeleteId('')
+      }catch(err:any){
+
+      }
+    }
+    SetIsOpenDeletePopUP(false)
+  }
+  
+
   return (
     <React.Fragment>
       <Card className="mt-6">
@@ -40,7 +60,12 @@ const PropertySetup = () => {
                             <i className="fe fe-edit"></i>
                           </span>
                           <span>
-                            <i className="fe fe-trash-2"></i>
+                            <i className="fe fe-trash-2" onClick={() => {
+                              SetIsOpenDeletePopUP(true);
+                              setDeleteId(item._id)
+                            }}
+                            >
+                            </i>
                           </span>
                         </div>
                       </Card.Header>
@@ -61,6 +86,10 @@ const PropertySetup = () => {
           </div>
         </Card.Body>
       </Card>
+      {
+        isOpenDeletePopUp &&
+        <ConformationPopup smallmodalClose={smallmodalClose} />
+      }
     </React.Fragment>
   );
 };

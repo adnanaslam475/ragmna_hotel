@@ -13,8 +13,16 @@ export const propertySetupApi =  api.injectEndpoints({
             }),
             providesTags:["ProprtySetup"]
         }),
+
+        deletePropertySetup: builder.mutation<any,string>({
+            query:(id) => ({
+                url: `${GET_PROPERTY}/${id}`,
+                method:'DELETE',
+            }),
+            invalidatesTags:["ProprtySetup"]
+        }),
     })
 })
 
-export const {useGetPropertySetupQuery} = propertySetupApi 
-export const {endpoints:{getPropertySetup}} = propertySetupApi
+export const {useGetPropertySetupQuery, useDeletePropertySetupMutation} = propertySetupApi 
+export const {endpoints:{getPropertySetup , deletePropertySetup}} = propertySetupApi
