@@ -26,21 +26,19 @@ const SystemConfig = () => {
 
   const onSubmit = async () => {
     try {
-      let payload = {
-        'propertyId': id,
-        // 'roomTypeId': '',
-        'type': PropertySetuptypes.System,
-        'configurations': {
-          'timeZone': tz ? tz.label : '',
-        }
+      let payload = Object.assign({});
+      payload['propertyId'] = id
+      payload['type'] = PropertySetuptypes.System
+      payload['configurations'] = {
+        'timeZone': tz ? tz.label : '',
       }
+
       await reservationDetails(payload);
       console.log(payload, "payload");
 
     } catch (err: any) {
       console.log(err);
     }
-
   }
   return (
     <React.Fragment>

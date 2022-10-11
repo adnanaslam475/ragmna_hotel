@@ -1,10 +1,10 @@
 import { api } from "../../../../../Redux/Services/api"
 import { AMENITIES } from "../../../../ConstAPI/ConstAPI"
-import { AmenitiesTypes } from "../types"
+import { AmenitiesTypes, GetAmenities } from "../types"
 
 export const amenitiesApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        getAmenities: builder.query<any, void>({
+        getAmenities: builder.query<GetAmenities, void>({
             query: () => ({
                 url: `${AMENITIES}`,
                 method: 'GET',
@@ -12,7 +12,7 @@ export const amenitiesApi = api.injectEndpoints({
             providesTags: ["Amenities"]
         }),
 
-        addAmenities: builder.mutation<any, any>({
+        addAmenities: builder.mutation<any, AmenitiesTypes>({
             query: ({ ...payload }) => ({
                 url: `${AMENITIES}`,
                 method: 'POST',
@@ -21,7 +21,7 @@ export const amenitiesApi = api.injectEndpoints({
             invalidatesTags: ["Amenities"]
         }),
 
-        deleteAmenities: builder.mutation<any, any>({
+        deleteAmenities: builder.mutation<any, string>({
             query: (id) => ({
                 url: `${AMENITIES}/${id}`,
                 method: 'DELETE',

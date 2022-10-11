@@ -4,7 +4,7 @@ import { Button, Col, Row } from 'react-bootstrap'
 import './Amenities.scss'
 import * as Yup from 'yup'
 import Select from "react-select";
-import {AmenityType, CommanDropDownType } from '../types'
+import {AmenitiesDetails, AmenityType, CommanDropDownType } from '../types'
 import { useAddAmenitiesMutation, useDeleteAmenitiesMutation, useGetAmenitiesQuery } from './amenitiesApi'
 import { useProperyDetails } from '../PropertyInfo/propertyInfoSlice'
 import { useParams } from 'react-router-dom'
@@ -19,7 +19,9 @@ const Amenities = () => {
     }, [id])
 
     const { data, isError, isSuccess, isLoading } = useGetAmenitiesQuery()
-    const [amenities, setAmenities] = useState([])
+
+    const [amenities, setAmenities] = useState<AmenitiesDetails[]>([])
+
     const initialValues = {
         name: '',
         description: '',
@@ -55,24 +57,18 @@ const Amenities = () => {
         }
     }
 
-
-
     const { handleSubmit, values, errors, touched, handleChange } = useFormik({
         initialValues,
         validationSchema,
         onSubmit
     })
+
     useEffect(() => {
         if (isSuccess) {
-            setAmenities(data.data)
+            setAmenities(data?.data)
         }
     }, [isSuccess, isLoading, data])
 
-    // const amenitiesTypes:AmenitiesTypes[] = [
-    //     { value: AmenityType.Room, label: "Room" },
-    //     { value: AmenityType.Hotel, label: "Hotel" },
-    //     { value: AmenityType.Both, label: "Both" },
-    // ]
     const amenitiesTypes: CommanDropDownType[] = [
         { value: "", label: "Select Amenities For" },
         { value: "0", label: "Hotel" },

@@ -23,7 +23,6 @@ const CheckInCheckOut = () => {
         try {
             let payload = Object.assign({}, values);
             payload['propertyId'] = id
-            payload['roomTypeId'] = ''
             payload['type'] = PropertySetuptypes.CheckIn_Checkout
             payload['configurations'] = {
                 'checkInTime': values.checkInTime,

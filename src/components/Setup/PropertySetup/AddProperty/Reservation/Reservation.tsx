@@ -23,7 +23,6 @@ const Reservation = () => {
         try {
             let payload = Object.assign({}, values);
             payload['propertyId'] = id
-            payload['roomTypeId'] = ''
             payload['type'] = PropertySetuptypes.Reservation
             payload['configurations'] = {
                 'automaticRoomAssignment': values.automaticRoomAssignment,

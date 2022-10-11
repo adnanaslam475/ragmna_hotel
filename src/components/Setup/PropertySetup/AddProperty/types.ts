@@ -57,8 +57,54 @@ export enum AmenityType {
     Both = 2
 }
 
-export interface AmenitiesTypes{
-    name:string
-    description:string
-    type:number
+export interface AmenitiesTypes {
+    propertyId: string
+    name: string
+    description: string
+    type: number
+}
+
+export interface GetAmenities {
+    data: AmenitiesDetails[]
+}
+
+export interface AmenitiesDetails {
+    addedBy: string
+    createdAt: string
+    deletedAt: string
+    description: string
+    isActive: boolean
+    name: string
+    type: string
+    updatedAt: string
+    __v: number
+    _id: string
+}
+
+/* Reservation - system - checkin-out */
+
+export interface ReservationDetail {
+    propertyId: string
+    type: PropertySetuptypes
+    configurations: ConfigurationsDetails
+}
+
+export interface ConfigurationsDetails {
+    automaticRoomAssignment?: string
+    emailDisplayName?: string
+    replyToEmailAddress?: string
+    sendCCOnAllEmails?: string
+    setOccupiedRoomToDirty?: string
+    allowOverBookingManually?: string
+    addMarketSegment?: []
+    timeZone?: string
+    checkInTime?: string
+    checkOutTime?: string
+    autoGuestRegistrationCreationDuringCheckIn?: boolean
+    autoGuestStatementUponCheckInIfTheRoomIsDirty?: boolean
+    sendNotificationToConfirmRoomIfDirty?: boolean
+    allowNonZeroBalanceDuringCheckout?: boolean
+    allowRefundApplyUponCheckOut?: boolean
+    autoRefundApplyUponCheckOut?: boolean
+    includeRoomMovesOnArrivalAndDepartureList?: boolean
 }
