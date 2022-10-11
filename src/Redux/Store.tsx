@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import firebaseAuthSlice from '../components/Authentication/firebaseAuth/firebaseAuthSlice'
 import businessSetupSlice from '../components/Setup/BusinessSetup/businessSetupSlice'
+import amenitiesSlice from '../components/Setup/PropertySetup/AddProperty/Amenities/amenitiesSlice'
 import propertyInfoSlice from '../components/Setup/PropertySetup/AddProperty/PropertyInfo/propertyInfoSlice'
 import reservationSlice from '../components/Setup/PropertySetup/AddProperty/Reservation/reservationSlice'
 import propertySetupSlice from '../components/Setup/PropertySetup/propertySetupSlice'
@@ -13,6 +14,7 @@ const CombineReducer = combineReducers({
   proprtySetup:propertySetupSlice,
   propertyInfo:propertyInfoSlice,
   reservation:reservationSlice,
+  amenities:amenitiesSlice,
 })
 
 export const Store = configureStore({

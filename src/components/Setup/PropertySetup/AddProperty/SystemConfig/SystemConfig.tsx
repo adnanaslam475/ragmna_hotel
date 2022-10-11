@@ -1,18 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Row, Col, Button } from "react-bootstrap";
-import TimezoneSelect, { allTimezones } from "react-timezone-select";
-import type { ITimezone } from "react-timezone-select";
+import TimezoneSelect, { allTimezones, ITimezoneOption } from "react-timezone-select";
+import { useReservationDetailsMutation } from "../Reservation/reservationApi";
+import { PropertySetuptypes } from "../types";
+import { useParams } from "react-router-dom";
+import './SystemConfig.scss'
 
 const SystemConfig = () => {
-  const [tz, setTz] = useState<ITimezone>(
-    Intl.DateTimeFormat().resolvedOptions().timeZone
-  );
-  const Onsubmit = () => {
-    console.log(tz);
+  let { id } = useParams();
+
+  useEffect(() => {
+    console.log(id);
+  }, [id])
+  console.log(allTimezones, "allTimezones");
+
+  const [tz, setTz] = useState<ITimezoneOption>({
+    value: '',
+    label: '',
+    abbrev: '',
+    altName: '',
+    offset: 0
+  });
+
+  const [reservationDetails, Result] = useReservationDetailsMutation()
+
+  const onSubmit = async () => {
+    try {
+      let payload = {
+        'propertyId': id,
+        // 'roomTypeId': '',
+        'type': PropertySetuptypes.System,
+        'configurations': {
+          'timeZone': tz ? tz.label : '',
+        }
+      }
+      await reservationDetails(payload);
+      console.log(payload, "payload");
+
+    } catch (err: any) {
+      console.log(err);
+    }
+
   }
   return (
     <React.Fragment>
-      <Row>
+      <Row className='system-details p-4 mb-4'>
         <Col lg={6}>
           <div className="control-group form-group">
             <label className="form-label">Timezone</label>
@@ -20,17 +52,15 @@ const SystemConfig = () => {
               value={tz}
               onChange={setTz}
               timezones={{
-                ...allTimezones,  
+                ...allTimezones,
               }}
             />
           </div>
         </Col>
       </Row>
-      <Row>
-        <div className="d-flex justify-content-end">
-          <Button onClick={Onsubmit}>Save & Next</Button>
-        </div>
-      </Row>
+      <div className='d-flex justify-content-end mt-4 me-3'>
+        <Button onClick={onSubmit}>Save & Next</Button>
+      </div>
     </React.Fragment>
   );
 };

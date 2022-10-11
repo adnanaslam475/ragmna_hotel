@@ -1,5 +1,3 @@
-import { string } from "prop-types"
-
 
 export enum GoodFor {
     Singles = 1,
@@ -48,7 +46,19 @@ export interface ProprtyInfo {
 }
 
 export enum PropertySetuptypes {
-    Reservation = 1,
-    CheckIn_Checkout = 2,
-    System = 3
+    Reservation = 0,
+    CheckIn_Checkout = 1,
+    System = 2
+}
+
+export enum AmenityType {
+    Hotel = 0,
+    Room = 1,
+    Both = 2
+}
+
+export interface AmenitiesTypes{
+    name:string
+    description:string
+    type:number
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ErrorMessage, Form as FormikForm, Formik, useFormik } from 'formik'
 import { Button, Col, Form, Row } from 'react-bootstrap'
 import * as Yup from 'yup'
@@ -6,18 +6,23 @@ import './Reservation.scss'
 import { useReservationDetailsMutation } from './reservationApi'
 import { PropertySetuptypes } from '../types'
 import { useProperyDetails } from '../PropertyInfo/propertyInfoSlice'
+import { useParams } from 'react-router-dom'
 
 
 const Reservation = () => {
 
-    const { property } = useProperyDetails()
+    let { id } = useParams();
 
+    useEffect(() => {
+      console.log(id);
+    }, [id])
+    
     const [reservationDetails, Result] = useReservationDetailsMutation()
 
     const onSubmit = async (values) => {
         try {
             let payload = Object.assign({}, values);
-            payload['propertyId'] = property._id
+            payload['propertyId'] = id
             payload['roomTypeId'] = ''
             payload['type'] = PropertySetuptypes.Reservation
             payload['configurations'] = {
@@ -29,6 +34,18 @@ const Reservation = () => {
                 'allowOverBookingManually': values.allowOverBookingManually,
                 'addMarketSegment': [],
             }
+            let deletekeys = [
+                "automaticRoomAssignment",
+                "emailDisplayName",
+                "replyToEmailAddress",
+                "sendCCOnAllEmails",
+                "setOccupiedRoomToDirty",
+                "allowOverBookingManually",
+                "addMarketSegment",
+              ];
+              for (let i = 0; i < deletekeys.length; i++) {
+                delete payload[deletekeys[i]];
+              }
             await reservationDetails(payload);
             console.log(payload,"payload");
             
@@ -50,10 +67,10 @@ const Reservation = () => {
 
     const validationSchema = Yup.object({
         automaticRoomAssignment: Yup.boolean(),
-        emailDisplayName: Yup.string().required(),
-        replyToEmailAddress: Yup.string().required(),
-        sendCCOnAllEmails: Yup.string().required(),
-        setOccupiedRoomToDirty: Yup.string().required(),
+        emailDisplayName: Yup.string(),
+        replyToEmailAddress: Yup.string(),
+        sendCCOnAllEmails: Yup.string(),
+        setOccupiedRoomToDirty: Yup.string(),
         allowOverBookingManually: Yup.boolean(),
         addMarketSegment: Yup.array(),
     })
@@ -72,7 +89,7 @@ const Reservation = () => {
                         <div className="control-group form-group">
                             <label className="form-label">Email Display Name</label>
                             <input
-                                type="email"
+                                type="text"
                                 className={touched.emailDisplayName && errors.emailDisplayName ? "form-control required error-border" : "form-control required"}
                                 placeholder="Email Display Name"
                                 name="emailDisplayName"
@@ -85,7 +102,7 @@ const Reservation = () => {
                         <div className="control-group form-group">
                             <label className="form-label">Replay TO Email Address</label>
                             <input
-                                type="email"
+                                type="text"
                                 className={touched.replyToEmailAddress && errors.replyToEmailAddress ? "form-control required error-border" : "form-control required"}
                                 placeholder="Replay TO Email Address"
                                 name="replyToEmailAddress"
@@ -98,7 +115,7 @@ const Reservation = () => {
                         <div className="control-group form-group">
                             <label className="form-label">Send CCOn All Emails</label>
                             <input
-                                type="email"
+                                type="text"
                                 className={touched.sendCCOnAllEmails && errors.sendCCOnAllEmails ? "form-control required error-border" : "form-control required"}
                                 placeholder="Send CCOn All Emails"
                                 name="sendCCOnAllEmails"

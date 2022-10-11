@@ -1,20 +1,28 @@
-import React, { useState } from "react";
-import { Button, Card, Col, Row, Form } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Button, Col, Row, Form } from "react-bootstrap";
 import PhoneInput from "react-phone-input-2";
 import "./PropertyInfo.scss";
-import Select, { ActionMeta, Options } from "react-select";
+import Select from "react-select";
 import {
   CommanDropDownType,
 } from "./../types";
-import { ErrorMessage, Form as FormikForm, Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useUser } from "../../../../Authentication/firebaseAuth/firebaseAuthSlice";
 import { Country, State, City } from "country-state-city";
-import { ICountry, IState, ICity } from "country-state-city";
+import { ICountry, ICity } from "country-state-city";
 import { useAddPropertyMutation } from "./propertyInfoApi";
+import { useNavigate, useParams } from "react-router-dom";
 
 const PropertyInfo = () => {
-  const goodFors = [
+
+  let { id } = useParams();
+
+  useEffect(() => {
+      console.log(id);
+  }, [id])
+
+  const goodFors: CommanDropDownType[] = [
     { value: "", label: "Select Good For" },
     { value: "Singles", label: "Singles" },
     { value: "Family", label: "Family" },
@@ -168,6 +176,18 @@ const PropertyInfo = () => {
       console.log(err, "err");
     }
   };
+
+  let navigate = useNavigate();
+
+  const navigateToId = () => {
+    let path = `/setup/propertysetup/add-property/${Result.data.data._id}`;
+    navigate(path)
+  }
+  useEffect(() => {
+    if (Result.isSuccess) {
+      navigateToId()
+    }
+  }, [Result.isSuccess])
 
   const {
     handleChange,

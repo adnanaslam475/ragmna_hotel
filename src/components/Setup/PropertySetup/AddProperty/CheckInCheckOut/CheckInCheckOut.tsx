@@ -1,12 +1,64 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, Card, Col, Row, Form } from 'react-bootstrap'
-import Select, { ActionMeta, Options } from 'react-select';
-import { ErrorMessage, Form as FormikForm, Formik, useFormik } from 'formik'
-import { CommanDropDownType, GoodFor, PropertyTypes, ProprtyInfo } from './../types'
+import {useFormik } from 'formik'
 import * as Yup from 'yup'
 import "./CheckInCheckOut.scss"
+import TextField from '@mui/material/TextField';
+import { useParams } from 'react-router-dom'
+import { useReservationDetailsMutation } from '../Reservation/reservationApi'
+import { PropertySetuptypes } from '../types'
+
 
 const CheckInCheckOut = () => {
+
+    let { id } = useParams();
+
+    useEffect(() => {
+      console.log(id);
+    }, [id])
+    
+    const [reservationDetails, Result] = useReservationDetailsMutation()
+
+    const onSubmit = async (values) => {
+        try {
+            let payload = Object.assign({}, values);
+            payload['propertyId'] = id
+            payload['roomTypeId'] = ''
+            payload['type'] = PropertySetuptypes.CheckIn_Checkout
+            payload['configurations'] = {
+                'checkInTime': values.checkInTime,
+                'checkOutTime': values.checkOutTime,
+                'autoGuestRegistrationCreationDuringCheckIn': values.autoGuestRegistrationCreationDuringCheckIn,
+                'autoGuestStatementUponCheckInIfTheRoomIsDirty': values.autoGuestStatementUponCheckInIfTheRoomIsDirty,
+                'sendNotificationToConfirmRoomIfDirty': values.sendNotificationToConfirmRoomIfDirty,
+                'allowNonZeroBalanceDuringCheckout': values.allowNonZeroBalanceDuringCheckout,
+                'allowRefundApplyUponCheckOut': values.allowRefundApplyUponCheckOut,
+                'autoRefundApplyUponCheckOut':values.autoRefundApplyUponCheckOut,
+                'includeRoomMovesOnArrivalAndDepartureList':values.includeRoomMovesOnArrivalAndDepartureList
+            }
+            let deletekeys = [
+                "checkInTime",
+                "checkOutTime",
+                "autoGuestRegistrationCreationDuringCheckIn",
+                "autoGuestStatementUponCheckInIfTheRoomIsDirty",
+                "sendNotificationToConfirmRoomIfDirty",
+                "allowNonZeroBalanceDuringCheckout",
+                "allowRefundApplyUponCheckOut",
+                "autoRefundApplyUponCheckOut",
+                "includeRoomMovesOnArrivalAndDepartureList"
+              ];
+              for (let i = 0; i < deletekeys.length; i++) {
+                delete payload[deletekeys[i]];
+              }
+            await reservationDetails(payload);
+            console.log(payload,"payload");
+            
+        } catch(err:any){
+            console.log(err);
+        }
+
+    }
+    
     const initialValues = {
         checkInTime: "",
         checkOutTime: "",
@@ -29,46 +81,56 @@ const CheckInCheckOut = () => {
         autoRefundApplyUponCheckOut: Yup.boolean().required(),
         includeRoomMovesOnArrivalAndDepartureList: Yup.boolean().required(),
     })
-    const onSubmit = (values) => {
-        console.log("values", values);
-    }
+
     const { handleChange, handleSubmit, values, errors, touched, setFieldValue } = useFormik({
         initialValues,
         validationSchema,
         onSubmit,
     })
 
-    console.log(errors)
+    
 
     return (
         <div>
             <form onSubmit={handleSubmit}>
                 <Row className='Contect-details p-4 mb-4'>
-                    <Col lg={6}>
-                        <div className="control-group form-group">
-                            <label className="form-label">Check-In Time</label>
-                            <input
-                                type="text"
-                                className={touched.checkInTime && errors.checkInTime ? "form-control required check-error-border" : "form-control required"}
-                                placeholder="check-In Time"
-                                name="checkInTime"
-                                value={values.checkInTime}
-                                onChange={(e) => { handleChange(e) }}
-                            />
-                        </div>
+                    <Col lg={6} md={12} className='mt-5 mb-2'>
+                            <form className='date-picker-style' noValidate>
+                                <TextField
+                                    label='Check-In Time'
+                                    id="checkInTime"
+                                    type="time"
+                                    value={values.checkInTime}
+                                    defaultValue="00:00"
+                                    className='date-picker-textfield'
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    inputProps={{
+                                        step: 300,
+                                    }}
+                                    onChange={handleChange}
+                                />
+                            </form>
                     </Col>
-                    <Col lg={6}>
-                        <div className="control-group form-group">
-                            <label className="form-label">Check-Out Time</label>
-                            <input
-                                type="text"
-                                className={touched.checkOutTime && errors.checkOutTime ? "form-control required check-error-border" : "form-control required"}
-                                placeholder="check-Out Time"
-                                name="checkOutTime"
-                                value={values.checkOutTime}
-                                onChange={(e) => { handleChange(e) }}
-                            />
-                        </div>
+                    <Col lg={6} md={12} className='mt-5 mb-2'>
+                            <form className='Check-Out Time' noValidate>
+                                <TextField
+                                    label='Check-Out Time'
+                                    id="checkOutTime"
+                                    type="time"
+                                    value={values.checkOutTime}
+                                    defaultValue="00:00"
+                                    className='date-picker-textfield'
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    inputProps={{
+                                        step: 300,
+                                    }}
+                                    onChange={handleChange}
+                                />
+                            </form>
                     </Col>
                     <Col lg={6} md={12} className='d-flex align-items-center my-2'>
                         <Form.Group>

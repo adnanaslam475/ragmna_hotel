@@ -381,6 +381,10 @@ const RoutesMain = () => {
                     path={`/setup/propertysetup/add-property`}
                     element={<AddProperty />}
                   />
+                   <Route
+                    path={`/setup/propertysetup/add-property/:id`}
+                    element={<AddProperty />}
+                  />
                   <Route
                     path={`/setup/propertyspace`}
                     element={<PropertySpace />}

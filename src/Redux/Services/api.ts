@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { baseUrl } from '../../Api/baseURL'
-import { useUser } from '../../components/Authentication/firebaseAuth/firebaseAuthSlice';
 import { RootState } from '../Store'
 
 
@@ -23,7 +22,7 @@ export const api = createApi({
     }),
     endpoints: (builder) => ({
     }),
-    tagTypes: ["Auth","Supplier","ProprtyInfo",'ProprtySetup',"ReservationDetail"],
+    tagTypes: ["Auth","Supplier","ProprtyInfo",'ProprtySetup',"ReservationDetail","Amenities"],
 })
 
 export const { } = api

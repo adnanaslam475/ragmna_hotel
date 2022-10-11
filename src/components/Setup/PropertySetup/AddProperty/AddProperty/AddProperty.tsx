@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Card, Nav, Tab } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import Amenities from "../Amenities/Amenities";
 import CheckInCheckOut from "../CheckInCheckOut/CheckInCheckOut";
 import PropertyInfo from "../PropertyInfo/PropertyInfo";
 import Reservation from "../Reservation/Reservation";
@@ -12,7 +14,6 @@ interface AddPropertyProps {
 }
 
 const AddProperty = (props: AddPropertyProps) => {
-    const { setAddProperty } = props;
 
     return (
         <React.Fragment>
@@ -82,7 +83,9 @@ const AddProperty = (props: AddPropertyProps) => {
                                     <Tab.Pane eventKey="six">
                                         <TaxSetup />
                                     </Tab.Pane>
-                                    <Tab.Pane eventKey="seven"></Tab.Pane>
+                                    <Tab.Pane eventKey="seven">
+                                        <Amenities />
+                                    </Tab.Pane>
 
                                 </Tab.Content>
                             </div>

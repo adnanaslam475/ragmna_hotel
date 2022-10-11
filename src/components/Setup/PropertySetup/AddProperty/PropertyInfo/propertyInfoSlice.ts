@@ -26,7 +26,7 @@ export default propertyInfoSlice.reducer
 
 
 export const selectProperty = (state) => {
-    console.log(state.propertyInfo,"state");
+    console.log(state,"state");
     return state.propertyInfo
 };
 
