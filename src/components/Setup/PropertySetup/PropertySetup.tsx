@@ -3,7 +3,10 @@ import { Button, Card, Col, Row } from "react-bootstrap";
 import { CarouselwithTopRightIndicator } from "../../../Data/bootstrap/DataCarousels";
 import "./PropertySetup.scss";
 import { useNavigate } from "react-router-dom";
-import { useDeletePropertySetupMutation, useGetPropertySetupQuery } from "./propertySetupApi";
+import {
+  useDeletePropertySetupMutation,
+  useGetPropertySetupQuery,
+} from "./propertySetupApi";
 import ConformationPopup from "../../../Modals/ConformationPopup/ConformationPopup";
 
 const PropertySetup = () => {
@@ -14,23 +17,20 @@ const PropertySetup = () => {
     navigate(path);
   };
 
-  const [isOpenDeletePopUp, SetIsOpenDeletePopUP] = useState(false)
+  const [isOpenDeletePopUp, SetIsOpenDeletePopUP] = useState(false);
 
-  const [deleteId, setDeleteId] = useState('')
+  const [deleteId, setDeleteId] = useState("");
 
-  const [deletePropertySetup , Result] = useDeletePropertySetupMutation()
+  const [deletePropertySetup, Result] = useDeletePropertySetupMutation();
   const smallmodalClose = async (value) => {
-    if(value){
-      try{
-        await deletePropertySetup(deleteId)
-        setDeleteId('')
-      }catch(err:any){
-
-      }
+    if (value) {
+      try {
+        await deletePropertySetup(deleteId);
+        setDeleteId("");
+      } catch (err: any) {}
     }
-    SetIsOpenDeletePopUP(false)
-  }
-  
+    SetIsOpenDeletePopUP(false);
+  };
 
   return (
     <React.Fragment>
@@ -60,12 +60,13 @@ const PropertySetup = () => {
                             <i className="fe fe-edit"></i>
                           </span>
                           <span>
-                            <i className="fe fe-trash-2" onClick={() => {
-                              SetIsOpenDeletePopUP(true);
-                              setDeleteId(item._id)
-                            }}
-                            >
-                            </i>
+                            <i
+                              className="fe fe-trash-2"
+                              onClick={() => {
+                                SetIsOpenDeletePopUP(true);
+                                setDeleteId(item._id);
+                              }}
+                            ></i>
                           </span>
                         </div>
                       </Card.Header>
@@ -86,10 +87,9 @@ const PropertySetup = () => {
           </div>
         </Card.Body>
       </Card>
-      {
-        isOpenDeletePopUp &&
+      {isOpenDeletePopUp && (
         <ConformationPopup smallmodalClose={smallmodalClose} />
-      }
+      )}
     </React.Fragment>
   );
 };
