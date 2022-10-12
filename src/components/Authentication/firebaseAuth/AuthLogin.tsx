@@ -29,7 +29,7 @@ const SignIn = () => {
     if (Result.isError) {
       let errors: any = Result.error;
       setLoader(false);
-      if (errors.data.message) {
+      if (errors?.data?.message) {
         for (let i = 0; i < errors.data.message.length; i++) {
           CenterDanger(errors.data.message[i]);
         }
