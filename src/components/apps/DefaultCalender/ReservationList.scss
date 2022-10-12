@@ -18,7 +18,7 @@
 	background-color: whitesmoke;
 }
 .roomname {
-	background-color: blueviolet;
+	background-color: #165d93;
 }
 .days-column {
 	display: flex;
@@ -27,6 +27,7 @@
 
 	.coldays {
 		display: flex;
+		background-color: #f7f7f7;
 		flex-direction: column;
 		flex: 1;
 		align-items: center;
@@ -49,15 +50,87 @@
 		.h1-heading {
 			margin-bottom: 0;
 		}
+
 		// .fa-refresh:hover {
 		// 	color: white;
 		// }
 	}
 }
+.roomnumber {
+	&:hover {
+		background-color: #337ab7;
+		color: white;
+	}
+}
+
 .fa-refresh:hover {
 	color: white;
 }
-
+.fc .fc-toolbar.fc-header-toolbar {
+	margin-bottom: 0rem !important;
+	background-color: steelblue !important;
+	color: white !important;
+	font-size: smaller !important;
+}
+.fc .fc-toolbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 35px !important;
+}
+.fc-timeline-header-row {
+	background-color: #ddd !important;
+	height: 50px !important;
+	// background-color: '#ddd' !important;
+}
+.fc-button-primary {
+	background-color: #f7f7f7 !important;
+	color: black !important;
+}
+.fc-datagrid-cell-frame {
+	height: 50px !important;
+}
+.fc-timeline-lane-frame {
+	height: 50px !important;
+}
+.fc-event-draggable {
+	height: 50px !important;
+}
+.fc-timeline-event
+	.fc-h-event
+	.fc-event
+	.fc-event-draggable
+	.fc-event-resizable
+	.fc-event-start
+	.fc-event-end
+	.fc-event-today
+	.fc-event-future {
+	height: 50px !important;
+}
+.fc-datagrid-header {
+	background-color: #165d93 !important;
+	color: white;
+}
+.fc .fc-timeline-slots {
+	div {
+		display: flex;
+		justify-content: center;
+	}
+	// background-color: #f7f7f7 !important;
+}
+.fc .fc-toolbar-title {
+	font-size: medium !important;
+}
+.fc-button-active {
+	background-color: red !important;
+	color: white !important;
+}
+.fc-toolbar-chunk {
+	div {
+		display: flex;
+		align-items: center;
+	}
+}
 .Filter-column {
 	.col-lg-2 {
 		border: 1px solid #e3e3e3;
