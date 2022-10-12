@@ -100,7 +100,6 @@ const CheckInCheckOut = () => {
                                     id="checkInTime"
                                     type="time"
                                     value={values.checkInTime}
-                                    defaultValue="00:00"
                                     className='date-picker-textfield'
                                     InputLabelProps={{
                                         shrink: true,
@@ -119,7 +118,6 @@ const CheckInCheckOut = () => {
                                     id="checkOutTime"
                                     type="time"
                                     value={values.checkOutTime}
-                                    defaultValue="00:00"
                                     className='date-picker-textfield'
                                     InputLabelProps={{
                                         shrink: true,

@@ -57,7 +57,11 @@ const PropertySetup = () => {
                         <Card.Title as="h3">{item.name}</Card.Title>
                         <div className="action-icons">
                           <span className="mx-3">
-                            <i className="fe fe-edit"></i>
+                            <i className="fe fe-edit"
+                              onClick={()=>{
+                                navigate(`/setup/propertysetup/add-property/${item._id}`)
+                              }}
+                            ></i>
                           </span>
                           <span>
                             <i

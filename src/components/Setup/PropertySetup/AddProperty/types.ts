@@ -108,3 +108,34 @@ export interface ConfigurationsDetails {
     autoRefundApplyUponCheckOut?: boolean
     includeRoomMovesOnArrivalAndDepartureList?: boolean
 }
+
+export interface InitialValues {
+    name:string
+    email:string
+    propertyType:string
+    goodFor:string
+    space:number
+    briefDescription:string
+    longDescription:string
+    Cname:string
+    CphoneNumber:string
+    waNumber:string
+    Oname:string
+    OphoneNumber:string
+    address:string
+    Lcity:string
+    state:string
+    Lcountry:string
+    latitude:string
+    longitude:string
+    country:string
+    city:string
+    district:string
+    virtualTourLink:string
+    sections?:string[]	
+    images?: string[],
+    amenities?:string[]
+    availableForEntireRental:boolean,
+    strictlyEntireRental:boolean,
+    isPublished:boolean
+}

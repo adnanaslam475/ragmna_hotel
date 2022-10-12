@@ -12,7 +12,6 @@ const SystemConfig = () => {
   useEffect(() => {
     console.log(id);
   }, [id])
-  console.log(allTimezones, "allTimezones");
 
   const [tz, setTz] = useState<ITimezoneOption>({
     value: '',
@@ -34,10 +33,9 @@ const SystemConfig = () => {
       }
 
       await reservationDetails(payload);
-      console.log(payload, "payload");
 
     } catch (err: any) {
-      console.log(err);
+      
     }
   }
   return (

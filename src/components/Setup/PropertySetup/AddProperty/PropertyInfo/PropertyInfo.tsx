@@ -3,24 +3,30 @@ import { Button, Col, Row, Form } from "react-bootstrap";
 import PhoneInput from "react-phone-input-2";
 import "./PropertyInfo.scss";
 import Select from "react-select";
-import {
-  CommanDropDownType,
-} from "./../types";
-import { useFormik } from "formik";
+import { CommanDropDownType, InitialValues } from "./../types";
+import { useFormik, yupToFormErrors } from "formik";
 import * as Yup from "yup";
 import { useUser } from "../../../../Authentication/firebaseAuth/firebaseAuthSlice";
 import { Country, State, City } from "country-state-city";
 import { ICountry, ICity } from "country-state-city";
-import { useAddPropertyMutation } from "./propertyInfoApi";
+import {
+  useAddPropertyMutation,
+  useGetPropertyByIdQuery,
+} from "./propertyInfoApi";
 import { useNavigate, useParams } from "react-router-dom";
 
-const PropertyInfo = () => {
+export interface PropertyInfoProps {
+  editPid: string | undefined;
+}
 
-  let { id } = useParams();
+const PropertyInfo = (props: PropertyInfoProps) => {
+  const { editPid } = props;
 
-  useEffect(() => {
-      console.log(id);
-  }, [id])
+  // let { id } = useParams();
+
+  // useEffect(() => {
+  //     console.log(id);
+  // }, [id])
 
   const goodFors: CommanDropDownType[] = [
     { value: "", label: "Select Good For" },
@@ -34,15 +40,6 @@ const PropertyInfo = () => {
     { value: "Rented", label: "Rented" },
   ];
 
-  const [contactDetails, setContactDetails] = React.useState({
-    Cname: "",
-    CphoneNumber: "",
-    waNumber: "",
-  });
-  const [ownerDetails, setOwnerDetails] = React.useState({
-    Oname: "",
-    OphoneNumber: "",
-  });
   const countries = Country.getAllCountries();
   const updatedCountries: CommanDropDownType[] = countries.map(
     (country: ICountry) => {
@@ -63,46 +60,105 @@ const PropertyInfo = () => {
     );
   };
 
-  const phoneChange = (e, type, phoneNumber) => {
-    switch (type) {
-      case "contect":
-        setContactDetails({
-          ...contactDetails,
-          [phoneNumber]: e,
-        });
-        break;
-      case "owner":
-        setOwnerDetails({
-          ...ownerDetails,
-          [phoneNumber]: e,
-        });
-        break;
+  const updatedCities = (state, types) => {
+    switch (types) {
+      case "normal":
+        let ns: any = updatedStates(values.country).findIndex(
+          (x) => x.label === state
+        );
+        let nc: any = updatedCountries.findIndex(
+          (x) => x.label === values.country
+        );
 
+        return City.getCitiesOfState(
+          updatedCountries[nc]?.value,
+          updatedStates(values.country)[ns].value
+        ).map((city: ICity) => ({
+          label: city.name,
+          value: city.name,
+        }));
+      case "location":
+        let s: any = updatedStates(values.Lcountry).findIndex(
+          (x) => x.label === state
+        );
+        let c: any = updatedCountries.findIndex(
+          (x) => x.label === values.Lcountry
+        );
+
+        return City.getCitiesOfState(
+          updatedCountries[c]?.value,
+          updatedStates(values.Lcountry)[s].value
+        ).map((city: ICity) => ({
+          label: city.name,
+          value: city.name,
+        }));
       default:
-        break;
+        return [];
     }
+    //   if (values.Lcountry && state) {
+    //     let s: any = updatedStates(values.Lcountry).findIndex(
+    //       (x) => x.label === state
+    //     );
+    //     let c: any = updatedCountries.findIndex(
+    //       (x) => x.label === values.Lcountry
+    //     );
+
+    //     return City.getCitiesOfState(
+    //       updatedCountries[c]?.value,
+    //       updatedStates(values.Lcountry)[s].value
+    //     ).map((city: ICity) => ({
+    //       label: city.name,
+    //       value: city.name,
+    //     }));
+    //   } else if (values.country && state) {
+    //     let s: any = updatedStates(values.country).findIndex(
+    //       (x) => x.label === state
+    //     );
+    //     let c: any = updatedCountries.findIndex(
+    //       (x) => x.label === values.country
+    //     );
+
+    //     return City.getCitiesOfState(
+    //       updatedCountries[c]?.value,
+    //       updatedStates(values.country)[s].value
+    //     ).map((city: ICity) => ({
+    //       label: city.name,
+    //       value: city.name,
+    //     }));
+    //   } else {
+    //     return [];
+    //   }
   };
 
-  const initialValues = {
+  const initialValues: InitialValues = {
     name: "",
     email: "",
     propertyType: "",
     goodFor: "",
     space: 0,
+    briefDescription: "",
+    longDescription: "",
     Cname: "",
     CphoneNumber: "",
     waNumber: "",
     Oname: "",
     OphoneNumber: "",
     address: "",
-    city: "",
+    Lcity: "",
     state: "",
-    country: "",
+    Lcountry: "",
     latitude: "",
     longitude: "",
+    country: "",
+    city: "",
+    district: "",
+    virtualTourLink: "",
+    sections: [],
     images: [],
+    amenities: [],
     availableForEntireRental: false,
     strictlyEntireRental: false,
+    isPublished: false,
   };
 
   const validationSchema = Yup.object({
@@ -111,25 +167,41 @@ const PropertyInfo = () => {
     propertyType: Yup.string().required("Please Select Propert Type"),
     goodFor: Yup.string().required("Please Select Good For"),
     space: Yup.number(),
+    briefDescription: Yup.string().required(),
+    longDescription: Yup.string().required(),
     Cname: Yup.string().required("Please Enter Name"),
     CphoneNumber: Yup.string(),
     waNumber: Yup.string(),
     Oname: Yup.string().required("Please Enter Name"),
     OphoneNumber: Yup.string(),
     address: Yup.string().required("Please Enter Address"),
-    city: Yup.string().required("Please Enter City"),
+    Lcity: Yup.string().required("Please Enter City"),
     state: Yup.string().required("Please Enter State"),
-    country: Yup.string().required("Please Enter Country"),
+    Lcountry: Yup.string().required("Please Enter Country"),
     latitude: Yup.string().required("Please Enter Latitude"),
     longitude: Yup.string().required("Please Enter Longitude"),
+    city: Yup.string(),
+    country: Yup.string(),
+    district: Yup.string(),
+    virtualTourLink: Yup.string(),
+    sections: Yup.array(),
     images: Yup.array(),
+    amenities: Yup.array(),
     availableForEntireRental: Yup.boolean(),
     strictlyEntireRental: Yup.boolean(),
+    isPublished: Yup.boolean(),
   });
 
   const { user } = useUser();
 
   const [addProperty, Result] = useAddPropertyMutation();
+
+  let navigate = useNavigate();
+
+  const navigateToId = () => {
+    let path = `/setup/propertysetup/add-property/${Result.data.data._id}`;
+    navigate(path);
+  };
 
   const onSubmit = async (values) => {
     try {
@@ -137,20 +209,20 @@ const PropertyInfo = () => {
       payload["supplierId"] = user.supplierId;
       payload["contact"] = {
         name: values.Cname,
-        phoneNumber: contactDetails.CphoneNumber,
-        waNumber: contactDetails.waNumber,
+        phoneNumber: values.CphoneNumber,
+        waNumber: values.waNumber,
       };
       payload["location"] = {
         address: values.address,
-        city: values.city,
+        city: values.Lcity,
         state: values.state,
-        country: values.country,
+        country: values.Lcountry,
         latitude: values.latitude,
         longitude: values.longitude,
       };
       payload["owner"] = {
         name: values.Oname,
-        phoneNumber: ownerDetails.OphoneNumber,
+        phoneNumber: values.OphoneNumber,
       };
       payload["images"] = [];
       // payload['availableForEntireRental'] = isChecked
@@ -159,9 +231,9 @@ const PropertyInfo = () => {
         "CphoneNumber",
         "waNumber",
         "address",
-        "city",
+        "Lcity",
         "state",
-        "country",
+        "Lcountry",
         "latitude",
         "longitude",
         "Oname",
@@ -171,23 +243,65 @@ const PropertyInfo = () => {
         delete payload[deletekeys[i]];
       }
       await addProperty(payload);
+      navigateToId();
       console.log(payload, "payload");
     } catch (err: any) {
       console.log(err, "err");
     }
   };
+  console.log(editPid);
 
-  let navigate = useNavigate();
+  const { data, isLoading, isSuccess, isError } =
+    useGetPropertyByIdQuery(editPid);
 
-  const navigateToId = () => {
-    let path = `/setup/propertysetup/add-property/${Result.data.data._id}`;
-    navigate(path)
-  }
   useEffect(() => {
-    if (Result.isSuccess) {
-      navigateToId()
+    if (data?.data && isSuccess) {
+      // setInitialValues({
+      //   name:data.data?.name,
+      //   email:data.data?.email,
+      //   propertyType:data.data?.propertyType,
+      //   goodFor:data.data?.goodFor,
+      //   space: data.data?.space,
+      //   Cname:data.data?.contect.name,
+      //   CphoneNumber:data.data?.contect.phoneNumber,
+      //   waNumber:data.data?.contect.waNumber,
+      //   Oname:data.data?.owner.name,
+      //   OphoneNumber:data.data?.owner.phoneNumber,
+      //   address:data.data?.location.address,
+      //   city:data.data?.location.city,
+      //   state:data.data?.location.state,
+      //   country:data.data?.location.country,
+      //   latitude:data.data?.location.latitude,
+      //   longitude:data.data?.longitude,
+      //   images: [],
+      //   amenities: [],
+      //   availableForEntireRental: data.data?.availableForEntireRental,
+      //   strictlyEntireRental: data.data?.strictlyEntireRental,
+      // });
+      console.log(values, "values");
+
+      values.name = data?.data?.name;
+      values.email = data?.data?.email;
+      values.propertyType = data?.data?.propertyType;
+      values.goodFor = data?.data?.goodFor;
+      values.space = data?.data?.space;
+      values.Cname = data?.data?.contact.name;
+      values.CphoneNumber = data?.data?.contact.phoneNumber;
+      values.waNumber = data?.data?.contact.waNumber;
+      values.Oname = data?.data?.owner.name;
+      values.OphoneNumber = data?.data?.owner.phoneNumber;
+      values.address = data?.data?.location.address;
+      values.Lcity = data?.data?.location.city;
+      values.state = data?.data?.location.state;
+      values.Lcountry = data?.data?.location.country;
+      values.latitude = data?.data?.location.latitude;
+      values.longitude = data?.data?.location.longitude;
+      values.images = [];
+      values.amenities = [];
+      values.availableForEntireRental = data?.data?.availableForEntireRental;
+      values.strictlyEntireRental = data?.data?.strictlyEntireRental;
     }
-  }, [Result.isSuccess])
+  }, [data, isSuccess]);
 
   const {
     handleChange,
@@ -202,26 +316,7 @@ const PropertyInfo = () => {
     validationSchema,
     onSubmit,
   });
-  const updatedCities = (state) => {
-    if (values.country && state) {
-      let s: any = updatedStates(values.country).findIndex(
-        (x) => x.label === state
-      );
-      let c: any = updatedCountries.findIndex(
-        (x) => x.label === values.country
-      );
 
-      return City.getCitiesOfState(
-        updatedCountries[c]?.value,
-        updatedStates(values.country)[s].value
-      ).map((city: ICity) => ({
-        label: city.name,
-        value: city.name,
-      }));
-    } else {
-      return [];
-    }
-  };
   return (
     <React.Fragment>
       <form onSubmit={handleSubmit}>
@@ -301,6 +396,42 @@ const PropertyInfo = () => {
           </Col>
           <Col lg={6}>
             <div className="control-group form-group">
+              <label className="form-label">Brief Description</label>
+              <textarea
+                className={
+                  touched.briefDescription && errors.briefDescription
+                    ? "form-control required error-border"
+                    : "form-control required"
+                }
+                placeholder="Brief Description"
+                name="briefDescription"
+                value={values.briefDescription}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
+            </div>
+          </Col>
+          <Col lg={6}>
+            <div className="control-group form-group">
+              <label className="form-label">Long Description</label>
+              <textarea
+                className={
+                  touched.longDescription && errors.longDescription
+                    ? "form-control required error-border"
+                    : "form-control required"
+                }
+                placeholder="long Description"
+                name="longDescription"
+                value={values.longDescription}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
+            </div>
+          </Col>
+          <Col lg={6}>
+            <div className="control-group form-group">
               <label className="form-label">Space</label>
               <input
                 type="number"
@@ -318,6 +449,86 @@ const PropertyInfo = () => {
               />
             </div>
           </Col>
+          <Col lg={6}>
+            <div className="control-group form-group">
+              <label className="form-label">Virtual Tour Link</label>
+              <input
+                type="text"
+                className={
+                  touched.space && errors.space
+                    ? "form-control required error-border"
+                    : "form-control required"
+                }
+                placeholder="Virtual Tour Link"
+                name="virtualTourLink"
+                value={values.virtualTourLink}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
+            </div>
+          </Col>
+          <Col lg={6}>
+            <div className="control-group form-group">
+              <label className="form-label">Country</label>
+              <Select<CommanDropDownType>
+                id="country"
+                classNamePrefix="Select"
+                name="country"
+                options={updatedCountries}
+                value={updatedCountries.filter(
+                  (option) => option.label === values.country
+                )}
+                onChange={(value: any) => {
+                  setFieldValue("country", value.label ? value.label : "");
+                  setFieldValue("district", "");
+                  setFieldValue("city", "");
+                }}
+              />
+            </div>
+          </Col>
+          {values.country ? (
+            <Col lg={6}>
+              <div className="control-group form-group">
+                <label className="form-label">District</label>
+                <Select<CommanDropDownType>
+                  id="district"
+                  name="district"
+                  options={updatedStates(
+                    values.country ? values.country : null
+                  )}
+                  value={updatedStates(
+                    values.country ? values.country : null
+                  ).filter((option) => option.label === values.district)}
+                  onChange={(value: any) => {
+                    setFieldValue("district", value.label ? value.label : "");
+                    setFieldValue("city", "");
+                  }}
+                />
+              </div>
+            </Col>
+          ) : null}
+          {values.district ? (
+            <Col lg={6}>
+              <div className="control-group form-group">
+                <label className="form-label">City</label>
+                <Select<CommanDropDownType>
+                  id="city"
+                  name="city"
+                  options={updatedCities(
+                    values.district ? values.district : null,
+                    "normal"
+                  )}
+                  value={updatedCities(
+                    values.district ? values.district : null,
+                    "normal"
+                  ).filter((option) => option.label === values.city)}
+                  onChange={(value: any) => setFieldValue("city", value.value)}
+                />
+              </div>
+            </Col>
+          ) : null}
+
           <Col lg={6}></Col>
           <Col lg={6} className="my-3">
             <Form.Group>
@@ -334,7 +545,7 @@ const PropertyInfo = () => {
             </Form.Group>
           </Col>
           <Col lg={6}></Col>
-          <Col lg={6}>
+          <Col lg={6} className="mb-3">
             <Form.Group>
               <Form.Check
                 className="ps-6 pro-switch-style d-flex align-items-center"
@@ -345,6 +556,21 @@ const PropertyInfo = () => {
                   setFieldValue("strictlyEntireRental", e.target.checked);
                 }}
                 checked={values.strictlyEntireRental}
+              />
+            </Form.Group>
+          </Col>
+          <Col lg={6}></Col>
+          <Col lg={6}>
+            <Form.Group>
+              <Form.Check
+                className="ps-6 pro-switch-style d-flex align-items-center"
+                type="switch"
+                id="isPublished"
+                label="is Published"
+                onChange={(e) => {
+                  setFieldValue("isPublished", e.target.checked);
+                }}
+                checked={values.isPublished}
               />
             </Form.Group>
           </Col>
@@ -374,22 +600,22 @@ const PropertyInfo = () => {
             <div className="control-group form-group">
               <label className="form-label">Country</label>
               <Select<CommanDropDownType>
-                id="country"
+                id="Lcountry"
                 classNamePrefix="Select"
-                name="country"
+                name="Lcountry"
                 options={updatedCountries}
                 value={updatedCountries.filter(
-                  (option) => option.label === values.country
+                  (option) => option.label === values.Lcountry
                 )}
                 onChange={(value: any) => {
-                  setFieldValue("country", value.label ? value.label : "");
+                  setFieldValue("Lcountry", value.label ? value.label : "");
                   setFieldValue("state", "");
-                  setFieldValue("city", "");
+                  setFieldValue("Lcity", "");
                 }}
               />
             </div>
           </Col>
-          {values.country ? (
+          {values.Lcountry ? (
             <Col lg={6}>
               <div className="control-group form-group">
                 <label className="form-label">State</label>
@@ -397,14 +623,14 @@ const PropertyInfo = () => {
                   id="state"
                   name="state"
                   options={updatedStates(
-                    values.country ? values.country : null
+                    values.Lcountry ? values.Lcountry : null
                   )}
                   value={updatedStates(
-                    values.country ? values.country : null
+                    values.Lcountry ? values.Lcountry : null
                   ).filter((option) => option.label === values.state)}
                   onChange={(value: any) => {
                     setFieldValue("state", value.label ? value.label : "");
-                    setFieldValue("city", "");
+                    setFieldValue("Lcity", "");
                   }}
                 />
               </div>
@@ -415,13 +641,13 @@ const PropertyInfo = () => {
               <div className="control-group form-group">
                 <label className="form-label">City</label>
                 <Select<CommanDropDownType>
-                  id="city"
-                  name="city"
-                  options={updatedCities(values.state ? values.state : null)}
+                  id="Lcity"
+                  name="Lcity"
+                  options={updatedCities(values.state ? values.state : null,'location')}
                   value={updatedCities(
-                    values.state ? values.state : null
-                  ).filter((option) => option.label === values.city)}
-                  onChange={(value: any) => setFieldValue("city", value.value)}
+                    values.state ? values.state : null,'location'
+                  ).filter((option) => option.label === values.Lcity)}
+                  onChange={(value: any) => setFieldValue("Lcity", value.value)}
                 />
               </div>
             </Col>
@@ -467,7 +693,7 @@ const PropertyInfo = () => {
           </Col>
         </Row>
         <Row className="Contect-details p-4">
-          <h4>Contect Details</h4>
+          <h4>Contact Details</h4>
           <Col lg={6}>
             <div className="control-group form-group">
               <label className="form-label">Name</label>
@@ -499,8 +725,7 @@ const PropertyInfo = () => {
                   value={values.CphoneNumber}
                   inputProps={{ name: "CphoneNumber", required: true }}
                   onChange={(e) => {
-                    phoneChange(e, "contect", "CphoneNumber");
-                    handleChange(e);
+                    setFieldValue("CphoneNumber", e);
                   }}
                 />
               </div>
@@ -518,8 +743,7 @@ const PropertyInfo = () => {
                   value={values.waNumber}
                   inputProps={{ name: "waNumber", required: true }}
                   onChange={(e) => {
-                    phoneChange(e, "contect", "waNumber");
-                    handleChange(e);
+                    setFieldValue("waNumber", e);
                   }}
                 />
               </div>
@@ -559,8 +783,7 @@ const PropertyInfo = () => {
                   inputProps={{ name: "OphoneNumber", required: true }}
                   value={values.OphoneNumber}
                   onChange={(e) => {
-                    phoneChange(e, "owner", "OphoneNumber");
-                    handleChange(e);
+                    setFieldValue("OphoneNumber", e);
                   }}
                 />
               </div>

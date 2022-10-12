@@ -11,8 +11,16 @@ export const propertyInfoApi = api.injectEndpoints({
             }),
             invalidatesTags: ["ProprtyInfo"]
         }),
+
+        getPropertyById: builder.query<any, any>({
+            query: (id) => ({
+                url: `${GET_PROPERTY}/${id}`,
+                method: 'GET',
+            }),
+            providesTags: ["ProprtyInfo"]
+        }),
     })
 })
 
-export const { useAddPropertyMutation } = propertyInfoApi
-export const { endpoints: { addProperty } } = propertyInfoApi
+export const { useAddPropertyMutation , useGetPropertyByIdQuery } = propertyInfoApi
+export const { endpoints: { addProperty , getPropertyById} } = propertyInfoApi
