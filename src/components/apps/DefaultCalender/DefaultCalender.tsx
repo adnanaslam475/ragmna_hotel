@@ -1,24 +1,17 @@
-import React, { useState } from 'react'
-import { Card, Row, Col, Button, Table } from 'react-bootstrap'
+import React from 'react'
+import { Card, Row, Col, Table } from 'react-bootstrap'
 import FullCalendar, { EventApi } from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import '@fullcalendar/common/main.css'
 import '@fullcalendar/daygrid/main.css'
 import '@fullcalendar/timegrid/main.css'
 import customViewPlugin from './custom-view-file.js'
-import { INITIAL_EVENTS, createEventId } from './event-utils'
+import { createEventId } from './event-utils'
 import PageHeader from '../../../Layouts/PageHeader/PageHeader'
-// import { DefaultDatePicker } from '../../../Data/Pages/Forms/FormAdvanceData/DataFormAdvanced'
 import CountUp from 'react-countup'
-import './ReservationList.scss'
-import DatePicker from 'react-datepicker'
+import './calender.scss'
 import 'react-datepicker/dist/react-datepicker.css'
-import { Calendar } from '@fullcalendar/core'
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
-import ReactDOM from 'react-dom'
-import { weeksToDays } from 'date-fns'
 interface DemoAppState {
 	weekendsVisible: boolean
 	currentEvents: EventApi[]
@@ -85,7 +78,6 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
 			</>
 		)
 	}
-	// const [state.value, onChange] == useState(new Date);
 	render() {
 		return (
 			<div>
@@ -97,13 +89,6 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
 								<Col lg={9} className="rateplan">
 									<div>
 										<span className="d-flex" style={{ gap: 5, alignItems: 'center' }}>
-											{/* <input
-                          className="form-control mb-4"
-                          placeholder="Guest Name"
-                          
-                        /> */}
-											{/* <DefaultDatePicker /> */}
-											{/* <input className="form-control mb-4 mt-4" placeholder="Check in" /> */}
 											<input
 												className="form-control mb-4 mt-4"
 												type="date"
@@ -113,7 +98,6 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
 												min="2018-01-01"
 												max="2018-12-31"
 											/>
-											{/* <DatePicker className="form-control mb-4 mt-4" /> */}
 											<input
 												className="form-control mb-4 mt-4"
 												type="date"
@@ -138,18 +122,12 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
 													backgroundColor: '#78b722',
 												}}
 											></i>
-
-											{/* <input className="form-control mb-4 mt-4" placeholder="Promo Code" type= "search"/> */}
 										</span>
 									</div>
 								</Col>
-								{/* <i className="fa-solid fa-magnifying-glass"></i> */}
 
 								<Col lg={3}>
 									<Row className="days-column">
-										{/* <Col lg={2}>
-                        <DefaultDatePicker />
-                      </Col> */}
 										<div className="coldays">
 											<CountUp className="h1-heading" end={1} />
 											<p>Day</p>
@@ -171,20 +149,20 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
 											<p>Days</p>
 										</div>
 									</Row>
-									<Row className="days-column" style={{ marginTop: 5 }}>
+									<Row className="days-column mt-2">
 										<div className="coldays">
 											<i className="fa fa-refresh" style={{ color: 'black' }}></i>
 										</div>
 										<div className="coldays">
-											<p style={{ marginBottom: 0 }}>Options</p>
+											<p className="mb-0">Options</p>
 										</div>
 										<div className="coldays">
-											<p style={{ marginBottom: 0 }}>UnAssigned(0)</p>
+											<p className="mb-0">UnAssigned(0)</p>
 										</div>
 									</Row>
 								</Col>
 							</Row>
-							<Row style={{ marginTop: 30 }}>
+							<Row className="mt-5">
 								<Col sm={1}>
 									<div
 										style={{
@@ -356,7 +334,7 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
 								</Col>
 							</Row>
 
-							<Row style={{ marginTop: 20 }}>
+							<Row className="mt-5">
 								<Col sm={12} style={{ paddingLeft: 0 }}>
 									<div style={{ height: '343px', overflowY: 'scroll' }}>
 										<FullCalendar
