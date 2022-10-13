@@ -271,7 +271,7 @@ const UserDetail = () => {
 
                         <div className="main-div-detail mt-6">
                             <div className="stay-info-div d-flex">
-                                <h4><b>PAYMENT</b>METHOD</h4>
+                                <h4><b>PAYMENT </b>METHOD</h4>
                                 <i className="fa fa-pencil" />
                             </div>
                             <div className="vehicle-info">
@@ -327,7 +327,7 @@ const UserDetail = () => {
                                 <Col xl={12}>
                                     <Card className="card-bg">
                                         <div>
-                                            <div className="task"><h3><b>TASK</b></h3></div>
+                                            <div className="task"><h4><b>TASK</b></h4></div>
                                             <DataTable
                                                 title
                                                 columns={columns ? columns : []}
@@ -410,17 +410,17 @@ const UserDetail = () => {
                                 <h6><b>$ 431.33</b></h6>
                             </div>
                         </div>
-                        <div>
-                            <Button>TAKE PAYMENT</Button>
+                        <div >
+                            <div className="payment-btn">
+                                <Button>TAKE PAYMENT</Button>
+                            </div>
+                            <div className="payment-btn">
+                                <Button>REFUND</Button>
+                            </div>
+                            <div className="payment-btn">
+                                <Button>SEND REGISTRATION FORM</Button>
+                            </div>
                         </div>
-                        <div>
-                            <Button>REFUND</Button>
-                        </div>
-                        <div>
-                            <Button>SEND REGISTRATION FORM</Button>
-                        </div>
-
-
                     </Card>
                 </Col>
             </Row>
