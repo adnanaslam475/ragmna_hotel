@@ -5,22 +5,22 @@ import { Button } from "react-bootstrap";
 
 // Alerts Notifications
 
-export function Success(msg:string) {
+export function Success(msg: string) {
   // const Toastslidewarn = () =>
-  console.log(msg,"msg");
-  
-    toast.success(
-      <p className="text-white tx-16 mb-0">
-        Success: {msg}
-        {/* Success: Well done Details Submitted Successfully */}
-      </p>,
-      {
-        position: toast.POSITION.TOP_RIGHT,
-        hideProgressBar: true,
-        autoClose: 2000,
-        theme: "colored",
-      }
-    );
+  console.log(msg, "msg");
+
+  toast.success(
+    <p className="text-white tx-16 mb-0">
+      Success: {msg}
+      {/* Success: Well done Details Submitted Successfully */}
+    </p>,
+    {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      autoClose: 2000,
+      theme: "colored",
+    }
+  );
   // return (
   //   <div>
   //     <Button className="me-2" variant="success" onClick={Toastslidewarn}>
@@ -91,16 +91,16 @@ export function CenterInfo() {
   );
 }
 
-export const CenterDanger = (msg:string) => {
+export const CenterDanger = (msg: string) => {
   console.log(msg);
-  
-    toast.error(<p className="text-white tx-16 mb-0">Error: {msg}</p>, {
-      position: toast.POSITION.TOP_CENTER,
-      hideProgressBar: true,
-      autoClose: 2000,
-      theme: "colored",
-    });
-}
+
+  toast.error(<p className="text-white tx-16 mb-0">Error: {msg}</p>, {
+    position: toast.POSITION.TOP_CENTER,
+    hideProgressBar: true,
+    autoClose: 2000,
+    theme: "colored",
+  });
+};
 
 export function Centerwarning() {
   const Toastslidewarn = () =>
@@ -168,20 +168,20 @@ export function WarningLeft() {
   );
 }
 
-export function DangerLeft(msg:string) {
+export function DangerLeft(msg: string) {
   // const Toastslidewarn = () =>
-    toast.error(
-      <p className="text-white tx-16 mb-0">
-        {msg}
-        {/* <h3>Error!</h3>please check Your details ...file is missing */}
-      </p>,
-      {
-        position: toast.POSITION.TOP_RIGHT,
-        hideProgressBar: true,
-        autoClose: 2000,
-        theme: "colored",
-      }
-    );
+  toast.error(
+    <p className="text-white tx-16 mb-0">
+      {msg}
+      {/* <h3>Error!</h3>please check Your details ...file is missing */}
+    </p>,
+    {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      autoClose: 2000,
+      theme: "colored",
+    }
+  );
 
   // return (
   //   <div>

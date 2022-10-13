@@ -6,7 +6,10 @@ import * as Yup from "yup";
 import Select from "react-select";
 import { AmenitiesDetails, CommanDropDownType } from "../types";
 import { useParams } from "react-router-dom";
-import { DangerLeft, Success } from "../../../../../Redux/Services/toaster-service";
+import {
+  DangerLeft,
+  Success,
+} from "../../../../../Redux/Services/toaster-service";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../../Redux/Store";
 import {
@@ -55,7 +58,7 @@ const Amenities = () => {
       let responce = await dispatch(addAmenities(payload)).unwrap();
       Success(" Amenities had been added");
     } catch (err: any) {
-        DangerLeft("Something went wrong")
+      DangerLeft("Something went wrong");
     }
   };
 
