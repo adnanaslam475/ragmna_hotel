@@ -1,3 +1,26 @@
 .sub-tab {
     padding: 0;
 }
+
+.reserve-tab {
+    background-color: white;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    padding-left: 15px;
+
+    .panel-tabs.panel-secondary.nav .nav-item .nav-link.active {
+        border-radius: 20px !important;
+    }
+}
+
+.panel-secondary {
+    .reserve-data {
+        background-color: white;
+        border-radius: 10px;
+        padding: 0 !important;
+
+        .tab-content {
+            padding: 15px !important;
+        }
+    }
+}

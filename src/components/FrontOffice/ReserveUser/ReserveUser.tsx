@@ -28,7 +28,7 @@ const ReserveUser = () => {
                     activeKey={key}
                   >
 
-                    <div className="tab-name">
+                    <div className="reserve-tab">
 
                       <Nav
                         variant="pills"
@@ -48,7 +48,7 @@ const ReserveUser = () => {
                         </Nav.Item>
                       </Nav>
                     </div>
-                    <div className="tab-data">
+                    <div className="reserve-data">
                       <Tab.Content>
                         <Tab.Pane eventKey="first">
                           <UserDetail />

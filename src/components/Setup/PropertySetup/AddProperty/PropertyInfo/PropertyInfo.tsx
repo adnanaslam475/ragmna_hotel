@@ -1,26 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Row, Form } from "react-bootstrap";
 import PhoneInput from "react-phone-input-2";
 import "./PropertyInfo.scss";
 import Select from "react-select";
-import {
-  CommanDropDownType,
-} from "./../types";
-import { useFormik } from "formik";
+import { CommanDropDownType, InitialValues } from "./../types";
+import { useFormik, yupToFormErrors } from "formik";
 import * as Yup from "yup";
 import { useUser } from "../../../../Authentication/firebaseAuth/firebaseAuthSlice";
 import { Country, State, City } from "country-state-city";
 import { ICountry, ICity } from "country-state-city";
-import { useAddPropertyMutation } from "./propertyInfoApi";
+import { useGetPropertyByIdQuery } from "./propertyInfoApi";
 import { useNavigate, useParams } from "react-router-dom";
+import { skipToken } from "@reduxjs/toolkit/query/react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../../../Redux/Store";
+import {
+  addPropertyData,
+  getPropertyDataById,
+  updatePropertyData,
+} from "./propertyInfoSlice";
+export interface PropertyInfoProps {
+  editPid: string | undefined;
+}
 
-const PropertyInfo = () => {
+const PropertyInfo = (props: PropertyInfoProps) => {
+  const { editPid } = props;
+  const dispatch = useDispatch<AppDispatch>();
 
-  let { id } = useParams();
+  // let { id } = useParams();
 
-  useEffect(() => {
-      console.log(id);
-  }, [id])
+  // useEffect(() => {
+  //     console.log(id);
+  // }, [id])
 
   const goodFors: CommanDropDownType[] = [
     { value: "", label: "Select Good For" },
@@ -34,15 +45,6 @@ const PropertyInfo = () => {
     { value: "Rented", label: "Rented" },
   ];
 
-  const [contactDetails, setContactDetails] = React.useState({
-    Cname: "",
-    CphoneNumber: "",
-    waNumber: "",
-  });
-  const [ownerDetails, setOwnerDetails] = React.useState({
-    Oname: "",
-    OphoneNumber: "",
-  });
   const countries = Country.getAllCountries();
   const updatedCountries: CommanDropDownType[] = countries.map(
     (country: ICountry) => {
@@ -63,47 +65,107 @@ const PropertyInfo = () => {
     );
   };
 
-  const phoneChange = (e, type, phoneNumber) => {
-    switch (type) {
-      case "contect":
-        setContactDetails({
-          ...contactDetails,
-          [phoneNumber]: e,
-        });
-        break;
-      case "owner":
-        setOwnerDetails({
-          ...ownerDetails,
-          [phoneNumber]: e,
-        });
-        break;
+  const updatedCities = (state, types) => {
+    switch (types) {
+      case "normal":
+        let ns: any = updatedStates(values.country).findIndex(
+          (x) => x.label === state
+        );
+        let nc: any = updatedCountries.findIndex(
+          (x) => x.label === values.country
+        );
 
+        return City.getCitiesOfState(
+          updatedCountries[nc]?.value,
+          updatedStates(values.country)[ns].value
+        ).map((city: ICity) => ({
+          label: city.name,
+          value: city.name,
+        }));
+      case "location":
+        let s: any = updatedStates(values.Lcountry).findIndex(
+          (x) => x.label === state
+        );
+        let c: any = updatedCountries.findIndex(
+          (x) => x.label === values.Lcountry
+        );
+
+        return City.getCitiesOfState(
+          updatedCountries[c]?.value,
+          updatedStates(values.Lcountry)[s]?.value
+        ).map((city: ICity) => ({
+          label: city.name,
+          value: city.name,
+        }));
       default:
-        break;
+        return [];
     }
+    //   if (values.Lcountry && state) {
+    //     let s: any = updatedStates(values.Lcountry).findIndex(
+    //       (x) => x.label === state
+    //     );
+    //     let c: any = updatedCountries.findIndex(
+    //       (x) => x.label === values.Lcountry
+    //     );
+
+    //     return City.getCitiesOfState(
+    //       updatedCountries[c]?.value,
+    //       updatedStates(values.Lcountry)[s].value
+    //     ).map((city: ICity) => ({
+    //       label: city.name,
+    //       value: city.name,
+    //     }));
+    //   } else if (values.country && state) {
+    //     let s: any = updatedStates(values.country).findIndex(
+    //       (x) => x.label === state
+    //     );
+    //     let c: any = updatedCountries.findIndex(
+    //       (x) => x.label === values.country
+    //     );
+
+    //     return City.getCitiesOfState(
+    //       updatedCountries[c]?.value,
+    //       updatedStates(values.country)[s].value
+    //     ).map((city: ICity) => ({
+    //       label: city.name,
+    //       value: city.name,
+    //     }));
+    //   } else {
+    //     return [];
+    //   }
   };
 
-  const initialValues = {
+  let initialValuesInfo: InitialValues = {
     name: "",
     email: "",
     propertyType: "",
     goodFor: "",
     space: 0,
+    briefDescription: "",
+    longDescription: "",
     Cname: "",
     CphoneNumber: "",
     waNumber: "",
     Oname: "",
     OphoneNumber: "",
     address: "",
-    city: "",
+    Lcity: "",
     state: "",
-    country: "",
+    Lcountry: "",
     latitude: "",
     longitude: "",
-    images: [],
+    country: "",
+    city: "",
+    district: "",
+    virtualTourLink: "",
+    // sections: [],
+    // images: [],
+    // amenities: [],
     availableForEntireRental: false,
     strictlyEntireRental: false,
+    isPublished: false,
   };
+  const [initialValues, setInitialValues] = useState(initialValuesInfo);
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Please Enter Name"),
@@ -111,25 +173,39 @@ const PropertyInfo = () => {
     propertyType: Yup.string().required("Please Select Propert Type"),
     goodFor: Yup.string().required("Please Select Good For"),
     space: Yup.number(),
+    briefDescription: Yup.string().required(),
+    longDescription: Yup.string().required(),
     Cname: Yup.string().required("Please Enter Name"),
     CphoneNumber: Yup.string(),
     waNumber: Yup.string(),
     Oname: Yup.string().required("Please Enter Name"),
     OphoneNumber: Yup.string(),
     address: Yup.string().required("Please Enter Address"),
-    city: Yup.string().required("Please Enter City"),
+    Lcity: Yup.string().required("Please Enter City"),
     state: Yup.string().required("Please Enter State"),
-    country: Yup.string().required("Please Enter Country"),
+    Lcountry: Yup.string().required("Please Enter Country"),
     latitude: Yup.string().required("Please Enter Latitude"),
     longitude: Yup.string().required("Please Enter Longitude"),
-    images: Yup.array(),
+    city: Yup.string(),
+    country: Yup.string(),
+    district: Yup.string(),
+    virtualTourLink: Yup.string(),
+    // sections: Yup.array(),
+    // images: Yup.array(),
+    // amenities: Yup.array(),
     availableForEntireRental: Yup.boolean(),
     strictlyEntireRental: Yup.boolean(),
+    isPublished: Yup.boolean(),
   });
 
   const { user } = useUser();
 
-  const [addProperty, Result] = useAddPropertyMutation();
+  let navigate = useNavigate();
+
+  const navigateToId = (id) => {
+    let path = `/setup/propertysetup/add-property/${id}`;
+    navigate(path);
+  };
 
   const onSubmit = async (values) => {
     try {
@@ -137,31 +213,31 @@ const PropertyInfo = () => {
       payload["supplierId"] = user.supplierId;
       payload["contact"] = {
         name: values.Cname,
-        phoneNumber: contactDetails.CphoneNumber,
-        waNumber: contactDetails.waNumber,
+        phoneNumber: values.CphoneNumber,
+        waNumber: values.waNumber,
       };
       payload["location"] = {
         address: values.address,
-        city: values.city,
+        city: values.Lcity,
         state: values.state,
-        country: values.country,
+        country: values.Lcountry,
         latitude: values.latitude,
         longitude: values.longitude,
       };
       payload["owner"] = {
         name: values.Oname,
-        phoneNumber: ownerDetails.OphoneNumber,
+        phoneNumber: values.OphoneNumber,
       };
-      payload["images"] = [];
+      // payload["images"] = [];
       // payload['availableForEntireRental'] = isChecked
       let deletekeys = [
         "Cname",
         "CphoneNumber",
         "waNumber",
         "address",
-        "city",
+        "Lcity",
         "state",
-        "country",
+        "Lcountry",
         "latitude",
         "longitude",
         "Oname",
@@ -170,25 +246,23 @@ const PropertyInfo = () => {
       for (let i = 0; i < deletekeys.length; i++) {
         delete payload[deletekeys[i]];
       }
-      await addProperty(payload);
-      console.log(payload, "payload");
+      if (editPid) {
+        payload["id"] = editPid;
+        let response: any = await dispatch(
+          updatePropertyData(payload)
+        ).unwrap();
+      } else {
+        let response: any = await dispatch(addPropertyData(payload)).unwrap();
+        navigateToId(response.data._id);
+      }
     } catch (err: any) {
       console.log(err, "err");
     }
   };
-
-  let navigate = useNavigate();
-
-  const navigateToId = () => {
-    let path = `/setup/propertysetup/add-property/${Result.data.data._id}`;
-    navigate(path)
-  }
-  useEffect(() => {
-    if (Result.isSuccess) {
-      navigateToId()
-    }
-  }, [Result.isSuccess])
-
+  // const { data, isLoading, isSuccess, isError } = useGetPropertyByIdQuery(
+  //   editPid,
+  //   { skip: !!editPid }
+  // );
   const {
     handleChange,
     handleSubmit,
@@ -202,26 +276,45 @@ const PropertyInfo = () => {
     validationSchema,
     onSubmit,
   });
-  const updatedCities = (state) => {
-    if (values.country && state) {
-      let s: any = updatedStates(values.country).findIndex(
-        (x) => x.label === state
-      );
-      let c: any = updatedCountries.findIndex(
-        (x) => x.label === values.country
-      );
-
-      return City.getCitiesOfState(
-        updatedCountries[c]?.value,
-        updatedStates(values.country)[s].value
-      ).map((city: ICity) => ({
-        label: city.name,
-        value: city.name,
-      }));
-    } else {
-      return [];
+  const getById = async () => {
+    if (editPid) {
+      let repsonse: any = await dispatch(getPropertyDataById(editPid)).unwrap();
+      console.log(repsonse);
+      if (repsonse?.data) {
+        setValues({
+          ...values,
+          name: repsonse.data?.name,
+          email: repsonse.data?.email,
+          propertyType: repsonse.data?.propertyType,
+          goodFor: repsonse.data?.goodFor,
+          space: repsonse.data?.space,
+          Cname: repsonse.data?.contact.name,
+          CphoneNumber: repsonse.data?.contact.phoneNumber,
+          waNumber: repsonse.data?.contact.waNumber,
+          Oname: repsonse.data?.owner.name,
+          briefDescription: repsonse?.data?.briefDescription,
+          longDescription: repsonse?.data?.longDescription,
+          OphoneNumber: repsonse.data?.owner.phoneNumber,
+          address: repsonse.data?.location.address,
+          city: repsonse.data?.city,
+          Lcity: repsonse.data?.location.city,
+          state: repsonse.data?.location.state,
+          Lcountry: repsonse.data?.location.country,
+          district: repsonse.data?.district,
+          country: repsonse.data?.country,
+          latitude: repsonse.data?.location.latitude,
+          longitude: repsonse.data?.longitude,
+          availableForEntireRental: repsonse.data?.availableForEntireRental,
+          strictlyEntireRental: repsonse.data?.strictlyEntireRental,
+        });
+      }
     }
   };
+
+  useEffect(() => {
+    if (editPid) getById();
+  }, [editPid]);
+
   return (
     <React.Fragment>
       <form onSubmit={handleSubmit}>
@@ -299,6 +392,42 @@ const PropertyInfo = () => {
               />
             </div>
           </Col>
+          <Col lg={12}>
+            <div className="control-group form-group">
+              <label className="form-label">Brief Description</label>
+              <textarea
+                className={
+                  touched.briefDescription && errors.briefDescription
+                    ? "form-control required error-border"
+                    : "form-control required"
+                }
+                placeholder="Brief Description"
+                name="briefDescription"
+                value={values.briefDescription}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
+            </div>
+          </Col>
+          <Col lg={12}>
+            <div className="control-group form-group">
+              <label className="form-label">Long Description</label>
+              <textarea
+                className={
+                  touched.longDescription && errors.longDescription
+                    ? "form-control required error-border"
+                    : "form-control required"
+                }
+                placeholder="long Description"
+                name="longDescription"
+                value={values.longDescription}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
+            </div>
+          </Col>
           <Col lg={6}>
             <div className="control-group form-group">
               <label className="form-label">Space</label>
@@ -318,6 +447,86 @@ const PropertyInfo = () => {
               />
             </div>
           </Col>
+          <Col lg={6}>
+            <div className="control-group form-group">
+              <label className="form-label">Virtual Tour Link</label>
+              <input
+                type="text"
+                className={
+                  touched.space && errors.space
+                    ? "form-control required error-border"
+                    : "form-control required"
+                }
+                placeholder="Virtual Tour Link"
+                name="virtualTourLink"
+                value={values.virtualTourLink}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
+            </div>
+          </Col>
+          <Col lg={6}>
+            <div className="control-group form-group">
+              <label className="form-label">Country</label>
+              <Select<CommanDropDownType>
+                id="country"
+                classNamePrefix="Select"
+                name="country"
+                options={updatedCountries}
+                value={updatedCountries.filter(
+                  (option) => option.label === values.country
+                )}
+                onChange={(value: any) => {
+                  setFieldValue("country", value.label ? value.label : "");
+                  setFieldValue("district", "");
+                  setFieldValue("city", "");
+                }}
+              />
+            </div>
+          </Col>
+          {values.country ? (
+            <Col lg={6}>
+              <div className="control-group form-group">
+                <label className="form-label">District</label>
+                <Select<CommanDropDownType>
+                  id="district"
+                  name="district"
+                  options={updatedStates(
+                    values.country ? values.country : null
+                  )}
+                  value={updatedStates(
+                    values.country ? values.country : null
+                  ).filter((option) => option.label === values.district)}
+                  onChange={(value: any) => {
+                    setFieldValue("district", value.label ? value.label : "");
+                    setFieldValue("city", "");
+                  }}
+                />
+              </div>
+            </Col>
+          ) : null}
+          {values.district ? (
+            <Col lg={6}>
+              <div className="control-group form-group">
+                <label className="form-label">City</label>
+                <Select<CommanDropDownType>
+                  id="city"
+                  name="city"
+                  options={updatedCities(
+                    values.district ? values.district : null,
+                    "normal"
+                  )}
+                  value={updatedCities(
+                    values.district ? values.district : null,
+                    "normal"
+                  ).filter((option) => option.label === values.city)}
+                  onChange={(value: any) => setFieldValue("city", value.value)}
+                />
+              </div>
+            </Col>
+          ) : null}
+
           <Col lg={6}></Col>
           <Col lg={6} className="my-3">
             <Form.Group>
@@ -334,7 +543,7 @@ const PropertyInfo = () => {
             </Form.Group>
           </Col>
           <Col lg={6}></Col>
-          <Col lg={6}>
+          <Col lg={6} className="mb-3">
             <Form.Group>
               <Form.Check
                 className="ps-6 pro-switch-style d-flex align-items-center"
@@ -345,6 +554,21 @@ const PropertyInfo = () => {
                   setFieldValue("strictlyEntireRental", e.target.checked);
                 }}
                 checked={values.strictlyEntireRental}
+              />
+            </Form.Group>
+          </Col>
+          <Col lg={6}></Col>
+          <Col lg={6}>
+            <Form.Group>
+              <Form.Check
+                className="ps-6 pro-switch-style d-flex align-items-center"
+                type="switch"
+                id="isPublished"
+                label="is Published"
+                onChange={(e) => {
+                  setFieldValue("isPublished", e.target.checked);
+                }}
+                checked={values.isPublished}
               />
             </Form.Group>
           </Col>
@@ -374,22 +598,22 @@ const PropertyInfo = () => {
             <div className="control-group form-group">
               <label className="form-label">Country</label>
               <Select<CommanDropDownType>
-                id="country"
+                id="Lcountry"
                 classNamePrefix="Select"
-                name="country"
+                name="Lcountry"
                 options={updatedCountries}
                 value={updatedCountries.filter(
-                  (option) => option.label === values.country
+                  (option) => option.label === values.Lcountry
                 )}
                 onChange={(value: any) => {
-                  setFieldValue("country", value.label ? value.label : "");
+                  setFieldValue("Lcountry", value.label ? value.label : "");
                   setFieldValue("state", "");
-                  setFieldValue("city", "");
+                  setFieldValue("Lcity", "");
                 }}
               />
             </div>
           </Col>
-          {values.country ? (
+          {values.Lcountry ? (
             <Col lg={6}>
               <div className="control-group form-group">
                 <label className="form-label">State</label>
@@ -397,14 +621,14 @@ const PropertyInfo = () => {
                   id="state"
                   name="state"
                   options={updatedStates(
-                    values.country ? values.country : null
+                    values.Lcountry ? values.Lcountry : null
                   )}
                   value={updatedStates(
-                    values.country ? values.country : null
+                    values.Lcountry ? values.Lcountry : null
                   ).filter((option) => option.label === values.state)}
                   onChange={(value: any) => {
                     setFieldValue("state", value.label ? value.label : "");
-                    setFieldValue("city", "");
+                    setFieldValue("Lcity", "");
                   }}
                 />
               </div>
@@ -415,13 +639,17 @@ const PropertyInfo = () => {
               <div className="control-group form-group">
                 <label className="form-label">City</label>
                 <Select<CommanDropDownType>
-                  id="city"
-                  name="city"
-                  options={updatedCities(values.state ? values.state : null)}
+                  id="Lcity"
+                  name="Lcity"
+                  options={updatedCities(
+                    values.state ? values.state : null,
+                    "location"
+                  )}
                   value={updatedCities(
-                    values.state ? values.state : null
-                  ).filter((option) => option.label === values.city)}
-                  onChange={(value: any) => setFieldValue("city", value.value)}
+                    values.state ? values.state : null,
+                    "location"
+                  ).filter((option) => option.label === values.Lcity)}
+                  onChange={(value: any) => setFieldValue("Lcity", value.value)}
                 />
               </div>
             </Col>
@@ -467,7 +695,7 @@ const PropertyInfo = () => {
           </Col>
         </Row>
         <Row className="Contect-details p-4">
-          <h4>Contect Details</h4>
+          <h4>Contact Details</h4>
           <Col lg={6}>
             <div className="control-group form-group">
               <label className="form-label">Name</label>
@@ -499,8 +727,7 @@ const PropertyInfo = () => {
                   value={values.CphoneNumber}
                   inputProps={{ name: "CphoneNumber", required: true }}
                   onChange={(e) => {
-                    phoneChange(e, "contect", "CphoneNumber");
-                    handleChange(e);
+                    setFieldValue("CphoneNumber", e);
                   }}
                 />
               </div>
@@ -518,8 +745,7 @@ const PropertyInfo = () => {
                   value={values.waNumber}
                   inputProps={{ name: "waNumber", required: true }}
                   onChange={(e) => {
-                    phoneChange(e, "contect", "waNumber");
-                    handleChange(e);
+                    setFieldValue("waNumber", e);
                   }}
                 />
               </div>
@@ -559,8 +785,7 @@ const PropertyInfo = () => {
                   inputProps={{ name: "OphoneNumber", required: true }}
                   value={values.OphoneNumber}
                   onChange={(e) => {
-                    phoneChange(e, "owner", "OphoneNumber");
-                    handleChange(e);
+                    setFieldValue("OphoneNumber", e);
                   }}
                 />
               </div>

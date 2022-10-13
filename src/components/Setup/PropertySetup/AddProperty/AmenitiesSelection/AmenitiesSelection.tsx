@@ -5,6 +5,19 @@ import { useGetAmenitiesQuery } from "../Amenities/amenitiesApi";
 const AmenitiesSelection = () => {
   const { data, isError, isSuccess, isLoading } = useGetAmenitiesQuery();
 
+  const [isCheckedData, setIsCheckedData] = useState<any>([]);
+
+  const onHandelChnage = (e, index) => {
+    let val = e.target.value;
+    if (e.target.checked) {
+      setIsCheckedData([...isCheckedData, val]);
+    } else {
+      let i = isCheckedData.indexOf(val);
+      isCheckedData.splice(i, 1);
+      setIsCheckedData(isCheckedData);
+    }
+  };
+
   return (
     <React.Fragment>
       <Row className="Amenities-form p-4 mb-4">
@@ -16,9 +29,11 @@ const AmenitiesSelection = () => {
                 <input
                   type="checkbox"
                   className="custom-control-input"
-                  name="example-checkbox5"
-                  defaultValue="option5"
-                  defaultChecked
+                  name={item.name}
+                  value={item.name}
+                  onChange={(e) => {
+                    onHandelChnage(e, index);
+                  }}
                 />
                 <span className="custom-control-label">{item.name}</span>
               </label>

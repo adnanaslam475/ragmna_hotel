@@ -3,9 +3,11 @@ import { Form, Alert, InputGroup, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { CenterDanger } from "../../../Redux/Services/toaster-service";
 import { useLogInMutation } from "./firebaseAuthApi";
-import { useUser } from "./firebaseAuthSlice";
-
+import { authLogin, useUser } from "./firebaseAuthSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { AppDispatch } from "../../../Redux/Store";
 const SignIn = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const [err, setError] = useState("");
   const [loading, setLoader] = useState(false);
   const [data, setData] = useState({
@@ -17,7 +19,7 @@ const SignIn = () => {
     setData({ ...data, [e.target.name]: e.target.value });
     setError("");
   };
-  const [logIn, Result] = useLogInMutation();
+  // const [logIn, Result] = useLogInMutation();
   const { user } = useUser();
   let navigate = useNavigate();
   const RouteChange = () => {
@@ -25,25 +27,27 @@ const SignIn = () => {
     navigate(path);
   };
 
-  useEffect(() => {
-    if (Result.isError) {
-      let errors: any = Result.error;
-      setLoader(false);
-      if (errors?.data?.message) {
-        for (let i = 0; i < errors.data.message.length; i++) {
-          CenterDanger(errors.data.message[i]);
-        }
-      }
-      if (Result.isSuccess) {
-        setLoader(false);
-        RouteChange();
-      }
-    }
-  }, [Result.isError, Result.isSuccess]);
+  // useEffect(() => {
+  //   if (Result.isError) {
+  //     let errors: any = Result.error;
+  //     setLoader(false);
+  //     if (errors?.data?.message) {
+  //       for (let i = 0; i < errors.data.message.length; i++) {
+  //         CenterDanger(errors.data.message[i]);
+  //       }
+  //     }
+  //     if (Result.isSuccess) {
+  //       setLoader(false);
+  //       RouteChange();
+  //     }
+  //   }
+  // }, [Result.isError, Result.isSuccess]);
   const OnLogin: any = async (e) => {
+    setLoader(true);
     try {
-      setLoader(true);
-      await logIn(data);
+      await dispatch(authLogin(data)).unwrap();
+      setLoader(false);
+      // await logIn(data);
     } catch (err: any) {
       setLoader(false);
       console.log(err, "errrr");
