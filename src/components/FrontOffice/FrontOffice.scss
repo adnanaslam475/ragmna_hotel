@@ -1,23 +1,25 @@
-.card-bg{
+.card-bg {
     background-color: transparent !important;
     box-shadow: none !important;
 }
 
-.panel-secondary{
-    .tab-name{
+.panel-secondary {
+    .tab-name {
         background-color: white;
         margin-bottom: 20px;
         border-radius: 20px;
-        .panel-tabs.panel-secondary.nav .nav-item .nav-link.active{
+
+        .panel-tabs.panel-secondary.nav .nav-item .nav-link.active {
             border-radius: 20px !important;
         }
     }
 
-    .tab-data{
+    .tab-data {
         background-color: white;
         border-radius: 10px;
         padding: 0 !important;
-        .tab-content{
+
+        .tab-content {
             padding: 5px !important;
         }
     }

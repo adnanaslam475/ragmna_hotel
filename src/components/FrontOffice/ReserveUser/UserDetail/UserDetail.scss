@@ -1,0 +1,252 @@
+.card-bg {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+
+
+.plus-btn {
+    border: 1px solid gray;
+}
+
+
+.dEloFe {
+    display: flex !important;
+    justify-content: center !important
+}
+
+.main-div-detail {
+    border: 2px solid rgb(214, 214, 214);
+}
+
+.stay-info-div {
+    padding: 8px;
+    border-bottom: 2px solid rgb(214, 214, 214);
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f3f3f3;
+
+    h4 {
+        margin: 0 0 0 4px !important;
+    }
+
+    i {
+        border: 1px solid gray;
+        border-radius: 50%;
+        width: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 30px;
+    }
+}
+
+.btn-add-room {
+    background-color: #f3f3f3;
+    padding: 5px;
+}
+
+.rate-plan-div {
+    padding: 8px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px dotted rgb(214, 214, 214);
+
+    i {
+        border: 1px solid gray;
+        border-radius: 50%;
+        width: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 30px;
+    }
+}
+
+.time-div {
+    padding: 8px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-bottom: 2px dotted rgb(214, 214, 214);
+    color: #939393;
+
+    i {
+        border: 1px solid gray;
+        border-radius: 50%;
+        width: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 30px;
+    }
+
+    p {
+        margin: 0px !important;
+        padding: 0 10px 0 10px;
+    }
+
+
+}
+
+
+
+.total-div {
+    padding: 8px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px dotted rgb(214, 214, 214);
+    color: #939393;
+
+    i {
+        width: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 30px;
+    }
+
+    p {
+        margin: 0px !important;
+        padding: 0 10px 0 10px;
+    }
+}
+
+.add-ons-sub {
+    height: 150px;
+    margin: 0px;
+    color: #939393;
+
+    h2 {
+        padding: 6px;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        color: #939393;
+    }
+
+}
+
+.guest-info {
+    h4 {
+        margin: 0px !important;
+        padding-left: 16px;
+    }
+
+    p {
+        margin: 0px !important;
+    }
+}
+
+.guest-profile-div {
+    border: 2px solid rgb(214, 214, 214);
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+
+    i {
+        justify-content: space-evenly;
+        display: flex;
+        align-content: center;
+        padding: 5px;
+    }
+
+    .edit-icon {
+        padding: 5px;
+        margin-top: 12px;
+        border: none;
+    }
+}
+
+.contact-info {
+    h4 {
+        margin-bottom: 15px !important;
+        padding-left: 0px !important;
+    }
+}
+
+.add-more-guests-btn {
+    border-top: 2px solid rgb(214, 214, 214);
+    padding: 6px;
+}
+
+.vehicle-info {
+    padding: 8px;
+    height: 105px;
+    color: #939393;
+
+    h5 {
+        padding: 6px;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        color: #939393;
+    }
+}
+
+.marketing-info {
+    padding: 8px;
+    height: 120px;
+    color: #939393;
+
+    p {
+        margin: 0px !important
+    }
+}
+
+.task {
+    border: 2px solid rgb(214, 214, 214);
+    background-color: #f3f3f3;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    height: 60px;
+    padding: 4px;
+}
+
+.cEMZEX {
+    display: none !important;
+}
+
+.policies {
+    i {
+        border: 1px solid rgb(214, 214, 214);
+        border-radius: 50%;
+        width: 23px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    span {
+        margin-left: 4px
+    }
+}
+
+.trip-summary {
+
+    border: 2px solid rgb(214, 214, 214);
+
+    .h3 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f3f3f3;
+        border-bottom: 2px solid rgb(214, 214, 214);
+    }
+
+}
+
+.trip-total {
+    border-top: 2px solid rgb(214, 214, 214);
+}
