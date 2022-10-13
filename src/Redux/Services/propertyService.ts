@@ -14,4 +14,7 @@ export const deletePropertyById = (id) => {
 export const addProperty = (payload) => {
     return apiInstance.post(GET_PROPERTY,payload,{headers:authHeader()})
 }
+export const updateProperty = (id,payload) => {
+    return apiInstance.put(GET_PROPERTY+`/${id}`,payload,{headers:authHeader()})
+}
    

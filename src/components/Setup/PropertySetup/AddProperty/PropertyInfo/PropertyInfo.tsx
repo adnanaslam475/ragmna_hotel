@@ -14,7 +14,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { skipToken } from "@reduxjs/toolkit/query/react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../../Redux/Store";
-import { addPropertyData } from "./propertyInfoSlice";
+import {
+  addPropertyData,
+  getPropertyDataById,
+  updatePropertyData,
+} from "./propertyInfoSlice";
 export interface PropertyInfoProps {
   editPid: string | undefined;
 }
@@ -242,9 +246,15 @@ const PropertyInfo = (props: PropertyInfoProps) => {
       for (let i = 0; i < deletekeys.length; i++) {
         delete payload[deletekeys[i]];
       }
-      let response: any = await dispatch(addPropertyData(payload));
-      navigateToId(response.data._id);
-      console.log(payload, "payload");
+      if (editPid) {
+        payload["id"] = editPid;
+        let response: any = await dispatch(
+          updatePropertyData(payload)
+        ).unwrap();
+      } else {
+        let response: any = await dispatch(addPropertyData(payload)).unwrap();
+        navigateToId(response.data._id);
+      }
     } catch (err: any) {
       console.log(err, "err");
     }
@@ -253,61 +263,6 @@ const PropertyInfo = (props: PropertyInfoProps) => {
   //   editPid,
   //   { skip: !!editPid }
   // );
-  // const getById = () => {
-  //   if (data?.data && isSuccess) {
-  //     console.log(data?.data);
-
-  //     setInitialValues({
-  //       ...initialValues,
-  //       name: data.data?.name,
-  //       email: data.data?.email,
-  //       propertyType: data.data?.propertyType,
-  //       goodFor: data.data?.goodFor,
-  //       space: data.data?.space,
-  //       Cname: data.data?.contact.name,
-  //       CphoneNumber: data.data?.contact.phoneNumber,
-  //       waNumber: data.data?.contact.waNumber,
-  //       Oname: data.data?.owner.name,
-  //       briefDescription: data?.data?.briefDescription,
-  //       longDescription: data?.data?.longDescription,
-  //       OphoneNumber: data.data?.owner.phoneNumber,
-  //       address: data.data?.location.address,
-  //       city: data.data?.location.city,
-  //       state: data.data?.location.state,
-  //       country: data.data?.location.country,
-  //       latitude: data.data?.location.latitude,
-  //       longitude: data.data?.longitude,
-  //       availableForEntireRental: data.data?.availableForEntireRental,
-  //       strictlyEntireRental: data.data?.strictlyEntireRental,
-  //     });
-
-  //     // values.name = data?.data?.name;
-  //     // values.email = data?.data?.email;
-  //     // values.propertyType = data?.data?.propertyType;
-  //     // values.goodFor = data?.data?.goodFor;
-  //     // values.space = data?.data?.space;
-  //     // values.Cname = data?.data?.contact.name;
-  //     // values.CphoneNumber = data?.data?.contact.phoneNumber;
-  //     // values.waNumber = data?.data?.contact.waNumber;
-  //     // values.Oname = data?.data?.owner.name;
-  //     // values.OphoneNumber = data?.data?.owner.phoneNumber;
-  //     // values.address = data?.data?.location.address;
-  //     // values.Lcity = data?.data?.location.city;
-  //     // values.state = data?.data?.location.state;
-  //     // values.Lcountry = data?.data?.location.country;
-  //     // values.latitude = data?.data?.location.latitude;
-  //     // values.longitude = data?.data?.location.longitude;
-  //     // values.images = [];
-  //     // values.amenities = [];
-  //     // values.availableForEntireRental = data?.data?.availableForEntireRental;
-  //     // values.strictlyEntireRental = data?.data?.strictlyEntireRental;
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (editPid) getById();
-  // }, [editPid]);
-
   const {
     handleChange,
     handleSubmit,
@@ -321,6 +276,44 @@ const PropertyInfo = (props: PropertyInfoProps) => {
     validationSchema,
     onSubmit,
   });
+  const getById = async () => {
+    if (editPid) {
+      let repsonse: any = await dispatch(getPropertyDataById(editPid)).unwrap();
+      console.log(repsonse);
+      if (repsonse?.data) {
+        setValues({
+          ...values,
+          name: repsonse.data?.name,
+          email: repsonse.data?.email,
+          propertyType: repsonse.data?.propertyType,
+          goodFor: repsonse.data?.goodFor,
+          space: repsonse.data?.space,
+          Cname: repsonse.data?.contact.name,
+          CphoneNumber: repsonse.data?.contact.phoneNumber,
+          waNumber: repsonse.data?.contact.waNumber,
+          Oname: repsonse.data?.owner.name,
+          briefDescription: repsonse?.data?.briefDescription,
+          longDescription: repsonse?.data?.longDescription,
+          OphoneNumber: repsonse.data?.owner.phoneNumber,
+          address: repsonse.data?.location.address,
+          city: repsonse.data?.city,
+          Lcity: repsonse.data?.location.city,
+          state: repsonse.data?.location.state,
+          Lcountry: repsonse.data?.location.country,
+          district: repsonse.data?.district,
+          country: repsonse.data?.country,
+          latitude: repsonse.data?.location.latitude,
+          longitude: repsonse.data?.longitude,
+          availableForEntireRental: repsonse.data?.availableForEntireRental,
+          strictlyEntireRental: repsonse.data?.strictlyEntireRental,
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (editPid) getById();
+  }, [editPid]);
 
   return (
     <React.Fragment>
