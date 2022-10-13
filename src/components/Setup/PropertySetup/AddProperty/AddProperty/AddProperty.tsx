@@ -17,9 +17,7 @@ interface AddPropertyProps {
 const AddProperty = (props: AddPropertyProps) => {
   let { id } = useParams();
 
-  useEffect(() => {
-      console.log(id);
-  }, [id])
+  useEffect(() => {}, [id]);
   return (
     <React.Fragment>
       <Card className="card-bg">
@@ -72,9 +70,7 @@ const AddProperty = (props: AddPropertyProps) => {
               <div className="tab-content-container">
                 <Tab.Content>
                   <Tab.Pane eventKey="first">
-                    <PropertyInfo 
-                      editPid={id}
-                    />
+                    <PropertyInfo editPid={id} />
                   </Tab.Pane>
                   <Tab.Pane eventKey="second">
                     <SystemConfig />

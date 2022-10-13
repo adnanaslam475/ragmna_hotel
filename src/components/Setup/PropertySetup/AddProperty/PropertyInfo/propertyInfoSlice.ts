@@ -26,14 +26,11 @@ export default propertyInfoSlice.reducer
 
 
 export const selectProperty = (state) => {
-    console.log(state,"state");
     return state.propertyInfo
 };
 
 export const useProperyDetails = () => {
     const property = useSelector(selectProperty);
-    console.log(property,"property");
-    
     // return property;
     return useMemo(() => ({ property }), [property])
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Row, Form } from "react-bootstrap";
 import PhoneInput from "react-phone-input-2";
 import "./PropertyInfo.scss";
@@ -87,7 +87,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
 
         return City.getCitiesOfState(
           updatedCountries[c]?.value,
-          updatedStates(values.Lcountry)[s].value
+          updatedStates(values.Lcountry)[s]?.value
         ).map((city: ICity) => ({
           label: city.name,
           value: city.name,
@@ -130,7 +130,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
     //   }
   };
 
-  const initialValues: InitialValues = {
+  const initialValuesInfo: InitialValues = {
     name: "",
     email: "",
     propertyType: "",
@@ -153,13 +153,14 @@ const PropertyInfo = (props: PropertyInfoProps) => {
     city: "",
     district: "",
     virtualTourLink: "",
-    sections: [],
-    images: [],
-    amenities: [],
+    // sections: [],
+    // images: [],
+    // amenities: [],
     availableForEntireRental: false,
     strictlyEntireRental: false,
     isPublished: false,
   };
+  const [initialValues, setInitialValues] = useState(initialValuesInfo);
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Please Enter Name"),
@@ -184,9 +185,9 @@ const PropertyInfo = (props: PropertyInfoProps) => {
     country: Yup.string(),
     district: Yup.string(),
     virtualTourLink: Yup.string(),
-    sections: Yup.array(),
-    images: Yup.array(),
-    amenities: Yup.array(),
+    // sections: Yup.array(),
+    // images: Yup.array(),
+    // amenities: Yup.array(),
     availableForEntireRental: Yup.boolean(),
     strictlyEntireRental: Yup.boolean(),
     isPublished: Yup.boolean(),
@@ -224,7 +225,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
         name: values.Oname,
         phoneNumber: values.OphoneNumber,
       };
-      payload["images"] = [];
+      // payload["images"] = [];
       // payload['availableForEntireRental'] = isChecked
       let deletekeys = [
         "Cname",
@@ -243,65 +244,70 @@ const PropertyInfo = (props: PropertyInfoProps) => {
         delete payload[deletekeys[i]];
       }
       await addProperty(payload);
-      navigateToId();
       console.log(payload, "payload");
     } catch (err: any) {
       console.log(err, "err");
     }
   };
-  console.log(editPid);
 
   const { data, isLoading, isSuccess, isError } =
     useGetPropertyByIdQuery(editPid);
 
   useEffect(() => {
     if (data?.data && isSuccess) {
-      // setInitialValues({
-      //   name:data.data?.name,
-      //   email:data.data?.email,
-      //   propertyType:data.data?.propertyType,
-      //   goodFor:data.data?.goodFor,
-      //   space: data.data?.space,
-      //   Cname:data.data?.contect.name,
-      //   CphoneNumber:data.data?.contect.phoneNumber,
-      //   waNumber:data.data?.contect.waNumber,
-      //   Oname:data.data?.owner.name,
-      //   OphoneNumber:data.data?.owner.phoneNumber,
-      //   address:data.data?.location.address,
-      //   city:data.data?.location.city,
-      //   state:data.data?.location.state,
-      //   country:data.data?.location.country,
-      //   latitude:data.data?.location.latitude,
-      //   longitude:data.data?.longitude,
-      //   images: [],
-      //   amenities: [],
-      //   availableForEntireRental: data.data?.availableForEntireRental,
-      //   strictlyEntireRental: data.data?.strictlyEntireRental,
-      // });
-      console.log(values, "values");
+      console.log(data?.data);
 
-      values.name = data?.data?.name;
-      values.email = data?.data?.email;
-      values.propertyType = data?.data?.propertyType;
-      values.goodFor = data?.data?.goodFor;
-      values.space = data?.data?.space;
-      values.Cname = data?.data?.contact.name;
-      values.CphoneNumber = data?.data?.contact.phoneNumber;
-      values.waNumber = data?.data?.contact.waNumber;
-      values.Oname = data?.data?.owner.name;
-      values.OphoneNumber = data?.data?.owner.phoneNumber;
-      values.address = data?.data?.location.address;
-      values.Lcity = data?.data?.location.city;
-      values.state = data?.data?.location.state;
-      values.Lcountry = data?.data?.location.country;
-      values.latitude = data?.data?.location.latitude;
-      values.longitude = data?.data?.location.longitude;
-      values.images = [];
-      values.amenities = [];
-      values.availableForEntireRental = data?.data?.availableForEntireRental;
-      values.strictlyEntireRental = data?.data?.strictlyEntireRental;
+      setInitialValues({
+        ...initialValues,
+        name: data.data?.name,
+        email: data.data?.email,
+        propertyType: data.data?.propertyType,
+        goodFor: data.data?.goodFor,
+        space: data.data?.space,
+        Cname: data.data?.contact.name,
+        CphoneNumber: data.data?.contact.phoneNumber,
+        waNumber: data.data?.contact.waNumber,
+        Oname: data.data?.owner.name,
+        briefDescription: data?.data?.briefDescription,
+        longDescription: data?.data?.longDescription,
+        OphoneNumber: data.data?.owner.phoneNumber,
+        address: data.data?.location.address,
+        city: data.data?.location.city,
+        state: data.data?.location.state,
+        country: data.data?.location.country,
+        latitude: data.data?.location.latitude,
+        longitude: data.data?.longitude,
+        availableForEntireRental: data.data?.availableForEntireRental,
+        strictlyEntireRental: data.data?.strictlyEntireRental,
+      });
+
+      // values.name = data?.data?.name;
+      // values.email = data?.data?.email;
+      // values.propertyType = data?.data?.propertyType;
+      // values.goodFor = data?.data?.goodFor;
+      // values.space = data?.data?.space;
+      // values.Cname = data?.data?.contact.name;
+      // values.CphoneNumber = data?.data?.contact.phoneNumber;
+      // values.waNumber = data?.data?.contact.waNumber;
+      // values.Oname = data?.data?.owner.name;
+      // values.OphoneNumber = data?.data?.owner.phoneNumber;
+      // values.address = data?.data?.location.address;
+      // values.Lcity = data?.data?.location.city;
+      // values.state = data?.data?.location.state;
+      // values.Lcountry = data?.data?.location.country;
+      // values.latitude = data?.data?.location.latitude;
+      // values.longitude = data?.data?.location.longitude;
+      // values.images = [];
+      // values.amenities = [];
+      // values.availableForEntireRental = data?.data?.availableForEntireRental;
+      // values.strictlyEntireRental = data?.data?.strictlyEntireRental;
     }
   }, [data, isSuccess]);
+  useEffect(() => {
+    if (Result.isSuccess) {
+      navigateToId();
+    }
+  }, [Result.isLoading, Result.isSuccess]);
 
   const {
     handleChange,
@@ -394,7 +400,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
               />
             </div>
           </Col>
-          <Col lg={6}>
+          <Col lg={12}>
             <div className="control-group form-group">
               <label className="form-label">Brief Description</label>
               <textarea
@@ -412,7 +418,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
               />
             </div>
           </Col>
-          <Col lg={6}>
+          <Col lg={12}>
             <div className="control-group form-group">
               <label className="form-label">Long Description</label>
               <textarea
@@ -643,9 +649,13 @@ const PropertyInfo = (props: PropertyInfoProps) => {
                 <Select<CommanDropDownType>
                   id="Lcity"
                   name="Lcity"
-                  options={updatedCities(values.state ? values.state : null,'location')}
+                  options={updatedCities(
+                    values.state ? values.state : null,
+                    "location"
+                  )}
                   value={updatedCities(
-                    values.state ? values.state : null,'location'
+                    values.state ? values.state : null,
+                    "location"
                   ).filter((option) => option.label === values.Lcity)}
                   onChange={(value: any) => setFieldValue("Lcity", value.value)}
                 />
