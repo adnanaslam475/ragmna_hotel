@@ -1,11 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice,createAsyncThunk } from '@reduxjs/toolkit'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import { addProperty } from '../../../../../Redux/Services/propertyService'
 import { propertyInfoApi } from './propertyInfoApi'
 
 const initialState = {
     property : {}
 }
+export const addPropertyData = createAsyncThunk("property/add", async (payload:any) => {
+  return await addProperty(payload);
+});
 
 const propertyInfoSlice = createSlice({
     name: "proprtyInfo",
@@ -13,12 +17,12 @@ const propertyInfoSlice = createSlice({
     reducers: {
     },
     extraReducers: (builder) => {
-        builder.addMatcher(
-            propertyInfoApi.endpoints.addProperty.matchFulfilled, (state, response) => {
-                state.property = response?.['payload']?.['data'];
-                return state;
-            }
-        );
+        // builder.addMatcher(
+        //     propertyInfoApi.endpoints.addProperty.matchFulfilled, (state, response) => {
+        //         state.property = response?.['payload']?.['data'];
+        //         return state;
+        //     }
+        // );
     }
 })
 

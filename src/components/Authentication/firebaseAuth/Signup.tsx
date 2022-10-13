@@ -3,15 +3,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../../Firebase/firebase";
 import { Alert, Button, Card, Form, InputGroup } from "react-bootstrap";
 import { useAppSelector } from "../../../Redux/hooks";
-import { selectFirebaseAuthList, useSignupResponse } from "./firebaseAuthSlice";
+import {
+  authSignup,
+  selectFirebaseAuthList,
+  useSignupResponse,
+} from "./firebaseAuthSlice";
 import { useSignUpMutation } from "./firebaseAuthApi";
 import { SignupRequestBody } from "./types";
 import "./firebaseAuth.scss";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { CenterDanger } from "../../../Redux/Services/toaster-service";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../Redux/Store";
 const SignUp = () => {
   const [err, setError] = useState("");
+  const dispatch = useDispatch<AppDispatch>();
   const [Loader, setLoader] = useState(false);
   const [signUpParams, setSignUpParams] = React.useState<SignupRequestBody>({
     email: "",
@@ -31,30 +38,30 @@ const SignUp = () => {
       phoneNumber: e,
     });
   };
-  const [signUp, Result] = useSignUpMutation();
+  // const [signUp, Result] = useSignUpMutation();
 
-  const { signUpResponse } = useSignupResponse();
+  // const { signUpResponse } = useSignupResponse();
   let navigate = useNavigate();
   const RouteChange = () => {
     let path = `/login`;
     navigate(path);
   };
 
-  useEffect(() => {
-    if (Result.isError) {
-      let errors: any = Result.error;
-      setLoader(false);
-      if (errors.data.message) {
-        for (let i = 0; i < errors.data.message.length; i++) {
-          CenterDanger(errors.data.message[i]);
-        }
-      }
-      if (Result.isSuccess) {
-        setLoader(false);
-        RouteChange();
-      }
-    }
-  }, [Result.isError, Result.isSuccess]);
+  // useEffect(() => {
+  //   if (Result.isError) {
+  //     let errors: any = Result.error;
+  //     setLoader(false);
+  //     if (errors.data.message) {
+  //       for (let i = 0; i < errors.data.message.length; i++) {
+  //         CenterDanger(errors.data.message[i]);
+  //       }
+  //     }
+  //     if (Result.isSuccess) {
+  //       setLoader(false);
+  //       RouteChange();
+  //     }
+  //   }
+  // }, [Result.isError, Result.isSuccess]);
 
   const OnSignup = async (e) => {
     try {
@@ -62,7 +69,11 @@ const SignUp = () => {
       let payload: any = Object.assign({}, signUpParams);
       payload["phoneNumber"] = parseInt(payload["phoneNumber"].slice(2));
       payload["countryCode"] = parseInt(payload["countryCode"]);
-      await signUp(payload);
+      const response = await dispatch(authSignup(payload)).unwrap();
+      RouteChange();
+      setLoader(false);
+
+      // await signUp(payload);
     } catch (err: any) {
       setLoader(false);
       console.log(err, "err");

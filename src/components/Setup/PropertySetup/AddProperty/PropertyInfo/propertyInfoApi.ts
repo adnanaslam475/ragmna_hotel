@@ -3,14 +3,14 @@ import { GET_PROPERTY } from "../../../../ConstAPI/ConstAPI"
 
 export const propertyInfoApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        addProperty: builder.mutation<any, any>({
-            query: ({ ...payload }) => ({
-                url: `${GET_PROPERTY}`,
-                method: 'POST',
-                body: payload
-            }),
-            invalidatesTags: ["ProprtyInfo"]
-        }),
+        // addProperty: builder.mutation<any, any>({
+        //     query: ({ ...payload }) => ({
+        //         url: `${GET_PROPERTY}`,
+        //         method: 'POST',
+        //         body: payload
+        //     }),
+        //     invalidatesTags: ["ProprtyInfo"]
+        // }),
 
         getPropertyById: builder.query<any, any>({
             query: (id) => ({
@@ -22,5 +22,5 @@ export const propertyInfoApi = api.injectEndpoints({
     })
 })
 
-export const { useAddPropertyMutation , useGetPropertyByIdQuery } = propertyInfoApi
-export const { endpoints: { addProperty , getPropertyById} } = propertyInfoApi
+export const {  useGetPropertyByIdQuery } = propertyInfoApi
+export const { endpoints: {  getPropertyById} } = propertyInfoApi

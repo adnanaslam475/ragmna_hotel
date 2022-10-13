@@ -9,18 +9,19 @@ import * as Yup from "yup";
 import { useUser } from "../../../../Authentication/firebaseAuth/firebaseAuthSlice";
 import { Country, State, City } from "country-state-city";
 import { ICountry, ICity } from "country-state-city";
-import {
-  useAddPropertyMutation,
-  useGetPropertyByIdQuery,
-} from "./propertyInfoApi";
+import { useGetPropertyByIdQuery } from "./propertyInfoApi";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { skipToken } from "@reduxjs/toolkit/query/react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../../../Redux/Store";
+import { addPropertyData } from "./propertyInfoSlice";
 export interface PropertyInfoProps {
   editPid: string | undefined;
 }
 
 const PropertyInfo = (props: PropertyInfoProps) => {
   const { editPid } = props;
+  const dispatch = useDispatch<AppDispatch>();
 
   // let { id } = useParams();
 
@@ -195,12 +196,10 @@ const PropertyInfo = (props: PropertyInfoProps) => {
 
   const { user } = useUser();
 
-  const [addProperty, Result] = useAddPropertyMutation();
-
   let navigate = useNavigate();
 
-  const navigateToId = () => {
-    let path = `/setup/propertysetup/add-property/${Result.data.data._id}`;
+  const navigateToId = (id) => {
+    let path = `/setup/propertysetup/add-property/${id}`;
     navigate(path);
   };
 
@@ -243,71 +242,71 @@ const PropertyInfo = (props: PropertyInfoProps) => {
       for (let i = 0; i < deletekeys.length; i++) {
         delete payload[deletekeys[i]];
       }
-      await addProperty(payload);
+      let response: any = await dispatch(addPropertyData(payload));
+      navigateToId(response.data._id);
       console.log(payload, "payload");
     } catch (err: any) {
       console.log(err, "err");
     }
   };
+  // const { data, isLoading, isSuccess, isError } = useGetPropertyByIdQuery(
+  //   editPid,
+  //   { skip: !!editPid }
+  // );
+  // const getById = () => {
+  //   if (data?.data && isSuccess) {
+  //     console.log(data?.data);
 
-  const { data, isLoading, isSuccess, isError } =
-    useGetPropertyByIdQuery(editPid);
+  //     setInitialValues({
+  //       ...initialValues,
+  //       name: data.data?.name,
+  //       email: data.data?.email,
+  //       propertyType: data.data?.propertyType,
+  //       goodFor: data.data?.goodFor,
+  //       space: data.data?.space,
+  //       Cname: data.data?.contact.name,
+  //       CphoneNumber: data.data?.contact.phoneNumber,
+  //       waNumber: data.data?.contact.waNumber,
+  //       Oname: data.data?.owner.name,
+  //       briefDescription: data?.data?.briefDescription,
+  //       longDescription: data?.data?.longDescription,
+  //       OphoneNumber: data.data?.owner.phoneNumber,
+  //       address: data.data?.location.address,
+  //       city: data.data?.location.city,
+  //       state: data.data?.location.state,
+  //       country: data.data?.location.country,
+  //       latitude: data.data?.location.latitude,
+  //       longitude: data.data?.longitude,
+  //       availableForEntireRental: data.data?.availableForEntireRental,
+  //       strictlyEntireRental: data.data?.strictlyEntireRental,
+  //     });
 
-  useEffect(() => {
-    if (data?.data && isSuccess) {
-      console.log(data?.data);
+  //     // values.name = data?.data?.name;
+  //     // values.email = data?.data?.email;
+  //     // values.propertyType = data?.data?.propertyType;
+  //     // values.goodFor = data?.data?.goodFor;
+  //     // values.space = data?.data?.space;
+  //     // values.Cname = data?.data?.contact.name;
+  //     // values.CphoneNumber = data?.data?.contact.phoneNumber;
+  //     // values.waNumber = data?.data?.contact.waNumber;
+  //     // values.Oname = data?.data?.owner.name;
+  //     // values.OphoneNumber = data?.data?.owner.phoneNumber;
+  //     // values.address = data?.data?.location.address;
+  //     // values.Lcity = data?.data?.location.city;
+  //     // values.state = data?.data?.location.state;
+  //     // values.Lcountry = data?.data?.location.country;
+  //     // values.latitude = data?.data?.location.latitude;
+  //     // values.longitude = data?.data?.location.longitude;
+  //     // values.images = [];
+  //     // values.amenities = [];
+  //     // values.availableForEntireRental = data?.data?.availableForEntireRental;
+  //     // values.strictlyEntireRental = data?.data?.strictlyEntireRental;
+  //   }
+  // };
 
-      setInitialValues({
-        ...initialValues,
-        name: data.data?.name,
-        email: data.data?.email,
-        propertyType: data.data?.propertyType,
-        goodFor: data.data?.goodFor,
-        space: data.data?.space,
-        Cname: data.data?.contact.name,
-        CphoneNumber: data.data?.contact.phoneNumber,
-        waNumber: data.data?.contact.waNumber,
-        Oname: data.data?.owner.name,
-        briefDescription: data?.data?.briefDescription,
-        longDescription: data?.data?.longDescription,
-        OphoneNumber: data.data?.owner.phoneNumber,
-        address: data.data?.location.address,
-        city: data.data?.location.city,
-        state: data.data?.location.state,
-        country: data.data?.location.country,
-        latitude: data.data?.location.latitude,
-        longitude: data.data?.longitude,
-        availableForEntireRental: data.data?.availableForEntireRental,
-        strictlyEntireRental: data.data?.strictlyEntireRental,
-      });
-
-      // values.name = data?.data?.name;
-      // values.email = data?.data?.email;
-      // values.propertyType = data?.data?.propertyType;
-      // values.goodFor = data?.data?.goodFor;
-      // values.space = data?.data?.space;
-      // values.Cname = data?.data?.contact.name;
-      // values.CphoneNumber = data?.data?.contact.phoneNumber;
-      // values.waNumber = data?.data?.contact.waNumber;
-      // values.Oname = data?.data?.owner.name;
-      // values.OphoneNumber = data?.data?.owner.phoneNumber;
-      // values.address = data?.data?.location.address;
-      // values.Lcity = data?.data?.location.city;
-      // values.state = data?.data?.location.state;
-      // values.Lcountry = data?.data?.location.country;
-      // values.latitude = data?.data?.location.latitude;
-      // values.longitude = data?.data?.location.longitude;
-      // values.images = [];
-      // values.amenities = [];
-      // values.availableForEntireRental = data?.data?.availableForEntireRental;
-      // values.strictlyEntireRental = data?.data?.strictlyEntireRental;
-    }
-  }, [data, isSuccess]);
-  useEffect(() => {
-    if (Result.isSuccess) {
-      navigateToId();
-    }
-  }, [Result.isLoading, Result.isSuccess]);
+  // useEffect(() => {
+  //   if (editPid) getById();
+  // }, [editPid]);
 
   const {
     handleChange,
