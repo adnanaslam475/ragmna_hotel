@@ -1,0 +1,20 @@
+.card-bg {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+
+    .tab-name-container {
+        background-color: white;
+        margin-bottom: 20px;
+        border-radius: 20px;
+
+        .panel-tabs.panel-secondary.nav .nav-item .nav-link.active {
+            border-radius: 20px !important;
+        }
+    }
+
+    .tab-content-container {
+        background-color: white;
+        border-radius: 10px;
+    }

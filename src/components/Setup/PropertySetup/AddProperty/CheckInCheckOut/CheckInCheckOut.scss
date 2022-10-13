@@ -1,0 +1,35 @@
+.check-switch-style {
+
+    .form-check-input {
+        border: 1px solid #e9edf4;
+        border-radius: 50px;
+        display: inline-block;
+        height: 1.5rem !important;
+        position: relative;
+        transition: border-color .3s, background-color .3s;
+        vertical-align: bottom;
+        width: 3rem !important;
+        margin-top: 0;
+        margin-right: 4px;
+    }
+}
+
+.check-error-border {
+    border-color: red !important;
+}
+
+.date-picker-style{
+    display: flex;
+    flex-wrap: wrap;
+    height: 40px;
+}
+
+.date-picker-textfield{
+    margin-left: 8px;
+    margin-left: 8px;
+    width: 150px;
+}
+
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
+    padding: 16.5px 10px!important;
+}

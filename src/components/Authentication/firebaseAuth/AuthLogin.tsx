@@ -1,41 +1,68 @@
-import React, { useState } from 'react';
-import { Form, Alert, InputGroup } from 'react-bootstrap';
+import React, { useEffect, useState } from "react";
+import { Form, Alert, InputGroup, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { auth } from '../../../Firebase/firebase';
-
+import { CenterDanger } from "../../../Redux/Services/toaster-service";
+import { useLogInMutation } from "./firebaseAuthApi";
+import { useUser } from "./firebaseAuthSlice";
 
 const SignIn = () => {
   const [err, setError] = useState("");
   const [loading, setLoader] = useState(false);
   const [data, setData] = useState({
-    "email": "adminreact@gmail.com",
-    "password": "1234567890",
-  })
+    email: "",
+    password: "",
+  });
   const { email, password } = data;
   const changeHandler = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value })
+    setData({ ...data, [e.target.name]: e.target.value });
     setError("");
-  }
-
-  const Login: any = (e) => {
-    setLoader(true)
-    e.preventDefault();
-    auth.signInWithEmailAndPassword(email, password).then(
-      user => { console.log(user); RouteChange(); setLoader(false) }).catch(err => { console.log(err); setError(err.message); setLoader(false) })
-  }
+  };
+  const [logIn, Result] = useLogInMutation();
+  const { user } = useUser();
   let navigate = useNavigate();
   const RouteChange = () => {
     let path = `/dashboard`;
     navigate(path);
-  }
+  };
+
+  useEffect(() => {
+    if (Result.isError) {
+      let errors: any = Result.error;
+      setLoader(false);
+      if (errors?.data?.message) {
+        for (let i = 0; i < errors.data.message.length; i++) {
+          CenterDanger(errors.data.message[i]);
+        }
+      }
+      if (Result.isSuccess) {
+        setLoader(false);
+        RouteChange();
+      }
+    }
+  }, [Result.isError, Result.isSuccess]);
+  const OnLogin: any = async (e) => {
+    try {
+      setLoader(true);
+      await logIn(data);
+    } catch (err: any) {
+      setLoader(false);
+      console.log(err, "errrr");
+    }
+    e.preventDefault();
+  };
+
   return (
     <div>
-      <div className='login-img'>
+      <div className="login-img">
         <div className="page">
           {/* <!-- CONTAINER OPEN --> */}
           <div className="col-login mx-auto mt-7">
             <div className="text-center">
-              <img src={require("../../../assets/images/brand/logo-white.png")} className="header-brand-img" alt="" />
+              <img
+                src={require("../../../assets/images/brand/logo-white.png")}
+                className="header-brand-img"
+                alt=""
+              />
             </div>
           </div>
           <div className="container-login100">
@@ -45,30 +72,76 @@ const SignIn = () => {
                 <div>
                   {err && <Alert variant="danger">{err}</Alert>}
                   <div className="wrap-input100 validate-input input-group">
-                    <Link to="#" className="input-group-text bg-white text-muted">
-                      <i className="zmdi zmdi-email text-muted" aria-hidden="true"></i>
+                    <Link
+                      to="#"
+                      className="input-group-text bg-white text-muted"
+                    >
+                      <i
+                        className="zmdi zmdi-email text-muted"
+                        aria-hidden="true"
+                      ></i>
                     </Link>
-                    <Form.Control className="input100 border-start-0 form-control ms-0" type="email" name="email" placeholder="Email" value={email}
-                      onChange={changeHandler} required />{" "}
+                    <Form.Control
+                      className="input100 border-start-0 form-control ms-0"
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                      value={email}
+                      onChange={changeHandler}
+                      required
+                    />{" "}
                   </div>
 
-                  <InputGroup className="wrap-input100 validate-input" id="Password-toggle">
-                    <InputGroup.Text id="basic-addon2" className="bg-white text-muted">
-                      <Link to='#'><i className="zmdi zmdi-eye text-default" aria-hidden="true" ></i></Link>
+                  <InputGroup
+                    className="wrap-input100 validate-input"
+                    id="Password-toggle"
+                  >
+                    <InputGroup.Text
+                      id="basic-addon2"
+                      className="bg-white text-muted"
+                    >
+                      <Link to="#">
+                        <i
+                          className="zmdi zmdi-eye text-default"
+                          aria-hidden="true"
+                        ></i>
+                      </Link>
                     </InputGroup.Text>
-                    <Form.Control className="input100 border-start-0 ms-0" type='password' name="password" placeholder="Password" value={password}
-                      onChange={changeHandler} required />{" "}
+                    <Form.Control
+                      className="input100 border-start-0 ms-0"
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                      value={password}
+                      onChange={changeHandler}
+                      required
+                    />{" "}
                   </InputGroup>
                   <div className="container-login100-form-btn">
-                    <Link to='#' onClick={Login} className="login100-form-btn btn-primary">
+                    {/* <Button className='login100-form-btn btn-primary' onClick={OnLogin} type="submit">Login{loading ? <span role="status" aria-hidden="true" className="spinner-border spinner-border-sm ms-2"></span> : ""}</Button> */}
+
+                    <Link
+                      to="#"
+                      onClick={OnLogin}
+                      type="submit"
+                      className="login100-form-btn btn-primary"
+                    >
                       Login
-                      {loading ? <span role="status" aria-hidden="true" className="spinner-border spinner-border-sm ms-2"></span> : ""}
+                      {loading ? (
+                        <span
+                          role="status"
+                          aria-hidden="true"
+                          className="spinner-border spinner-border-sm ms-2"
+                        ></span>
+                      ) : (
+                        ""
+                      )}
                     </Link>
                   </div>
-                  <div className="text-center pt-3">
-
-                  </div>
-                  <label className="login-social-icon"><span>Login with Social</span></label>
+                  <div className="text-center pt-3"></div>
+                  <label className="login-social-icon">
+                    <span>Login with Social</span>
+                  </label>
                   <div className="d-flex justify-content-center">
                     <Link to="#">
                       <div className="social-login me-4 text-center">
@@ -85,12 +158,13 @@ const SignIn = () => {
                         <i className="fa fa-twitter"></i>
                       </div>
                     </Link>
-
                   </div>
-                  <Link to={`/Authentication/firebaseAuth/SignUp`} className='d-flex justify-content-center mt-4'>
+                  <Link
+                    to={`/SignUp`}
+                    className="d-flex justify-content-center mt-4"
+                  >
                     Create a new account ?
                   </Link>
-
                 </div>
               </form>
             </div>
@@ -98,10 +172,9 @@ const SignIn = () => {
           {/* // <!-- CONTAINER CLOSED --> */}
         </div>
       </div>
-    </div >
-
+    </div>
   );
-}
+};
 
 SignIn.propTypes = {};
 

@@ -7,9 +7,22 @@
     .tab-name{
         background-color: white;
         margin-bottom: 20px;
+        border-radius: 20px;
+
+        .panel-tabs.panel-secondary.nav .nav-item .nav-link.active{
+            border-radius: 20px !important;
+        }
     }
 
-    .tab-content{
+    .tab-data{
         background-color: white;
+        border-radius: 10px;
+    }
+}
+.action-icons {
+    span {
+        i {
+            font-size: larger;
+        }
     }
 }

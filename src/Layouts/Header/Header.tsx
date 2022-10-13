@@ -57,7 +57,7 @@ const RightSideBar: any = () => {
 }
 const Header = () => {
 
-  document.querySelector('.main-content')?.addEventListener('click', ()=>{
+  document.querySelector('.main-content')?.addEventListener('click', () => {
     console.log("search-result");
     document.querySelector(".search-result")?.classList.add("d-none")
   })
@@ -78,25 +78,25 @@ const Header = () => {
   useEffect(() => {
 
   })
-  let myfunction = (inputvalue:any) => {
+  let myfunction = (inputvalue: any) => {
     document.querySelector(".search-result")?.classList.remove("d-none")
     console.log('ok');
-    
-    let i:any =[]
-    let allElement2:any[] = [];
-    
+
+    let i: any = []
+    let allElement2: any[] = [];
+
     MENUITEMS.map(mainlevel => {
       if (mainlevel.Items) {
         mainlevel.Items.map(sublevel => {
           // console.log("sublevel --- ", sublevel)
           if (sublevel.children) {
-            sublevel.children.map((sublevel1:any) => {
+            sublevel.children.map((sublevel1: any) => {
               // console.log("sublevel1 --- ", sublevel1)
               i.push(sublevel1)
               if (sublevel1.children) {
                 sublevel1.children.map(sublevel2 => {
                   // console.log("sublevel2 --- ", sublevel2)
-                i.push(sublevel2)
+                  i.push(sublevel2)
                   return sublevel2;
                 })
               }
@@ -110,28 +110,28 @@ const Header = () => {
 
     }
     )
-    for (let allElement of i){
-      if(allElement.title.toLowerCase().includes(inputvalue.toLowerCase())){
-        if(allElement.title.toLowerCase().startsWith(inputvalue.toLowerCase())){
+    for (let allElement of i) {
+      if (allElement.title.toLowerCase().includes(inputvalue.toLowerCase())) {
+        if (allElement.title.toLowerCase().startsWith(inputvalue.toLowerCase())) {
           setShow2(true)
           allElement2.push(allElement)
         }
-        }
-      }       
-      if(!allElement2.length || inputvalue === ""){
-        if(inputvalue === ""){
-          setShow2(false);
-          setsearchval("Type something")
-          setsearchcolor('text-dark')
-        }
-        if(!allElement2.length){
-          setShow2(false);
-          setsearchcolor('text-danger')
-          setsearchval("There is no component with this name")
-        }
       }
-      setNavData(allElement2)
-      
+    }
+    if (!allElement2.length || inputvalue === "") {
+      if (inputvalue === "") {
+        setShow2(false);
+        setsearchval("Type something")
+        setsearchcolor('text-dark')
+      }
+      if (!allElement2.length) {
+        setShow2(false);
+        setsearchcolor('text-danger')
+        setsearchval("There is no component with this name")
+      }
+    }
+    setNavData(allElement2)
+
   }
 
   return (
@@ -146,24 +146,24 @@ const Header = () => {
               <img src={require("../../assets/images/brand/logo-3.png")} className="header-brand-img light-logo1" alt="logo" />
             </Link>
             <div className="main-header-center ms-3 d-none d-lg-block">
-              <FormControl onChange={(ele=>{myfunction(ele.target.value); setInputValue(ele.target.value)})} onClick={()=>{setShow1(true)}} placeholder="Search for results..." type="search" />
+              <FormControl onChange={(ele => { myfunction(ele.target.value); setInputValue(ele.target.value) })} onClick={() => { setShow1(true) }} placeholder="Search for results..." type="search" />
               <button className='btn px-0 pt-2'><i className="fe fe-search" aria-hidden="false"></i></button>
               {show1 ?
                 <div className="card search-result p-absolute w-100 card border mt-1">
-                <div className="card-header">
-                <h4 className="card-title me-2 text-break">Search result of "{InputValue}" </h4>
-                </div>
-                <ul className='card-body list-group'>
+                  <div className="card-header">
+                    <h4 className="card-title me-2 text-break">Search result of "{InputValue}" </h4>
+                  </div>
+                  <ul className='card-body list-group'>
                     {show2 ?
-                  NavData.map((e) => 
-                  <li  key={Math.random()}>
-                    <Link className='list-group-item'  to={`${e.path}/`}>{e.title}</Link>
-                  </li>
-                    )
-                    :<b className={`${searchcolor} list-group-item`}>{searchval}</b>}
-                </ul>
-                 
-                 </div>
+                      NavData.map((e) =>
+                        <li key={Math.random()}>
+                          <Link className='list-group-item' to={`${e.path}/`}>{e.title}</Link>
+                        </li>
+                      )
+                      : <b className={`${searchcolor} list-group-item`}>{searchval}</b>}
+                  </ul>
+
+                </div>
                 : ""}
             </div>
 
@@ -598,7 +598,7 @@ const Header = () => {
                         <Dropdown.Item className="dropdown-item" href={`/Authentication/lockscreen`}>
                           <i className="dropdown-icon fe fe-lock"></i> Lockscreen
                         </Dropdown.Item>
-                        <Dropdown.Item className="dropdown-item" href={`/Authentication/firebaseAuth/login`}>
+                        <Dropdown.Item className="dropdown-item" href={`/`} onClick={()=>{localStorage.clear()}}>
                           <i className="dropdown-icon fe fe-alert-circle"></i> Sign out
                         </Dropdown.Item>
                       </Dropdown.Menu>
