@@ -168,11 +168,12 @@ export function WarningLeft() {
   );
 }
 
-export function DangerLeft() {
-  const Toastslidewarn = () =>
+export function DangerLeft(msg:string) {
+  // const Toastslidewarn = () =>
     toast.error(
       <p className="text-white tx-16 mb-0">
-        <h3>Error!</h3>please check Your details ...file is missing
+        {msg}
+        {/* <h3>Error!</h3>please check Your details ...file is missing */}
       </p>,
       {
         position: toast.POSITION.TOP_RIGHT,
@@ -182,13 +183,13 @@ export function DangerLeft() {
       }
     );
 
-  return (
-    <div>
-      <Button className="me-2" variant="danger" onClick={Toastslidewarn}>
-        Danger
-      </Button>
-    </div>
-  );
+  // return (
+  //   <div>
+  //     <Button className="me-2" variant="danger" onClick={Toastslidewarn}>
+  //       Danger
+  //     </Button>
+  //   </div>
+  // );
 }
 
 // Gradient Side Alerts Notifications

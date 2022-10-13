@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import { useParams } from "react-router-dom";
 import { useReservationDetailsMutation } from "../Reservation/reservationApi";
 import { PropertySetuptypes } from "../types";
-import { Success } from "../../../../../Redux/Services/toaster-service";
+import { DangerLeft, Success } from "../../../../../Redux/Services/toaster-service";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../../Redux/Store";
 import {
@@ -74,11 +74,11 @@ const CheckInCheckOut = () => {
       for (let i = 0; i < deletekeys.length; i++) {
         delete payload[deletekeys[i]];
       }
-      let responce = await dispatch(saveSettingByTypeId(payload));
+      let responce = await dispatch(saveSettingByTypeId(payload)).unwrap();
       Success(" Check-in Check-out details has been saved");
       //   await reservationDetails(payload);
     } catch (err: any) {
-      console.log(err);
+        DangerLeft("Something went wrong")
     }
   };
 

@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import "./Reservation.scss";
 import { PropertySetuptypes } from "../types";
 import { useParams } from "react-router-dom";
-import { Success } from "../../../../../Redux/Services/toaster-service";
+import { DangerLeft, Success } from "../../../../../Redux/Services/toaster-service";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../../Redux/Store";
 import { getSettingByTypeId, saveSettingByTypeId } from "./reservationSlice";
@@ -59,10 +59,10 @@ const Reservation = () => {
         delete payload[deletekeys[i]];
       }
       //   await reservationDetails(payload);
-      let responce = await dispatch(saveSettingByTypeId(payload));
+      let responce = await dispatch(saveSettingByTypeId(payload)).unwrap();
       Success(" Reservation details has been saved");
     } catch (err: any) {
-      console.log(err);
+        DangerLeft("Something went wrong")
     }
   };
 

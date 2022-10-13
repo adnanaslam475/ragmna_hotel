@@ -7,7 +7,7 @@ import TimezoneSelect, {
 import { PropertySetuptypes } from "../types";
 import { useParams } from "react-router-dom";
 import "./SystemConfig.scss";
-import { Success } from "../../../../../Redux/Services/toaster-service";
+import { DangerLeft, Success } from "../../../../../Redux/Services/toaster-service";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../../Redux/Store";
 import {
@@ -56,10 +56,12 @@ const SystemConfig = () => {
       payload["configurations"] = {
         timeZone: tz ? tz.label : "",
       };
-      let responce = await dispatch(saveSettingByTypeId(payload));
+      let responce = await dispatch(saveSettingByTypeId(payload)).unwrap();
       Success(" Timezone has been saved");
       // await reservationDetails(payload);
-    } catch (err: any) {}
+    } catch (err: any) {
+      DangerLeft("Something went wrong")
+    }
   };
   return (
     <React.Fragment>

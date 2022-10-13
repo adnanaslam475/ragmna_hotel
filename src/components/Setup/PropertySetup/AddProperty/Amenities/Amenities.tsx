@@ -4,18 +4,17 @@ import { Button, Col, Row } from "react-bootstrap";
 import "./Amenities.scss";
 import * as Yup from "yup";
 import Select from "react-select";
-import { AmenitiesDetails, AmenityType, CommanDropDownType } from "../types";
-import {
-  useAddAmenitiesMutation,
-  useDeleteAmenitiesMutation,
-  useGetAmenitiesQuery,
-} from "./amenitiesApi";
-import { useProperyDetails } from "../PropertyInfo/propertyInfoSlice";
+import { AmenitiesDetails, CommanDropDownType } from "../types";
 import { useParams } from "react-router-dom";
-import { Success } from "../../../../../Redux/Services/toaster-service";
+import { DangerLeft, Success } from "../../../../../Redux/Services/toaster-service";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../../Redux/Store";
-import { addAmenities, deleteAmenities, getAmenities, useAmenitiesList } from "./amenitiesSlice";
+import {
+  addAmenities,
+  deleteAmenities,
+  getAmenities,
+  useAmenitiesList,
+} from "./amenitiesSlice";
 
 const Amenities = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -35,9 +34,6 @@ const Amenities = () => {
     getAmenitiDetails();
   }, []);
   const { amenitesList } = useAmenitiesList();
-//   const { data, isError, isSuccess, isLoading } = useGetAmenitiesQuery();
-
-  const [amenities, setAmenities] = useState<AmenitiesDetails[]>([]);
 
   const initialValues = {
     name: "",
@@ -56,19 +52,17 @@ const Amenities = () => {
       let payload = Object.assign({}, values);
       payload["propertyId"] = id;
       payload["type"] = parseInt(payload.type);
-      let responce = await dispatch(addAmenities(payload));
+      let responce = await dispatch(addAmenities(payload)).unwrap();
       Success(" Amenities had been added");
-      // await addAmenities(payload)
-    } catch (err: any) {}
+    } catch (err: any) {
+        DangerLeft("Something went wrong")
+    }
   };
-
-  // const [deleteAmenities , result] = useDeleteAmenitiesMutation();
 
   const handleDeleteClick = async (id) => {
     try {
       await dispatch(deleteAmenities(id)).unwrap;
       dispatch(getAmenities()).unwrap();
-      // await deleteAmenities(id)
     } catch (err: any) {}
   };
 
@@ -77,7 +71,6 @@ const Amenities = () => {
     validationSchema,
     onSubmit,
   });
-
 
   const amenitiesTypes: CommanDropDownType[] = [
     { value: "", label: "Select Amenities For" },

@@ -1,3 +1,4 @@
+import { useFormik } from "formik";
 import React, { useState } from "react";
 import { Form, ListGroup, Col, Row, InputGroup, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
@@ -7,6 +8,7 @@ import { AppDispatch } from "../../../Redux/Store";
 import { useUser } from "../../Authentication/firebaseAuth/firebaseAuthSlice";
 import { Currency } from "../../Types/Types";
 import "./BusinessSetup.scss";
+import * as Yup from "yup";
 import {
   useGetSupplierByIdQuery,
   useUpdateSupplierByIdMutation,
@@ -43,7 +45,8 @@ const TimeZones: Currency[] = [
 const BusinessSetup = () => {
   const { user } = useUser();
   const dispatch = useDispatch<AppDispatch>();
-  const [businessInfoParams, setBusinessInfoParams] = useState<BusinessInfo>({
+
+  const initialValues = {
     name: "",
     crNumber: "",
     vatNumber: "",
@@ -52,62 +55,26 @@ const BusinessSetup = () => {
     logo: "",
     currency: "",
     timeZone: "",
-  });
+  }
+
+  const validationSchema = Yup.object({
+    name: Yup.string(),
+    crNumber: Yup.string(),
+    vatNumber: Yup.string(),
+    businessContactPerson: Yup.string(),
+    businessContactNumber: Yup.number(),
+    logo: Yup.string(),
+    currency: Yup.string(),
+    timeZone: Yup.string(),
+  })
+
   // const { data, isError, isLoading } = useGetSupplierByIdQuery({ id: user.supplierId })
-  const getBySupplierId = async () => {
+  const onSubmit = async (e) => {
     try {
-      const response: any = await dispatch(
-        getBussinesById(user.supplierId)
-      ).unwrap();
-      console.log(response);
-      if (response?.statusCode === 200) {
-        setBusinessInfoParams({
-          name: response.data?.name,
-          crNumber: response.data?.crNumber,
-          vatNumber: response.data?.vatNumber,
-          businessContactPerson: response.data.contact.name
-            ? response.data.contact.name
-            : "",
-          businessContactNumber: response.data?.contact?.phone
-            ? response.data?.contact?.phone
-            : "",
-          logo: "",
-          currency: "",
-          timeZone: "",
-        });
-      }
-    } catch (err: any) {
-      console.log(err, "errrr");
-    }
-  };
-  React.useEffect(() => {
-    getBySupplierId();
-  }, []);
-
-  const {
-    name,
-    crNumber,
-    vatNumber,
-    businessContactPerson,
-    businessContactNumber,
-    logo,
-    currency,
-    timeZone,
-  } = businessInfoParams;
-
-  const changeHandler = (e) => {
-    setBusinessInfoParams({
-      ...businessInfoParams,
-      [e.target.name]: e.target.value,
-    });
-  };
-  //   const [updateSupplierById, Result] = useUpdateSupplierByIdMutation();
-  const OnSubmit = async (e) => {
-    try {
-      let payload: any = Object.assign({}, businessInfoParams);
+      let payload: any = Object.assign({}, values);
       payload["contact"] = {
-        name: payload["businessContactPerson"],
-        phone: payload["businessContactNumber"],
+        name: values.businessContactPerson,
+        phone: values.businessContactNumber,
       };
       payload["id"] = user.supplierId;
       delete payload["businessContactPerson"];
@@ -120,9 +87,74 @@ const BusinessSetup = () => {
     e.preventDefault();
   };
 
+  const {
+    handleChange,
+    handleSubmit,
+    values,
+    errors,
+    touched,
+    setValues,
+    setFieldValue,
+  } = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit,
+  });
+  
+  const getBySupplierId = async () => {
+    try {
+      let response: any = await dispatch(
+        getBussinesById(user.supplierId)
+      ).unwrap();
+      console.log(response);
+      if (response?.data) {
+        setValues({
+          ...values,
+          name: response.data?.name,
+          crNumber: response.data?.crNumber,
+          vatNumber: response.data?.vatNumber,
+          // businessContactPerson: response.data.contact.name
+          //   ? response.data.contact.name
+          //   : "",
+          // businessContactNumber: response.data?.contact?.phone
+          //   ? response.data?.contact?.phone
+          //   : "",
+          // logo: "",
+          // currency: "",
+          // timeZone: "",
+        });
+      }
+    } catch (err: any) {
+      console.log(err, "errrr");
+    }
+  };
+  React.useEffect(() => {
+    getBySupplierId();
+  }, []);
+
+  // const {
+  //   name,
+  //   crNumber,
+  //   vatNumber,
+  //   businessContactPerson,
+  //   businessContactNumber,
+  //   logo,
+  //   currency,
+  //   timeZone,
+  // } = businessInfoParams;
+
+  // const changeHandler = (e) => {
+  //   setBusinessInfoParams({
+  //     ...businessInfoParams,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
+  //   const [updateSupplierById, Result] = useUpdateSupplierByIdMutation();
+  
   return (
     <div className="business-form">
       <h2>Business Information</h2>
+      <form onSubmit={handleSubmit}>
       <Row>
         <Col>
           <div className="control-group form-group">
@@ -132,8 +164,10 @@ const BusinessSetup = () => {
               className="form-control required"
               placeholder="Business Name"
               name="name"
-              value={name}
-              onChange={changeHandler}
+              value={values.name}
+              onChange={(e) => {
+                  handleChange(e);
+                }}
             />
           </div>
           <div className="control-group form-group">
@@ -143,8 +177,10 @@ const BusinessSetup = () => {
               className="form-control required"
               placeholder="CR Number"
               name="crNumber"
-              value={crNumber}
-              onChange={changeHandler}
+              value={values.crNumber}
+              onChange={(e) => {
+                  handleChange(e);
+                }}
             />
           </div>
           <div className="control-group form-group">
@@ -154,8 +190,10 @@ const BusinessSetup = () => {
               className="form-control required"
               placeholder="VAT Number"
               name="vatNumber"
-              value={vatNumber}
-              onChange={changeHandler}
+              value={values.vatNumber}
+              onChange={(e) => {
+                  handleChange(e);
+                }}
             />
           </div>
           <div className="control-group form-group">
@@ -165,8 +203,10 @@ const BusinessSetup = () => {
               className="form-control required"
               placeholder="Business Contact Person"
               name="businessContactPerson"
-              value={businessContactPerson}
-              onChange={changeHandler}
+              value={values.businessContactPerson}
+              onChange={(e) => {
+                  handleChange(e);
+                }}
             />
           </div>
         </Col>
@@ -178,8 +218,10 @@ const BusinessSetup = () => {
               className="form-control required"
               placeholder="Business Contact Number"
               name="businessContactNumber"
-              value={businessContactNumber}
-              onChange={changeHandler}
+              value={values.businessContactNumber}
+              onChange={(e) => {
+                  handleChange(e);
+                }}
             />
           </div>
           <div className="control-group form-group mb-0">
@@ -187,8 +229,10 @@ const BusinessSetup = () => {
             <Form.Control
               type="file"
               name="logo"
-              value={logo}
-              onChange={changeHandler}
+              value={values.logo}
+              onChange={(e) => {
+                  handleChange(e);
+                }}
             />
           </div>
           <div className="control-group form-group">
@@ -215,11 +259,11 @@ const BusinessSetup = () => {
         <Button
           className="btn btn-primary py-1 px-4 mb-1"
           type="submit"
-          onClick={OnSubmit}
         >
           Submit
         </Button>
       </div>
+      </form>
     </div>
   );
 };
