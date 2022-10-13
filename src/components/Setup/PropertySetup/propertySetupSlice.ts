@@ -26,12 +26,12 @@ const propertySetupSlice = createSlice({
         state.propertyList = action.payload.data;
       }
     );
-    builder.addCase(
-      deleteProperties.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        // state.propertyList = action.payload.data;
-      }
-    );
+    // builder.addCase(
+    //   deleteProperties.fulfilled,
+    //   (state, action: PayloadAction<any>) => {
+    //     // state.propertyList = action.payload.data;
+    //   }
+    // );
     // builder.addMatcher(
     //     propertySetupApi.endpoints.getPropertySetup.matchFulfilled, (state, response) => {
     //         return state;

@@ -5,11 +5,14 @@ import { Button } from "react-bootstrap";
 
 // Alerts Notifications
 
-export function Success() {
-  const Toastslidewarn = () =>
+export function Success(msg:string) {
+  // const Toastslidewarn = () =>
+  console.log(msg,"msg");
+  
     toast.success(
       <p className="text-white tx-16 mb-0">
-        Success: Well done Details Submitted Successfully
+        Success: {msg}
+        {/* Success: Well done Details Submitted Successfully */}
       </p>,
       {
         position: toast.POSITION.TOP_RIGHT,
@@ -18,14 +21,14 @@ export function Success() {
         theme: "colored",
       }
     );
-  return (
-    <div>
-      <Button className="me-2" variant="success" onClick={Toastslidewarn}>
-        Default
-      </Button>
-      <ToastContainer />
-    </div>
-  );
+  // return (
+  //   <div>
+  //     <Button className="me-2" variant="success" onClick={Toastslidewarn}>
+  //       Default
+  //     </Button>
+  //     <ToastContainer />
+  //   </div>
+  // );
 }
 
 export function Secondary() {

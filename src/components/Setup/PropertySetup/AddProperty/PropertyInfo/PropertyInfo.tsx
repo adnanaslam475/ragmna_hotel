@@ -135,7 +135,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
     //   }
   };
 
-  const initialValuesInfo: InitialValues = {
+  let initialValuesInfo: InitialValues = {
     name: "",
     email: "",
     propertyType: "",
