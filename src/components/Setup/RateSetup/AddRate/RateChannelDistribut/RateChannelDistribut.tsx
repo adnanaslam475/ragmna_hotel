@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Col, Row } from "react-bootstrap";
-import "./RateType.scss";
 
-const RateType = (props) => {
-    const [type ,setType]=useState('nightly')
+const RateChannelDistribut = (props) => {
   return (
     <React.Fragment>
       <Row>
@@ -22,24 +20,21 @@ const RateType = (props) => {
             <input
               type="radio"
               name="rate"
-              value="nightly"
+              value="weight"
               id="nightyRate"
-              checked={type == 'nightly' ? true : false}
-              onChange={(e:any)=>{setType(e.target.checked && 'nightly')}}
+              defaultChecked
             />
-            <label htmlFor="nightyRate">Nightly Rate</label>
+            <label htmlFor="nightyRate">hiiiiiii Rate</label>
             <input
               type="radio"
               name="rate"
-              value="derived"
+              value="dimensions"
               id="derivedRate"
-              checked={type == 'nightly' ? false : true}
-              onChange={(e:any)=>{console.log(e);
-               setType(e.target.checked && "derived")}}
             />
             <label htmlFor="derivedRate">Derived Rate</label>
           </div>
           <div className="pt-6">
+            <Button onClick={props.previousStep}>Previous</Button>
             <Button onClick={props.nextStep}>Next</Button>
           </div>
         </Col>
@@ -48,4 +43,4 @@ const RateType = (props) => {
   );
 };
 
-export default RateType;
+export default RateChannelDistribut;
