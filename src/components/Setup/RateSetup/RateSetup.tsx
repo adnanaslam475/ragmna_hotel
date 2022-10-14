@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import "./RateSetup.scss";
 
 const RateSetup = () => {
   let navigate = useNavigate();
@@ -23,6 +24,74 @@ const RateSetup = () => {
                 Add
               </Button>
             </div>
+          </Row>
+          <Row className="d-flex justify-content-evenly my-4">
+            <Col lg={3} className="main-box">
+              <div className="inner-box">
+                <div className="inner-box-size">
+                  <span>5%</span>
+                </div>
+                <div className="inner-box-size">
+                  <span>D</span>
+                  <span>10%</span>
+                </div>
+              </div>
+              <div className="inner-header py-2">
+                <h5>
+                  Rate Take - <span> $100</span>
+                </h5>
+              </div>
+              <div className="inner-box-row-2">
+                <div className="inner-box-size-2">
+                  <span>Reg</span>
+                  <span>$90</span>
+                </div>
+                <div className="inner-box-size-2">
+                  <span>WKD</span>
+                  <span>$120</span>
+                </div>
+                <div className="inner-box-size-2">
+                  <span>Xmas</span>
+                  <span>$210</span>
+                </div>
+              </div>
+            </Col>
+            <Col lg={3} className="main-box"></Col>
+            <Col lg={3} className="main-box"></Col>
+          </Row>
+          <Row className="d-flex justify-content-evenly my-4 pt-6">
+            <Col lg={3} className="main-box">
+              <div className="inner-box">
+                <div className="inner-box-size">
+                  <span>5%</span>
+                </div>
+                <div className="inner-box-size">
+                  <span>D</span>
+                  <span>10%</span>
+                </div>
+              </div>
+              <div className="inner-header py-2">
+                <h5>
+                  Rate Take - <span> $100</span>
+                </h5>
+              </div>
+              <div className="inner-box-row-2">
+                <div className="inner-box-size-2">
+                  <span>Reg</span>
+                  <span>$90</span>
+                </div>
+                <div className="inner-box-size-2">
+                  <span>WKD</span>
+                  <span>$120</span>
+                </div>
+                <div className="inner-box-size-2">
+                  <span>Xmas</span>
+                  <span>$210</span>
+                </div>
+              </div>
+            </Col>
+            <Col lg={3} className="main-box"></Col>
+            <Col lg={3} className="main-box"></Col>
           </Row>
         </Card.Body>
       </Card>
