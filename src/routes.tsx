@@ -1,3 +1,4 @@
+import { element } from "prop-types";
 import React, { Fragment, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useUser } from "./components/Authentication/firebaseAuth/firebaseAuthSlice";
@@ -349,6 +350,7 @@ const Marketing = lazy(() => import("./components/Marketing/Marketing"));
 const Communication = lazy(
   () => import("./components/Communication/Communication")
 );
+const AddRate = lazy(()=> import('./components/Setup/RateSetup/AddRate/AddRate'));
 const RoutesMain = () => {
     const { user } = useUser();
     
@@ -390,6 +392,7 @@ const RoutesMain = () => {
                     element={<PropertySpace />}
                   />
                   <Route path={`/setup/ratesetup`} element={<RateSetup />} />
+                  <Route path={`/setup/ratesetup/addrate`} element={<AddRate />}/>
                   <Route path={`/setup/owneraddon`} element={<OwnerAddOn />} />
                   <Route
                     path={`/setup/spnaddon`}

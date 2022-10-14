@@ -12030,6 +12030,11 @@ react-slick@^0.29.0:
     lodash.debounce "^4.0.8"
     resize-observer-polyfill "^1.5.0"
 
+react-step-wizard@^5.3.11:
+  version "5.3.11"
+  resolved "https://registry.yarnpkg.com/react-step-wizard/-/react-step-wizard-5.3.11.tgz#a52b46db772c0340dd6f45f93716d2afcf2196e2"
+  integrity sha512-TD3ocUdt4XWvisTNEiATh+cFuh1RK0LgvYqOResTIhLtFmdWnXzFVaNIZJ3qzW5Bm6yeotzZ4KAmRjmsqBXnWQ==
+
 react-stepzilla@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/react-stepzilla/-/react-stepzilla-7.0.0.tgz#cea91c5ff0fe6425da2939980559ec6bf296e987"

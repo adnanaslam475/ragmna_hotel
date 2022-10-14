@@ -1,0 +1,14 @@
+.wizard-setup{
+    min-height: calc(100vh - 150px);
+    padding: 0 !important;
+    height: 100%;
+}
+.question-part{
+    border-radius: 10px 0 0 10px;
+    height: calc(100vh - 150px);
+    background-color: #05c3fb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
