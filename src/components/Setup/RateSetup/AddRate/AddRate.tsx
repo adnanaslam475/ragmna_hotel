@@ -5,6 +5,7 @@ import RateType from "./RateType/RateType";
 import "./AddRate.scss";
 import RateChannelDistribut from "./RateChannelDistribut/RateChannelDistribut";
 import RatePlan from "./RatePlan/RatePlan";
+import DefaultRatePlan from "./DefaultRatePlan/DefaultRatePlan";
 
 const AddRate = () => {
 
@@ -16,6 +17,7 @@ const AddRate = () => {
             <RateType />
             <RatePlan/>
             <RateChannelDistribut />
+            <DefaultRatePlan/>
           </StepWizard>
         </Card.Body>
       </Card>

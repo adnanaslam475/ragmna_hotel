@@ -3,7 +3,7 @@ import { Button, Col, Row } from "react-bootstrap";
 import "./RateType.scss";
 
 const RateType = (props) => {
-    const [type ,setType]=useState('nightly')
+  const [type, setType] = useState("nightly");
   return (
     <React.Fragment>
       <Row>
@@ -24,8 +24,10 @@ const RateType = (props) => {
               name="rate"
               value="nightly"
               id="nightyRate"
-              checked={type == 'nightly' ? true : false}
-              onChange={(e:any)=>{setType(e.target.checked && 'nightly')}}
+              checked={type == "nightly" ? true : false}
+              onChange={(e: any) => {
+                setType(e.target.checked && "nightly");
+              }}
             />
             <label htmlFor="nightyRate">Nightly Rate</label>
             <input
@@ -33,13 +35,14 @@ const RateType = (props) => {
               name="rate"
               value="derived"
               id="derivedRate"
-              checked={type == 'nightly' ? false : true}
-              onChange={(e:any)=>{console.log(e);
-               setType(e.target.checked && "derived")}}
+              checked={type == "nightly" ? false : true}
+              onChange={(e: any) => {
+                setType(e.target.checked && "derived");
+              }}
             />
             <label htmlFor="derivedRate">Derived Rate</label>
           </div>
-          <div className="pt-6">
+          <div className="pt-6 next-button">
             <Button onClick={props.nextStep}>Next</Button>
           </div>
         </Col>
