@@ -1,6 +1,6 @@
 import React from "react";
 import { Col, Row, Form, Button } from "react-bootstrap";
-// import "./DefaultRatePlan.scss";
+import "./DefaultRatePlan.scss";
 
 const DefaultRatePlan = (props) => {
   return (
@@ -14,7 +14,7 @@ const DefaultRatePlan = (props) => {
           </div>
         </Col>
         <Col lg={6} md={12} className="form-part px-6 py-4">
-          <div>
+          <div> 
               <div className="d-flex">
                 <label className="custom-control custom-checkbox-md">
                   <input

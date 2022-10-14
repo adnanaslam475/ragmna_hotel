@@ -1,0 +1,23 @@
+.inner-class{
+    margin-left: 30px;
+}
+
+.check-input{
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    width: 50px;
+
+}
+
+.custom-control-label{
+    i{
+        color: #05c3fb;
+    }
+    i:first-child{
+        margin-left: 5px;
+    }
+    i:last-child{
+        margin-right: 5px;
+    }
+}

@@ -6,18 +6,21 @@ import "./AddRate.scss";
 import RateChannelDistribut from "./RateChannelDistribut/RateChannelDistribut";
 import RatePlan from "./RatePlan/RatePlan";
 import DefaultRatePlan from "./DefaultRatePlan/DefaultRatePlan";
+import QualifyRatePlan from "./QualifyRatePlan/QualifyRatePlan";
+import PoliciesRatePlan from "./PoliciesRatePlan/PoliciesRatePlan";
 
 const AddRate = () => {
-
   return (
     <React.Fragment>
       <Card>
         <Card.Body className="wizard-setup">
           <StepWizard>
             <RateType />
-            <RatePlan/>
+            <RatePlan />
             <RateChannelDistribut />
-            <DefaultRatePlan/>
+            <DefaultRatePlan />
+            <QualifyRatePlan />
+            <PoliciesRatePlan />
           </StepWizard>
         </Card.Body>
       </Card>

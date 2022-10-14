@@ -1,0 +1,17 @@
+.policies-part{
+    position: relative;
+}
+
+.policies-container{
+    max-height: calc(100vh - 200px);
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 50px;
+    position: relative;
+    overflow: scroll;
+    height: 100%;
+
+    p{
+        color: gray;
+    }
+}
