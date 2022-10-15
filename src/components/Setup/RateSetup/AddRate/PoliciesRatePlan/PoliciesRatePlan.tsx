@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import "./PoliciesRatePlan.scss";
 
 const PoliciesRatePlan = (props) => {
@@ -7,6 +8,12 @@ const PoliciesRatePlan = (props) => {
   const [deposit, setDeposit] = useState<boolean>(false);
   const [checkIn, setCheckIn] = useState<boolean>(false);
   const [noShow, setNoShow] = useState<boolean>(false);
+
+  let navigate = useNavigate();
+  const RouteChange = () => {
+    let path = `/setup/ratesetup/createseason`;
+    navigate(path);
+  };
 
   return (
     <React.Fragment>
@@ -191,7 +198,7 @@ const PoliciesRatePlan = (props) => {
             <Button onClick={props.previousStep}>Previous</Button>
           </div>
           <div className="next-button">
-            <Button onClick={props.nextStep}>Submit</Button>
+            <Button onClick={()=>{RouteChange()}}>Submit</Button>
           </div>
         </Col>
       </Row>

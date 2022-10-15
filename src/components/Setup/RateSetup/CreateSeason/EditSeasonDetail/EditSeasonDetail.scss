@@ -1,0 +1,38 @@
+.body-modal {
+  height: calc(100vh - 200px);
+  padding: 0 !important;
+
+  .row {
+    height: 100%;
+    padding: 0 !important;
+  }
+
+  .sidebar-main {
+    background-color: aqua;
+    border-radius: 10px 0 0 10px;
+    padding: 10px;
+    position: relative;
+
+    .tab-name-container {
+      background-color: transparent;
+    }
+
+    .sidebar-nav {
+      .nav-item {
+        display: grid;
+      }
+
+      flex-direction: column;
+      border: none !important;
+    }
+  }
+
+  .side-button {
+    position: absolute;
+    bottom: 10px;
+    left: 120px;
+  }
+  .tab-name-container .panel-tabs.panel-secondary.nav .nav-item .nav-link.active{
+    border-radius: 0 !important;
+  }
+}
