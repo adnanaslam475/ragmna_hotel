@@ -38,7 +38,7 @@ const App: FC<AppProps> = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
      
       <Rightside />

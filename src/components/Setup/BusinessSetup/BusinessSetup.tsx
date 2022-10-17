@@ -1,18 +1,13 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
-import { Form, ListGroup, Col, Row, InputGroup, Button } from "react-bootstrap";
+import { Form, Col, Row, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
-import { AnyObject } from "yup/lib/object";
 import { AppDispatch } from "../../../Redux/Store";
 import { useUser } from "../../Authentication/firebaseAuth/firebaseAuthSlice";
 import { Currency } from "../../Types/Types";
 import "./BusinessSetup.scss";
 import * as Yup from "yup";
-import {
-  useGetSupplierByIdQuery,
-  useUpdateSupplierByIdMutation,
-} from "./businessSetupApi";
 import { getBussinesById, updateBusiness } from "./businessSetupSlice";
 import { BusinessInfo } from "./types";
 
@@ -46,7 +41,7 @@ const BusinessSetup = () => {
   const { user } = useUser();
   const dispatch = useDispatch<AppDispatch>();
 
-  const initialValues = {
+  const initialValues:BusinessInfo = {
     name: "",
     crNumber: "",
     vatNumber: "",
@@ -113,15 +108,11 @@ const BusinessSetup = () => {
           name: response.data?.name,
           crNumber: response.data?.crNumber,
           vatNumber: response.data?.vatNumber,
-          // businessContactPerson: response.data.contact.name
-          //   ? response.data.contact.name
-          //   : "",
-          // businessContactNumber: response.data?.contact?.phone
-          //   ? response.data?.contact?.phone
-          //   : "",
-          // logo: "",
-          // currency: "",
-          // timeZone: "",
+          businessContactPerson: response.data?.contact?.name,
+          businessContactNumber: response.data?.contact?.phone,
+          logo: "",
+          currency: "",
+          timeZone: "",
         });
       }
     } catch (err: any) {
@@ -173,7 +164,7 @@ const BusinessSetup = () => {
           <div className="control-group form-group">
             <label className="form-label">CR Number</label>
             <input
-              type="number"
+              type="text"
               className="form-control required"
               placeholder="CR Number"
               name="crNumber"
@@ -186,7 +177,7 @@ const BusinessSetup = () => {
           <div className="control-group form-group">
             <label className="form-label">VAT Number</label>
             <input
-              type="number"
+              type="text"
               className="form-control required"
               placeholder="VAT Number"
               name="vatNumber"

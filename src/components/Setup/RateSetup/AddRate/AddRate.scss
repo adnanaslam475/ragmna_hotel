@@ -1,0 +1,34 @@
+.wizard-setup{
+    min-height: calc(100vh - 150px);
+    padding: 0 !important;
+    height: 100%;
+}
+.question-part{
+    border-radius: 10px 0 0 10px;
+    height: calc(100vh - 150px);
+    background-color: #05c3fb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+.form-part{
+    height: calc(100vh - 150px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.Previous-button{
+    position:absolute;
+    left: 10px;
+    bottom: 10px;
+}
+
+.next-button{
+    position:absolute;
+    right: 22px;
+    bottom: 10px;
+}

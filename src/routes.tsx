@@ -1,3 +1,4 @@
+import { element } from "prop-types";
 import React, { Fragment, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useUser } from "./components/Authentication/firebaseAuth/firebaseAuthSlice";
@@ -7,18 +8,9 @@ const Auth = lazy(
   () => import("./components/Authentication/firebaseAuth/auth")
 );
 const App = lazy(() => import("./components/app"));
-const CardsDesign = lazy(
-  () => import("./components/apps/CardsDesign/CardsDesign")
-);
-const Chat = lazy(() => import("./components/apps/Chat/Chat"));
-const Charts = lazy(() => import("./components/apps/Charts/Charts"));
-const ContentScrollbar = lazy(
-  () => import("./components/apps/ContentScrollbar/ContentScrollbar")
-);
+
 const Counters = lazy(() => import("./components/apps/Counters/Counters"));
-const CryptoCurrencies = lazy(
-  () => import("./components/apps/Cryptocurrencies/Cryptocurrencies")
-);
+
 const DefaultCalender = lazy(
   () => import("./components/apps/DefaultCalender/DefaultCalender")
 );
@@ -26,18 +18,7 @@ const Footers = lazy(() => import("./components/apps/Footers/Footers"));
 const FullCalender = lazy(
   () => import("./components/apps/FullCalender/FullCalender")
 );
-const Loaders = lazy(() => import("./components/apps/Loaders/Loaders"));
-const Notifications = lazy(
-  () => import("./components/apps/Notifications/Notifications")
-);
-const RangeSlider = lazy(
-  () => import("./components/apps/RangeSlider/RangeSlider")
-);
-const Rating = lazy(() => import("./components/apps/Rating/Rating"));
-const Search = lazy(() => import("./components/apps/Search/Search"));
-const Sweet = lazy(() => import("./components/apps/Sweet/Sweet"));
-const Timeline = lazy(() => import("./components/apps/Timeline/Timeline"));
-const TreeView = lazy(() => import("./components/apps/TreeView/TreeView"));
+
 const Userlist = lazy(() => import("./components/apps/Userlist/Userlist"));
 const Error401 = lazy(
   () => import("./components/Authentication/errorPage/Error401/Error401")
@@ -60,96 +41,9 @@ const LockScreen = lazy(
 const Register = lazy(
   () => import("./components/Authentication/Register/Register")
 );
-const Accordians = lazy(
-  () => import("./components/bootstrap/Accordians/Accordians")
-);
-const BootstrapAlerts = lazy(
-  () => import("./components/bootstrap/bootstrapAlerts/bootstrapAlerts")
-);
-const AvatarRadius = lazy(
-  () => import("./components/bootstrap/AvatarRadius/AvatarRadius")
-);
-const AvatarSquare = lazy(
-  () => import("./components/bootstrap/AvatarSquare/AvatarSquare")
-);
-const AvatarRounded = lazy(
-  () => import("./components/bootstrap/AvatarRounded/AvatarRounded")
-);
-const BadgesPills = lazy(
-  () => import("./components/bootstrap/BadgesPills/BadgesPills")
-);
-const Breadcrumbs = lazy(
-  () => import("./components/bootstrap/Breadcrumbs/Breadcrumbs")
-);
-const Buttons = lazy(() => import("./components/bootstrap/Buttons/Buttons"));
-const Carousels = lazy(
-  () => import("./components/bootstrap/Carousels/Carousels")
-);
-const Colors = lazy(() => import("./components/bootstrap/Colors/Colors"));
-const DropDowns = lazy(
-  () => import("./components/bootstrap/DropDowns/DropDowns")
-);
-const ListGroups = lazy(
-  () => import("./components/bootstrap/ListGroup/ListGroups")
-);
-const MediaObject = lazy(
-  () => import("./components/bootstrap/MediaObject/MediaObject")
-);
-const Modals = lazy(() => import("./components/bootstrap/Modal/Modal"));
-const Navigation = lazy(
-  () => import("./components/bootstrap/Navigation/Navigation")
-);
-const OffCanvas = lazy(
-  () => import("./components/bootstrap/OffCanvas/OffCanvas")
-);
-const Pagination = lazy(
-  () => import("./components/bootstrap/Pagination/Pagination")
-);
-const Panels = lazy(() => import("./components/bootstrap/Panels/Panels"));
-const Progress = lazy(() => import("./components/bootstrap/Progress/Progress"));
-const Tabs = lazy(() => import("./components/bootstrap/Tabs/Tabs"));
-const Tags = lazy(() => import("./components/bootstrap/Tags/Tags"));
-const Thumbnails = lazy(
-  () => import("./components/bootstrap/Thumbnails/Thumbnails")
-);
-const Toast = lazy(() => import("./components/bootstrap/Toast/Toast"));
-const TooltipPopover = lazy(
-  () => import("./components/bootstrap/TooltipPopover/TooltipPopover")
-);
-const Typography = lazy(
-  () => import("./components/bootstrap/Typography/Typography")
-);
 const Ribbons = lazy(() => import("./components/bootstrap/Ribbons/Ribbons"));
 const Chartjs = lazy(() => import("./components/Charts/Chart Js/Chartjs"));
 const Dashboard = lazy(() => import("./components/Dashboard/Dashboard"));
-const AddProduct = lazy(
-  () => import("./components/E-commerce/AddProduct/AddProduct")
-);
-const Checkout = lazy(
-  () => import("./components/E-commerce/Checkout/Checkout")
-);
-const ProductDetails = lazy(
-  () => import("./components/E-commerce/ProductDetails/ProductDetails")
-);
-const Shop = lazy(() => import("./components/E-commerce/Shop/Shop"));
-const ShoppingCart = lazy(
-  () => import("./components/E-commerce/ShoppingCart/ShoppingCart")
-);
-const Wishlist = lazy(
-  () => import("./components/E-commerce/Wishlist/Wishlist")
-);
-const FileAttachments = lazy(
-  () => import("./components/FileManager/FileAttachments/FileAttachments")
-);
-const FileDetails = lazy(
-  () => import("./components/FileManager/FileDetails/FileDetails")
-);
-const FileManager = lazy(
-  () => import("./components/FileManager/FileManager/FileManager")
-);
-const FileManagerList = lazy(
-  () => import("./components/FileManager/FileManagerList/FileManagerList")
-);
 const BootstrapIcons = lazy(
   () => import("./components/Icons/BootstrapIcons/BootstrapIcons")
 );
@@ -192,26 +86,13 @@ const Editprofile = lazy(
 const AboutCompany = lazy(
   () => import("./components/pages/Extension/AboutCompany/AboutCompany")
 );
-const BlogDetails = lazy(
-  () => import("./components/pages/Extension/BlogDetails/BlogDetails")
-);
-const BlogPost = lazy(
-  () => import("./components/pages/Extension/BlogPost/BlogPost")
-);
-const Blogs = lazy(() => import("./components/pages/Extension/Blogs/Blogs"));
-const EmptyPage = lazy(
-  () => import("./components/pages/Extension/EmptyPage/EmptyPage")
-);
-const FAQS = lazy(() => import("./components/pages/Extension/FAQS/FAQS"));
 const Invoice = lazy(
   () => import("./components/pages/Extension/Invoice/Invoice")
 );
 const Pricing = lazy(
   () => import("./components/pages/Extension/Pricing/Pricing")
 );
-const Services = lazy(
-  () => import("./components/pages/Extension/Services/Services")
-);
+
 const Settings = lazy(
   () => import("./components/pages/Extension/Settings/Settings")
 );
@@ -238,16 +119,7 @@ const FormValidation = lazy(
 const FormWizard = lazy(
   () => import("./components/pages/forms/FormWizard/FormWizard")
 );
-const Gallery = lazy(() => import("./components/pages/Gallery/Gallery"));
-const MailCompose = lazy(
-  () => import("./components/pages/MailCompose/MailCompose")
-);
-const MailInbox = lazy(() => import("./components/pages/MailInbox/MailInbox"));
-const MailRead = lazy(() => import("./components/pages/MailRead/MailRead"));
-const NotificationList = lazy(
-  () => import("./components/pages/NotificationList/NotificationList")
-);
-const Profile = lazy(() => import("./components/pages/Profile/Profile"));
+
 const DataTable = lazy(
   () => import("./components/pages/tables/DataTable/DataTable")
 );
@@ -349,9 +221,15 @@ const Marketing = lazy(() => import("./components/Marketing/Marketing"));
 const Communication = lazy(
   () => import("./components/Communication/Communication")
 );
+const AddRate = lazy(
+  () => import("./components/Setup/RateSetup/AddRate/AddRate")
+);
+const CreateSeason = lazy(
+  () => import("./components/Setup/RateSetup/CreateSeason/CreateSeason")
+);
 const RoutesMain = () => {
-    const { user } = useUser();
-    
+  const { user } = useUser();
+
   return (
     <Fragment>
       <BrowserRouter>
@@ -376,12 +254,12 @@ const RoutesMain = () => {
                   <Route
                     path={`/setup/propertysetup`}
                     element={<PropertySetup />}
-                                  />
-                <Route
+                  />
+                  <Route
                     path={`/setup/propertysetup/add-property`}
                     element={<AddProperty />}
                   />
-                   <Route
+                  <Route
                     path={`/setup/propertysetup/add-property/:id`}
                     element={<AddProperty />}
                   />
@@ -390,6 +268,14 @@ const RoutesMain = () => {
                     element={<PropertySpace />}
                   />
                   <Route path={`/setup/ratesetup`} element={<RateSetup />} />
+                  <Route
+                    path={`/setup/ratesetup/addrate`}
+                    element={<AddRate />}
+                  />
+                  <Route
+                    path={`/setup/ratesetup/createseason`}
+                    element={<CreateSeason />}
+                  />
                   <Route path={`/setup/owneraddon`} element={<OwnerAddOn />} />
                   <Route
                     path={`/setup/spnaddon`}
@@ -400,144 +286,21 @@ const RoutesMain = () => {
                     element={<HKMaintenance />}
                   />
                   <Route path={`/setup/channelmgt`} element={<ChannelMgt />} />
-                  <Route path={`/apps/carddesigns`} element={<CardsDesign />} />
-                  ,
-                  <Route path={`/apps/chat`} element={<Chat />} />,
-                  <Route path={`/apps/charts`} element={<Charts />} />,
-                  <Route
-                    path={`/apps/scrollbar`}
-                    element={<ContentScrollbar />}
-                  />
-                  ,
-                  <Route path={`/apps/counter`} element={<Counters />} />,
-                  <Route
-                    path={`/apps/cryptocurrencies`}
-                    element={<CryptoCurrencies />}
-                  />
-                  ,
                   <Route
                     path={`/apps/defaultcalender`}
                     element={<DefaultCalender />}
                   />
-                  ,
                   <Route path={`/apps/footer`} element={<Footers />} />,
                   <Route
                     path={`/apps/fullcalender`}
                     element={<FullCalender />}
                   />
-                  ,
-                  <Route path={`/apps/loader`} element={<Loaders />} />,
-                  <Route
-                    path={`/apps/notification`}
-                    element={<Notifications />}
-                  />
-                  ,
-                  <Route path={`/apps/rangeslider`} element={<RangeSlider />} />
-                  ,
-                  <Route path={`/apps/rating`} element={<Rating />} />,
-                  <Route path={`/apps/search`} element={<Search />} />,
-                  <Route path={`/apps/sweet`} element={<Sweet />} />,
-                  <Route path={`/apps/timeline`} element={<Timeline />} />,
-                  <Route path={`/apps/treeview`} element={<TreeView />} />,
                   <Route path={`/apps/userlist`} element={<Userlist />} />,
                   <Route path={`/apps/widgets`} element={<Widgets />} />,
                 </Route>
 
                 {/* bootstrap */}
                 <Route>
-                  <Route
-                    path={`/bootstrap/accordian`}
-                    element={<Accordians />}
-                  />
-                  ,
-                  <Route
-                    path={`/bootstrap/bootstrapalerts`}
-                    element={<BootstrapAlerts />}
-                  />
-                  ,
-                  <Route
-                    path={`/bootstrap/avatarradius`}
-                    element={<AvatarRadius />}
-                  />
-                  ,
-                  <Route
-                    path={`/bootstrap/avatarsquare`}
-                    element={<AvatarSquare />}
-                  />
-                  ,
-                  <Route
-                    path={`/bootstrap/avatarrounded`}
-                    element={<AvatarRounded />}
-                  />
-                  ,
-                  <Route
-                    path={`/bootstrap/badgespills`}
-                    element={<BadgesPills />}
-                  />
-                  ,
-                  <Route
-                    path={`/bootstrap/breadcrumbs`}
-                    element={<Breadcrumbs />}
-                  />
-                  ,
-                  <Route path={`/bootstrap/buttons`} element={<Buttons />} />,
-                  <Route
-                    path={`/bootstrap/carousels`}
-                    element={<Carousels />}
-                  />
-                  ,
-                  <Route path={`/bootstrap/colors`} element={<Colors />} />,
-                  <Route
-                    path={`/bootstrap/dropdowns`}
-                    element={<DropDowns />}
-                  />
-                  ,
-                  <Route
-                    path={`/bootstrap/listgroups`}
-                    element={<ListGroups />}
-                  />
-                  ,
-                  <Route
-                    path={`/bootstrap/mediaobject`}
-                    element={<MediaObject />}
-                  />
-                  ,
-                  <Route path={`/bootstrap/modal`} element={<Modals />} />,
-                  <Route
-                    path={`/bootstrap/navigation`}
-                    element={<Navigation />}
-                  />
-                  ,
-                  <Route
-                    path={`/bootstrap/offcanvas`}
-                    element={<OffCanvas />}
-                  />
-                  ,
-                  <Route
-                    path={`/bootstrap/pagination`}
-                    element={<Pagination />}
-                  />
-                  ,
-                  <Route path={`/bootstrap/panels`} element={<Panels />} />,
-                  <Route path={`/bootstrap/progress`} element={<Progress />} />,
-                  <Route path={`/bootstrap/tabs`} element={<Tabs />} />,
-                  <Route path={`/bootstrap/tags`} element={<Tags />} />,
-                  <Route
-                    path={`/bootstrap/thumbnails`}
-                    element={<Thumbnails />}
-                  />
-                  ,
-                  <Route path={`/bootstrap/toast`} element={<Toast />} />,
-                  <Route
-                    path={`/bootstrap/tooltippopover`}
-                    element={<TooltipPopover />}
-                  />
-                  ,
-                  <Route
-                    path={`/bootstrap/typography`}
-                    element={<Typography />}
-                  />
-                  ,
                   <Route path={`/bootstrap/ribbons`} element={<Ribbons />} />,
                 </Route>
 
@@ -598,52 +361,6 @@ const RoutesMain = () => {
                   <Route
                     path={`/charts/apexchart/polararea`}
                     element={<Polararea />}
-                  />
-                  ,
-                </Route>
-
-                {/* E-commerce */}
-                <Route>
-                  <Route
-                    path={`/ecommerce/addproduct`}
-                    element={<AddProduct />}
-                  />
-                  ,
-                  <Route path={`/ecommerce/checkout`} element={<Checkout />} />,
-                  <Route
-                    path={`/ecommerce/productdetails`}
-                    element={<ProductDetails />}
-                  />
-                  ,
-                  <Route path={`/ecommerce/shop`} element={<Shop />} />,
-                  <Route
-                    path={`/ecommerce/shoppingcart`}
-                    element={<ShoppingCart />}
-                  />
-                  ,
-                  <Route path={`/ecommerce/wishlist`} element={<Wishlist />} />,
-                </Route>
-
-                {/* File-Manager */}
-                <Route>
-                  <Route
-                    path={`/filemanager/fileattachments`}
-                    element={<FileAttachments />}
-                  />
-                  ,
-                  <Route
-                    path={`/filemanager/filedetails`}
-                    element={<FileDetails />}
-                  />
-                  ,
-                  <Route
-                    path={`/filemanager/filemanager`}
-                    element={<FileManager />}
-                  />
-                  ,
-                  <Route
-                    path={`/filemanager/filemanagerlist`}
-                    element={<FileManagerList />}
                   />
                   ,
                 </Route>
@@ -715,23 +432,6 @@ const RoutesMain = () => {
                   />
                   ,
                   <Route
-                    path={`/pages/extension/blogdetails`}
-                    element={<BlogDetails />}
-                  />
-                  ,
-                  <Route
-                    path={`/pages/extension/blogpost`}
-                    element={<BlogPost />}
-                  />
-                  ,
-                  <Route path={`/pages/extension/blogs`} element={<Blogs />} />,
-                  <Route
-                    path={`/pages/extension/emptypage`}
-                    element={<EmptyPage />}
-                  />
-                  ,
-                  <Route path={`/pages/extension/faqs`} element={<FAQS />} />,
-                  <Route
                     path={`/pages/extension/invoice`}
                     element={<Invoice />}
                   />
@@ -739,11 +439,6 @@ const RoutesMain = () => {
                   <Route
                     path={`/pages/extension/pricing`}
                     element={<Pricing />}
-                  />
-                  ,
-                  <Route
-                    path={`/pages/extension/services`}
-                    element={<Services />}
                   />
                   ,
                   <Route
@@ -787,20 +482,6 @@ const RoutesMain = () => {
                     element={<FormWizard />}
                   />
                   ,
-                  <Route path={`/pages/gallery`} element={<Gallery />} />,
-                  <Route
-                    path={`/pages/mailcompose`}
-                    element={<MailCompose />}
-                  />
-                  ,
-                  <Route path={`/pages/mailinbox`} element={<MailInbox />} />,
-                  <Route path={`/pages/mailread`} element={<MailRead />} />,
-                  <Route
-                    path={`/pages/notificationlist`}
-                    element={<NotificationList />}
-                  />
-                  ,
-                  <Route path={`/pages/profile`} element={<Profile />} />,
                   <Route
                     path={`/pages/tables/datatables`}
                     element={<DataTable />}
