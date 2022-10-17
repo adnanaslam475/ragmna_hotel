@@ -65,14 +65,10 @@ const RatePlan = (props) => {
               />
             </div>
             <div className="Previous-button">
-              <Button onClick={props.previousStep}>
-                Previous
-              </Button>
+              <Button onClick={props.previousStep}>Previous</Button>
             </div>
             <div className="next-button">
-              <Button type="submit">
-                Next
-              </Button>
+              <Button type="submit">Next</Button>
             </div>
           </form>
         </Col>

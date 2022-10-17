@@ -1,0 +1,15 @@
+.policies {
+  .policies-head {
+    padding: 20px 30px;
+    border-bottom: 3px solid lightgray;
+  }
+  .policies-body {
+    padding: 10px 20px;
+    height: 100%;
+
+    .inner-class{
+        padding-left: 25px;
+    }
+
+  }
+}

@@ -1,0 +1,36 @@
+.rate{
+    .rate-head {
+      padding: 20px 30px;
+      border-bottom: 3px solid lightgray;
+    }
+    .rate-body{
+      padding: 10px 20px;
+      height: 100%;
+  
+      .standard-room{
+        display: flex;
+  
+        .standard-rate-night{
+            display: flex;
+            padding-left: 10px;
+          .standard-add-charge{
+            padding-left: 10px;
+            display: flex;
+            align-items: baseline;
+            .charge-input{
+              .check-input{
+                border-left: none;
+                border-right: none;
+                border-top: none;
+                border-bottom: 1px solid #6c5ffc;
+                width: 40%;
+                color: #6c5ffc;
+              }
+            }
+          }
+        }
+      }
+  
+    }
+  }
+  
