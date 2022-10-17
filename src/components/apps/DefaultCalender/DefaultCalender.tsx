@@ -10,19 +10,26 @@ import { createEventId } from './event-utils'
 import PageHeader from '../../../Layouts/PageHeader/PageHeader'
 import CountUp from 'react-countup'
 import './calender.scss'
-import 'react-datepicker/dist/react-datepicker.css'
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
+import $ from 'jquery'
+import DatePicker from 'react-date-picker'
+
 interface DemoAppState {
 	weekendsVisible: boolean
 	currentEvents: EventApi[]
 	value: Date
+	datepickeropen: boolean
 }
 class DefaultCalender extends React.Component<any, DemoAppState> {
 	state: DemoAppState = {
 		weekendsVisible: true,
 		currentEvents: [],
 		value: new Date(),
+		datepickeropen: false,
 	}
+
+	// const [startDate, setStartDate] = useState(new Date());
+	// const [showDatePicker, setShowDatePicker] = useState(false);
 	handleDateSelect = (selectInfo: any) => {
 		console.log('date clicked')
 
@@ -45,6 +52,9 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
 		if (window?.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
 			clickInfo.event.remove()
 		}
+	}
+	dateclick = () => {
+		alert('hello')
 	}
 
 	renderEventContent = (eventInfo: {
@@ -214,34 +224,53 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
 								</Col>
 							</Row>
 
+							<DatePicker
+								isOpen={this.state.datepickeropen}
+								value={new Date()}
+								onCalendarClose={() => this.setState({ datepickeropen: !this.state.datepickeropen })}
+							/>
+
 							<Row className="mt-5">
 								<Col sm={12} style={{ paddingLeft: 0 }}>
 									<div style={{ height: '343px', overflowY: 'scroll' }}>
 										<FullCalendar
 											plugins={[resourceTimelinePlugin, interactionPlugin, customViewPlugin]}
 											headerToolbar={{
-												left: 'prev,title,next',
+												left: 'prev,myCustomButton,title,next',
 												center: 'title',
 												right: 'resourceTimelineDay,resourceTimelineWeek,resourceTimelineMonth',
 											}}
+											customButtons={{
+												myCustomButton: {
+													text: (<i className="fa fa-calendar" />) as unknown as string,
+													click: () => this.setState({ datepickeropen: !this.state.datepickeropen }),
+												},
+											}}
+											themeSystem="bootstrap5"
 											initialView="resourceTimelineDay"
 											timeZone="UTC"
 											dayHeaderFormat={'weekday: short'}
 											dayMinWidth={200}
+											titleFormat={{ month: 'short', day: 'numeric' }}
 											views={{
 												resourceTimelineMonth: {
 													dayHeaders: true,
+													slotMinWidth: 35,
 													// allDayContent: { html: '<i>some html</i>' },
 													slotLaneContent: {
-														html: '<div style="display:flex,justify-content:center"><p style="color:green">$140 </p> </div>',
+														html: '<div style="display:flex,justify-content:center"><p style="color:#78b722">$140 </p> </div>',
 													},
 													type: 'timeline',
 													duration: { days: 30 },
 													slotDuration: { days: 1 },
 													buttonText: '30 Days',
+
 													slotLabelFormat: { weekday: 'short', day: 'numeric', omitCommas: true },
 												},
 												resourceTimelineDay: {
+													slotLaneContent: {
+														html: '<div style="display:flex,justify-content:center,margin-top:0.3rem"><p style="color:#78b722">$140 </p> </div>',
+													},
 													type: 'timeline',
 													duration: { days: 15 },
 													slotDuration: { days: 1 },
@@ -249,6 +278,9 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
 													slotLabelFormat: { weekday: 'short', day: 'numeric', omitCommas: true },
 												},
 												resourceTimelineWeek: {
+													slotLaneContent: {
+														html: '<div style="display:flex,justify-content:center"><p style="color:#78b722">$140 </p> </div>',
+													},
 													type: 'timeline',
 													duration: { days: 7 },
 													slotDuration: { days: 1 },
@@ -261,7 +293,7 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
 											events="https://fullcalendar.io/api/demo-feeds/events.json?single-day&for-resource-timeline"
 											resourceAreaHeaderContent="Rooms (SDTQ)"
 											resources="https://fullcalendar.io/api/demo-feeds/resources.json?with-nesting&with-colors"
-											aspectRatio={1.5}
+											aspectRatio={0.5}
 											editable={true}
 											selectable={true}
 											selectMirror={true}
