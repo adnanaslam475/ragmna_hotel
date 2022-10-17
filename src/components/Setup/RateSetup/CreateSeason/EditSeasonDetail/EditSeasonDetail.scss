@@ -8,22 +8,39 @@
   }
 
   .sidebar-main {
-    background-color: aqua;
+    background-color: #05c3fb;
     border-radius: 10px 0 0 10px;
-    padding: 10px;
+    padding: 0 !important;
     position: relative;
 
-    .tab-name-container {
-      background-color: transparent;
+    .main-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 25px;
+
+      h1 {
+        font-weight: 700;
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
     }
 
-    .sidebar-nav {
-      .nav-item {
+    .edit-tab-container {
+      background-color: transparent;
+      .nav-link {
         display: grid;
+        font-size: 20px;
+        font-weight: 700;
+        padding: 10px 20px;
+        margin-top: 5px;
       }
-
-      flex-direction: column;
-      border: none !important;
+      a:focus,
+      a:hover,
+      a:active {
+        background-color: white;
+        color: black !important;
+      }
     }
   }
 
@@ -32,7 +49,38 @@
     bottom: 10px;
     left: 120px;
   }
-  .tab-name-container .panel-tabs.panel-secondary.nav .nav-item .nav-link.active{
-    border-radius: 0 !important;
+}
+
+.rate{
+  .rate-head {
+    padding: 10px 20px;
+    border-bottom: 3px solid lightgray;
+  }
+  .rate-body{
+    padding: 10px 20px;
+    height: 100%;
+
+    .standard-room{
+      display: flex;
+
+      .standard-rate-night{
+          display: flex;
+        .standard-add-charge{
+          display: flex;
+          align-items: baseline;
+          .charge-input{
+            .check-input{
+              border-left: none;
+              border-right: none;
+              border-top: none;
+              border-bottom: 1px solid #6c5ffc;
+              width: 40%;
+              color: #6c5ffc;
+            }
+          }
+        }
+      }
+    }
+
   }
 }

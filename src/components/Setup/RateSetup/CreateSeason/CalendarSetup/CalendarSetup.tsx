@@ -5,6 +5,7 @@ import DayPicker, {
 import 'react-day-picker/lib/style.css'
 import service from './services'
 import "react-day-picker/lib/style.css";
+import './CalendarSetup.scss'
 
 const CalendarSetup = ({ onChange }:any) => {
     const [tempRange, setTempRange] = useState<any>({ from: null, to: null })
