@@ -88,13 +88,30 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	height: 35px !important;
+	height: 50px !important;
+}
+
+.fc table {
+	font-size: small !important;
 }
 
 .fc-timeline-header-row {
 	background-color: #ddd !important;
 	height: 50px !important;
+	font-size: small !important;
 	// background-color: '#ddd' !important;
+}
+
+.fc-right .fc-prev-button,
+.fc-right .fc-next-button {
+	background-color: #b1d583;
+	background-image: none;
+}
+
+.fc-button .fc-button-primary .fc-prev-button {
+	background-color: #165d93 !important;
+	color: white !important;
+	border: none !important;
 }
 
 .fc-button-primary {
@@ -115,25 +132,26 @@
 }
 
 .fc-timeline-event .fc-h-event .fc-event .fc-event-draggable .fc-event-resizable .fc-event-start .fc-event-end .fc-event-today .fc-event-future {
-	height: 50px !important;
+	height: 30px !important;
 }
 
 .fc-datagrid-header {
-	background-color: #165d93 !important;
-	color: white;
+	background-color: #ddd !important;
+	color: black;
 }
 
 .fc .fc-timeline-slots {
 	div {
 		display: flex;
 		justify-content: center;
+		margin-top: 0.3rem !important;
 	}
 
 	// background-color: #f7f7f7 !important;
 }
 
 .fc .fc-toolbar-title {
-	font-size: medium !important;
+	font-size: small !important;
 }
 
 .fc-button-active {
@@ -141,10 +159,34 @@
 	color: white !important;
 }
 
+.datetimepicker {
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	height: 45px !important;
+	background-color: #ddd;
+	cursor: pointer !important;
+}
+
+.fc .fc-timeline-slot-cushion {
+	white-space: inherit !important;
+	color: #000 !important;
+	font-weight: 400 !important;
+}
+
+.fc-myCustomButton-button {
+	background-color: #165d93 !important;
+	color: white !important;
+	height: 25px !important;
+	width: 25px !important;
+
+}
+
 .fc-toolbar-chunk {
-	div {
+	>div {
 		display: flex;
 		align-items: center;
+		width: 165px !important;
 	}
 }
 
@@ -196,6 +238,18 @@
 			color: white;
 		}
 	}
+}
+
+.fc-datagrid-body {
+
+	tr:first-child {
+		td {
+			background-color: #337ab7 !important;
+			color: white;
+		}
+
+	}
+
 }
 
 .lightgreen-code {
@@ -317,4 +371,12 @@
 	margin-left: 'auto';
 	margin-right: 'auto';
 	margin-bottom: 10;
+}
+
+.react-date-picker {
+	z-index: 99;
+}
+
+.react-date-picker__wrapper {
+	display: none !important;
 }
