@@ -9,8 +9,32 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import EditSeasonDetail from "./EditSeasonDetail/EditSeasonDetail";
 import CalendarSetup from "./CalendarSetup/CalendarSetup";
+import { CommanDropDownType } from "../../PropertySetup/AddProperty/types";
+import DayPickerInput from "react-day-picker/DayPickerInput";
 
 const CreateSeason = () => {
+  let colorTypes: CommanDropDownType[] = [
+    { value: "#f0642a", label: "#f6881c" },
+    { value: "#f6881c", label: "#f6881c" },
+    { value: "#cc5a71", label: "#cc5a71" },
+    { value: "#d42649", label: "#d42649" },
+    { value: "#563635", label: "#563635" },
+    { value: "#85be73", label: "#85be73" },
+    { value: "#26a69a", label: "#26a69a" },
+    { value: "#104547", label: "#104547" },
+    { value: "#3474bc", label: "#3474bc" },
+    { value: "#1781ff", label: "#1781ff" },
+    { value: "#7b7db7", label: "#7b7db7" },
+    { value: "#5a4177", label: "#5a4177" },
+    { value: "#fad84c", label: "#fad84c" },
+    { value: "#deb7b7", label: "#deb7b7" },
+    { value: "#8f2d56", label: "#8f2d56" },
+  ];
+
+  const [selectColor, setSelectColor] =
+    useState<CommanDropDownType[]>(colorTypes);
+
+  const [openSelectColor, setOpenSelectColor] = useState(false);
   const [isEditModal, setIsEditModel] = useState(false);
   const [fromDate, setFromDate] = useState<Date | null>(null);
   const [toDate, setToDate] = useState<Date | null>(null);
@@ -19,6 +43,7 @@ const CreateSeason = () => {
       seasonName: "",
       fromDate: "",
       toDate: "",
+      color: "#707070",
       day: [
         {
           monday: true,
@@ -40,6 +65,7 @@ const CreateSeason = () => {
       seasonName: e.target.value,
       fromDate: "",
       toDate: "",
+      color: "",
       day: [
         {
           monday: true,
@@ -69,6 +95,7 @@ const CreateSeason = () => {
         seasonName: "",
         fromDate: "",
         toDate: "",
+        color: "#707070",
         day: [
           {
             monday: true,
@@ -107,6 +134,12 @@ const CreateSeason = () => {
     return `${from} - ${to}`;
   };
 
+  const onSelectColor = (item, index) => {
+    seasonDetails[index].color = item.value;
+    setSeasonDetails(seasonDetails);
+    setOpenSelectColor(false);
+  };
+
   return (
     <React.Fragment>
       <Card className="mt-6">
@@ -131,9 +164,9 @@ const CreateSeason = () => {
             return (
               <React.Fragment>
                 {/* <form onSubmit={handleSubmit}> */}
-                <Row key={index} className="mt-4">
-                  <Col lg={3}>
-                    <div className="control-group form-group season-input">
+                <Row key={index} className="mt-4 align-items-center">
+                  <Col lg={2}>
+                    <div className="control-group form-group season-input m-0">
                       <input
                         type="text"
                         className="form-control required"
@@ -144,31 +177,44 @@ const CreateSeason = () => {
                       />
                     </div>
                   </Col>
-                  <Col lg={3}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <DatePicker
-                        label="From"
-                        value={fromDate}
-                        key={"from" + index}
-                        onChange={(e) => {
-                          setFromDate(e);
-                          handleChange(e, index);
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
+                  <Col lg={3} className='date-picker'>
+                    <DayPickerInput placeholder='From' onDayChange={(day) => console.log(day)} />
                   </Col>
-                  <Col lg={3}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <DatePicker
-                        label="To"
-                        value={toDate}
-                        onChange={(newValue) => {
-                          setToDate(newValue);
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
+                  <Col lg={3} className='date-picker'>
+                    <DayPickerInput placeholder='To' onDayChange={(day) => console.log(day)} />
+                  </Col>
+                  <Col lg={1}>
+                    <div className="position-relative">
+                      <div className="selection">
+                        <div
+                          className="selection-item"
+                          style={{ backgroundColor: item.color }}
+                        ></div>
+                        <span
+                          onClick={() => {
+                            setOpenSelectColor(!openSelectColor);
+                          }}
+                        >
+                          <i className="icon fa fa-chevron-down" />
+                        </span>
+                      </div>
+                      {openSelectColor ? (
+                        <div className="color-seletor">
+                          {selectColor.map((coloritem: any, colorindex) => {
+                            return (
+                              <div
+                                key={colorindex}
+                                className="color-item"
+                                style={{ backgroundColor: coloritem.value }}
+                                onClick={() => {
+                                  onSelectColor(coloritem, index);
+                                }}
+                              ></div>
+                            );
+                          })}
+                        </div>
+                      ) : null}
+                    </div>
                   </Col>
                   <Col lg={3} className="day-list">
                     <Form.Check

@@ -24,13 +24,6 @@ export interface EditSeasonDetailProps {
 }
 
 const EditSeasonDetail = (props: EditSeasonDetailProps) => {
-  const colorTypes: CommanDropDownType[] = [
-    { value: "#f0642a", label: "#f6881c" },
-    { value: "#f6881c", label: "#f6881c" },
-    { value: "#cc5a71", label: "#cc5a71" },
-    { value: "#d42649", label: "#d42649" },
-  ];
-
   const { isModelClose } = props;
 
   const [show, setShow] = useState(true);
@@ -51,20 +44,6 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
               <Col lg={3} className="sidebar-main">
                 <div className="main-header">
                   <h1>Season</h1>
-                </div>
-                <div>
-                  {/* <Select
-                    classNamePrefix="Select"
-                    options={colorTypes}
-                    // value={colorTypes.filter(
-                    //   (option) => option.value === values.selectedColor
-                    // )}
-                    placeholder="Select color"
-                    name="selectedColor"
-                    // onChange={(selectedOption: any) => {
-                    //   handleChange("selectedColor")(selectedOption?.value);
-                    // }}
-                  /> */}
                 </div>
                 <div className="edit-tab-container">
                   <Nav>
