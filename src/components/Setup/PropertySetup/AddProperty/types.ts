@@ -114,7 +114,12 @@ export interface InitialValues {
     email:string
     propertyType:string
     goodFor:string
+    allowedFor:string
     space:number
+    unit:string
+    area:number
+    adults:number
+    children:number
     briefDescription:string
     longDescription:string
     Cname:string
@@ -126,6 +131,7 @@ export interface InitialValues {
     Lcity:string
     state:string
     Lcountry:string
+    zipCode:string
     latitude:string
     longitude:string
     country:string
@@ -138,4 +144,19 @@ export interface InitialValues {
     availableForEntireRental:boolean,
     strictlyEntireRental:boolean,
     isPublished:boolean
+    automaticRoomAssignment: boolean,
+    emailDisplayName: string
+    replyToEmailAddress: string
+    sendCCOnAllEmails: string
+    setOccupiedRoomToDirty: boolean
+    allowOverBookingManually: boolean,
+    addMarketSegment: [],
+    checkInTime: string
+    checkOutTime: string
+    autoGuestRegistrationCreationDuringCheckIn: boolean
+    sendNotificationToConfirmRoomIfDirty: boolean
+    allowNonZeroBalanceDuringCheckout: boolean
+    allowRefundApplyUponCheckOut: boolean
+    autoRefundApplyUponCheckOut: boolean
+    includeRoomMovesOnArrivalAndDepartureList: boolean
 }

@@ -15,102 +15,115 @@ import {
   saveSettingByTypeId,
 } from "../Reservation/reservationSlice";
 
-const CheckInCheckOut = () => {
+export interface CheckInCheckOutProps {
+  values: any;
+  handleChange: any;
+  handleSubmit: any;
+  setFieldValue: any;
+}
+
+const CheckInCheckOut = (props:CheckInCheckOutProps) => {
+  const {
+    values,
+    handleChange,
+    handleSubmit,
+    setFieldValue,
+  } = props;
   const dispatch = useDispatch<AppDispatch>();
   let { id } = useParams();
 
-  const getConfig = async () => {
-    try {
-      let payload = {
-        id,
-        typeId: 1,
-      };
-      const response: any = await dispatch(
-        getSettingByTypeId(payload)
-      ).unwrap();
-    } catch (error: any) {
-      console.log(error);
-    }
-  };
+  // const getConfig = async () => {
+  //   try {
+  //     let payload = {
+  //       id,
+  //       typeId: 1,
+  //     };
+  //     const response: any = await dispatch(
+  //       getSettingByTypeId(payload)
+  //     ).unwrap();
+  //   } catch (error: any) {
+  //     console.log(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (id) {
-      getConfig();
-    }
-  }, [id]);
+  // useEffect(() => {
+  //   if (id) {
+  //     getConfig();
+  //   }
+  // }, [id]);
 
-  const onSubmit = async (values) => {
-    try {
-      let payload = Object.assign({}, values);
-      payload["propertyId"] = id;
-      payload["type"] = PropertySetuptypes.CheckIn_Checkout;
-      payload["configurations"] = {
-        checkInTime: values.checkInTime,
-        checkOutTime: values.checkOutTime,
-        autoGuestRegistrationCreationDuringCheckIn:
-          values.autoGuestRegistrationCreationDuringCheckIn,
-        autoGuestStatementUponCheckInIfTheRoomIsDirty:
-          values.autoGuestStatementUponCheckInIfTheRoomIsDirty,
-        sendNotificationToConfirmRoomIfDirty:
-          values.sendNotificationToConfirmRoomIfDirty,
-        allowNonZeroBalanceDuringCheckout:
-          values.allowNonZeroBalanceDuringCheckout,
-        allowRefundApplyUponCheckOut: values.allowRefundApplyUponCheckOut,
-        autoRefundApplyUponCheckOut: values.autoRefundApplyUponCheckOut,
-        includeRoomMovesOnArrivalAndDepartureList:
-          values.includeRoomMovesOnArrivalAndDepartureList,
-      };
-      let deletekeys = [
-        "checkInTime",
-        "checkOutTime",
-        "autoGuestRegistrationCreationDuringCheckIn",
-        "autoGuestStatementUponCheckInIfTheRoomIsDirty",
-        "sendNotificationToConfirmRoomIfDirty",
-        "allowNonZeroBalanceDuringCheckout",
-        "allowRefundApplyUponCheckOut",
-        "autoRefundApplyUponCheckOut",
-        "includeRoomMovesOnArrivalAndDepartureList",
-      ];
-      for (let i = 0; i < deletekeys.length; i++) {
-        delete payload[deletekeys[i]];
-      }
-      let responce = await dispatch(saveSettingByTypeId(payload)).unwrap();
-      Success(" Check-in Check-out details has been saved");
-      //   await reservationDetails(payload);
-    } catch (err: any) {
-        DangerLeft("Something went wrong")
-    }
-  };
+  // const onSubmit = async (values) => {
+  //   try {
+  //     let payload = Object.assign({}, values);
+  //     payload["propertyId"] = id;
+  //     payload["type"] = PropertySetuptypes.CheckIn_Checkout;
+  //     payload["configurations"] = {
+  //       checkInTime: values.checkInTime,
+  //       checkOutTime: values.checkOutTime,
+  //       autoGuestRegistrationCreationDuringCheckIn:
+  //         values.autoGuestRegistrationCreationDuringCheckIn,
+  //       autoGuestStatementUponCheckInIfTheRoomIsDirty:
+  //         values.autoGuestStatementUponCheckInIfTheRoomIsDirty,
+  //       sendNotificationToConfirmRoomIfDirty:
+  //         values.sendNotificationToConfirmRoomIfDirty,
+  //       allowNonZeroBalanceDuringCheckout:
+  //         values.allowNonZeroBalanceDuringCheckout,
+  //       allowRefundApplyUponCheckOut: values.allowRefundApplyUponCheckOut,
+  //       autoRefundApplyUponCheckOut: values.autoRefundApplyUponCheckOut,
+  //       includeRoomMovesOnArrivalAndDepartureList:
+  //         values.includeRoomMovesOnArrivalAndDepartureList,
+  //     };
+  //     let deletekeys = [
+  //       "checkInTime",
+  //       "checkOutTime",
+  //       "autoGuestRegistrationCreationDuringCheckIn",
+  //       "autoGuestStatementUponCheckInIfTheRoomIsDirty",
+  //       "sendNotificationToConfirmRoomIfDirty",
+  //       "allowNonZeroBalanceDuringCheckout",
+  //       "allowRefundApplyUponCheckOut",
+  //       "autoRefundApplyUponCheckOut",
+  //       "includeRoomMovesOnArrivalAndDepartureList",
+  //     ];
+  //     for (let i = 0; i < deletekeys.length; i++) {
+  //       delete payload[deletekeys[i]];
+  //     }
+  //     let responce = await dispatch(saveSettingByTypeId(payload)).unwrap();
+  //     Success(" Check-in Check-out details has been saved");
+  //     //   await reservationDetails(payload);
+  //   } catch (err: any) {
+  //       DangerLeft("Something went wrong")
+  //   }
+  // };
 
-  const initialValues = {
-    checkInTime: "",
-    checkOutTime: "",
-    autoGuestRegistrationCreationDuringCheckIn: false,
-    autoGuestStatementUponCheckInIfTheRoomIsDirty: false,
-    sendNotificationToConfirmRoomIfDirty: false,
-    allowNonZeroBalanceDuringCheckout: false,
-    allowRefundApplyUponCheckOut: false,
-    autoRefundApplyUponCheckOut: false,
-    includeRoomMovesOnArrivalAndDepartureList: false,
-  };
-  const validationSchema = Yup.object({
-    checkInTime: Yup.string(),
-    checkOutTime: Yup.string(),
-    autoGuestRegistrationCreationDuringCheckIn: Yup.boolean(),
-    autoGuestStatementUponCheckInIfTheRoomIsDirty: Yup.boolean(),
-    sendNotificationToConfirmRoomIfDirty: Yup.boolean(),
-    allowNonZeroBalanceDuringCheckout: Yup.boolean(),
-    allowRefundApplyUponCheckOut: Yup.boolean(),
-    autoRefundApplyUponCheckOut: Yup.boolean(),
-    includeRoomMovesOnArrivalAndDepartureList: Yup.boolean(),
-  });
+  // const initialValues = {
+  //   checkInTime: "",
+  //   checkOutTime: "",
+  //   autoGuestRegistrationCreationDuringCheckIn: false,
+  //   autoGuestStatementUponCheckInIfTheRoomIsDirty: false,
+  //   sendNotificationToConfirmRoomIfDirty: false,
+  //   allowNonZeroBalanceDuringCheckout: false,
+  //   allowRefundApplyUponCheckOut: false,
+  //   autoRefundApplyUponCheckOut: false,
+  //   includeRoomMovesOnArrivalAndDepartureList: false,
+  // };
+  // const validationSchema = Yup.object({
+  //   checkInTime: Yup.string(),
+  //   checkOutTime: Yup.string(),
+  //   autoGuestRegistrationCreationDuringCheckIn: Yup.boolean(),
+  //   autoGuestStatementUponCheckInIfTheRoomIsDirty: Yup.boolean(),
+  //   sendNotificationToConfirmRoomIfDirty: Yup.boolean(),
+  //   allowNonZeroBalanceDuringCheckout: Yup.boolean(),
+  //   allowRefundApplyUponCheckOut: Yup.boolean(),
+  //   autoRefundApplyUponCheckOut: Yup.boolean(),
+  //   includeRoomMovesOnArrivalAndDepartureList: Yup.boolean(),
+  // });
 
-  const { handleChange, handleSubmit, values, errors, touched, setFieldValue } =
-    useFormik({
-      initialValues,
-      validationSchema,
-      onSubmit,
-    });
+  // const { handleChange, handleSubmit, values, errors, touched, setFieldValue } =
+  //   useFormik({
+  //     initialValues,
+  //     validationSchema,
+  //     onSubmit,
+  //   });
 
   return (
     <div>
@@ -169,7 +182,7 @@ const CheckInCheckOut = () => {
               />
             </Form.Group>
           </Col>
-          <Col lg={6} md={12} className="d-flex align-items-center my-2">
+          {/* <Col lg={6} md={12} className="d-flex align-items-center my-2">
             <Form.Group>
               <Form.Check
                 className="ps-6 check-switch-style d-flex align-items-center"
@@ -185,7 +198,7 @@ const CheckInCheckOut = () => {
                 checked={values.autoGuestStatementUponCheckInIfTheRoomIsDirty}
               />
             </Form.Group>
-          </Col>
+          </Col> */}
           <Col lg={6} md={12} className="d-flex align-items-center my-2">
             <Form.Group>
               <Form.Check
