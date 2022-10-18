@@ -25,31 +25,43 @@
   
   .main-box {
     border: 2px solid #6c5ffc;
-    background-color: #6c5ffc;
     border-radius: 5px;
+    margin: 10px;
+    padding: 30px 10px;
+    margin-bottom: 30px;
+    position: relative;
 
     .icons{
+      position:absolute;
       display: flex;
+      right: 10px;
+      top: 3px;
       justify-content: flex-end;
       align-items: center;
+
       i{
         font-size: 18px;
-        color:white;
         margin-top: 10px;
-        margin-left: 10px;
+        margin-left: 10px
+      }
+      .i-e{
+        color: #6c5ffc;
+      }
+      .i-t{
+        color: red;
       }
     }
   
     .inner-box {
       display: flex;
       align-items: center;
+      justify-content: space-evenly;
   
       .inner-box-size {
         justify-content: center;
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin: 10px;
         border: 1px solid green;
         color: white;
         padding: 10px;
@@ -63,26 +75,29 @@
     }
   
     .inner-header {
-      color: white;
       display: flex;
       justify-content: center;
       align-items: center;
   
       h5{
           margin: 0 !important;
+      color: #707070;
+          span{
+            font-weight: 600;
+          }
       }
     }
   
     .inner-box-row-2 {
       display: flex;
       align-items: center;
+      justify-content: space-evenly;
   
       .inner-box-size-2 {
         justify-content: center;
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin: 10px;
         border: 1px solid orange;
         color: white;
         padding: 10px;

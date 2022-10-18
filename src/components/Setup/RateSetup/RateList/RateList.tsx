@@ -23,16 +23,16 @@ const RateList = () => {
           </Button>
         </div>
       </Row>
-      <Row className="d-flex justify-content-evenly my-4">
+      <Row className="d-flex justify-content-evenly">
         <Col lg={3} className="main-box">
           <div className="icons">
             <i
-              className="icon fe fe-edit"
+              className="icon i-e fe fe-edit"
               onClick={() => {
                 navigate(`/setup/ratesetup/editrate/`);
               }}
             />
-            <i className="icon fe fe-trash-2" />
+            <i className="icon i-t fe fe-trash-2" />
           </div>
           <div className="inner-box">
             <div className="inner-box-size">
@@ -65,8 +65,6 @@ const RateList = () => {
         </Col>
         <Col lg={3} className="main-box"></Col>
         <Col lg={3} className="main-box"></Col>
-      </Row>
-      <Row className="d-flex justify-content-evenly my-4 pt-6">
         <Col lg={3} className="main-box">
           <div className="inner-box">
             <div className="inner-box-size">

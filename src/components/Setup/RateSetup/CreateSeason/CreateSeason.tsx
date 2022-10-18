@@ -131,7 +131,7 @@ const CreateSeason = () => {
     validationSchema,
     onSubmit,
   });
-  
+
   const printRange = (range: any) => {
     const from = range.from.toLocaleDateString();
     const to = range.to.toLocaleDateString();
@@ -176,6 +176,7 @@ const CreateSeason = () => {
                 </Col>
                 <Col lg={2} className="date-picker">
                   <DayPickerInput
+                    dayPickerProps={{ disabledDays: { before: new Date() } }}
                     placeholder="From"
                     value={values[index].from}
                     onDayChange={(e) => setFieldValue(`[${index}].from`, e)}
@@ -183,6 +184,7 @@ const CreateSeason = () => {
                 </Col>
                 <Col lg={2} className="date-picker">
                   <DayPickerInput
+                    dayPickerProps={{ disabledDays: { before: new Date() } }}
                     placeholder="To"
                     value={values[index].to}
                     onDayChange={(e) => setFieldValue(`[${index}].to`, e)}
