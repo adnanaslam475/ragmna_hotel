@@ -7,7 +7,7 @@ import service from './services'
 import "react-day-picker/lib/style.css";
 import './CalendarSetup.scss'
 
-const CalendarSetup = ({ onChange }:any) => {
+const CalendarSetup = ({ onChange , dateRange}:any) => {
     const [tempRange, setTempRange] = useState<any>({ from: null, to: null })
     const [ranges, setRanges] = useState<any[]>([])
     const [lastDayMouseEnter, setLastDayMouseEnter] = useState<any>(null)
@@ -16,6 +16,13 @@ const CalendarSetup = ({ onChange }:any) => {
     useEffect(() => {
         onChange(ranges)
     }, [ranges, onChange])
+
+    useEffect(() => {
+        for (let index = 0; index < dateRange.length; index++) {
+        setTempRange({ from: dateRange[index].from, to: dateRange[index].to })
+        }
+    }, [dateRange])
+    
 
     useEffect(() => {
         if (tempRange) {

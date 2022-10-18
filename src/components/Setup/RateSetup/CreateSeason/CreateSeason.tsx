@@ -11,6 +11,7 @@ import EditSeasonDetail from "./EditSeasonDetail/EditSeasonDetail";
 import CalendarSetup from "./CalendarSetup/CalendarSetup";
 import { CommanDropDownType } from "../../PropertySetup/AddProperty/types";
 import DayPickerInput from "react-day-picker/DayPickerInput";
+import { Formik, Form as FormikForm, Field, FieldArray } from "formik";
 
 const CreateSeason = () => {
   let colorTypes: CommanDropDownType[] = [
@@ -34,74 +35,66 @@ const CreateSeason = () => {
   const [selectColor, setSelectColor] =
     useState<CommanDropDownType[]>(colorTypes);
 
-  const [openSelectColor, setOpenSelectColor] = useState(false);
+  const [openSelectColor, setOpenSelectColor] = useState([false]);
   const [isEditModal, setIsEditModel] = useState(false);
-  const [fromDate, setFromDate] = useState<Date | null>(null);
-  const [toDate, setToDate] = useState<Date | null>(null);
+  const [from, setFromDate] = useState<Date | null>(null);
+  const [to, setToDate] = useState<Date | null>(null);
   const [seasonDetails, setSeasonDetails] = useState([
     {
       seasonName: "",
-      fromDate: "",
-      toDate: "",
+      from: "",
+      to: "",
       color: "#707070",
       day: [
         {
-          monday: true,
-          tuesday: true,
-          wednesday: true,
-          thruesday: true,
-          friday: true,
-          saturday: true,
-          sunday: true,
+          monday: false,
+          tuesday: false,
+          wednesday: false,
+          thursday: false,
+          friday: false,
+          saturday: false,
+          sunday: false,
         },
       ],
     },
   ]);
-  const handleChange = (e, index) => {
-    console.log(e.target.name);
-    console.log(e.target.value);
-    console.log(seasonDetails[index]);
-    seasonDetails[index] = {
-      seasonName: e.target.value,
-      fromDate: "",
-      toDate: "",
-      color: "",
-      day: [
-        {
-          monday: true,
-          tuesday: true,
-          wednesday: true,
-          thruesday: true,
-          friday: true,
-          saturday: true,
-          sunday: true,
-        },
-      ],
-    };
-    // setBusinessInfoParams({
-    //     ...businessInfoParams,
-    //     [e.target.name]: e.target.value,
-    //   });
-  };
 
   const isModelClose = () => {
     setIsEditModel(false);
   };
 
   const AddSeason = () => {
-    setSeasonDetails([
-      ...seasonDetails,
+    // seasonDetails.push(  {
+    //     seasonName: "",
+    //     from: "",
+    //     to: "",
+    //     color: "#707070",
+    //     day: [
+    //       {
+    //         monday: true,
+    //         tuesday: true,
+    //         wednesday: true,
+    //         thursday: true,
+    //         friday: true,
+    //         saturday: true,
+    //         sunday: true,
+    //       },
+    //     ],
+    //   })
+    // setSeasonDetails(seasonDetails);
+    setValues([
+      ...values,
       {
         seasonName: "",
-        fromDate: "",
-        toDate: "",
+        from: "",
+        to: "",
         color: "#707070",
         day: [
           {
             monday: true,
             tuesday: true,
             wednesday: true,
-            thruesday: true,
+            thursday: true,
             friday: true,
             saturday: true,
             sunday: true,
@@ -109,37 +102,40 @@ const CreateSeason = () => {
         ],
       },
     ]);
+    setOpenSelectColor([...openSelectColor, false]);
   };
 
-  const removeSeason = () => { };
+  const removeSeason = () => {};
 
-  //   const validationSchema = Yup.object({
-  //     seasonName: Yup.string().required(),
-  //     fromDate: Yup.string().required(),
-  //     toDate: Yup.string().required(),
-  //   });
+  const validationSchema = Yup.object({
+    seasonName: Yup.string().required(),
+    from: Yup.string().required(),
+    to: Yup.string().required(),
+  });
 
-  const onSubmit = () => {
+  const onSubmit = (values) => {
+    console.log(values, "val");
     setIsEditModel(true);
   };
 
-  //   const { handleChange, handleSubmit, values, touched, errors, setValues } =
-  //     useFormik({
-  //       initialValues: addSeason,
-  //       validationSchema,
-  //       onSubmit,
-  //     });
-
+  const {
+    handleChange,
+    handleSubmit,
+    setFieldValue,
+    values,
+    touched,
+    errors,
+    setValues,
+  } = useFormik({
+    initialValues: seasonDetails,
+    validationSchema,
+    onSubmit,
+  });
+  
   const printRange = (range: any) => {
     const from = range.from.toLocaleDateString();
     const to = range.to.toLocaleDateString();
     return `${from} - ${to}`;
-  };
-
-  const onSelectColor = (item, index) => {
-    seasonDetails[index].color = item.value;
-    setSeasonDetails(seasonDetails);
-    setOpenSelectColor(false);
   };
 
   return (
@@ -162,123 +158,159 @@ const CreateSeason = () => {
               </div>
             </Col>
           </Row>
-          {seasonDetails.map((item, index) => {
-            return (
-              <React.Fragment>
-                {/* <form onSubmit={handleSubmit}> */}
-                <Row key={index} className="mt-4 align-items-center">
-                  <Col lg={3}>
-                    <div className="control-group form-group season-input m-0">
-                      <input
-                        type="text"
-                        className="form-control required"
-                        placeholder="Enter Season Name"
-                        name={"seasonName" + index}
-                        value={item.seasonName}
-                        onChange={(e) => handleChange(e, index)}
-                      />
-                    </div>
-                  </Col>
-                  <Col lg={2} className="date-picker">
-                    <DayPickerInput
-                      placeholder="From"
-                      value={item.fromDate}
-                      onDayChange={(e) => console.log(e)}
+          <form onSubmit={handleSubmit}>
+            {values.map((item, index) => (
+              <Row key={index} className="mt-4 align-items-center">
+                <Col lg={3}>
+                  <div className="control-group form-group season-input m-0">
+                    <input
+                      type="text"
+                      className="form-control required"
+                      placeholder="Enter Season Name"
+                      name={`[${index}].seasonName`}
+                      value={values[index].seasonName}
+                      onChange={handleChange}
+                      // onChange={(e) => setFieldValue('seasonName',e.target.value)}
                     />
-                  </Col>
-                  <Col lg={2} className="date-picker">
-                    <DayPickerInput
-                      placeholder="To"
-                      value={item.toDate}
-                      onDayChange={(e) => console.log(e)}
-                    />
-                  </Col>
-                  <Col lg={1}>
-                    <div className="position-relative">
-                      <div className="selection">
-                        <div
-                          className="selection-item"
-                          style={{ backgroundColor: item.color }}
-                        ></div>
-                        <span
-                          onClick={() => {
-                            setOpenSelectColor(!openSelectColor);
-                          }}
-                        >
-                          <i className="icon fa fa-chevron-down" />
-                        </span>
-                      </div>
-                      {openSelectColor ? (
-                        <div className="color-seletor">
-                          {selectColor.map((coloritem: any, colorindex) => {
-                            return (
-                              <div
-                                key={colorindex}
-                                className="color-item"
-                                style={{ backgroundColor: coloritem.value }}
-                                onClick={() => {
-                                  onSelectColor(coloritem, index);
-                                }}
-                              ></div>
-                            );
-                          })}
-                        </div>
-                      ) : null}
-                    </div>
-                  </Col>
-                  <Col lg={3} className="day-list">
-                    <Form.Check
-                      label="M"
-                      type="checkbox"
-                      name={"monday" + index}
-                      defaultChecked
-                    />
-                    <Form.Check
-                      label="T"
-                      type="checkbox"
-                      name={"tuesday" + index}
-                      defaultChecked
-                    />
-                    <Form.Check
-                      label="W"
-                      type="checkbox"
-                      name={"wednesday" + index}
-                      defaultChecked
-                    />
-                    <Form.Check
-                      label="T"
-                      type="checkbox"
-                      name={"thruesday" + index}
-                      defaultChecked
-                    />
-                    <Form.Check
-                      label="F"
-                      type="checkbox"
-                      name={"friday" + index}
-                      defaultChecked
-                    />
-                    <Form.Check
-                      label="S"
-                      type="checkbox"
-                      name={"saturday" + index}
-                      defaultChecked
-                    />
-                    <Form.Check
-                      label="S"
-                      type="checkbox"
-                      name={"sunday" + index}
-                      defaultChecked
-                    />
-                  </Col>
-                  <Col lg={1}>
-                    <div className="Save-delete-icon">
-                      <i
-                        className="icon fe fe-check-circle"
-                        title="Save"
+                  </div>
+                </Col>
+                <Col lg={2} className="date-picker">
+                  <DayPickerInput
+                    placeholder="From"
+                    value={values[index].from}
+                    onDayChange={(e) => setFieldValue(`[${index}].from`, e)}
+                  />
+                </Col>
+                <Col lg={2} className="date-picker">
+                  <DayPickerInput
+                    placeholder="To"
+                    value={values[index].to}
+                    onDayChange={(e) => setFieldValue(`[${index}].to`, e)}
+                  />
+                </Col>
+                <Col lg={1}>
+                  <div className="position-relative">
+                    <div className="selection">
+                      <div
+                        className="selection-item"
+                        style={{ backgroundColor: values[index].color }}
+                      ></div>
+                      <span
                         onClick={() => {
-                          onSubmit();
+                          setOpenSelectColor({
+                            ...openSelectColor,
+                            [index]: !openSelectColor[index],
+                          });
                         }}
-                      />
+                      >
+                        <i className="icon fa fa-chevron-down" />
+                      </span>
+                    </div>
+                    {openSelectColor[index] ? (
+                      <div className="color-seletor">
+                        {selectColor.map((coloritem: any, colorindex) => {
+                          return (
+                            <div
+                              key={colorindex}
+                              className="color-item"
+                              style={{
+                                backgroundColor: coloritem.value,
+                              }}
+                              onClick={() => {
+                                setFieldValue(
+                                  `[${index}].color`,
+                                  coloritem.value
+                                );
+                                setOpenSelectColor({
+                                  ...openSelectColor,
+                                  [index]: !openSelectColor[index],
+                                });
+                              }}
+                            ></div>
+                          );
+                        })}
+                      </div>
+                    ) : null}
+                  </div>
+                </Col>
+                <Col lg={3} className="day-list">
+                  <Form.Check
+                    label="M"
+                    type="checkbox"
+                    onChange={(e) =>
+                      setFieldValue(
+                        `[${index}].day[${index}].monday`,
+                        e.target.checked
+                      )
+                    }
+                  />
+                  <Form.Check
+                    label="T"
+                    type="checkbox"
+                    onChange={(e) =>
+                      setFieldValue(
+                        `[${index}].day[${index}].tuesday`,
+                        e.target.checked
+                      )
+                    }
+                  />
+                  <Form.Check
+                    label="W"
+                    type="checkbox"
+                    onChange={(e) =>
+                      setFieldValue(
+                        `[${index}].day[${index}].wednesday`,
+                        e.target.checked
+                      )
+                    }
+                  />
+                  <Form.Check
+                    label="T"
+                    type="checkbox"
+                    onChange={(e) =>
+                      setFieldValue(
+                        `[${index}].day[${index}].thursday`,
+                        e.target.checked
+                      )
+                    }
+                  />
+                  <Form.Check
+                    label="F"
+                    type="checkbox"
+                    onChange={(e) =>
+                      setFieldValue(
+                        `[${index}].day[${index}].friday`,
+                        e.target.checked
+                      )
+                    }
+                  />
+                  <Form.Check
+                    label="S"
+                    type="checkbox"
+                    onChange={(e) =>
+                      setFieldValue(
+                        `[${index}].day[${index}].saturday`,
+                        e.target.checked
+                      )
+                    }
+                  />
+                  <Form.Check
+                    label="S"
+                    type="checkbox"
+                    onChange={(e) =>
+                      setFieldValue(
+                        `[${index}].day[${index}].sunday`,
+                        e.target.checked
+                      )
+                    }
+                  />
+                </Col>
+                <Col lg={1}>
+                  <div className="Save-delete-icon">
+                    <button type="submit" className="save-btn">
+                      <i className="icon fe fe-check-circle" title="Save" />
+                    </button>
+                    <button className="delete-btn">
                       <i
                         className="icon fe fe-x-circle"
                         title="Delete"
@@ -286,16 +318,16 @@ const CreateSeason = () => {
                           removeSeason();
                         }}
                       />
-                    </div>
-                  </Col>
-                </Row>
-                {/* </form> */}
-              </React.Fragment>
-            );
-          })}
+                    </button>
+                  </div>
+                </Col>
+              </Row>
+            ))}
+          </form>
 
           <Row className="mt-6">
             <CalendarSetup
+              dateRange={values}
               onChange={(ranges) =>
                 console.log(
                   "selected ranges:",

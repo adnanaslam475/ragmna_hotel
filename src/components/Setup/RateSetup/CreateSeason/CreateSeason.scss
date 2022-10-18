@@ -74,15 +74,26 @@
   display: flex;
   align-items: center;
 
-  .icon {
-    font-size: 25px;
-    font-weight: 500;
-    cursor: pointer;
+  .save-btn {
+    border: none;
+    background-color: transparent;
+    background: none;
+    .icon {
+      font-size: 25px;
+      font-weight: 500;
+      cursor: pointer;
+      color: green;
+    }
   }
-  i:first-child {
-   color: green;
-  }
-  i:last-child {
-    color: red;
+  .delete-btn {
+    border: none;
+    background-color: transparent;
+    background: none;
+    .icon {
+      font-size: 25px;
+      font-weight: 500;
+      cursor: pointer;
+      color: red;
+    }
   }
 }
