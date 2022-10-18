@@ -58,6 +58,7 @@
 
 .date-picker {
   .DayPickerInput {
+    display: grid;
     input {
       height: 40px;
       padding-left: 15px;
@@ -65,5 +66,23 @@
       color: rgba(0, 0, 0, 0.87);
       border-radius: 8px;
     }
+  }
+}
+
+.Save-delete-icon {
+  justify-content: space-around;
+  display: flex;
+  align-items: center;
+
+  .icon {
+    font-size: 25px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  i:first-child {
+   color: green;
+  }
+  i:last-child {
+    color: red;
   }
 }

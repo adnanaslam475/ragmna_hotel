@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import './RateList.scss'
+import "./RateList.scss";
 
 const RateList = () => {
   let navigate = useNavigate();
@@ -25,6 +25,15 @@ const RateList = () => {
       </Row>
       <Row className="d-flex justify-content-evenly my-4">
         <Col lg={3} className="main-box">
+          <div className="icons">
+            <i
+              className="icon fe fe-edit"
+              onClick={() => {
+                navigate(`/setup/ratesetup/editrate/`);
+              }}
+            />
+            <i className="icon fe fe-trash-2" />
+          </div>
           <div className="inner-box">
             <div className="inner-box-size">
               <span>5%</span>

@@ -111,6 +111,8 @@ const CreateSeason = () => {
     ]);
   };
 
+  const removeSeason = () => { };
+
   //   const validationSchema = Yup.object({
   //     seasonName: Yup.string().required(),
   //     fromDate: Yup.string().required(),
@@ -165,7 +167,7 @@ const CreateSeason = () => {
               <React.Fragment>
                 {/* <form onSubmit={handleSubmit}> */}
                 <Row key={index} className="mt-4 align-items-center">
-                  <Col lg={2}>
+                  <Col lg={3}>
                     <div className="control-group form-group season-input m-0">
                       <input
                         type="text"
@@ -177,11 +179,19 @@ const CreateSeason = () => {
                       />
                     </div>
                   </Col>
-                  <Col lg={3} className='date-picker'>
-                    <DayPickerInput placeholder='From' onDayChange={(day) => console.log(day)} />
+                  <Col lg={2} className="date-picker">
+                    <DayPickerInput
+                      placeholder="From"
+                      value={item.fromDate}
+                      onDayChange={(e) => console.log(e)}
+                    />
                   </Col>
-                  <Col lg={3} className='date-picker'>
-                    <DayPickerInput placeholder='To' onDayChange={(day) => console.log(day)} />
+                  <Col lg={2} className="date-picker">
+                    <DayPickerInput
+                      placeholder="To"
+                      value={item.toDate}
+                      onDayChange={(e) => console.log(e)}
+                    />
                   </Col>
                   <Col lg={1}>
                     <div className="position-relative">
@@ -260,33 +270,40 @@ const CreateSeason = () => {
                       defaultChecked
                     />
                   </Col>
-                </Row>
-                <Row>
-                  <div className="d-flex justify-content-end">
-                    <Button
-                      onClick={() => {
-                        onSubmit();
-                      }}
-                    >
-                      Save
-                    </Button>
-                  </div>
+                  <Col lg={1}>
+                    <div className="Save-delete-icon">
+                      <i
+                        className="icon fe fe-check-circle"
+                        title="Save"
+                        onClick={() => {
+                          onSubmit();
+                        }}
+                      />
+                      <i
+                        className="icon fe fe-x-circle"
+                        title="Delete"
+                        onClick={() => {
+                          removeSeason();
+                        }}
+                      />
+                    </div>
+                  </Col>
                 </Row>
                 {/* </form> */}
               </React.Fragment>
             );
           })}
 
-          <Row></Row>
-
-          <CalendarSetup
-            onChange={(ranges) =>
-              console.log(
-                "selected ranges:",
-                ranges.map((r) => printRange(r))
-              )
-            }
-          />
+          <Row className="mt-6">
+            <CalendarSetup
+              onChange={(ranges) =>
+                console.log(
+                  "selected ranges:",
+                  ranges.map((r) => printRange(r))
+                )
+              }
+            />
+          </Row>
         </Card.Body>
       </Card>
       {isEditModal && <EditSeasonDetail isModelClose={isModelClose} />}
