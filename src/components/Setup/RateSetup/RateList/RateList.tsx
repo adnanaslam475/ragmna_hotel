@@ -1,14 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { AppDispatch } from "../../../../Redux/Store";
+import { usePropertyList } from "../../PropertySetup/propertySetupSlice";
 import "./RateList.scss";
-
+import { getRate } from "./RateSetupSlice";
 const RateList = () => {
+  const { propertyList } = usePropertyList();
   let navigate = useNavigate();
   const RouteChange = () => {
     let path = `/setup/ratesetup/addrate`;
     navigate(path);
   };
+  console.log(
+    propertyList[0]._id,
+    "propertyListpropertyListpropertyListpropertyListpropertyList"
+  );
+  const dispatch = useDispatch<AppDispatch>();
+  const getRateDetails = async () => {
+    if (propertyList[0]?._id) {
+      let response: any = await dispatch(getRate(propertyList[0]._id)).unwrap();
+      console.log(response, "response");
+    }
+  };
+  useEffect(() => {
+    if (propertyList[0]?._id) {
+      getRateDetails();
+    }
+  }, [propertyList[0]?._id]);
   return (
     <React.Fragment>
       <Row>
@@ -101,5 +121,4 @@ const RateList = () => {
     </React.Fragment>
   );
 };
-
 export default RateList;

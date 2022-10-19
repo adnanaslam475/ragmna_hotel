@@ -158,4 +158,9 @@ export interface InitialValues {
     allowRefundApplyUponCheckOut: boolean
     autoRefundApplyUponCheckOut: boolean
     includeRoomMovesOnArrivalAndDepartureList: boolean
+    Sname:string
+    quantity:number
+    SallowedFor:string
+    isNonSmoking:boolean
+    isActive:boolean
 }

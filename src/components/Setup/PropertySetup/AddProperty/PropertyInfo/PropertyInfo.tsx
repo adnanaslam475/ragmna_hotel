@@ -454,7 +454,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
                 value={allowFors.filter(
                   (option) => option.value === values.allowedFor
                 )}
-                placeholder="Select Good For"
+                placeholder="Select Allow For"
                 name="allowedFor"
                 onChange={(selectedOption: any) => {
                   handleChange("allowedFor")(selectedOption?.value);
@@ -959,7 +959,6 @@ const PropertyInfo = (props: PropertyInfoProps) => {
             </div>
           </Col>
         </Row>
-
         {/* <div className="d-flex justify-content-end mt-4 me-3">
           <Button type="submit">Submit</Button>
         </div>

@@ -72,7 +72,6 @@ const SystemConfig = (props:SystemConfigProps) => {
   //     DangerLeft("Something went wrong")
   //   }
   // };
-  console.log(allTimezones);
   
   return (
     <React.Fragment>

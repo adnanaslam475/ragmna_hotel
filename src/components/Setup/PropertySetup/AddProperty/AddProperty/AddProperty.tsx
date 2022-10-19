@@ -21,7 +21,11 @@ import {
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../../Redux/Store";
 import { ITimezoneOption } from "react-timezone-select";
-import { addTaxConfigDetails } from "../TaxSetup/taxSetupSlice";
+import {
+  addTaxConfigDetails,
+  getTaxConfigDetails,
+} from "../TaxSetup/taxSetupSlice";
+import Sections from "../Sections/Sections";
 
 interface AddPropertyProps {
   setAddProperty?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -91,6 +95,11 @@ const AddProperty = (props: AddPropertyProps) => {
     allowRefundApplyUponCheckOut: false,
     autoRefundApplyUponCheckOut: false,
     includeRoomMovesOnArrivalAndDepartureList: false,
+    Sname: "",
+    quantity: 0,
+    SallowedFor: "",
+    isNonSmoking: false,
+    isActive: false,
   };
 
   const initialTaxValuesInfo: any = {
@@ -155,6 +164,11 @@ const AddProperty = (props: AddPropertyProps) => {
     allowRefundApplyUponCheckOut: Yup.boolean(),
     autoRefundApplyUponCheckOut: Yup.boolean(),
     includeRoomMovesOnArrivalAndDepartureList: Yup.boolean(),
+    Sname: Yup.string().required(),
+    quantity: Yup.number().required(),
+    SallowedFor: Yup.string().required(),
+    isNonSmoking: Yup.boolean(),
+    isActive: Yup.boolean(),
   });
 
   const { user } = useUser();
@@ -222,6 +236,13 @@ const AddProperty = (props: AddPropertyProps) => {
       payload["systemConfig"] = {
         timeZone: tz ? tz.label : "",
       };
+      payload["sections"] = {
+        Sname: values.name,
+        quantity: values.quantity,
+        SallowedFor: values.allowedFor,
+        isNonSmoking: values.isNonSmoking,
+        isActive: values.isActive,
+      };
       // payload["images"] = [];
       // payload['availableForEntireRental'] = isChecked
       let deletekeys = [
@@ -255,6 +276,11 @@ const AddProperty = (props: AddPropertyProps) => {
         "allowRefundApplyUponCheckOut",
         "autoRefundApplyUponCheckOut",
         "includeRoomMovesOnArrivalAndDepartureList",
+        "Sname",
+        "quantity",
+        "SallowedFor",
+        "isNonSmoking",
+        "isActive",
       ];
       for (let i = 0; i < deletekeys.length; i++) {
         delete payload[deletekeys[i]];
@@ -300,7 +326,6 @@ const AddProperty = (props: AddPropertyProps) => {
   const getById = async () => {
     if (id) {
       let response: any = await dispatch(getPropertyDataById(id)).unwrap();
-      console.log(response);
       if (response?.data) {
         setValues({
           ...values,
@@ -432,50 +457,90 @@ const AddProperty = (props: AddPropertyProps) => {
             ? response?.data?.checkInCheckOutConfig
                 ?.includeRoomMovesOnArrivalAndDepartureList
             : false,
+          Sname: response?.data?.sections?.name
+            ? response?.data?.sections?.name
+            : "",
+          quantity: response?.data?.sections?.quantity
+            ? response?.data?.sections?.quantity
+            : 0,
+          SallowedFor: response?.data?.sections?.allowedFor
+            ? response?.data?.sections?.allowedFor
+            : "",
+          isNonSmoking: response?.data?.sections?.isNonSmoking
+            ? response?.data?.sections?.isNonSmoking
+            : false,
+          isActive: response?.data?.sections?.isActive
+            ? response?.data?.sections?.isActive
+            : false,
         });
         // if (response?.data?.systemConfig?.timeZone){
         //   tz['label'] = response?.data?.systemConfig?.timeZone
         //   setTz(tz);
         //   console.log(tz);
-          
+
         // }
       }
     }
   };
 
-  useEffect(() => {
-    if (id) getById();
-  }, [id]);
+  const getTaxDetail = async () => {
+    if (id) {
+      let response: any = await dispatch(getTaxConfigDetails(id)).unwrap();
+      if (response?.data[0]) {
+        setTaxInfo({
+          ...taxInfo,
+          name: response?.data[0].name ? response?.data[0].name : "",
+          shortCode: response?.data[0].shortCode
+            ? response?.data[0].shortCode
+            : "",
+          startDate: response?.data[0].startDate
+            ? response?.data[0].startDate
+            : "",
+          endDate: response?.data[0].endDate ? response?.data[0].endDate : "",
+          surcharge: response?.data[0].surcharge
+            ? response?.data[0].surcharge.toString()
+            : 0,
+          type: response?.data[0].type ? response?.data[0].type : 0,
+          calculationType: response?.data[0].calculationType
+            ? response?.data[0].calculationType
+            : 0,
+          isVatApplicable: response?.data[0].isVatApplicable
+            ? response?.data[0].isVatApplicable
+            : false,
+        });
+      }
+    }
+  };
 
-  useEffect(() => {}, [id]);
+  useEffect(() => {
+    if (id) {
+      getById();
+      getTaxDetail();
+    }
+  }, [id]);
 
   const TaxSave = async () => {
     if (key == "six") {
-      console.log(values);
-
       try {
         let payload = Object.assign({}, taxInfo);
         payload["propertyId"] = id;
-        payload['surcharge'] = parseInt(payload['surcharge'])
+        payload["surcharge"] = parseInt(payload["surcharge"]);
         let response: any = await dispatch(
           addTaxConfigDetails(payload)
         ).unwrap();
       } catch (err: any) {
         console.log(err, "err");
       }
-    } else {
     }
   };
 
   const setTaxInfoValue = (key, value) => {
-    console.log(key , value);
-    
     setTaxInfo({
       ...taxInfo,
       [key]: value,
     });
-    console.log(taxInfo, "taxInfo");
   };
+
   return (
     <React.Fragment>
       <Card className="card-bg">
@@ -526,6 +591,11 @@ const AddProperty = (props: AddPropertyProps) => {
                     <Nav.Item>
                       <Nav.Link eventKey="seven">
                         <i className="fe fe-settings me-1"></i>Amenities
+                      </Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="eight">
+                        <i className="fe fe-settings me-1"></i>Sections
                       </Nav.Link>
                     </Nav.Item>
                   </Nav>
@@ -586,8 +656,17 @@ const AddProperty = (props: AddPropertyProps) => {
                       />
                     </Tab.Pane>
                     <Tab.Pane eventKey="seven">
-                      {/* <Amenities /> */}
+                      <Amenities />
                       <AmenitiesSelection />
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="eight">
+                      <Sections
+                        values={values}
+                        handleChange={handleChange}
+                        errors={errors}
+                        touched={touched}
+                        setFieldValue={setFieldValue}
+                      />
                     </Tab.Pane>
                   </Tab.Content>
                 </div>

@@ -36,19 +36,19 @@ const TaxSetup = (props: TaxSetupProps) => {
     { value: "Tiered tax", label: "Tiered tax" },
   ];
 
-  let { id } = useParams();
-  const dispatch = useDispatch<AppDispatch>();
+  // let { id } = useParams();
+  // const dispatch = useDispatch<AppDispatch>();
 
-  const getTaxSetupById = async () => {
-    if (id) {
-      let response: any = await dispatch(getTaxConfigDetails(id)).unwrap();
-      console.log(response, "response");
-    }
-  };
+  // const getTaxSetupById = async () => {
+  //   if (id) {
+  //     let response: any = await dispatch(getTaxConfigDetails(id)).unwrap();
+  //     console.log(response, "response");
+  //   }
+  // };
 
-  useEffect(() => {
-    if (id) getTaxSetupById();
-  }, [id]);
+  // useEffect(() => {
+  //   if (id) getTaxSetupById();
+  // }, [id]);
 
   // const initialValues = {
   //   // propertyId: {},
