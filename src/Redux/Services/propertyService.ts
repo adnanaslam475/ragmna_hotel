@@ -17,7 +17,6 @@ export const addProperty = (payload) => {
 export const updateProperty = (id,payload) => {
     return apiInstance.put(GET_PROPERTY+`/${id}`,payload,{headers:authHeader()})
 }
-   
 export const getSettingById = (id ,typeId) => {
     return apiInstance.get(`${id}/`+RESERVATION+`/${typeId}/type`,{headers:authHeader()});
 }
@@ -38,4 +37,7 @@ export const getTaxConfigById = (id) => {
 }
 export const addTaxConfig = (id,payload) => {
     return apiInstance.post(`${id}/`+TAX_CONFIG,payload,{headers:authHeader()}) 
+}
+export const updateTaxConfig = (id,payload,taxId) => {
+    return apiInstance.put(`${id}/`+TAX_CONFIG+`/${taxId}`,payload,{headers:authHeader()})
 }

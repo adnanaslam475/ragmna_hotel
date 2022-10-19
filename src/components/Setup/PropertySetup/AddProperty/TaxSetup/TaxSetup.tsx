@@ -28,12 +28,12 @@ const TaxSetup = (props: TaxSetupProps) => {
   const CalculationTypes: any = [
     { value: "", label: "Select Types" },
     { value: "Percentage", label: "Percentage per charge" },
-    { value: "Flat amount per charge", label: "Flat amount per charge" },
+    { value: "charge", label: "Flat amount per charge" },
     {
-      value: "Flat amount Per person per night",
+      value: "night",
       label: "Flat amount Per person per night",
     },
-    { value: "Tiered tax", label: "Tiered tax" },
+    { value: "Tiered", label: "Tiered tax" },
   ];
 
   // let { id } = useParams();

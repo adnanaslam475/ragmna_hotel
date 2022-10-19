@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import {
   addTaxConfig,
   getTaxConfigById,
+  updateTaxConfig,
 } from "../../../../../Redux/Services/propertyService";
 
 const initialState = {
@@ -22,6 +23,10 @@ export const addTaxConfigDetails = createAsyncThunk(
     return await addTaxConfig(payload.propertyId, payload);
   }
 );
+
+export const updateTaxData = createAsyncThunk("tax-config/update", async (payload: any) => {
+  return await updateTaxConfig(payload.propertyId,payload,payload.taxId);
+});
 
 const taxSetupSlice = createSlice({
   name: "taxCongfig",
@@ -43,7 +48,7 @@ export const selectTaxList = (state) => {
   return state.taxCongfig.taxData;
 };
 
-export const usePropertyList = () => {
+export const useTaxData = () => {
   const taxData = useSelector(selectTaxList);
   return useMemo(() => ({ taxData }), [taxData]);
 };
