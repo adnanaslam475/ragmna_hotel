@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import styles from "./Header.module.scss";
+import "./Header.scss"
 import { Link } from "react-router-dom";
 import {
   FormControl,
@@ -11,9 +12,21 @@ import {
   Badge,
   Navbar,
   InputGroup,
+  Form,
+  Card,
 } from "react-bootstrap";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { MENUITEMS } from "../Sidebar/Sidemenu";
+import Select from 'react-select';
+import {
+  getProperties,
+  usePropertyList,
+} from "../../components/Setup/PropertySetup/propertySetupSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../Redux/Store";
+import { saveGlobalProperty, useGlobalProperty } from "../../Redux/globalReducer";
+
+
 const SideMenuIcon: any = () => {
   //leftsidemenu
   document.querySelector(".app")?.classList.toggle("sidenav-toggled");
@@ -65,8 +78,49 @@ const RightSideBar: any = () => {
   //swichermainright
 };
 const Header = () => {
+  const [selectedProperty, setSelectedProperty] = useState<any>({})
+  console.log(selectedProperty.value, "selectedProperty");
+
+  const { property } = useGlobalProperty();
+  const { propertyList } = usePropertyList();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const getAllProperties = async () => {
+    try {
+      const response: any = await dispatch(getProperties()).unwrap();
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (selectedProperty.value) {
+      const response: any = dispatch(saveGlobalProperty(selectedProperty));
+    }
+  }, [selectedProperty])
+  useEffect(() => {
+    getAllProperties();
+  }, []);
+  useEffect(() => {
+    if (property) {
+      console.log(property);
+
+    }
+  }, [property]);
+  const getPropertyName = () => {
+    if (!propertyList) {
+      return []
+    }
+    const data = propertyList.map((item: any, index: any) => ({
+      value: `${item['_id']}`,
+      label: `${item['name']}`,
+    })
+    )
+    return [...data]
+  };
+  console.log(propertyList, "propertyList");
+
+
   document.querySelector(".main-content")?.addEventListener("click", () => {
-    console.log("search-result");
     document.querySelector(".search-result")?.classList.add("d-none");
   });
 
@@ -81,10 +135,9 @@ const Header = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  useEffect(() => {});
+  useEffect(() => { });
   let myfunction = (inputvalue: any) => {
     document.querySelector(".search-result")?.classList.remove("d-none");
-    console.log("ok");
 
     let i: any = [];
     let allElement2: any[] = [];
@@ -243,6 +296,11 @@ const Header = () => {
                     </Dropdown>
 
                     {/* Country Select Modal */}
+
+                    <Form.Group>
+                      <Select classNamePrefix="Select" options={getPropertyName()} onChange={setSelectedProperty} />
+                    </Form.Group>
+
 
                     <div className="d-flex country">
                       <Link
@@ -443,209 +501,6 @@ const Header = () => {
                       </Nav.Link>
                     </div>
 
-                    {/* <!-- Shopping-Cart Theme-Layout --> */}
-
-                    <Dropdown className="d-flex shopping-cart">
-                      <Dropdown.Toggle
-                        variant=""
-                        className="nav-link icon text-center no-caret"
-                      >
-                        {" "}
-                        <i className="fe fe-shopping-cart"></i>
-                        <span className="badge bg-secondary header-badge">
-                          4
-                        </span>
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu className="dropdown-menu-end dropdown-menu-arrow">
-                        <div className="drop-heading border-bottom">
-                          <div className="d-flex">
-                            <h6 className="mt-1 mb-0 fs-16 fw-semibold text-dark">
-                              {" "}
-                              My Shopping Cart
-                            </h6>
-                            <div className="ms-auto">
-                              <Badge
-                                bg="danger-transparent"
-                                className="header-badge text-danger fs-14"
-                              >
-                                Hurry Up!
-                              </Badge>
-                            </div>
-                          </div>
-                        </div>
-                        {/* <div className="header-dropdown-list message-menu"> */}
-                        <PerfectScrollbar style={{ height: "300px" }}>
-                          <Dropdown.Item
-                            href={`/Ecommerce/shoppingcart`}
-                            className="d-flex p-4"
-                          >
-                            <img
-                              className="avatar avatar-xl br-5 me-3 align-self-center cover-image"
-                              src={require("../../assets/images/pngs/4.jpg")}
-                              alt="pngs-4"
-                            />
-                            <div className="wd-50p">
-                              <h5 className="mb-1">
-                                Flower Pot for Home Decor
-                              </h5>
-                              <span>
-                                Status:{" "}
-                                <span className="text-success">In Stock</span>
-                              </span>
-                              <p className="fs-13 text-muted mb-0">
-                                Quantity: 01
-                              </p>
-                            </div>
-                            <div className="ms-auto text-end d-flex fs-16">
-                              <span className="fs-16 text-dark d-none d-sm-block px-4">
-                                $438
-                              </span>
-                              <span className="fs-16 btn p-0 cart-trash">
-                                <i className="fe fe-trash-2 border text-danger brround d-block p-2"></i>
-                              </span>
-                            </div>
-                          </Dropdown.Item>
-                          <Dropdown.Item
-                            href={`/Ecommerce/shoppingcart`}
-                            className="d-flex p-4"
-                          >
-                            <img
-                              className="avatar avatar-xl br-5 me-3 align-self-center cover-image"
-                              alt="pngs-6"
-                              src={require("../../assets/images/pngs/6.jpg")}
-                            />
-                            <div className="wd-50p">
-                              <h5 className="mb-1">Black Digital Camera</h5>
-                              <span>
-                                Status:{" "}
-                                <span className="text-danger">Out Stock</span>
-                              </span>
-                              <p className="fs-13 text-muted mb-0">
-                                Quantity: 06
-                              </p>
-                            </div>
-                            <div className="ms-auto text-end d-flex">
-                              <span className="fs-16 text-dark d-none d-sm-block px-4">
-                                $867
-                              </span>
-                              <span className="fs-16 btn p-0 cart-trash">
-                                <i className="fe fe-trash-2 border text-danger brround d-block p-2"></i>
-                              </span>
-                            </div>
-                          </Dropdown.Item>
-                          <Dropdown.Item
-                            href={`/Ecommerce/shoppingcart`}
-                            className="d-flex p-4"
-                          >
-                            <img
-                              className="avatar avatar-xl br-5 me-3 align-self-center cover-image"
-                              alt="pngs-8"
-                              src={require("../../assets/images/pngs/8.jpg")}
-                            />
-                            <div className="wd-50p">
-                              <h5 className="mb-1">
-                                Stylish Rockerz 255 Ear Pods
-                              </h5>
-                              <span>
-                                Status:{" "}
-                                <span className="text-success">In Stock</span>
-                              </span>
-                              <p className="fs-13 text-muted mb-0">
-                                Quantity: 05
-                              </p>
-                            </div>
-                            <div className="ms-auto text-end d-flex">
-                              <span className="fs-16 text-dark d-none d-sm-block px-4">
-                                $323
-                              </span>
-                              <span className="fs-16 btn p-0 cart-trash">
-                                <i className="fe fe-trash-2 border text-danger brround d-block p-2"></i>
-                              </span>
-                            </div>
-                          </Dropdown.Item>
-                          <Dropdown.Item
-                            href={`/Ecommerce/shoppingcart`}
-                            className="d-flex p-4"
-                          >
-                            <img
-                              className="avatar avatar-xl br-5 me-3 align-self-center cover-image"
-                              alt="pngs-1"
-                              src={require("../../assets/images/pngs/1.jpg")}
-                            />
-                            <div className="wd-50p">
-                              <h5 className="mb-1">Women Party Wear Dress</h5>
-                              <span>
-                                Status:{" "}
-                                <span className="text-success">In Stock</span>
-                              </span>
-                              <p className="fs-13 text-muted mb-0">
-                                Quantity: 05
-                              </p>
-                            </div>
-                            <div className="ms-auto text-end d-flex">
-                              <span className="fs-16 text-dark d-none d-sm-block px-4">
-                                $867
-                              </span>
-                              <span className="fs-16 btn p-0 cart-trash">
-                                <i className="fe fe-trash-2 border text-danger brround d-block p-2"></i>
-                              </span>
-                            </div>
-                          </Dropdown.Item>
-                          <Dropdown.Item
-                            href={`/Ecommerce/shoppingcart`}
-                            className="d-flex p-4"
-                          >
-                            <img
-                              className="avatar avatar-xl br-5 me-3 align-self-center cover-image"
-                              alt="pngs-3"
-                              src={require("../../assets/images/pngs/3.jpg")}
-                            />
-                            <div className="wd-50p">
-                              <h5 className="mb-1">Running Shoes for men</h5>
-                              <span>
-                                Status:{" "}
-                                <span className="text-success">In Stock</span>
-                              </span>
-                              <p className="fs-13 text-muted mb-0">
-                                Quantity: 05
-                              </p>
-                            </div>
-                            <div className="ms-auto text-end d-flex">
-                              <span className="fs-16 text-dark d-none d-sm-block px-4">
-                                $456
-                              </span>
-                              <span className="fs-16 btn p-0 cart-trash">
-                                <i className="fe fe-trash-2 border text-danger brround d-block p-2"></i>
-                              </span>
-                            </div>
-                          </Dropdown.Item>
-                        </PerfectScrollbar>
-                        <Dropdown.Divider className="m-0" />
-                        <div className="dropdown-footer">
-                          <Link
-                            className="btn btn-primary btn-pill w-sm btn-sm py-2"
-                            to={`/Ecommerce/checkout`}
-                          >
-                            <i className="fe fe-check-circle"></i> Checkout
-                          </Link>
-                          <span className="float-end p-2 fs-17 fw-semibold">
-                            Total: $6789
-                          </span>
-                        </div>
-                      </Dropdown.Menu>
-                    </Dropdown>
-
-                    {/* FullScreen button */}
-
-                    <div className="dropdown d-flex">
-                      <Nav.Link
-                        className="nav-link icon full-screen-link nav-link-bg"
-                        onClick={() => Fullscreen(i)}
-                      >
-                        <i className="fe fe-minimize fullscreen-button"></i>
-                      </Nav.Link>
-                    </div>
-
                     {/* Notification */}
 
                     <Dropdown className="d-flex notifications">
@@ -736,105 +591,6 @@ const Header = () => {
                           className="dropdown-item text-center p-3 text-muted"
                         >
                           View all Notification
-                        </Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-
-                    {/* Messages */}
-
-                    <Dropdown className="d-flex message">
-                      <Dropdown.Toggle
-                        variant=""
-                        className="nav-link icon text-center no-caret"
-                      >
-                        <i className="fe fe-message-square"></i>
-                        <span className="pulse-danger"></span>
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu className="dropdown-menu-end dropdown-menu-arrow">
-                        <div className="drop-heading border-bottom">
-                          <div className="d-flex">
-                            <h6 className="mt-1 mb-0 fs-16 fw-semibold text-dark">
-                              You have 5 Messages
-                            </h6>
-                            <div className="ms-auto">
-                              <Link to="#" className="text-muted p-0 fs-12">
-                                make all unread
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="message-menu">
-                          <Dropdown.Item className="d-flex" href={`/apps/chat`}>
-                            <img
-                              className="avatar avatar-md brround me-3 align-self-center cover-image"
-                              alt="user-1"
-                              src={require("../../assets/images/users/1.jpg")}
-                            />
-                            <div className="wd-90p">
-                              <div className="d-flex">
-                                <h5 className="mb-1">Peter Theil</h5>
-                                <small className="text-muted ms-auto text-end">
-                                  6:45 am
-                                </small>
-                              </div>
-                              <span>Commented on file Guest list....</span>
-                            </div>
-                          </Dropdown.Item>
-                          <Dropdown.Item className="d-flex" href={`/apps/chat`}>
-                            <img
-                              className="avatar avatar-md brround me-3 align-self-center cover-image"
-                              alt="user-15"
-                              src={require("../../assets/images/users/15.jpg")}
-                            />
-                            <div className="wd-90p">
-                              <div className="d-flex">
-                                <h5 className="mb-1">Abagael Luth</h5>
-                                <small className="text-muted ms-auto text-end">
-                                  10:35 am
-                                </small>
-                              </div>
-                              <span>New Meetup Started......</span>
-                            </div>
-                          </Dropdown.Item>
-                          <Dropdown.Item className="d-flex" href={`/apps/chat`}>
-                            <img
-                              className="avatar avatar-md brround me-3 align-self-center cover-image"
-                              alt="user-12"
-                              src={require("../../assets/images/users/12.jpg")}
-                            />
-                            <div className="wd-90p">
-                              <div className="d-flex">
-                                <h5 className="mb-1">Brizid Dawson</h5>
-                                <small className="text-muted ms-auto text-end">
-                                  2:17 pm
-                                </small>
-                              </div>
-                              <span>Brizid is in the Warehouse...</span>
-                            </div>
-                          </Dropdown.Item>
-                          <Dropdown.Item className="d-flex" href={`/apps/chat`}>
-                            <img
-                              className="avatar avatar-md brround me-3 align-self-center cover-image"
-                              alt="user-4"
-                              src={require("../../assets/images/users/4.jpg")}
-                            />
-                            <div className="wd-90p">
-                              <div className="d-flex">
-                                <h5 className="mb-1">Shannon Shaw</h5>
-                                <small className="text-muted ms-auto text-end">
-                                  7:55 pm
-                                </small>
-                              </div>
-                              <span>New Product Realease......</span>
-                            </div>
-                          </Dropdown.Item>
-                        </div>
-                        <div className="dropdown-divider m-0"></div>
-                        <Dropdown.Item
-                          to="#"
-                          className="text-center p-3 text-muted"
-                        >
-                          See all Messages
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
