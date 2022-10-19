@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react'
 import DayPicker, {
     DateUtils,
 } from 'react-day-picker'
-import 'react-day-picker/lib/style.css'
 import service from './services'
-import "react-day-picker/lib/style.css";
 import './CalendarSetup.scss'
 
 const CalendarSetup = ({ onChange , dateRange}:any) => {

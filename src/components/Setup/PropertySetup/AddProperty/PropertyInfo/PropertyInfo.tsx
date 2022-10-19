@@ -19,11 +19,10 @@ import {
   getPropertyDataById,
   updatePropertyData,
 } from "./propertyInfoSlice";
+
 export interface PropertyInfoProps {
-  editPid: string | undefined;
   values: any;
   handleChange: any;
-  handleSubmit: any;
   errors: any;
   touched: any;
   setFieldValue: any;
@@ -31,10 +30,8 @@ export interface PropertyInfoProps {
 
 const PropertyInfo = (props: PropertyInfoProps) => {
   const {
-    editPid,
     values,
     handleChange,
-    handleSubmit,
     errors,
     touched,
     setFieldValue,
@@ -373,7 +370,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
 
   return (
     <React.Fragment>
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}> */}
         <Row className="Contect-details p-4 mb-4">
           <h4>Basic Info</h4>
           <Col lg={6}>
@@ -465,7 +462,25 @@ const PropertyInfo = (props: PropertyInfoProps) => {
               />
             </div>
           </Col>
-
+          {/* <Col lg={6}>
+            <div className="control-group form-group">
+              <label className="form-label">Space</label>
+              <input
+                type="number"
+                className={
+                  touched.space && errors.space
+                    ? "form-control required error-border"
+                    : "form-control required"
+                }
+                placeholder="Space"
+                name="space"
+                value={values.space}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
+            </div>
+          </Col> */}
           <Col lg={12}>
             <div className="control-group form-group">
               <label className="form-label">Brief Description</label>
@@ -504,25 +519,6 @@ const PropertyInfo = (props: PropertyInfoProps) => {
           </Col>
           <Col lg={6}>
             <div className="control-group form-group">
-              <label className="form-label">Space</label>
-              <input
-                type="number"
-                className={
-                  touched.space && errors.space
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Space"
-                name="space"
-                value={values.space}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-              />
-            </div>
-          </Col>
-          <Col lg={6}>
-            <div className="control-group form-group">
               <label className="form-label">Virtual Tour Link</label>
               <input
                 type="text"
@@ -540,7 +536,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
               />
             </div>
           </Col>
-          <Col lg={6}>
+          {/* <Col lg={6}>
             <div className="control-group form-group">
               <label className="form-label">Country</label>
               <Select<CommanDropDownType>
@@ -599,7 +595,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
                 />
               </div>
             </Col>
-          ) : null}
+          ) : null} */}
 
           <Col lg={6}></Col>
           <Col lg={6} className="my-3">
@@ -896,7 +892,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
                 <PhoneInput
                   country={"us"}
                   value={values.CphoneNumber}
-                  inputProps={{ name: "CphoneNumber", required: true }}
+                  inputProps={{ name: "CphoneNumber"}}
                   onChange={(e) => {
                     setFieldValue("CphoneNumber", e);
                   }}
@@ -914,7 +910,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
                 <PhoneInput
                   country={"us"}
                   value={values.waNumber}
-                  inputProps={{ name: "waNumber", required: true }}
+                  inputProps={{ name: "waNumber"}}
                   onChange={(e) => {
                     setFieldValue("waNumber", e);
                   }}
@@ -953,7 +949,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
               >
                 <PhoneInput
                   country={"us"}
-                  inputProps={{ name: "OphoneNumber", required: true }}
+                  inputProps={{ name: "OphoneNumber"}}
                   value={values.OphoneNumber}
                   onChange={(e) => {
                     setFieldValue("OphoneNumber", e);
@@ -964,10 +960,10 @@ const PropertyInfo = (props: PropertyInfoProps) => {
           </Col>
         </Row>
 
-        <div className="d-flex justify-content-end mt-4 me-3">
+        {/* <div className="d-flex justify-content-end mt-4 me-3">
           <Button type="submit">Submit</Button>
         </div>
-      </form>
+      </form> */}
     </React.Fragment>
   );
 };

@@ -4,3 +4,5 @@ export const GET_SUPPLIER_ID = "supplier";
 export const GET_PROPERTY = "property";
 export const RESERVATION = "settings-config";
 export const AMENITIES = "amenities";
+export const TAX_CONFIG = "tax-config";
+

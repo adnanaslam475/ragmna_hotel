@@ -115,7 +115,6 @@ export interface InitialValues {
     propertyType:string
     goodFor:string
     allowedFor:string
-    space:number
     unit:string
     area:number
     adults:number
@@ -131,12 +130,12 @@ export interface InitialValues {
     Lcity:string
     state:string
     Lcountry:string
-    zipCode:string
+    zipCode:number
     latitude:string
     longitude:string
-    country:string
-    city:string
-    district:string
+    // country:string
+    // city:string
+    // district:string
     virtualTourLink:string
     sections?:string[]	
     images?: string[],

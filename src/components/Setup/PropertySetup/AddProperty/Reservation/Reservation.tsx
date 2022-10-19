@@ -13,7 +13,6 @@ import { getSettingByTypeId, saveSettingByTypeId } from "./reservationSlice";
 export interface ReservationProps {
   values: any;
   handleChange: any;
-  handleSubmit: any;
   errors: any;
   touched: any;
   setFieldValue: any;
@@ -23,7 +22,6 @@ const Reservation = (props:ReservationProps) => {
   const {
     values,
     handleChange,
-    handleSubmit,
     errors,
     touched,
     setFieldValue,
@@ -112,7 +110,7 @@ const Reservation = (props:ReservationProps) => {
 
   return (
     <React.Fragment>
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}> */}
         <Row className="Reservation-details p-4 mb-4">
           <Col lg={6} md={12}>
             <div className="control-group form-group">
@@ -214,12 +212,12 @@ const Reservation = (props:ReservationProps) => {
             </Form.Group>
           </Col>
         </Row>
-        <div className="d-flex justify-content-end mt-4 me-3">
+        {/* <div className="d-flex justify-content-end mt-4 me-3">
           <Button disabled={!id} type="submit">
             Save & Next
           </Button>
         </div>
-      </form>
+      </form> */}
     </React.Fragment>
   );
 };

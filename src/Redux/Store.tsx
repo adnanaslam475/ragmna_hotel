@@ -7,6 +7,7 @@ import reservationSlice from "../components/Setup/PropertySetup/AddProperty/Rese
 import propertySetupSlice from "../components/Setup/PropertySetup/propertySetupSlice";
 import { api } from "./Services/api";
 import globalSlice from "./globalReducer";
+import taxSetupSlice from "../components/Setup/PropertySetup/AddProperty/TaxSetup/taxSetupSlice";
 const CombineReducer = combineReducers({
   [api.reducerPath]: api.reducer,
   auth: firebaseAuthSlice,
@@ -16,6 +17,7 @@ const CombineReducer = combineReducers({
   reservation: reservationSlice,
   amenities: amenitiesSlice,
   global: globalSlice,
+  taxCongfig:taxSetupSlice
 });
 
 export const Store = configureStore({

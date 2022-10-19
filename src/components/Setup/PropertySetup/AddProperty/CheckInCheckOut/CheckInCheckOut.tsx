@@ -18,7 +18,6 @@ import {
 export interface CheckInCheckOutProps {
   values: any;
   handleChange: any;
-  handleSubmit: any;
   setFieldValue: any;
 }
 
@@ -26,7 +25,6 @@ const CheckInCheckOut = (props:CheckInCheckOutProps) => {
   const {
     values,
     handleChange,
-    handleSubmit,
     setFieldValue,
   } = props;
   const dispatch = useDispatch<AppDispatch>();
@@ -127,7 +125,7 @@ const CheckInCheckOut = (props:CheckInCheckOutProps) => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}> */}
         <Row className="Contect-details p-4 mb-4">
           <Col lg={6} md={12} className="mt-5 mb-2">
             <form className="date-picker-style" noValidate>
@@ -285,12 +283,12 @@ const CheckInCheckOut = (props:CheckInCheckOutProps) => {
             </Form.Group>
           </Col>
         </Row>
-        <div className="d-flex justify-content-end mt-4 me-3">
+        {/* <div className="d-flex justify-content-end mt-4 me-3">
           <Button disabled={!id} type="submit">
             Submit
           </Button>
         </div>
-      </form>
+      </form> */}
     </div>
   );
 };
