@@ -1,7 +1,7 @@
 [
 	{
 		"id": 1,
-		"name": "Service 1",
+		"name": "LAUNDRY & DRY CLEANING",
 		"fee": 34
 	},
 
@@ -13,42 +13,42 @@
 
 	{
 		"id": 3,
-		"name": "Service 3",
+		"name": "COMPLIMENTARY WI-FI INTERNET",
 		"fee": 25
 	},
 
 	{
 		"id": 4,
-		"name": "Service 4",
+		"name": "ROOF-TOP AND CANAL-SIDE SWIMMING POOLS",
 		"fee": 0
 	},
 
 	{
 		"id": 5,
-		"name": "Service 5",
+		"name": "TOUR AND TRAVEL SERVICES",
 		"fee": 10
 	},
 
 	{
 		"id": 6,
-		"name": "Service 6",
+		"name": "LIMOUSINE SERVICES",
 		"fee": 10
 	},
 	{
 		"id": 7,
-		"name": "Service 7",
+		"name": "SHUTTLE TO SHOPPING DISTRICT",
 		"fee": 4
 	},
 
 	{
 		"id": 8,
-		"name": "Service 8",
+		"name": "BODY DESIGN FITNESS GYM",
 		"fee": 10
 	},
 
 	{
 		"id": 9,
-		"name": "Service 9",
+		"name": "SALA SPA",
 		"fee": 5
 	}
 ]

@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
+import { Container } from 'react-bootstrap'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import JsonData from './data.json'
 const SPNAddOn = () => {
@@ -10,63 +11,71 @@ const SPNAddOn = () => {
 		<div>
 			{/* <div>{DisplayData}</div> */}
 			<div>
-				<Card className="mt-5">
-					<Card.Header>Affiliate Marketing</Card.Header>
-					<Card.Body>
-						{JsonData.map((infodata) => (
-							<div>
-								{infodata.fee > 0 ? (
-									<Row className="g-2 mt-3">
-										<Col md>
-											<FloatingLabel controlId="floatingInputGrid" label="Marketing Fee">
-												<Form.Control
-													disabled
-													readOnly
-													type="email"
-													placeholder="name@example.com"
-													value={infodata.fee}
-												/>
-											</FloatingLabel>
-										</Col>
-										<Col
-											md
-											style={{
-												display: 'flex',
-												alignItems: 'center',
-												border: '1px solid #e9edf4',
-												borderRadius: '7px',
-											}}
-										>
-											<Form.Check
-												style={{ fontSize: 16, paddingLeft: '2.25rem' }}
-												type="switch"
-												id="custom-switch"
-												label={infodata.name}
-												onChange={(e) => {
-													// setSavePolicy(e.target.checked)
-												}}
-											/>
-										</Col>
-									</Row>
-								) : (
-									''
-								)}
-							</div>
-						))}
-						<Row className="mt-5">
-							<Form.Group className="mb-3">
-								<Form.Check type="checkbox" id="disabledFieldsetCheck" label="I agree terms & condition and policy" />
-							</Form.Group>
-							{/* {savePolicy ? (
+				<Row className="mt-4">
+					<Card id="Tooltip">
+						<span className="ribbone-success-left">
+							<span>
+								<i className="fe fe-zap"></i>
+							</span>
+						</span>
+						<Card.Header>
+							<Card.Title>Select All Services</Card.Title>
+							<Form className="ms-auto">
+								<Form.Check type="switch" id="custom-switch" className="showcode d-flex ms-auto mx-2" />
+							</Form>
+						</Card.Header>
+					</Card>
+				</Row>
+
+				<Row className="mt-2.">
+					{JsonData.map((infodata) => (
+						<>
+							{infodata.fee > 0 ? (
+								<>
+									<Col xs={4}>
+										<Card>
+											<div className="arrow-ribbone-left bg-warning">Service</div>
+
+											<Card.Header style={{ padding: '2.2rem 1.5rem' }}>
+												<Card.Title>{infodata.name}</Card.Title>
+												<div className="card-options">
+													<Form.Check className="mb-2 mt-0" type="switch" id="custom-switch" defaultChecked />
+												</div>
+											</Card.Header>
+
+											<Card.Body style={{ padding: 10 }}>
+												<FloatingLabel controlId="floatingInputGrid" label="Marketing Fee">
+													<Form.Control
+														disabled
+														readOnly
+														type="email"
+														placeholder="name@example.com"
+														value={infodata.fee}
+													/>
+												</FloatingLabel>
+											</Card.Body>
+										</Card>
+									</Col>
+								</>
+							) : (
+								''
+							)}
+						</>
+					))}
+				</Row>
+
+				<Row className="mt-5">
+					<Form.Group className="mb-3">
+						<Form.Check type="checkbox" id="disabledFieldsetCheck" label="I agree terms & condition and policy" />
+					</Form.Group>
+					{/* {savePolicy ? (
 								<Button type="submit">Submit</Button>
 							) : (
 								<Button disabled={true} type="submit">
 									Submit
 								</Button>
 							)} */}
-						</Row>
-					</Card.Body>
-				</Card>
+				</Row>
 			</div>
 		</div>
 	)
