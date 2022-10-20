@@ -3,19 +3,18 @@ import React from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import * as Yup from "yup";
 
-const RatePlan = (props) => {
+const BaseRate = (props) => {
   const initialValues = {
-    name: "",
-    description: "",
+    basePrice: "",
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required(),
-    description: Yup.string(),
+    basePrice: Yup.string().required(),
   });
 
   const onSubmit = (values) => {
     props.nextStep();
+    console.log(values);
   };
 
   const { handleSubmit, values, errors, touched, handleChange } = useFormik({
@@ -29,43 +28,26 @@ const RatePlan = (props) => {
       <Row>
         <Col lg={6} md={0} className="question-part p-4">
           <div>
-            <h1>What is your rate plan name?</h1>
+            <h1>What is your base price?</h1>
           </div>
         </Col>
         <Col lg={6} md={12} className="form-part p-4">
           <form onSubmit={handleSubmit} className="w-80">
             <div className="control-group form-group">
-              <label className="form-label">Rate Plan Name</label>
+              <label className="form-label">Base Price</label>
               <input
                 type="text"
                 className={
-                  touched.name && errors.name
+                  touched.basePrice && errors.basePrice
                     ? "form-control required error-border"
                     : "form-control required"
                 }
-                placeholder="Name"
-                name="name"
-                value={values.name}
+                placeholder="Base Price"
+                name="basePrice"
+                value={values.basePrice}
                 onChange={(e) => {
                   handleChange(e);
-                  props.changeInput("name", e.target.value);
-                }}
-              />
-            </div>
-            <div className="control-group form-group">
-              <label className="form-label">Enter rate plan description</label>
-              <textarea
-                className={
-                  touched.description && errors.description
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Description"
-                name="description"
-                value={values.description}
-                onChange={(e) => {
-                  handleChange(e);
-                  props.changeInput("description", e.target.value);
+                  props.changeInput("basePrice", e.target.value);
                 }}
               />
             </div>
@@ -82,4 +64,4 @@ const RatePlan = (props) => {
   );
 };
 
-export default RatePlan;
+export default BaseRate;

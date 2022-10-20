@@ -5,4 +5,5 @@ export const GET_PROPERTY = "property";
 export const RESERVATION = "settings-config";
 export const AMENITIES = "amenities";
 export const TAX_CONFIG = "tax-config";
-export const RATE = 'rate';
+export const RATE = "rate";
+export const ROOM_TYPE = "roomType";

@@ -1,22 +1,50 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { getRateProperty } from "../../../../Redux/Services/rateService";
+import { getRateProperty, getRoomTypes } from "../../../../Redux/Services/rateService";
 const initialState = {
-  propertyList: [],
+  rateList: [],
+  roomTypes:[]
 };
-export const getRate = createAsyncThunk("rate/get", async (id: string) => {
-  return await getRateProperty(id);
+export const getRate = createAsyncThunk("rate/get", async () => {
+  return await getRateProperty();
 });
+export const getRoomType = createAsyncThunk("roomType/get", async (id: string) => {
+  return await getRoomTypes(id)
+})
 const rateSetupSlice = createSlice({
-  name: "proprtySetup",
+  name: "rateSetup",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(
       getRate.fulfilled,
-      (state, action: PayloadAction<any>) => {}
+      (state, action: PayloadAction<any>) => {
+        state.rateList = action.payload.data;
+      }
+    );
+        builder.addCase(
+      getRoomType.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.roomTypes = action.payload.data;
+      }
     );
   },
 });
 export default rateSetupSlice.reducer;
+export const selectRateList = (state) => {
+  return state.rateSetup.rateList;
+};
+
+export const useRateList = () => {
+  const rateList = useSelector(selectRateList);
+  return useMemo(() => ({ rateList }), [rateList]);
+};
+export const selectRoomTypes = (state) => {
+  return state.rateSetup.roomTypes;
+};
+
+export const useRoomTypes = () => {
+  const roomTypes = useSelector(selectRoomTypes);
+  return useMemo(() => ({ roomTypes }), [roomTypes]);
+};

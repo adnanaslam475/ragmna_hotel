@@ -4,6 +4,10 @@ import "./RateType.scss";
 
 const RateType = (props) => {
   const [type, setType] = useState("nightly");
+  const onSubmit = () => {
+    props.nextStep();
+    props.setType(type);
+  };
   return (
     <React.Fragment>
       <Row>
@@ -43,7 +47,7 @@ const RateType = (props) => {
             <label htmlFor="derivedRate">Derived Rate</label>
           </div>
           <div className="pt-6 next-button">
-            <Button onClick={props.nextStep}>Next</Button>
+            <Button onClick={() => onSubmit()}>Next</Button>
           </div>
         </Col>
       </Row>

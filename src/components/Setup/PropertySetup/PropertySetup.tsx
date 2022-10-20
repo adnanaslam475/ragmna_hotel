@@ -13,7 +13,6 @@ import {
 } from "./propertySetupSlice";
 
 const PropertySetup = () => {
-  // const { data, isError, isLoading } = useGetPropertySetupQuery();
   const dispatch = useDispatch<AppDispatch>();
   let navigate = useNavigate();
   const RouteChange = () => {

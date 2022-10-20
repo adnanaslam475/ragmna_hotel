@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
-import './Rates.scss'
+import "./Rates.scss";
 const Rates = () => {
   const [addAdditionalCharge, SetAddAdditionalCharge] =
     useState<boolean>(false);
@@ -45,11 +45,6 @@ const Rates = () => {
                   onClick={() => setStandardRoom(!standardRoom)}
                 />
                 <span className="custom-control-label">Standard Room</span>
-                <p>
-                  Capacity:2 adults
-                  <br />
-                  Capacity:2 persons
-                </p>
               </label>
             </div>
 
@@ -112,11 +107,6 @@ const Rates = () => {
                   onClick={() => setMasterBedroom(!masterBedroom)}
                 />
                 <span className="custom-control-label">Master Bedroom</span>
-                <p>
-                  Capacity:2 adults
-                  <br />
-                  Capacity:2 persons
-                </p>
               </label>
             </div>
 
@@ -181,11 +171,6 @@ const Rates = () => {
                 <span className="custom-control-label">
                   Southern Hospitality
                 </span>
-                <p>
-                  Capacity:2 adults
-                  <br />
-                  Capacity:2 persons
-                </p>
               </label>
             </div>
 

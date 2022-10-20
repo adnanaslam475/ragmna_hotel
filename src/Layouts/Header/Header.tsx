@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import styles from "./Header.module.scss";
-import "./Header.scss"
+import "./Header.scss";
 import { Link } from "react-router-dom";
 import {
   FormControl,
@@ -17,15 +17,17 @@ import {
 } from "react-bootstrap";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { MENUITEMS } from "../Sidebar/Sidemenu";
-import Select from 'react-select';
+import Select from "react-select";
 import {
   getProperties,
   usePropertyList,
 } from "../../components/Setup/PropertySetup/propertySetupSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../Redux/Store";
-import { saveGlobalProperty, useGlobalProperty } from "../../Redux/globalReducer";
-
+import {
+  saveGlobalProperty,
+  useGlobalProperty,
+} from "../../Redux/globalReducer";
 
 const SideMenuIcon: any = () => {
   //leftsidemenu
@@ -78,7 +80,7 @@ const RightSideBar: any = () => {
   //swichermainright
 };
 const Header = () => {
-  const [selectedProperty, setSelectedProperty] = useState<any>({})
+  const [selectedProperty, setSelectedProperty] = useState<any>({});
   console.log(selectedProperty.value, "selectedProperty");
 
   const { property } = useGlobalProperty();
@@ -92,33 +94,30 @@ const Header = () => {
       console.log(error);
     }
   };
-  useEffect(() => {
-    if (selectedProperty.value) {
-      const response: any = dispatch(saveGlobalProperty(selectedProperty));
-    }
-  }, [selectedProperty])
-  useEffect(() => {
-    getAllProperties();
-  }, []);
+  // useEffect(() => {
+  //   if (selectedProperty.value) {
+  //     const response: any = dispatch(saveGlobalProperty(selectedProperty));
+  //   }
+  // }, [selectedProperty]);
+  // useEffect(() => {
+  //   getAllProperties();
+  // }, []);
   useEffect(() => {
     if (property) {
       console.log(property);
-
     }
   }, [property]);
   const getPropertyName = () => {
     if (!propertyList) {
-      return []
+      return [];
     }
     const data = propertyList.map((item: any, index: any) => ({
-      value: `${item['_id']}`,
-      label: `${item['name']}`,
-    })
-    )
-    return [...data]
+      value: `${item["_id"]}`,
+      label: `${item["name"]}`,
+    }));
+    return [...data];
   };
   console.log(propertyList, "propertyList");
-
 
   document.querySelector(".main-content")?.addEventListener("click", () => {
     document.querySelector(".search-result")?.classList.add("d-none");
@@ -135,7 +134,7 @@ const Header = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  useEffect(() => { });
+  useEffect(() => {});
   let myfunction = (inputvalue: any) => {
     document.querySelector(".search-result")?.classList.remove("d-none");
 
@@ -297,10 +296,9 @@ const Header = () => {
 
                     {/* Country Select Modal */}
 
-                    <Form.Group>
+                    {/* <Form.Group>
                       <Select classNamePrefix="Select" options={getPropertyName()} onChange={setSelectedProperty} />
-                    </Form.Group>
-
+                    </Form.Group> */}
 
                     <div className="d-flex country">
                       <Link
