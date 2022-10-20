@@ -102,6 +102,7 @@ const QualifyRatePlan = (props) => {
             {promo ? (
               <div className="control-group form-group w-30 inner-class">
                 <input
+                  required
                   type="text"
                   value={props.rate.promoCode}
                   disabled={!promo}

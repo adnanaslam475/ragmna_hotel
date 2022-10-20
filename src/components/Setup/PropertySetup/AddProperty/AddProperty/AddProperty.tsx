@@ -28,7 +28,6 @@ import {
   useTaxData,
 } from "../TaxSetup/taxSetupSlice";
 import Sections from "../Sections/Sections";
-import { updateTaxConfig } from "../../../../../Redux/Services/propertyService";
 
 interface AddPropertyProps {
   setAddProperty?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -50,6 +49,7 @@ const AddProperty = (props: AddPropertyProps) => {
     altName: "",
     offset: 0,
   });
+  const [sectionArray , setSectionArray] = useState<any>([])
 
   let initialValuesInfo: InitialValues = {
     name: "",
@@ -229,9 +229,11 @@ const AddProperty = (props: AddPropertyProps) => {
           values.includeRoomMovesOnArrivalAndDepartureList,
       };
       payload["systemConfig"] = {
-        timeZone: tz ? tz.label : "",
+        timeZone: tz ? tz.value : "",
       };
-      payload["sections"] = {};
+      payload["sections"] = [
+        ...sectionArray
+      ]
       // payload["images"] = [];
       // payload['availableForEntireRental'] = isChecked
       let deletekeys = [
@@ -251,6 +253,7 @@ const AddProperty = (props: AddPropertyProps) => {
         "unit",
         "adults",
         "children",
+        'addMarketSegment',
         "automaticRoomAssignment",
         "emailDisplayName",
         "replyToEmailAddress",
@@ -464,12 +467,12 @@ const AddProperty = (props: AddPropertyProps) => {
                 ?.includeRoomMovesOnArrivalAndDepartureList
             : false,
         });
-        // if (response?.data?.systemConfig?.timeZone){
-        //   tz['label'] = response?.data?.systemConfig?.timeZone
-        //   setTz(tz);
-        //   console.log(tz);
-
-        // }
+        if(response?.data?.sections)
+        setSectionArray(response.data.sections)
+        if (response?.data?.systemConfig?.timeZone){
+          tz.value = response?.data?.systemConfig?.timeZone
+          setTz(tz);
+        }
       }
     }
   };
@@ -493,7 +496,7 @@ const AddProperty = (props: AddPropertyProps) => {
         let payload = Object.assign({}, taxInfo);
         payload["propertyId"] = id;
         payload["surcharge"] = parseInt(payload["surcharge"]);
-        if (taxData[5]?._id) {
+        if (taxData[0]?._id) {
           payload["taxId"] = taxData[0]._id;
           let response: any = await dispatch(updateTaxData(payload)).unwrap();
         } else {
@@ -551,11 +554,11 @@ const AddProperty = (props: AddPropertyProps) => {
                         Check-in/Check-out
                       </Nav.Link>
                     </Nav.Item>
-                    <Nav.Item>
+                    {/* <Nav.Item>
                       <Nav.Link eventKey="five">
                         <i className="fe fe-user me-1"></i>Policies
                       </Nav.Link>
-                    </Nav.Item>
+                    </Nav.Item> */}
                     <Nav.Item>
                       <Nav.Link eventKey="six">
                         <i className="fe fe-calendar me-1"></i>Tax Setup
@@ -633,7 +636,10 @@ const AddProperty = (props: AddPropertyProps) => {
                       <AmenitiesSelection />
                     </Tab.Pane>
                     <Tab.Pane eventKey="eight">
-                      <Sections />
+                      <Sections 
+                        sectionArray={sectionArray}
+                        setSectionArray={setSectionArray}
+                      />
                     </Tab.Pane>
                   </Tab.Content>
                 </div>

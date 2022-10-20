@@ -3,12 +3,12 @@ import firebaseAuthSlice from "../components/Authentication/firebaseAuth/firebas
 import businessSetupSlice from "../components/Setup/BusinessSetup/businessSetupSlice";
 import amenitiesSlice from "../components/Setup/PropertySetup/AddProperty/Amenities/amenitiesSlice";
 import propertyInfoSlice from "../components/Setup/PropertySetup/AddProperty/PropertyInfo/propertyInfoSlice";
-import rateSetupSlice from "../components/Setup/RateSetup/RateList/RateSetupSlice";
 import reservationSlice from "../components/Setup/PropertySetup/AddProperty/Reservation/reservationSlice";
 import propertySetupSlice from "../components/Setup/PropertySetup/propertySetupSlice";
 import { api } from "./Services/api";
 import globalSlice from "./globalReducer";
 import taxSetupSlice from "../components/Setup/PropertySetup/AddProperty/TaxSetup/taxSetupSlice";
+import RateSetupSlice from "../components/Setup/RateSetup/RateSetupSlice";
 const CombineReducer = combineReducers({
   [api.reducerPath]: api.reducer,
   auth: firebaseAuthSlice,
@@ -18,7 +18,7 @@ const CombineReducer = combineReducers({
   reservation: reservationSlice,
   amenities: amenitiesSlice,
   global: globalSlice,
-  rateSetup: rateSetupSlice,
+  rateSetup: RateSetupSlice,
   taxCongfig: taxSetupSlice,
 });
 

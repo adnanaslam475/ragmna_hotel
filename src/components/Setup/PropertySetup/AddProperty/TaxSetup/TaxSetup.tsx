@@ -12,12 +12,12 @@ import Select from "react-select";
 import { CommanDropDownType } from "../types";
 
 export interface TaxSetupProps {
-  initialTaxValuesInfo:any
-  setTaxInfo:any
+  initialTaxValuesInfo: any;
+  setTaxInfo: any;
 }
 
 const TaxSetup = (props: TaxSetupProps) => {
-  const {initialTaxValuesInfo , setTaxInfo} = props;
+  const { initialTaxValuesInfo, setTaxInfo } = props;
 
   const TypeList: any = [
     { value: "", label: "Select Types" },
@@ -96,7 +96,7 @@ const TaxSetup = (props: TaxSetupProps) => {
               name="name"
               value={initialTaxValuesInfo.name}
               onChange={(e) => {
-                setTaxInfo('name',e.target.value);
+                setTaxInfo("name", e.target.value);
               }}
             />
           </div>
@@ -111,7 +111,7 @@ const TaxSetup = (props: TaxSetupProps) => {
               name="shortCode"
               value={initialTaxValuesInfo.shortCode}
               onChange={(e) => {
-                setTaxInfo('shortCode',e.target.value);
+                setTaxInfo("shortCode", e.target.value);
               }}
             />
           </div>
@@ -123,7 +123,7 @@ const TaxSetup = (props: TaxSetupProps) => {
             format="DD/MM/YYYY"
             dayPickerProps={{ disabledDays: { before: new Date() } }}
             value={initialTaxValuesInfo.startDate}
-            onDayChange={(e) => setTaxInfo('startDate',e)}
+            onDayChange={(e) => setTaxInfo("startDate", e)}
           />
         </Col>
         <Col lg={6} className="date-picker">
@@ -133,7 +133,7 @@ const TaxSetup = (props: TaxSetupProps) => {
             format="DD/MM/YYYY"
             placeholder="End Date"
             value={initialTaxValuesInfo.endDate}
-            onDayChange={(e) => setTaxInfo('endDate',e)}
+            onDayChange={(e) => setTaxInfo("endDate", e)}
           />
         </Col>
         <Col lg={6} md={12}>
@@ -142,11 +142,13 @@ const TaxSetup = (props: TaxSetupProps) => {
             <Select
               classNamePrefix="Select"
               options={TypeList}
-              value={TypeList.filter((option) => option.value === initialTaxValuesInfo.type)}
+              value={TypeList.filter(
+                (option) => option.value === initialTaxValuesInfo.type
+              )}
               placeholder="Select Type"
               name="type"
               onChange={(selectedOption: any) => {
-                setTaxInfo('type',selectedOption?.value)
+                setTaxInfo("type", selectedOption?.value);
               }}
             />
           </div>
@@ -158,12 +160,13 @@ const TaxSetup = (props: TaxSetupProps) => {
               classNamePrefix="Select"
               options={CalculationTypes}
               value={CalculationTypes.filter(
-                (option) => option.value === initialTaxValuesInfo.calculationType
+                (option) =>
+                  option.value === initialTaxValuesInfo.calculationType
               )}
               placeholder="Select Calculation Type"
               name="calculationType"
               onChange={(selectedOption: any) => {
-                setTaxInfo('calculationType',selectedOption?.value)
+                setTaxInfo("calculationType", selectedOption?.value);
               }}
             />
           </div>
@@ -178,7 +181,7 @@ const TaxSetup = (props: TaxSetupProps) => {
               name="surcharge"
               value={initialTaxValuesInfo.surcharge}
               onChange={(e) => {
-                setTaxInfo('surcharge',e.target.value);
+                setTaxInfo("surcharge", e.target.value);
               }}
             />
           </div>
@@ -191,7 +194,7 @@ const TaxSetup = (props: TaxSetupProps) => {
               id="isVatApplicable"
               label="is Vat Applicable"
               onChange={(e) => {
-                setTaxInfo('isVatApplicable',e.target.checked);
+                setTaxInfo("isVatApplicable", e.target.checked);
               }}
               checked={initialTaxValuesInfo.isVatApplicable}
             />

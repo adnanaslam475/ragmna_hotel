@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../../../Redux/Store";
 import { usePropertyList } from "../../PropertySetup/propertySetupSlice";
 import "./RateList.scss";
-import { getRate } from "./RateSetupSlice";
+import { getRate } from "../RateSetupSlice";
 const RateList = () => {
   let navigate = useNavigate();
   const RouteChange = () => {

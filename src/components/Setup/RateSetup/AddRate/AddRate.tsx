@@ -10,33 +10,68 @@ import QualifyRatePlan from "./QualifyRatePlan/QualifyRatePlan";
 import PoliciesRatePlan from "./PoliciesRatePlan/PoliciesRatePlan";
 import BaseRate from "./BaseRate/BaseRate";
 import { AppDispatch } from "../../../../Redux/Store";
-import {
-  getRoomType,
-  selectRoomTypes,
-  useRoomTypes,
-} from "../RateList/RateSetupSlice";
 import { useDispatch } from "react-redux";
+import { addNightly } from "../RateSetupSlice";
+import DerivedRateFrom from "./DerivedRateFrom/DerivedRateFrom";
+import DerivedDates from "./DerivedDates/DerivedDates";
 const AddRate = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const [type, setRateType] = useState("nightly");
   const [rate, setRate] = useState({
-    type: "nightly",
     name: "",
     description: "",
+    displayName: "",
     basePrice: "",
     roomTypes: [],
+    channels: [],
     restrictions: {
       minimumNights: 0,
       maximumNights: 0,
       promoCode: "",
     },
+    default: false,
+  });
+  const [derivedRate, setDerivedRate] = useState({
+    name: "",
+    description: "",
+    period: [
+      {
+        startDate: "",
+        endDate: "",
+      },
+    ],
+    channels: ["Website"],
+    offer: {
+      type: "Less Than",
+      calculationType: "Fixed",
+      amount: 0,
+    },
+    restrictions: {
+      minimumNights: 0,
+      maximumNights: 0,
+      promoCode: "",
+    },
+    roomTypes: [""],
+    depositPolicy: "",
+    cancellationPolicy: "",
+    checkInPolicy: "",
+    noShowPolicy: "",
   });
   const setType = (type) => {
-    setRate({ ...rate, type });
+    setRateType(type);
   };
   const setValues = (key, details) => {
-    setRate({ ...rate, [key]: details });
+    if (type == "nightly") {
+      setRate({ ...rate, [key]: details });
+    } else {
+      setDerivedRate({ ...derivedRate, [key]: details });
+    }
   };
   const setRoomTypes = (roomTypes) => {
     setRate({ ...rate, roomTypes: roomTypes });
+  };
+  const saveChannel = (channels) => {
+    setRate({ ...rate, channels: channels });
   };
   const restrictionsChange = (key, value) => {
     setRate({
@@ -44,7 +79,15 @@ const AddRate = () => {
       restrictions: { ...rate.restrictions, [key]: value.target.value },
     });
   };
-  const onSubmit = () => {};
+  const onSubmit = async () => {
+    try {
+      let payload = Object.assign({}, rate);
+      let response: any = await dispatch(addNightly(payload)).unwrap();
+      console.log(response, "ADD RATE");
+    } catch (err: any) {
+      console.log(err);
+    }
+  };
   return (
     <React.Fragment>
       <Card>
@@ -52,8 +95,16 @@ const AddRate = () => {
           <StepWizard>
             <RateType setType={setType} />
             <RatePlan changeInput={setValues} />
-            <RateChannelDistribut />
-            <BaseRate changeInput={setValues} />
+            {type == "nightly" ? (
+              <RateChannelDistribut saveChannel={saveChannel} />
+            ) : (
+              <DerivedRateFrom />
+            )}
+            {type == "nightly" ? (
+              <BaseRate changeInput={setValues} />
+            ) : (
+              <DerivedDates />
+            )}
             <DefaultRatePlan setRoomTypes={setRoomTypes} />
             <QualifyRatePlan
               rate={rate.restrictions}

@@ -202,7 +202,7 @@ const PoliciesRatePlan = (props) => {
           <div className="next-button">
             <Button
               onClick={() => {
-                submitWizard;
+                submitWizard();
               }}
             >
               Submit

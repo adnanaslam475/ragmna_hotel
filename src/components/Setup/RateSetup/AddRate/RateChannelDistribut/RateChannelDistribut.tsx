@@ -62,6 +62,16 @@ const RateChannelDistribut = (props) => {
 
     return isAll;
   };
+  const onNext = () => {
+    let cArray:any = []
+    for (let index = 0; index < channel.length; index++) {
+      if(channel[index].isChecked){
+        cArray.push(channel[index].label)
+      }
+    }
+    props.nextStep()
+    props.saveChannel(cArray)
+  }
   return (
     <React.Fragment>
       <Row>
@@ -104,7 +114,7 @@ const RateChannelDistribut = (props) => {
             <Button onClick={props.previousStep}>Previous</Button>
           </div>
           <div className="next-button">
-            <Button onClick={props.nextStep}>Next</Button>
+            <Button onClick={()=>onNext()}>Next</Button>
           </div>
         </Col>
       </Row>

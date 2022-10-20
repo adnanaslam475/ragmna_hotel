@@ -3,7 +3,7 @@ import { Col, Row, Form, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { array } from "yup/lib/locale";
 import { AppDispatch } from "../../../../../Redux/Store";
-import { getRoomType, useRoomTypes } from "../../RateList/RateSetupSlice";
+import { getRoomType, useRoomTypes } from "../../RateSetupSlice";
 
 import "./DefaultRatePlan.scss";
 

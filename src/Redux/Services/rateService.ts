@@ -5,5 +5,8 @@ export const getRateProperty = () => {
   return apiInstance.get(RATE, { headers: authHeader() });
 };
 export const getRoomTypes = (id) => {
-  return apiInstance.get(`${id}/`+ ROOM_TYPE, {headers:authHeader()})
-}
+  return apiInstance.get(`${id}/` + ROOM_TYPE, { headers: authHeader() });
+};
+export const addNightlyRate = (payload) => {
+  return apiInstance.post(RATE, payload,{ headers: authHeader() });
+};

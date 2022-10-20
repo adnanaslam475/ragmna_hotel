@@ -80,8 +80,6 @@ const RightSideBar: any = () => {
   //swichermainright
 };
 const Header = () => {
-  const [selectedProperty, setSelectedProperty] = useState<any>({});
-  console.log(selectedProperty.value, "selectedProperty");
 
   const { property } = useGlobalProperty();
   const { propertyList } = usePropertyList();
@@ -117,7 +115,6 @@ const Header = () => {
     }));
     return [...data];
   };
-  console.log(propertyList, "propertyList");
 
   document.querySelector(".main-content")?.addEventListener("click", () => {
     document.querySelector(".search-result")?.classList.add("d-none");

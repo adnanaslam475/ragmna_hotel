@@ -7,11 +7,13 @@ const RatePlan = (props) => {
   const initialValues = {
     name: "",
     description: "",
+    displayName:''
   };
 
   const validationSchema = Yup.object({
     name: Yup.string().required(),
     description: Yup.string(),
+    displayName:Yup.string().required()
   });
 
   const onSubmit = (values) => {
@@ -49,6 +51,24 @@ const RatePlan = (props) => {
                 onChange={(e) => {
                   handleChange(e);
                   props.changeInput("name", e.target.value);
+                }}
+              />
+            </div>
+            <div className="control-group form-group">
+              <label className="form-label">Rate Display Name</label>
+              <input
+                type="text"
+                className={
+                  touched.displayName && errors.displayName
+                    ? "form-control required error-border"
+                    : "form-control required"
+                }
+                placeholder="Rate Display Name"
+                name="displayName"
+                value={values.displayName}
+                onChange={(e) => {
+                  handleChange(e);
+                  props.changeInput("displayName", e.target.value);
                 }}
               />
             </div>
