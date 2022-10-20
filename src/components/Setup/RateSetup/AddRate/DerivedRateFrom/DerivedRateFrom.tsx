@@ -39,6 +39,11 @@ const DerivedRateFrom = (props) => {
     { value: "Fixed", label: "USD" },
   ];
 
+  const onSubmit = () => {
+    props.selectedRateTypeID(selectedRate)
+    props.nextStep();
+  } 
+
   return (
     <React.Fragment>
       <Row>
@@ -145,7 +150,7 @@ const DerivedRateFrom = (props) => {
             <Button onClick={props.previousStep}>Previous</Button>
           </div>
           <div className="next-button">
-            <Button onClick={props.nextStep}>Next</Button>
+            <Button onClick={()=>{onSubmit()}}>Next</Button>
           </div>
         </Col>
       </Row>

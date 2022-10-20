@@ -14,6 +14,8 @@ import { useDispatch } from "react-redux";
 import { addDerived, addNightly } from "../RateSetupSlice";
 import DerivedRateFrom from "./DerivedRateFrom/DerivedRateFrom";
 import DerivedDates from "./DerivedDates/DerivedDates";
+import { useNavigate } from "react-router-dom";
+import { Success } from "../../../../Redux/Services/toaster-service";
 const AddRate = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [type, setRateType] = useState("nightly");
@@ -56,7 +58,7 @@ const AddRate = () => {
       maximumNights: 0,
       promoCode: "",
     },
-    roomTypes: [],
+    roomTypes: [{ roomTypeId: "" }],
   });
   const setType = (type) => {
     setRateType(type);
@@ -120,23 +122,47 @@ const AddRate = () => {
     setRate(temp);
   };
 
+  const [rateId, setRateId] = useState<string>("");
+  const selectedRateTypeID = (id) => {
+    setRateId(id);
+  };
+  let navigate = useNavigate();
+  const RouteChange = () => {
+    let path = `/setup/ratesetup/createseason`;
+    navigate(path);
+  };
+
   const onSubmit = async () => {
     if (type == "nightly") {
       try {
         let payload = Object.assign({}, rate);
         let response: any = await dispatch(addNightly(payload)).unwrap();
-        console.log(response, "ADD RATE");
+        if (response) {
+          RouteChange();
+          Success("Nightly rate has been added");
+        }
       } catch (err: any) {
         console.log(err);
       }
     } else {
-      // try {
-      //   let payload = Object.assign({}, derivedRate);
-      //   let response: any = await dispatch(addDerived(payload)).unwrap();
-      //   console.log(response, "ADD RATE");
-      // } catch (err: any) {
-      //   console.log(err);
-      // }
+      try {
+        let temp: any = [];
+        for (let i = 0; i < derivedRate.roomTypes.length; i++) {
+          temp.push(derivedRate.roomTypes[i].roomTypeId);
+        }
+        let payload = Object.assign({}, derivedRate);
+        payload["period"] = [...customDate];
+        payload["rateId"] = rateId;
+        payload["roomTypes"] = temp;
+        let response: any = await dispatch(addDerived(payload)).unwrap();
+        console.log(response, "ADD dereived RATE");
+        if (response) {
+          RouteChange();
+          Success("Derived rate has been added");
+        }
+      } catch (err: any) {
+        console.log(err);
+      }
     }
   };
   return (
@@ -162,6 +188,7 @@ const AddRate = () => {
               <DerivedRateFrom
                 derivedRate={derivedRate.offer}
                 valueChange={derivedValueChange}
+                selectedRateTypeID={selectedRateTypeID}
               />
               <DerivedDates
                 customDate={customDate}
@@ -169,10 +196,8 @@ const AddRate = () => {
                 setCustomDate={setCustomDate}
                 derivedDate={derivedRate.period}
               />
-
               <RateChannelDistribut saveChannel={saveChannel} />
               <DefaultRatePlan setRoomTypes={setRoomTypes} />
-
               <QualifyRatePlan
                 rate={rate.restrictions}
                 restrictionsChange={restrictionsChange}
