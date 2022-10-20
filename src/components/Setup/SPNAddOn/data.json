@@ -1,0 +1,54 @@
+[
+	{
+		"id": 1,
+		"name": "Service 1",
+		"fee": 34
+	},
+
+	{
+		"id": 2,
+		"name": "Service 2",
+		"fee": 0
+	},
+
+	{
+		"id": 3,
+		"name": "Service 3",
+		"fee": 25
+	},
+
+	{
+		"id": 4,
+		"name": "Service 4",
+		"fee": 0
+	},
+
+	{
+		"id": 5,
+		"name": "Service 5",
+		"fee": 10
+	},
+
+	{
+		"id": 6,
+		"name": "Service 6",
+		"fee": 10
+	},
+	{
+		"id": 7,
+		"name": "Service 7",
+		"fee": 4
+	},
+
+	{
+		"id": 8,
+		"name": "Service 8",
+		"fee": 10
+	},
+
+	{
+		"id": 9,
+		"name": "Service 9",
+		"fee": 5
+	}
+]
