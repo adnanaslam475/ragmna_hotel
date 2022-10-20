@@ -9,7 +9,9 @@ import { CommanDropDownType } from "../../../PropertySetup/AddProperty/types";
 
 const DerivedRateFrom = (props) => {
   const [selectedRate, SetSelectedRate] = useState("");
-  const [selectRateType, selSelectRateType] = useState<"percent" | "USD">();
+  const [selectRateType, selSelectRateType] = useState<
+    "Percentage" | "Fixed"
+  >();
   console.log(selectRateType, "selectRateType");
 
   const dispatch = useDispatch<AppDispatch>();
@@ -33,8 +35,8 @@ const DerivedRateFrom = (props) => {
   ];
 
   const inputType: CommanDropDownType[] = [
-    { value: "percent", label: "percent" },
-    { value: "USD", label: "USD" },
+    { value: "Percentage", label: "percent" },
+    { value: "Fixed", label: "USD" },
   ];
 
   return (
@@ -70,11 +72,18 @@ const DerivedRateFrom = (props) => {
                       <span>
                         Rates for the derived rate plan are the
                         <div className="type-input">
-                          {selectRateType == "USD" ? (
+                          {props.derivedRate.calculationType == "Fixed" ? (
                             <i className="icon fe fe-dollar-sign" />
                           ) : null}
-                          <input type="number" />
-                          {selectRateType == "percent" ? (
+                          <input
+                            type="number"
+                            name="amount"
+                            value={props.derivedRate.amount}
+                            onChange={(e) => {
+                              props.valueChange("amount", e.target.value);
+                            }}
+                          />
+                          {props.derivedRate.calculationType == "Percentage" ? (
                             <i className="icon fe fe-percent" />
                           ) : null}
                         </div>
@@ -82,15 +91,29 @@ const DerivedRateFrom = (props) => {
                           classNamePrefix="Select"
                           options={inputType}
                           value={inputType.filter(
-                            (option) => option.value === selectRateType
+                            (option) =>
+                              option.value === props.derivedRate.calculationType
                           )}
                           placeholder="Select"
-                          name="type"
+                          name="calculationType"
                           onChange={(selectedOption: any) => {
-                            selSelectRateType(selectedOption?.value);
+                            props.valueChange(
+                              "calculationType",
+                              selectedOption?.value
+                            );
                           }}
                         />
-                        <Select classNamePrefix="Select" options={rateThan} />
+                        <Select
+                          classNamePrefix="Select"
+                          options={rateThan}
+                          name="type"
+                          value={rateThan.filter(
+                            (option) => option.value === props.derivedRate.type
+                          )}
+                          onChange={(selectedOption: any) => {
+                            props.valueChange("type", selectedOption?.value);
+                          }}
+                        />
                         {val.displayName}
                       </span>
                       <div>

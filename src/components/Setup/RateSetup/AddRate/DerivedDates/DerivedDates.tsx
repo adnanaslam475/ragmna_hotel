@@ -6,21 +6,16 @@ import "./DerivedDates.scss";
 
 const DerivedDates = (props) => {
   const [selectedPlan, setSelectedPlan] = useState("");
-  const [customDate, setCustomDate] = useState<any>([
-    {
-      from: new Date(),
-      to: new Date(),
-    },
-  ]);
+
 
   const handelChange = (e) => {
     setSelectedPlan(e.target.value);
   };
 
   const removeDate = (index) => {
-    let temp = Object.assign([],customDate)
+    let temp = Object.assign([],props.customDate)
     temp.splice(index , 1)
-    setCustomDate(temp)
+    props.setCustomDate(temp)
   }
 
   return (
@@ -69,7 +64,7 @@ const DerivedDates = (props) => {
             </label>
             {selectedPlan == "Custom date range" ? (
               <div>
-                {customDate.map((val, index) => {
+                {props.customDate.map((val, index) => {
                   return (
                     <div key={index} className="date-picker">
                       <DayPickerInput
@@ -77,22 +72,18 @@ const DerivedDates = (props) => {
                         dayPickerProps={{
                           disabledDays: { before: new Date() },
                         }}
-                        value={val.from}
-                        onDayChange={(e, index) => {
-                          console.log(index);
-
-                          // setCustomDate([])
-                        }}
+                        value={val.startDate}
+                        onDayChange={(e) => {props.setDates('startDate',e,index)}}
                       />
                       <DayPickerInput
                         format="DD/MM/YYYY"
                         dayPickerProps={{
                           disabledDays: { before: new Date() },
                         }}
-                        value={val.to}
-                        onDayChange={(e) => console.log(e)}
+                        value={val.endDate}
+                        onDayChange={(e) => {props.setDates('endDate',e,index)}}
                       />
-                      {customDate.length > 1 ?  <i
+                      {props.customDate.length > 1 ?  <i
                         className="icon fe fe-minus-circle"
                         onClick={() => {
                           removeDate(index)
@@ -104,7 +95,7 @@ const DerivedDates = (props) => {
                 <i
                   className="icon i-plus fe fe-plus-circle"
                   onClick={() => {
-                    setCustomDate([...customDate, { from: "", to: "" }]);
+                    props.setCustomDate([...props.customDate, { startDate:null, endDate:null}]);
                   }}
                 />
               </div>

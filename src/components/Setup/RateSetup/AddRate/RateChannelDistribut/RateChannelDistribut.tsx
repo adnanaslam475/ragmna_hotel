@@ -5,24 +5,14 @@ const RateChannelDistribut = (props) => {
   const [channel, SetChannel] = useState([
     {
       label: "My Website",
-      value: "My_Website",
+      value: "Website",
       isChecked: false,
     },
     {
       label: "Booking.com",
       value: "Booking.com",
       isChecked: false,
-    },
-    {
-      label: "Airbnb",
-      value: "Airbnb",
-      isChecked: false,
-    },
-    {
-      label: "Mosafir",
-      value: "Mosafir",
-      isChecked: false,
-    },
+    }
   ]);
   const setChannelValues = (e, index) => {
     if (e.target.checked) {
@@ -66,7 +56,7 @@ const RateChannelDistribut = (props) => {
     let cArray:any = []
     for (let index = 0; index < channel.length; index++) {
       if(channel[index].isChecked){
-        cArray.push(channel[index].label)
+        cArray.push(channel[index].value)
       }
     }
     props.nextStep()

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { Card } from "react-bootstrap";
 import StepWizard from "react-step-wizard";
 import RateType from "./RateType/RateType";
@@ -11,7 +11,7 @@ import PoliciesRatePlan from "./PoliciesRatePlan/PoliciesRatePlan";
 import BaseRate from "./BaseRate/BaseRate";
 import { AppDispatch } from "../../../../Redux/Store";
 import { useDispatch } from "react-redux";
-import { addNightly } from "../RateSetupSlice";
+import { addDerived, addNightly } from "../RateSetupSlice";
 import DerivedRateFrom from "./DerivedRateFrom/DerivedRateFrom";
 import DerivedDates from "./DerivedDates/DerivedDates";
 const AddRate = () => {
@@ -21,7 +21,6 @@ const AddRate = () => {
     name: "",
     description: "",
     displayName: "",
-    basePrice: "",
     roomTypes: [],
     channels: [],
     restrictions: {
@@ -31,6 +30,12 @@ const AddRate = () => {
     },
     default: false,
   });
+  const [customDate, setCustomDate] = useState<any>([
+    {
+      startDate: null,
+      endDate: null,
+    },
+  ]);
   const [derivedRate, setDerivedRate] = useState({
     name: "",
     description: "",
@@ -40,10 +45,10 @@ const AddRate = () => {
         endDate: "",
       },
     ],
-    channels: ["Website"],
+    channels: [],
     offer: {
-      type: "Less Than",
-      calculationType: "Fixed",
+      type: "",
+      calculationType: "",
       amount: 0,
     },
     restrictions: {
@@ -51,11 +56,7 @@ const AddRate = () => {
       maximumNights: 0,
       promoCode: "",
     },
-    roomTypes: [""],
-    depositPolicy: "",
-    cancellationPolicy: "",
-    checkInPolicy: "",
-    noShowPolicy: "",
+    roomTypes: [],
   });
   const setType = (type) => {
     setRateType(type);
@@ -68,50 +69,117 @@ const AddRate = () => {
     }
   };
   const setRoomTypes = (roomTypes) => {
-    setRate({ ...rate, roomTypes: roomTypes });
+    if (type == "nightly") {
+      setRate({ ...rate, roomTypes: roomTypes });
+    } else {
+      setDerivedRate({ ...derivedRate, roomTypes: roomTypes });
+    }
   };
   const saveChannel = (channels) => {
-    setRate({ ...rate, channels: channels });
+    if (type == "nightly") {
+      setRate({ ...rate, channels: channels });
+    } else {
+      setDerivedRate({ ...derivedRate, channels: channels });
+    }
   };
-  const restrictionsChange = (key, value) => {
-    setRate({
-      ...rate,
-      restrictions: { ...rate.restrictions, [key]: value.target.value },
+  const derivedValueChange = (key, value) => {
+    setDerivedRate({
+      ...derivedRate,
+      offer: {
+        ...derivedRate.offer,
+        [key]: value,
+      },
     });
   };
+  const restrictionsChange = (key, value) => {
+    if (type == "nightly") {
+      setRate({
+        ...rate,
+        restrictions: { ...rate.restrictions, [key]: value.target.value },
+      });
+    } else {
+      setDerivedRate({
+        ...derivedRate,
+        restrictions: {
+          ...derivedRate.restrictions,
+          [key]: value.target.value,
+        },
+      });
+    }
+  };
+
+  const setDates = (key, value, index) => {
+    let temp = Object.assign([], customDate);
+    temp[index][key] = value;
+    setCustomDate(temp);
+  };
+
+  const changeInput = (key, value, index) => {
+    let temp: any = Object.assign([], rate);
+    temp.roomTypes[index][key] = parseInt(value);
+    setRate(temp);
+  };
+
   const onSubmit = async () => {
-    try {
-      let payload = Object.assign({}, rate);
-      let response: any = await dispatch(addNightly(payload)).unwrap();
-      console.log(response, "ADD RATE");
-    } catch (err: any) {
-      console.log(err);
+    if (type == "nightly") {
+      try {
+        let payload = Object.assign({}, rate);
+        let response: any = await dispatch(addNightly(payload)).unwrap();
+        console.log(response, "ADD RATE");
+      } catch (err: any) {
+        console.log(err);
+      }
+    } else {
+      // try {
+      //   let payload = Object.assign({}, derivedRate);
+      //   let response: any = await dispatch(addDerived(payload)).unwrap();
+      //   console.log(response, "ADD RATE");
+      // } catch (err: any) {
+      //   console.log(err);
+      // }
     }
   };
   return (
     <React.Fragment>
       <Card>
         <Card.Body className="wizard-setup">
-          <StepWizard>
-            <RateType setType={setType} />
-            <RatePlan changeInput={setValues} />
-            {type == "nightly" ? (
+          {type == "nightly" ? (
+            <StepWizard>
+              <RateType setType={setType} />
+              <RatePlan changeInput={setValues} />
               <RateChannelDistribut saveChannel={saveChannel} />
-            ) : (
-              <DerivedRateFrom />
-            )}
-            {type == "nightly" ? (
-              <BaseRate changeInput={setValues} />
-            ) : (
-              <DerivedDates />
-            )}
-            <DefaultRatePlan setRoomTypes={setRoomTypes} />
-            <QualifyRatePlan
-              rate={rate.restrictions}
-              restrictionsChange={restrictionsChange}
-            />
-            <PoliciesRatePlan onSubmit={onSubmit} />
-          </StepWizard>
+              <DefaultRatePlan setRoomTypes={setRoomTypes} />
+              <BaseRate changeInput={changeInput} roomTypes={rate.roomTypes} />
+              <QualifyRatePlan
+                rate={rate.restrictions}
+                restrictionsChange={restrictionsChange}
+              />
+              <PoliciesRatePlan onSubmit={onSubmit} />
+            </StepWizard>
+          ) : (
+            <StepWizard>
+              <RatePlan changeInput={setValues} />
+              <DerivedRateFrom
+                derivedRate={derivedRate.offer}
+                valueChange={derivedValueChange}
+              />
+              <DerivedDates
+                customDate={customDate}
+                setDates={setDates}
+                setCustomDate={setCustomDate}
+                derivedDate={derivedRate.period}
+              />
+
+              <RateChannelDistribut saveChannel={saveChannel} />
+              <DefaultRatePlan setRoomTypes={setRoomTypes} />
+
+              <QualifyRatePlan
+                rate={rate.restrictions}
+                restrictionsChange={restrictionsChange}
+              />
+              <PoliciesRatePlan onSubmit={onSubmit} />
+            </StepWizard>
+          )}
         </Card.Body>
       </Card>
     </React.Fragment>

@@ -2,8 +2,12 @@ import { useFormik } from "formik";
 import React from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import * as Yup from "yup";
+import { useRoomTypes } from "../../RateSetupSlice";
+import "./BaseRate.scss";
 
 const BaseRate = (props) => {
+  const { roomTypes } = useRoomTypes();
+
   const initialValues = {
     basePrice: "",
   };
@@ -12,16 +16,18 @@ const BaseRate = (props) => {
     basePrice: Yup.string().required(),
   });
 
-  const onSubmit = (values) => {
+  const onSubmit = () => {
     props.nextStep();
-    console.log(values);
   };
 
-  const { handleSubmit, values, errors, touched, handleChange } = useFormik({
-    initialValues,
-    validationSchema,
-    onSubmit,
-  });
+  const getRoomTypeByID = (id) => {
+    if (roomTypes) {
+      let i = roomTypes.findIndex((x) => x._id == id);
+      if (i > -1) {
+        return roomTypes[i].name;
+      }
+    }
+  };
 
   return (
     <React.Fragment>
@@ -32,32 +38,38 @@ const BaseRate = (props) => {
           </div>
         </Col>
         <Col lg={6} md={12} className="form-part p-4">
-          <form onSubmit={handleSubmit} className="w-80">
-            <div className="control-group form-group">
-              <label className="form-label">Base Price</label>
-              <input
-                type="text"
-                className={
-                  touched.basePrice && errors.basePrice
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Base Price"
-                name="basePrice"
-                value={values.basePrice}
-                onChange={(e) => {
-                  handleChange(e);
-                  props.changeInput("basePrice", e.target.value);
-                }}
-              />
-            </div>
-            <div className="Previous-button">
-              <Button onClick={props.previousStep}>Previous</Button>
-            </div>
-            <div className="next-button">
-              <Button type="submit">Next</Button>
-            </div>
-          </form>
+          {props.roomTypes.map((item, index) => {
+            return (
+              <Row key={index}>
+                <Col lg={6}>
+                  <label className="custom-control custom-checkbox-md">
+                    {getRoomTypeByID(item.roomTypeId)}
+                  </label>
+                </Col>
+                <Col lg={6}>
+                  <div className="control-group form-group base-input">
+                    <i className="icon fe fe-dollar-sign" />
+                    <input
+                      type="number"
+                      className="form-control required"
+                      placeholder="Base Price"
+                      name="price"
+                      value={item.price}
+                      onChange={(e) => {
+                        props.changeInput("price", e.target.value ,index);
+                      }}
+                    />
+                  </div>
+                </Col>
+              </Row>
+            );
+          })}
+          <div className="Previous-button">
+            <Button onClick={props.previousStep}>Previous</Button>
+          </div>
+          <div className="next-button">
+            <Button onClick={() => onSubmit()}>Next</Button>
+          </div>
         </Col>
       </Row>
     </React.Fragment>

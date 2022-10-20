@@ -6,4 +6,5 @@ export const RESERVATION = "settings-config";
 export const AMENITIES = "amenities";
 export const TAX_CONFIG = "tax-config";
 export const RATE = "rate";
+export const ADD_DERIVED_RATE = 'add-derived-rate'
 export const ROOM_TYPE = "roomType";
