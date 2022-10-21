@@ -13,3 +13,6 @@ export const addNightlyRate = (payload) => {
 export const addDerivedRate = (payload,id) => {
   return apiInstance.post(RATE+`/${id}/`+ADD_DERIVED_RATE, payload,{ headers: authHeader() });
 }
+export const getRateById = (id) => {
+  return apiInstance.get(RATE+`/${id}`,{headers:authHeader()})
+}

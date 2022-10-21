@@ -24,13 +24,16 @@
   }
   
   .main-box {
-    border: 2px solid #6c5ffc;
-    border-radius: 5px;
-    margin: 10px;
-    padding: 30px 10px;
+    // border: 2px solid #6c5ffc;
+    // border-radius: 5px;
+    // margin: 10px;
+    // padding: 30px 10px;
+    margin-top: 20px;
     margin-bottom: 30px;
     position: relative;
-
+    .rate-card {
+      box-shadow: 0 4px 25px 0 rgb(108 95 252 / 15%) !important;
+    }
     .icons{
       position:absolute;
       display: flex;

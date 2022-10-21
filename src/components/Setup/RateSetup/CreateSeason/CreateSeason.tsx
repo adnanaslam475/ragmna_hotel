@@ -41,7 +41,7 @@ const CreateSeason = () => {
   const [to, setToDate] = useState<Date | null>(null);
   const [seasonDetails, setSeasonDetails] = useState([
     {
-      seasonName: "",
+      name: "",
       from: "",
       to: "",
       color: "#707070",
@@ -85,7 +85,7 @@ const CreateSeason = () => {
     setValues([
       ...values,
       {
-        seasonName: "",
+        name: "",
         from: "",
         to: "",
         color: "#707070",
@@ -108,7 +108,7 @@ const CreateSeason = () => {
   const removeSeason = () => {};
 
   const validationSchema = Yup.object({
-    seasonName: Yup.string().required(),
+    name: Yup.string().required(),
     from: Yup.string().required(),
     to: Yup.string().required(),
   });
@@ -167,8 +167,8 @@ const CreateSeason = () => {
                       type="text"
                       className="form-control required"
                       placeholder="Enter Season Name"
-                      name={`[${index}].seasonName`}
-                      value={values[index].seasonName}
+                      name={`[${index}].name`}
+                      value={values[index].name}
                       onChange={handleChange}
                       // onChange={(e) => setFieldValue('seasonName',e.target.value)}
                     />

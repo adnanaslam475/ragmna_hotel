@@ -49,7 +49,7 @@ const AddProperty = (props: AddPropertyProps) => {
     altName: "",
     offset: 0,
   });
-  const [sectionArray , setSectionArray] = useState<any>([])
+  const [sectionArray, setSectionArray] = useState<any>([]);
 
   let initialValuesInfo: InitialValues = {
     name: "",
@@ -231,9 +231,7 @@ const AddProperty = (props: AddPropertyProps) => {
       payload["systemConfig"] = {
         timeZone: tz ? tz.value : "",
       };
-      payload["sections"] = [
-        ...sectionArray
-      ]
+      payload["sections"] = [...sectionArray];
       // payload["images"] = [];
       // payload['availableForEntireRental'] = isChecked
       let deletekeys = [
@@ -253,7 +251,7 @@ const AddProperty = (props: AddPropertyProps) => {
         "unit",
         "adults",
         "children",
-        'addMarketSegment',
+        "addMarketSegment",
         "automaticRoomAssignment",
         "emailDisplayName",
         "replyToEmailAddress",
@@ -467,10 +465,9 @@ const AddProperty = (props: AddPropertyProps) => {
                 ?.includeRoomMovesOnArrivalAndDepartureList
             : false,
         });
-        if(response?.data?.sections)
-        setSectionArray(response.data.sections)
-        if (response?.data?.systemConfig?.timeZone){
-          tz.value = response?.data?.systemConfig?.timeZone
+        if (response?.data?.sections) setSectionArray(response.data.sections);
+        if (response?.data?.systemConfig?.timeZone) {
+          tz.value = response?.data?.systemConfig?.timeZone;
           setTz(tz);
         }
       }
@@ -636,7 +633,7 @@ const AddProperty = (props: AddPropertyProps) => {
                       <AmenitiesSelection />
                     </Tab.Pane>
                     <Tab.Pane eventKey="eight">
-                      <Sections 
+                      <Sections
                         sectionArray={sectionArray}
                         setSectionArray={setSectionArray}
                       />

@@ -130,7 +130,7 @@ export interface InitialValues {
     Lcity:string
     state:string
     Lcountry:string
-    zipCode:number
+    zipCode:number | string
     latitude:string
     longitude:string
     // country:string

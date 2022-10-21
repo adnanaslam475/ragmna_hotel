@@ -281,6 +281,10 @@ const RoutesMain = () => {
                     element={<EditRate />}
                   />
                   <Route
+                    path={`/setup/ratesetup/editrate/:id`}
+                    element={<EditRate />}
+                  />
+                  <Route
                     path={`/setup/ratesetup/createseason`}
                     element={<CreateSeason />}
                   />
