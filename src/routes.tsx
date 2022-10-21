@@ -227,6 +227,10 @@ const AddRate = lazy(
 const CreateSeason = lazy(
   () => import("./components/Setup/RateSetup/CreateSeason/CreateSeason")
 );
+const EditRate = lazy(
+  () => import("./components/Setup/RateSetup/EditRateSetup/EditRateSetup")
+);
+
 const RoutesMain = () => {
   const { user } = useUser();
 
@@ -271,6 +275,14 @@ const RoutesMain = () => {
                   <Route
                     path={`/setup/ratesetup/addrate`}
                     element={<AddRate />}
+                  />
+                  <Route
+                    path={`/setup/ratesetup/editrate`}
+                    element={<EditRate />}
+                  />
+                  <Route
+                    path={`/setup/ratesetup/editrate/:id`}
+                    element={<EditRate />}
                   />
                   <Route
                     path={`/setup/ratesetup/createseason`}

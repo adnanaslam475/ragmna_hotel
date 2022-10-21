@@ -2,6 +2,10 @@
     min-height: calc(100vh - 150px);
     padding: 0 !important;
     height: 100%;
+
+    .form-control{
+        border-color: #707070;
+    }
 }
 .question-part{
     border-radius: 10px 0 0 10px;

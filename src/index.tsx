@@ -10,6 +10,7 @@ import { Store } from './Redux/Store';
 import RoutesMain from './routes';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import "react-day-picker/lib/style.css";
 
 const container: HTMLElement | any = document.getElementById('root');
 const root = createRoot(container);

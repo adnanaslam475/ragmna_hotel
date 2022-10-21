@@ -19,12 +19,23 @@ import {
   getPropertyDataById,
   updatePropertyData,
 } from "./propertyInfoSlice";
+
 export interface PropertyInfoProps {
-  editPid: string | undefined;
+  values: any;
+  handleChange: any;
+  errors: any;
+  touched: any;
+  setFieldValue: any;
 }
 
 const PropertyInfo = (props: PropertyInfoProps) => {
-  const { editPid } = props;
+  const {
+    values,
+    handleChange,
+    errors,
+    touched,
+    setFieldValue,
+  } = props;
   const dispatch = useDispatch<AppDispatch>();
 
   // let { id } = useParams();
@@ -43,6 +54,18 @@ const PropertyInfo = (props: PropertyInfoProps) => {
   const propertyTypes: CommanDropDownType[] = [
     { value: "", label: "Select Property Type" },
     { value: "Rented", label: "Rented" },
+  ];
+
+  const allowFors: CommanDropDownType[] = [
+    { value: "", label: "Select Allowed For" },
+    { value: "Male", label: "Male" },
+    { value: "Female", label: "Female" },
+    { value: "Both", label: "Both" },
+  ];
+
+  const units: CommanDropDownType[] = [
+    { value: "", label: "Select Units For" },
+    { value: "SquareFeet", label: "SquareFeet" },
   ];
 
   const countries = Country.getAllCountries();
@@ -135,189 +158,219 @@ const PropertyInfo = (props: PropertyInfoProps) => {
     //   }
   };
 
-  let initialValuesInfo: InitialValues = {
-    name: "",
-    email: "",
-    propertyType: "",
-    goodFor: "",
-    space: 0,
-    briefDescription: "",
-    longDescription: "",
-    Cname: "",
-    CphoneNumber: "",
-    waNumber: "",
-    Oname: "",
-    OphoneNumber: "",
-    address: "",
-    Lcity: "",
-    state: "",
-    Lcountry: "",
-    latitude: "",
-    longitude: "",
-    country: "",
-    city: "",
-    district: "",
-    virtualTourLink: "",
-    // sections: [],
-    // images: [],
-    // amenities: [],
-    availableForEntireRental: false,
-    strictlyEntireRental: false,
-    isPublished: false,
-  };
-  const [initialValues, setInitialValues] = useState(initialValuesInfo);
+  // let initialValuesInfo: InitialValues = {
+  //   name: "",
+  //   email: "",
+  //   propertyType: "",
+  //   goodFor: "",
+  //   allowedFor: "",
+  //   area: 0,
+  //   unit: "",
+  //   children: 0,
+  //   adults: 0,
+  //   space: 0,
+  //   briefDescription: "",
+  //   longDescription: "",
+  //   Cname: "",
+  //   CphoneNumber: "",
+  //   waNumber: "",
+  //   Oname: "",
+  //   OphoneNumber: "",
+  //   address: "",
+  //   Lcity: "",
+  //   state: "",
+  //   Lcountry: "",
+  //   zipCode: "",
+  //   latitude: "",
+  //   longitude: "",
+  //   country: "",
+  //   city: "",
+  //   district: "",
+  //   virtualTourLink: "",
+  //   // sections: [],
+  //   // images: [],
+  //   // amenities: [],
+  //   availableForEntireRental: false,
+  //   strictlyEntireRental: false,
+  //   isPublished: false,
+  // };
+  // const [initialValues, setInitialValues] = useState(initialValuesInfo);
 
-  const validationSchema = Yup.object({
-    name: Yup.string().required("Please Enter Name"),
-    email: Yup.string().email("Invalid Email").required("Please Enter Email"),
-    propertyType: Yup.string().required("Please Select Propert Type"),
-    goodFor: Yup.string().required("Please Select Good For"),
-    space: Yup.number(),
-    briefDescription: Yup.string().required(),
-    longDescription: Yup.string().required(),
-    Cname: Yup.string().required("Please Enter Name"),
-    CphoneNumber: Yup.string(),
-    waNumber: Yup.string(),
-    Oname: Yup.string().required("Please Enter Name"),
-    OphoneNumber: Yup.string(),
-    address: Yup.string().required("Please Enter Address"),
-    Lcity: Yup.string().required("Please Enter City"),
-    state: Yup.string().required("Please Enter State"),
-    Lcountry: Yup.string().required("Please Enter Country"),
-    latitude: Yup.string().required("Please Enter Latitude"),
-    longitude: Yup.string().required("Please Enter Longitude"),
-    city: Yup.string(),
-    country: Yup.string(),
-    district: Yup.string(),
-    virtualTourLink: Yup.string(),
-    // sections: Yup.array(),
-    // images: Yup.array(),
-    // amenities: Yup.array(),
-    availableForEntireRental: Yup.boolean(),
-    strictlyEntireRental: Yup.boolean(),
-    isPublished: Yup.boolean(),
-  });
+  // const validationSchema = Yup.object({
+  //   name: Yup.string().required("Please Enter Name"),
+  //   email: Yup.string().email("Invalid Email").required("Please Enter Email"),
+  //   propertyType: Yup.string().required("Please Select Propert Type"),
+  //   goodFor: Yup.string().required("Please Select Good For"),
+  //   allowedFor: Yup.string().required(),
+  //   area: Yup.number().required(),
+  //   unit: Yup.string().required(),
+  //   space: Yup.number(),
+  //   briefDescription: Yup.string().required(),
+  //   longDescription: Yup.string().required(),
+  //   Cname: Yup.string().required("Please Enter Name"),
+  //   CphoneNumber: Yup.string(),
+  //   waNumber: Yup.string(),
+  //   Oname: Yup.string().required("Please Enter Name"),
+  //   OphoneNumber: Yup.string(),
+  //   address: Yup.string().required("Please Enter Address"),
+  //   Lcity: Yup.string().required("Please Enter City"),
+  //   state: Yup.string().required("Please Enter State"),
+  //   zipCode: Yup.string().required(),
+  //   Lcountry: Yup.string().required("Please Enter Country"),
+  //   latitude: Yup.string().required("Please Enter Latitude"),
+  //   longitude: Yup.string().required("Please Enter Longitude"),
+  //   city: Yup.string(),
+  //   country: Yup.string(),
+  //   district: Yup.string(),
+  //   virtualTourLink: Yup.string(),
+  //   // sections: Yup.array(),
+  //   // images: Yup.array(),
+  //   // amenities: Yup.array(),
+  //   availableForEntireRental: Yup.boolean(),
+  //   strictlyEntireRental: Yup.boolean(),
+  //   isPublished: Yup.boolean(),
+  // });
 
-  const { user } = useUser();
+  // const { user } = useUser();
 
-  let navigate = useNavigate();
+  // let navigate = useNavigate();
 
-  const navigateToId = (id) => {
-    let path = `/setup/propertysetup/add-property/${id}`;
-    navigate(path);
-  };
+  // const navigateToId = (id) => {
+  //   let path = `/setup/propertysetup/add-property/${id}`;
+  //   navigate(path);
+  // };
 
-  const onSubmit = async (values) => {
-    try {
-      let payload = Object.assign({}, values);
-      payload["supplierId"] = user.supplierId;
-      payload["contact"] = {
-        name: values.Cname,
-        phoneNumber: values.CphoneNumber,
-        waNumber: values.waNumber,
-      };
-      payload["location"] = {
-        address: values.address,
-        city: values.Lcity,
-        state: values.state,
-        country: values.Lcountry,
-        latitude: values.latitude,
-        longitude: values.longitude,
-      };
-      payload["owner"] = {
-        name: values.Oname,
-        phoneNumber: values.OphoneNumber,
-      };
-      // payload["images"] = [];
-      // payload['availableForEntireRental'] = isChecked
-      let deletekeys = [
-        "Cname",
-        "CphoneNumber",
-        "waNumber",
-        "address",
-        "Lcity",
-        "state",
-        "Lcountry",
-        "latitude",
-        "longitude",
-        "Oname",
-        "OphoneNumber",
-      ];
-      for (let i = 0; i < deletekeys.length; i++) {
-        delete payload[deletekeys[i]];
-      }
-      if (editPid) {
-        payload["id"] = editPid;
-        let response: any = await dispatch(
-          updatePropertyData(payload)
-        ).unwrap();
-      } else {
-        let response: any = await dispatch(addPropertyData(payload)).unwrap();
-        navigateToId(response.data._id);
-      }
-    } catch (err: any) {
-      console.log(err, "err");
-    }
-  };
-  // const { data, isLoading, isSuccess, isError } = useGetPropertyByIdQuery(
-  //   editPid,
-  //   { skip: !!editPid }
-  // );
-  const {
-    handleChange,
-    handleSubmit,
-    values,
-    errors,
-    touched,
-    setValues,
-    setFieldValue,
-  } = useFormik({
-    initialValues,
-    validationSchema,
-    onSubmit,
-  });
-  const getById = async () => {
-    if (editPid) {
-      let repsonse: any = await dispatch(getPropertyDataById(editPid)).unwrap();
-      console.log(repsonse);
-      if (repsonse?.data) {
-        setValues({
-          ...values,
-          name: repsonse.data?.name,
-          email: repsonse.data?.email,
-          propertyType: repsonse.data?.propertyType,
-          goodFor: repsonse.data?.goodFor,
-          space: repsonse.data?.space,
-          Cname: repsonse.data?.contact.name,
-          CphoneNumber: repsonse.data?.contact.phoneNumber,
-          waNumber: repsonse.data?.contact.waNumber,
-          Oname: repsonse.data?.owner.name,
-          briefDescription: repsonse?.data?.briefDescription,
-          longDescription: repsonse?.data?.longDescription,
-          OphoneNumber: repsonse.data?.owner.phoneNumber,
-          address: repsonse.data?.location.address,
-          city: repsonse.data?.city,
-          Lcity: repsonse.data?.location.city,
-          state: repsonse.data?.location.state,
-          Lcountry: repsonse.data?.location.country,
-          district: repsonse.data?.district,
-          country: repsonse.data?.country,
-          latitude: repsonse.data?.location.latitude,
-          longitude: repsonse.data?.longitude,
-          availableForEntireRental: repsonse.data?.availableForEntireRental,
-          strictlyEntireRental: repsonse.data?.strictlyEntireRental,
-        });
-      }
-    }
-  };
+  // const onSubmit = async (values) => {
+  //   try {
+  //     let payload = Object.assign({}, values);
+  //     payload["supplierId"] = user.supplierId;
+  //     payload["contact"] = {
+  //       name: values.Cname,
+  //       phoneNumber: values.CphoneNumber,
+  //       waNumber: values.waNumber,
+  //     };
+  //     payload["location"] = {
+  //       address: values.address,
+  //       city: values.Lcity,
+  //       state: values.state,
+  //       country: values.Lcountry,
+  //       latitude: values.latitude,
+  //       longitude: values.longitude,
+  //       zipCode: values.zipCode,
+  //     };
+  //     payload["owner"] = {
+  //       name: values.Oname,
+  //       phoneNumber: values.OphoneNumber,
+  //     };
+  //     payload["dimensions"] = {
+  //       area: values.area,
+  //       unit: values.unit,
+  //     };
+  //     payload["maxCapacity"] = {
+  //       adults: values.adults,
+  //       children: values.children,
+  //     };
+  //     // payload["images"] = [];
+  //     // payload['availableForEntireRental'] = isChecked
+  //     let deletekeys = [
+  //       "Cname",
+  //       "CphoneNumber",
+  //       "waNumber",
+  //       "address",
+  //       "Lcity",
+  //       "state",
+  //       "zipCode",
+  //       "Lcountry",
+  //       "latitude",
+  //       "longitude",
+  //       "Oname",
+  //       "OphoneNumber",
+  //       "area",
+  //       "unit",
+  //       "adults",
+  //       "children",
+  //     ];
+  //     for (let i = 0; i < deletekeys.length; i++) {
+  //       delete payload[deletekeys[i]];
+  //     }
+  //     if (editPid) {
+  //       payload["id"] = editPid;
+  //       let response: any = await dispatch(
+  //         updatePropertyData(payload)
+  //       ).unwrap();
+  //     } else {
+  //       let response: any = await dispatch(addPropertyData(payload)).unwrap();
+  //       navigateToId(response.data._id);
+  //     }
+  //   } catch (err: any) {
+  //     console.log(err, "err");
+  //   }
+  // };
+  // // const { data, isLoading, isSuccess, isError } = useGetPropertyByIdQuery(
+  // //   editPid,
+  // //   { skip: !!editPid }
+  // // );
+  // const {
+  //   handleChange,
+  //   handleSubmit,
+  //   values,
+  //   errors,
+  //   touched,
+  //   setValues,
+  //   setFieldValue,
+  // } = useFormik({
+  //   initialValues,
+  //   validationSchema,
+  //   onSubmit,
+  // });
+  // const getById = async () => {
+  //   if (editPid) {
+  //     let response: any = await dispatch(getPropertyDataById(editPid)).unwrap();
+  //     console.log(response);
+  //     if (response?.data) {
+  //       setValues({
+  //         ...values,
+  //         name: response.data?.name,
+  //         email: response.data?.email,
+  //         propertyType: response.data?.propertyType,
+  //         goodFor: response.data?.goodFor,
+  //         allowedFor: response.data?.allowedFor,
+  //         space: response.data?.space,
+  //         area: response.data?.dimensions.area,
+  //         unit: response.data?.dimensions.unit,
+  //         adults: response.data?.maxCapacity.adults,
+  //         children: response.data?.maxCapacity.children,
+  //         Cname: response.data?.contact.name,
+  //         CphoneNumber: response.data?.contact.phoneNumber,
+  //         waNumber: response.data?.contact.waNumber,
+  //         Oname: response.data?.owner.name,
+  //         briefDescription: response?.data?.briefDescription,
+  //         longDescription: response?.data?.longDescription,
+  //         OphoneNumber: response.data?.owner.phoneNumber,
+  //         address: response.data?.location.address,
+  //         city: response.data?.city,
+  //         Lcity: response.data?.location.city,
+  //         state: response.data?.location.state,
+  //         zipCode: response.data?.location.zipCode,
+  //         Lcountry: response.data?.location.country,
+  //         district: response.data?.district,
+  //         country: response.data?.country,
+  //         latitude: response.data?.location.latitude,
+  //         longitude: response.data?.longitude,
+  //         availableForEntireRental: response.data?.availableForEntireRental,
+  //         strictlyEntireRental: response.data?.strictlyEntireRental,
+  //       });
+  //     }
+  //   }
+  // };
 
-  useEffect(() => {
-    if (editPid) getById();
-  }, [editPid]);
+  // useEffect(() => {
+  //   if (editPid) getById();
+  // }, [editPid]);
 
   return (
     <React.Fragment>
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}> */}
         <Row className="Contect-details p-4 mb-4">
           <h4>Basic Info</h4>
           <Col lg={6}>
@@ -392,6 +445,42 @@ const PropertyInfo = (props: PropertyInfoProps) => {
               />
             </div>
           </Col>
+          <Col lg={6}>
+            <div className="control-group form-group">
+              <label className="form-label">Allow For</label>
+              <Select<CommanDropDownType>
+                classNamePrefix="Select"
+                options={allowFors}
+                value={allowFors.filter(
+                  (option) => option.value === values.allowedFor
+                )}
+                placeholder="Select Allow For"
+                name="allowedFor"
+                onChange={(selectedOption: any) => {
+                  handleChange("allowedFor")(selectedOption?.value);
+                }}
+              />
+            </div>
+          </Col>
+          {/* <Col lg={6}>
+            <div className="control-group form-group">
+              <label className="form-label">Space</label>
+              <input
+                type="number"
+                className={
+                  touched.space && errors.space
+                    ? "form-control required error-border"
+                    : "form-control required"
+                }
+                placeholder="Space"
+                name="space"
+                value={values.space}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
+            </div>
+          </Col> */}
           <Col lg={12}>
             <div className="control-group form-group">
               <label className="form-label">Brief Description</label>
@@ -430,30 +519,11 @@ const PropertyInfo = (props: PropertyInfoProps) => {
           </Col>
           <Col lg={6}>
             <div className="control-group form-group">
-              <label className="form-label">Space</label>
-              <input
-                type="number"
-                className={
-                  touched.space && errors.space
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Space"
-                name="space"
-                value={values.space}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-              />
-            </div>
-          </Col>
-          <Col lg={6}>
-            <div className="control-group form-group">
               <label className="form-label">Virtual Tour Link</label>
               <input
                 type="text"
                 className={
-                  touched.space && errors.space
+                  touched.virtualTourLink && errors.virtualTourLink
                     ? "form-control required error-border"
                     : "form-control required"
                 }
@@ -466,7 +536,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
               />
             </div>
           </Col>
-          <Col lg={6}>
+          {/* <Col lg={6}>
             <div className="control-group form-group">
               <label className="form-label">Country</label>
               <Select<CommanDropDownType>
@@ -525,7 +595,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
                 />
               </div>
             </Col>
-          ) : null}
+          ) : null} */}
 
           <Col lg={6}></Col>
           <Col lg={6} className="my-3">
@@ -657,6 +727,25 @@ const PropertyInfo = (props: PropertyInfoProps) => {
 
           <Col lg={6}>
             <div className="control-group form-group">
+              <label className="form-label">Zip Code</label>
+              <input
+                type="text"
+                className={
+                  touched.zipCode && errors.zipCode
+                    ? "form-control required error-border"
+                    : "form-control required"
+                }
+                placeholder="Zip Code"
+                name="zipCode"
+                value={values.zipCode}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
+            </div>
+          </Col>
+          <Col lg={6}>
+            <div className="control-group form-group">
               <label className="form-label">Latitude</label>
               <input
                 type="text"
@@ -695,6 +784,84 @@ const PropertyInfo = (props: PropertyInfoProps) => {
           </Col>
         </Row>
         <Row className="Contect-details p-4">
+          <h4>Dimensions</h4>
+          <Col lg={6}>
+            <div className="control-group form-group">
+              <label className="form-label">Area</label>
+              <input
+                type="number"
+                className={
+                  touched.area && errors.area
+                    ? "form-control required error-border"
+                    : "form-control required"
+                }
+                placeholder="Area"
+                name="area"
+                value={values.area}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
+            </div>
+          </Col>
+          <Col lg={6}>
+            <div className="control-group form-group">
+              <label className="form-label">Unit</label>
+              <Select<CommanDropDownType>
+                classNamePrefix="Select"
+                options={units}
+                value={units.filter((option) => option.value === values.unit)}
+                placeholder="Select Good For"
+                name="unit"
+                onChange={(selectedOption: any) => {
+                  handleChange("unit")(selectedOption?.value);
+                }}
+              />
+            </div>
+          </Col>
+        </Row>
+        <Row className="Contect-details p-4">
+          <h4>Max Capacity</h4>
+          <Col lg={6}>
+            <div className="control-group form-group">
+              <label className="form-label">Adults</label>
+              <input
+                type="number"
+                className={
+                  touched.adults && errors.adults
+                    ? "form-control required error-border"
+                    : "form-control required"
+                }
+                placeholder="Adults"
+                name="adults"
+                value={values.adults}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
+            </div>
+          </Col>
+          <Col lg={6}>
+            <div className="control-group form-group">
+              <label className="form-label">Children</label>
+              <input
+                type="number"
+                className={
+                  touched.children && errors.children
+                    ? "form-control required error-border"
+                    : "form-control required"
+                }
+                placeholder="Children"
+                name="children"
+                value={values.children}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
+            </div>
+          </Col>
+        </Row>
+        <Row className="Contect-details p-4">
           <h4>Contact Details</h4>
           <Col lg={6}>
             <div className="control-group form-group">
@@ -725,7 +892,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
                 <PhoneInput
                   country={"us"}
                   value={values.CphoneNumber}
-                  inputProps={{ name: "CphoneNumber", required: true }}
+                  inputProps={{ name: "CphoneNumber"}}
                   onChange={(e) => {
                     setFieldValue("CphoneNumber", e);
                   }}
@@ -743,7 +910,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
                 <PhoneInput
                   country={"us"}
                   value={values.waNumber}
-                  inputProps={{ name: "waNumber", required: true }}
+                  inputProps={{ name: "waNumber"}}
                   onChange={(e) => {
                     setFieldValue("waNumber", e);
                   }}
@@ -782,7 +949,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
               >
                 <PhoneInput
                   country={"us"}
-                  inputProps={{ name: "OphoneNumber", required: true }}
+                  inputProps={{ name: "OphoneNumber"}}
                   value={values.OphoneNumber}
                   onChange={(e) => {
                     setFieldValue("OphoneNumber", e);
@@ -792,11 +959,10 @@ const PropertyInfo = (props: PropertyInfoProps) => {
             </div>
           </Col>
         </Row>
-
-        <div className="d-flex justify-content-end mt-4 me-3">
+        {/* <div className="d-flex justify-content-end mt-4 me-3">
           <Button type="submit">Submit</Button>
         </div>
-      </form>
+      </form> */}
     </React.Fragment>
   );
 };

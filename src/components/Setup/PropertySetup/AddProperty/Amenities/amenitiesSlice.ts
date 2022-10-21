@@ -41,7 +41,6 @@ const amenitiesSlice = createSlice({
 export default amenitiesSlice.reducer
 
 export const selectAmenitiesList = (state) => {
-    console.log(state);
     return state.amenities.amenitesList;
   };
   

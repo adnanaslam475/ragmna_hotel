@@ -1,4 +1,4 @@
-import { AMENITIES, GET_PROPERTY, RESERVATION } from '../../components/ConstAPI/ConstAPI';
+import { AMENITIES, GET_PROPERTY, RESERVATION, TAX_CONFIG } from '../../components/ConstAPI/ConstAPI';
 import { apiInstance } from './AxiosApi';
 import authHeader from "./authHeader";
 
@@ -17,7 +17,6 @@ export const addProperty = (payload) => {
 export const updateProperty = (id,payload) => {
     return apiInstance.put(GET_PROPERTY+`/${id}`,payload,{headers:authHeader()})
 }
-   
 export const getSettingById = (id ,typeId) => {
     return apiInstance.get(`${id}/`+RESERVATION+`/${typeId}/type`,{headers:authHeader()});
 }
@@ -33,3 +32,12 @@ export const addAmenitie = (payload) => {
 export const deleteAmenitieById = (id) => {
     return apiInstance.delete(AMENITIES+`/${id}`,{headers:authHeader()});
 } 
+export const getTaxConfigById = (id) => {
+    return apiInstance.get(`${id}/`+TAX_CONFIG,{headers:authHeader()});
+}
+export const addTaxConfig = (id,payload) => {
+    return apiInstance.post(`${id}/`+TAX_CONFIG,payload,{headers:authHeader()}) 
+}
+export const updateTaxConfig = (id,payload,taxId) => {
+    return apiInstance.put(`${id}/`+TAX_CONFIG+`/${taxId}`,payload,{headers:authHeader()})
+}

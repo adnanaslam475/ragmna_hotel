@@ -25,7 +25,6 @@ const Amenities = () => {
   const getAmenitiDetails = async () => {
     try {
       const response: any = await dispatch(getAmenities()).unwrap();
-      console.log(response);
     } catch (error: any) {
       console.log(error);
     }

@@ -14,7 +14,9 @@ const PoliciesRatePlan = (props) => {
     let path = `/setup/ratesetup/createseason`;
     navigate(path);
   };
-
+  const submitWizard = () => {
+    props.onSubmit();
+  };
   return (
     <React.Fragment>
       <Row>
@@ -198,7 +200,13 @@ const PoliciesRatePlan = (props) => {
             <Button onClick={props.previousStep}>Previous</Button>
           </div>
           <div className="next-button">
-            <Button onClick={()=>{RouteChange()}}>Submit</Button>
+            <Button
+              onClick={() => {
+                submitWizard();
+              }}
+            >
+              Submit
+            </Button>
           </div>
         </Col>
       </Row>

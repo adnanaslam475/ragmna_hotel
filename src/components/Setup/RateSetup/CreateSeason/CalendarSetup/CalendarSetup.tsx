@@ -2,32 +2,38 @@ import React, { useState, useEffect } from 'react'
 import DayPicker, {
     DateUtils,
 } from 'react-day-picker'
-import 'react-day-picker/lib/style.css'
 import service from './services'
-import "react-day-picker/lib/style.css";
 import './CalendarSetup.scss'
 
-const CalendarSetup = ({ onChange }:any) => {
+const CalendarSetup = ({ onChange , dateRange}:any) => {
     const [tempRange, setTempRange] = useState<any>({ from: null, to: null })
     const [ranges, setRanges] = useState<any[]>([])
     const [lastDayMouseEnter, setLastDayMouseEnter] = useState<any>(null)
 
-    console.log(tempRange);
     useEffect(() => {
         onChange(ranges)
     }, [ranges, onChange])
 
     useEffect(() => {
+        for (let index = 0; index < dateRange.length; index++) {
+        setTempRange({ from: dateRange[index].from, to: dateRange[index].to })
+        }
+    }, [dateRange])
+    
+
+    useEffect(() => {
         if (tempRange) {
 
             if (!!tempRange.from && !!tempRange.to) {
+              
                 const { shouldIncrease, increasedRanges } = service.increaseSmallerRanges(tempRange, ranges)
-                console.log(shouldIncrease, increasedRanges, 'increasedRanges');
                 setRanges(shouldIncrease ? increasedRanges : [...ranges, tempRange])
-                console.log(tempRange, ranges, 'ranges');
             }
         }
     }, [tempRange])
+
+ 
+    
 
     useEffect(() => {
         setTempRange({ from: null, to: null })
@@ -35,8 +41,7 @@ const CalendarSetup = ({ onChange }:any) => {
     }, [ranges])
 
     const handleDayClick = (day, modifiers) => {
-        console.log(day, 'modifiers')
-        console.log(tempRange, 'modifiers')
+      
 
         const { selected } = modifiers
         const isDayInHoverRange = DateUtils.isDayInRange(day, {
@@ -57,9 +62,10 @@ const CalendarSetup = ({ onChange }:any) => {
             setLastDayMouseEnter(day)
         }
     }
-
+ 
     const modifiers = {
-        'firstrange': (day) =>
+        
+        'R0': (day) =>
             ranges.some((r, i) => {
                 if (i === 0) {
                     if (
@@ -72,7 +78,7 @@ const CalendarSetup = ({ onChange }:any) => {
                 }
                 return false
             }),
-        'secondrange': (day) =>
+        'R1': (day) =>
             ranges.some((r, i) => {
                 if (i === 1) {
                     if (
@@ -85,9 +91,35 @@ const CalendarSetup = ({ onChange }:any) => {
                 }
                 return false
             }),
-        'thirdrange': (day) =>
+        'R2': (day) =>
             ranges.some((r, i) => {
                 if (i === 2) {
+                    if (
+                        DateUtils.isDayBetween(day, r.from, r.to) ||
+                        DateUtils.isSameDay(day, r.to) ||
+                        DateUtils.isSameDay(day, r.from)
+                    ) {
+                        return true
+                    }
+                }
+                return false
+            }),
+            'R3': (day) =>
+            ranges.some((r, i) => {
+                if (i === 3) {
+                    if (
+                        DateUtils.isDayBetween(day, r.from, r.to) ||
+                        DateUtils.isSameDay(day, r.to) ||
+                        DateUtils.isSameDay(day, r.from)
+                    ) {
+                        return true
+                    }
+                }
+                return false
+            }),
+            'R4': (day) =>
+            ranges.some((r, i) => {
+                if (i === 4) {
                     if (
                         DateUtils.isDayBetween(day, r.from, r.to) ||
                         DateUtils.isSameDay(day, r.to) ||
@@ -105,13 +137,18 @@ const CalendarSetup = ({ onChange }:any) => {
             className='DatePickerRange'
             firstDayOfWeek={1}
             numberOfMonths={12}
+            disabledDays={{before: new Date()}}
             selectedDays={[{ from: tempRange ? tempRange.from : null, to: lastDayMouseEnter }, ...ranges]}
-            onDayClick={handleDayClick}
-            onDayMouseEnter={handleDayMouseEnter}
+            // onDayClick={handleDayClick}
+            // onDayMouseEnter={handleDayMouseEnter}
             modifiers={modifiers}
-            modifiersStyles={{ firstrange: { backgroundColor: 'red' },
-            secondrange: { backgroundColor: 'black' },
-            thirdrange: { backgroundColor: 'green' }
+            showOutsideDays={false}
+            enableOutsideDaysClick={false}
+            modifiersStyles={{ R0: { backgroundColor: dateRange[0]?.color },
+            R1: { backgroundColor: dateRange[1]?.color },
+            R2: { backgroundColor: dateRange[2]?.color },
+            R3: { backgroundColor: dateRange[3]?.color },
+            R4: { backgroundColor: dateRange[4]?.color }, 
         }}
 
         />

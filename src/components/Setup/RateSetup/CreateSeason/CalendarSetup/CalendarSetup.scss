@@ -2,3 +2,10 @@
     flex-wrap: wrap;
     justify-content: center;
   }
+
+.DayPicker-Day--outside{
+  background-color: transparent !important;
+}
+.DayPicker-Day{
+  border-radius: 0 !important;
+}

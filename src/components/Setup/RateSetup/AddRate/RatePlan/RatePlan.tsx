@@ -7,16 +7,17 @@ const RatePlan = (props) => {
   const initialValues = {
     name: "",
     description: "",
+    displayName:''
   };
 
   const validationSchema = Yup.object({
     name: Yup.string().required(),
     description: Yup.string(),
+    displayName:Yup.string().required()
   });
 
   const onSubmit = (values) => {
     props.nextStep();
-    console.log(values);
   };
 
   const { handleSubmit, values, errors, touched, handleChange } = useFormik({
@@ -47,7 +48,28 @@ const RatePlan = (props) => {
                 placeholder="Name"
                 name="name"
                 value={values.name}
-                onChange={handleChange}
+                onChange={(e) => {
+                  handleChange(e);
+                  props.changeInput("name", e.target.value);
+                }}
+              />
+            </div>
+            <div className="control-group form-group">
+              <label className="form-label">Rate Display Name</label>
+              <input
+                type="text"
+                className={
+                  touched.displayName && errors.displayName
+                    ? "form-control required error-border"
+                    : "form-control required"
+                }
+                placeholder="Rate Display Name"
+                name="displayName"
+                value={values.displayName}
+                onChange={(e) => {
+                  handleChange(e);
+                  props.changeInput("displayName", e.target.value);
+                }}
               />
             </div>
             <div className="control-group form-group">
@@ -58,21 +80,20 @@ const RatePlan = (props) => {
                     ? "form-control required error-border"
                     : "form-control required"
                 }
-                placeholder="Name"
+                placeholder="Description"
                 name="description"
                 value={values.description}
-                onChange={handleChange}
+                onChange={(e) => {
+                  handleChange(e);
+                  props.changeInput("description", e.target.value);
+                }}
               />
             </div>
             <div className="Previous-button">
-              <Button onClick={props.previousStep}>
-                Previous
-              </Button>
+              <Button onClick={props.previousStep}>Previous</Button>
             </div>
             <div className="next-button">
-              <Button type="submit">
-                Next
-              </Button>
+              <Button type="submit">Next</Button>
             </div>
           </form>
         </Col>

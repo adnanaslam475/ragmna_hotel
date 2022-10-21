@@ -10,92 +10,107 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../../Redux/Store";
 import { getSettingByTypeId, saveSettingByTypeId } from "./reservationSlice";
 
-const Reservation = () => {
-  const dispatch = useDispatch<AppDispatch>();
+export interface ReservationProps {
+  values: any;
+  handleChange: any;
+  errors: any;
+  touched: any;
+  setFieldValue: any;
+}
+
+const Reservation = (props:ReservationProps) => {
+  const {
+    values,
+    handleChange,
+    errors,
+    touched,
+    setFieldValue,
+  } = props;
+  // const dispatch = useDispatch<AppDispatch>();
   let { id } = useParams();
-  const getConfig = async () => {
-    try {
-      let payload = {
-        id,
-        typeId: 0,
-      };
-      const response: any = await dispatch(
-        getSettingByTypeId(payload)
-      ).unwrap();
-    } catch (error: any) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    if (id) {
-      getConfig();
-    }
-  }, [id]);
+  // const getConfig = async () => {
+  //   try {
+  //     let payload = {
+  //       id,
+  //       typeId: 0,
+  //     };
+  //     const response: any = await dispatch(
+  //       getSettingByTypeId(payload)
+  //     ).unwrap();
+  //   } catch (error: any) {
+  //     console.log(error);
+  //   }
+  // };
+  // useEffect(() => {
+  //   if (id) {
+  //     getConfig();
+  //   }
+  // }, [id]);
 
-  const onSubmit = async (values) => {
-    try {
-      let payload = Object.assign({}, values);
-      payload["propertyId"] = id;
-      payload["type"] = PropertySetuptypes.Reservation;
-      payload["configurations"] = {
-        automaticRoomAssignment: values.automaticRoomAssignment,
-        emailDisplayName: values.emailDisplayName,
-        replyToEmailAddress: values.replyToEmailAddress,
-        sendCCOnAllEmails: values.sendCCOnAllEmails,
-        setOccupiedRoomToDirty: values.setOccupiedRoomToDirty,
-        allowOverBookingManually: values.allowOverBookingManually,
-        addMarketSegment: [],
-      };
-      let deletekeys = [
-        "automaticRoomAssignment",
-        "emailDisplayName",
-        "replyToEmailAddress",
-        "sendCCOnAllEmails",
-        "setOccupiedRoomToDirty",
-        "allowOverBookingManually",
-        "addMarketSegment",
-      ];
-      for (let i = 0; i < deletekeys.length; i++) {
-        delete payload[deletekeys[i]];
-      }
-      //   await reservationDetails(payload);
-      let responce = await dispatch(saveSettingByTypeId(payload)).unwrap();
-      Success(" Reservation details has been saved");
-    } catch (err: any) {
-        DangerLeft("Something went wrong")
-    }
-  };
+  // const onSubmit = async (values) => {
+  //   try {
+  //     let payload = Object.assign({}, values);
+  //     payload["propertyId"] = id;
+  //     payload["type"] = PropertySetuptypes.Reservation;
+  //     payload["configurations"] = {
+  //       automaticRoomAssignment: values.automaticRoomAssignment,
+  //       emailDisplayName: values.emailDisplayName,
+  //       replyToEmailAddress: values.replyToEmailAddress,
+  //       sendCCOnAllEmails: values.sendCCOnAllEmails,
+  //       setOccupiedRoomToDirty: values.setOccupiedRoomToDirty,
+  //       allowOverBookingManually: values.allowOverBookingManually,
+  //       addMarketSegment: [],
+  //     };
+  //     let deletekeys = [
+  //       "automaticRoomAssignment",
+  //       "emailDisplayName",
+  //       "replyToEmailAddress",
+  //       "sendCCOnAllEmails",
+  //       "setOccupiedRoomToDirty",
+  //       "allowOverBookingManually",
+  //       "addMarketSegment",
+  //     ];
+  //     for (let i = 0; i < deletekeys.length; i++) {
+  //       delete payload[deletekeys[i]];
+  //     }
+  //     //   await reservationDetails(payload);
+  //     let responce = await dispatch(saveSettingByTypeId(payload)).unwrap();
+  //     Success(" Reservation details has been saved");
+  //   } catch (err: any) {
+  //       DangerLeft("Something went wrong")
+  //   }
+  // };
 
-  const initialValues = {
-    automaticRoomAssignment: false,
-    emailDisplayName: "",
-    replyToEmailAddress: "",
-    sendCCOnAllEmails: "",
-    setOccupiedRoomToDirty: "",
-    allowOverBookingManually: false,
-    addMarketSegment: [],
-  };
+  // const initialValues = {
+  //   automaticRoomAssignment: false,
+  //   emailDisplayName: "",
+  //   replyToEmailAddress: "",
+  //   sendCCOnAllEmails: "",
+  //   setOccupiedRoomToDirty: false,
+  //   allowOverBookingManually: false,
+  //   addMarketSegment: [],
+  // };
 
-  const validationSchema = Yup.object({
-    automaticRoomAssignment: Yup.boolean(),
-    emailDisplayName: Yup.string(),
-    replyToEmailAddress: Yup.string(),
-    sendCCOnAllEmails: Yup.string(),
-    setOccupiedRoomToDirty: Yup.string(),
-    allowOverBookingManually: Yup.boolean(),
-    addMarketSegment: Yup.array(),
-  });
+  // const validationSchema = Yup.object({
+  //   automaticRoomAssignment: Yup.boolean(),
+  //   emailDisplayName: Yup.string(),
+  //   replyToEmailAddress: Yup.string(),
+  //   sendCCOnAllEmails: Yup.string(),
+  //   setOccupiedRoomToDirty: Yup.boolean(),
+  //   allowOverBookingManually: Yup.boolean(),
+  //   addMarketSegment: Yup.array(),
+  // });
 
-  const { handleChange, handleSubmit, values, errors, touched, setFieldValue } =
-    useFormik({
-      initialValues,
-      validationSchema,
-      onSubmit,
-    });
+  // const { handleChange, handleSubmit, values, errors, touched, setFieldValue } =
+  //   useFormik({
+  //     initialValues,
+  //     validationSchema,
+  //     onSubmit,
+  //   });
 
   return (
     <React.Fragment>
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}> */}
         <Row className="Reservation-details p-4 mb-4">
           <Col lg={6} md={12}>
             <div className="control-group form-group">
@@ -154,25 +169,19 @@ const Reservation = () => {
               />
             </div>
           </Col>
-          <Col lg={6} md={12}>
-            <div className="control-group form-group">
-              <label className="form-label">Set Occupied Room To Dirty</label>
-              <input
-                type="text"
-                className={
-                  touched.setOccupiedRoomToDirty &&
-                  errors.setOccupiedRoomToDirty
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Set Occupied Room To Dirty"
-                name="setOccupiedRoomToDirty"
-                value={values.setOccupiedRoomToDirty}
+          <Col lg={6} md={12} className="d-flex align-items-center">
+            <Form.Group>
+              <Form.Check
+                className="ps-6 switch-style d-flex align-items-center my-2"
+                type="switch"
+                id="setOccupiedRoomToDirty"
+                label="Set Occupied Room To Dirty"
                 onChange={(e) => {
-                  handleChange(e);
+                  setFieldValue("setOccupiedRoomToDirty", e.target.checked);
                 }}
+                checked={values.setOccupiedRoomToDirty}
               />
-            </div>
+            </Form.Group>
           </Col>
           <Col lg={6} md={12} className="d-flex align-items-center">
             <Form.Group>
@@ -203,12 +212,12 @@ const Reservation = () => {
             </Form.Group>
           </Col>
         </Row>
-        <div className="d-flex justify-content-end mt-4 me-3">
+        {/* <div className="d-flex justify-content-end mt-4 me-3">
           <Button disabled={!id} type="submit">
             Save & Next
           </Button>
         </div>
-      </form>
+      </form> */}
     </React.Fragment>
   );
 };

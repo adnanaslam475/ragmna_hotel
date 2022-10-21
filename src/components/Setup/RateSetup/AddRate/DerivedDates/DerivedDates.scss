@@ -1,0 +1,26 @@
+.DerivedDate-part{
+    display: flex;
+    align-items: center;
+}
+
+.date-picker {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    .DayPickerInput {
+      display: grid;
+      input {
+        height: 40px;
+        padding-left: 15px;
+        border-color: rgba(0, 0, 0, 0.23);
+        color: rgba(0, 0, 0, 0.87);
+        border-radius: 8px;
+      }
+    }
+  }
+
+.i-plus{
+    font-size: 20px;
+    margin-left: 8px;
+}

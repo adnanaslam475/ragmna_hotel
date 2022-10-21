@@ -1,9 +1,12 @@
+import { max } from "lodash";
 import React, { useState } from "react";
 import { Col, Row, Form, Button } from "react-bootstrap";
 import "./QualifyRatePlan.scss";
 
 const QualifyRatePlan = (props) => {
   const [length, setLength] = useState<boolean>(false);
+  const [min, setMin] = useState<boolean>(false);
+  const [max, setMax] = useState<boolean>(false);
   const [booking, setBooking] = useState<boolean>(false);
   const [promo, setPromo] = useState<boolean>(false);
 
@@ -12,7 +15,10 @@ const QualifyRatePlan = (props) => {
       <Row>
         <Col lg={6} md={0} className="question-part px-6 py-4">
           <div>
-            <h1>Which room type are available in this rate plan by default?</h1>
+            <h1>
+              What restrictions do guests need to meet in order to qualify for
+              this rate plan ?
+            </h1>
           </div>
         </Col>
         <Col lg={6} md={12} className="form-part px-6 py-4">
@@ -23,7 +29,7 @@ const QualifyRatePlan = (props) => {
                   type="checkbox"
                   className="custom-control-input"
                   name="example-checkbox5"
-                  defaultValue="option5"
+                  checked={length}
                   onClick={() => setLength(!length)}
                 />
                 <span className="custom-control-label">Length of stay</span>
@@ -36,58 +42,46 @@ const QualifyRatePlan = (props) => {
                   <input
                     type="checkbox"
                     className="custom-control-input"
-                    name="example-checkbox5"
-                    defaultValue="option5"
-                  />
-                  <span className="custom-control-label">Min <i className="fe fe-minus-circle" /><input className='check-input' type='number' /> <i className="fe fe-plus-circle" />Nights</span>
-                </label>
-                <label className="custom-control custom-checkbox-md">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    name="example-checkbox5"
-                    defaultValue="option5"
-                  />
-                  <span className="custom-control-label">Max <i className="fe fe-minus-circle" /> <input className='check-input' type='number' /> <i className="fe fe-plus-circle" />Nights</span>
-                </label>
-              </div>
-            ) : null}
-
-            <div className="d-flex">
-              <label className="custom-control custom-checkbox-md">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  name="example-checkbox5"
-                  defaultValue="option5"
-                  onClick={() => setBooking(!booking)}
-                />
-                <span className="custom-control-label">Booking window</span>
-              </label>
-            </div>
-            {booking ? (
-              <div className="inner-class">
-                <h6>Guests Must Book</h6>
-                <label className="custom-control custom-checkbox-md">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    name="example-checkbox5"
-                    defaultValue="option5"
+                    name="example-min"
+                    checked={min}
+                    onChange={() => setMin(!min)}
                   />
                   <span className="custom-control-label">
-                    More than <i className="fe fe-minus-circle" /> <input className='check-input' type='number' /> <i className="fe fe-plus-circle" /> days in advance of check-in date
+                    Min <i className="fe fe-minus-circle" />
+                    <input
+                      className="check-input"
+                      disabled={!min}
+                      onChange={(e) => {
+                        props.restrictionsChange("minimumNights", e);
+                      }}
+                      value={props.rate.minimumNights}
+                      type="number"
+                    />{" "}
+                    <i className="fe fe-plus-circle" />
+                    Nights
                   </span>
                 </label>
                 <label className="custom-control custom-checkbox-md">
                   <input
                     type="checkbox"
                     className="custom-control-input"
-                    name="example-checkbox5"
-                    defaultValue="option5"
+                    name="example-max"
+                    checked={max}
+                    onChange={() => setMax(!max)}
                   />
                   <span className="custom-control-label">
-                    Within <i className="fe fe-minus-circle" /> <input className='check-input' type='number' /> <i className="fe fe-plus-circle" /> days of check-in date
+                    Max <i className="fe fe-minus-circle" />
+                    <input
+                      className="check-input"
+                      disabled={!max}
+                      value={props.rate.maximumNights}
+                      onChange={(e) => {
+                        props.restrictionsChange("maximumNights", e);
+                      }}
+                      type="number"
+                    />{" "}
+                    <i className="fe fe-plus-circle" />
+                    Nights
                   </span>
                 </label>
               </div>
@@ -98,8 +92,8 @@ const QualifyRatePlan = (props) => {
                 <input
                   type="checkbox"
                   className="custom-control-input"
-                  name="example-checkbox5"
-                  defaultValue="option5"
+                  name="example-promo"
+                  checked={promo}
                   onClick={() => setPromo(!promo)}
                 />
                 <span className="custom-control-label">Promo code</span>
@@ -108,7 +102,13 @@ const QualifyRatePlan = (props) => {
             {promo ? (
               <div className="control-group form-group w-30 inner-class">
                 <input
-                  type="number"
+                  required
+                  type="text"
+                  value={props.rate.promoCode}
+                  disabled={!promo}
+                  onChange={(e) => {
+                    props.restrictionsChange("promoCode", e);
+                  }}
                   className="form-control required"
                   name="promocode"
                 />

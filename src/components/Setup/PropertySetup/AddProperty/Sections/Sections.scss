@@ -1,0 +1,17 @@
+.section {
+    border: 1px solid #05c3fb;
+    border-radius: 10px;
+    margin: 15px;
+}
+.table-icon{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    .icon{
+        font-size: 15px;
+    }
+    .icon:last-child {
+        color: red !important;
+    }
+}
