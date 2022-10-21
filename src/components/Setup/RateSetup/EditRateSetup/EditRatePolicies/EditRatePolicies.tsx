@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Row } from "react-bootstrap";
+import { useRateData } from "../../RateSetupSlice";
 import "./EditRatePolicies.scss";
 
 const EditRatePolicies = () => {
@@ -10,6 +11,10 @@ const EditRatePolicies = () => {
   const [deposit, setDeposit] = useState<boolean>(false);
   const [checkIn, setCheckIn] = useState<boolean>(false);
   const [noShow, setNoShow] = useState<boolean>(false);
+
+  const { rateData } = useRateData();
+  const [editPolicies, setEditPolicies] = useState(rateData)
+
 
   return (
     <React.Fragment>
@@ -22,8 +27,8 @@ const EditRatePolicies = () => {
                 type="checkbox"
                 className="custom-control-input"
                 name="example-checkbox5"
-                defaultValue="option5"
-                onClick={() => setLength(!length)}
+                checked={editPolicies.restrictions.minimumNights ? true : false}
+                onClick={() => setLength(editPolicies.restrictions.minimumNights ? true : false)}
               />
               <span className="custom-control-label">Length of stay</span>
             </label>
@@ -36,11 +41,11 @@ const EditRatePolicies = () => {
                   type="checkbox"
                   className="custom-control-input"
                   name="example-checkbox5"
-                  defaultValue="option5"
+                  checked={editPolicies.restrictions.minimumNights ? true : false}
                 />
                 <span className="custom-control-label">
                   Min <i className="fe fe-minus-circle" />
-                  <input className="check-input" type="number" />
+                  <input className="check-input" type="number" value={editPolicies.restrictions.minimumNights}/>
                   <i className="fe fe-plus-circle" />
                   Nights
                 </span>
@@ -50,58 +55,13 @@ const EditRatePolicies = () => {
                   type="checkbox"
                   className="custom-control-input"
                   name="example-checkbox5"
-                  defaultValue="option5"
+                  checked={editPolicies.restrictions.maximumNights ? true : false}
                 />
                 <span className="custom-control-label">
                   Max <i className="fe fe-minus-circle" />
-                  <input className="check-input" type="number" />
+                  <input className="check-input" type="number" value={editPolicies.restrictions.maximumNights} />
                   <i className="fe fe-plus-circle" />
                   Nights
-                </span>
-              </label>
-            </div>
-          ) : null}
-
-          <div className="d-flex">
-            <label className="custom-control custom-checkbox-md">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                name="example-checkbox5"
-                defaultValue="option5"
-                onClick={() => setBooking(!booking)}
-              />
-              <span className="custom-control-label">Booking window</span>
-            </label>
-          </div>
-          {booking ? (
-            <div className="inner-class">
-              <h6>Guests Must Book</h6>
-              <label className="custom-control custom-checkbox-md">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  name="example-checkbox5"
-                  defaultValue="option5"
-                />
-                <span className="custom-control-label">
-                  More than <i className="fe fe-minus-circle" />
-                  <input className="check-input" type="number" />
-                  <i className="fe fe-plus-circle" /> days in advance of
-                  check-in date
-                </span>
-              </label>
-              <label className="custom-control custom-checkbox-md">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  name="example-checkbox5"
-                  defaultValue="option5"
-                />
-                <span className="custom-control-label">
-                  Within <i className="fe fe-minus-circle" />
-                  <input className="check-input" type="number" />
-                  <i className="fe fe-plus-circle" /> days of check-in date
                 </span>
               </label>
             </div>
@@ -125,6 +85,7 @@ const EditRatePolicies = () => {
                 type="number"
                 className="form-control required"
                 name="promocode"
+                value={editPolicies.restrictions.promoCode}
               />
             </div>
           ) : null}

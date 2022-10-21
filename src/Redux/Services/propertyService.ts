@@ -41,3 +41,6 @@ export const addTaxConfig = (id,payload) => {
 export const updateTaxConfig = (id,payload,taxId) => {
     return apiInstance.put(`${id}/`+TAX_CONFIG+`/${taxId}`,payload,{headers:authHeader()})
 }
+export const deleteTaxDataById = (id, taxId) => {
+    return apiInstance.delete(`${id}/`+TAX_CONFIG+`/${taxId}`,{headers:authHeader()});
+} 

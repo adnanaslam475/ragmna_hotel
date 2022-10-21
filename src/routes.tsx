@@ -285,7 +285,7 @@ const RoutesMain = () => {
                     element={<EditRate />}
                   />
                   <Route
-                    path={`/setup/ratesetup/createseason`}
+                    path={`/setup/ratesetup/createseason/:id`}
                     element={<CreateSeason />}
                   />
                   <Route path={`/setup/owneraddon`} element={<OwnerAddOn />} />

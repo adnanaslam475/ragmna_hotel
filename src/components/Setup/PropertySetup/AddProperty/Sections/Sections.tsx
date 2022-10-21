@@ -18,7 +18,7 @@ const Sections = (props: SectionsProps) => {
     quantity: 0,
     allowedFor: "",
     isNonSmoking: false,
-    isActive: false,
+    isActive: true,
     virtualTourLink: "",
   });
 
@@ -72,7 +72,7 @@ const Sections = (props: SectionsProps) => {
       quantity: 0,
       allowedFor: "",
       isNonSmoking: false,
-      isActive: false,
+      isActive: true,
       virtualTourLink: "",
     })
   };
