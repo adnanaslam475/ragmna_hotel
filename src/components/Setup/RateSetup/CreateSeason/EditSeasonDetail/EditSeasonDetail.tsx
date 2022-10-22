@@ -115,9 +115,7 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
     }
   }
 
-  }, [rateData, season]);
-  console.log(seasonBody,'body');
-  
+  }, [rateData, season]);  
   const setbasePrice = (index, value) => {
     if (seasonBody.roomTypes.length) {
       let array = seasonBody.roomTypes.slice();
@@ -189,12 +187,9 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
       dispatch(alterSeason(payload))
     } else {
       let payload = Object.assign({}, seasonBody)
-      payload['id'] = rateData['_id']
-      console.log(seasonBody, 'seasonBody');
-  
+      payload['id'] = rateData['_id']  
       dispatch(addSeason(payload))
     }
-    
   }
   return (
     <React.Fragment>

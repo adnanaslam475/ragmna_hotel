@@ -92,7 +92,7 @@ const Policies = (props: any) => {
             policies.map((item, ind) => {
               if (item.type === "Cancellation") {
                 return (
-                  <div className="inner-class">
+                  <div key={ind} className="inner-class">
                     <label className="custom-control custom-radio-md">
                       <input
                         type="radio"
@@ -130,7 +130,7 @@ const Policies = (props: any) => {
             policies.map((item, ind) => {
               if (item.type === "Deposit") {
                 return (
-                  <div className="inner-class">
+                  <div key={ind} className="inner-class">
                     <label className="custom-control custom-radio-md">
                       <input
                         type="radio"
@@ -169,7 +169,7 @@ const Policies = (props: any) => {
             policies.map((item, ind) => {
               if (item.type === "Check-in") {
                 return (
-                  <div className="inner-class">
+                  <div key={ind} className="inner-class">
                     <label className="custom-control custom-radio-md">
                       <input
                         type="radio"
@@ -208,7 +208,7 @@ const Policies = (props: any) => {
             policies.map((item, ind) => {
               if (item.type === "No-Show") {
                 return (
-                  <div className="inner-class">
+                  <div key={ind} className="inner-class">
                     <label className="custom-control custom-radio-md">
                       <input
                         type="radio"

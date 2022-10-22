@@ -26,8 +26,6 @@ const CreateSeason = () => {
   const getByRateId = () => {
     let response = dispatch(getById(id ? id : "")).unwrap;
   };
-  console.log(rateData, "rateData");
-
   useEffect(() => {
     if (id) {
       getByRateId();
@@ -177,11 +175,6 @@ const CreateSeason = () => {
   };
 
   const smallmodalClose = async (value) => {
-
-    // if (seasonDetails.length < 2) return;
-    //     let temp = Object.assign([], seasonDetails);
-    //     temp.splice(index, 1);
-    // setSeasonDetails(temp);
     if (value) {
       try {
         let payload = {
@@ -194,8 +187,9 @@ const CreateSeason = () => {
         setDeleteId('')
       } catch (err: any) {
         setIsOpenDeletePopUp(false)
-
       }
+    } else {
+      setIsOpenDeletePopUp(false)
     }
   }
 
@@ -510,12 +504,6 @@ const CreateSeason = () => {
           <Row className="mt-6">
             <CalendarSetup
               dateRange={seasonDetails}
-              onChange={(ranges) =>
-                console.log(
-                  "selected ranges:",
-                  ranges.map((r) => printRange(r))
-                )
-              }
             />
           </Row>
         </Card.Body>

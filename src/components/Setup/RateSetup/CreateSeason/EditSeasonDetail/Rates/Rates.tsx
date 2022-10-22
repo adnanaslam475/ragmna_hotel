@@ -31,7 +31,6 @@ const Rates = ({ seasonBody, setbasePrice, setChannelPrice }) => {
       }
     }
   };
-  console.log(seasonBody);
 
   return (
     <React.Fragment>
