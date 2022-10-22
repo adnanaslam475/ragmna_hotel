@@ -109,36 +109,32 @@ const AddRate = () => {
       });
     }
   };
-
   const setDates = (key, value, index) => {
     let temp = Object.assign([], customDate);
     temp[index][key] = value;
     setCustomDate(temp);
   };
-
   const changeInput = (key, value, index) => {
     let temp: any = Object.assign([], rate);
     temp.roomTypes[index][key] = parseInt(value);
     setRate(temp);
   };
-
   const [rateId, setRateId] = useState<string>("");
   const selectedRateTypeID = (id) => {
     setRateId(id);
   };
   let navigate = useNavigate();
-  const RouteChange = () => {
-    let path = `/setup/ratesetup/createseason`;
+  const RouteChange = (id) => {
+    let path = `/setup/ratesetup/createseason/${id}`;
     navigate(path);
   };
-
   const onSubmit = async () => {
     if (type == "nightly") {
       try {
         let payload = Object.assign({}, rate);
         let response: any = await dispatch(addNightly(payload)).unwrap();
         if (response) {
-          RouteChange();
+          RouteChange(response.data._id);
           Success("Nightly rate has been added");
         }
       } catch (err: any) {
@@ -152,12 +148,11 @@ const AddRate = () => {
         }
         let payload = Object.assign({}, derivedRate);
         payload["period"] = [...customDate];
-        payload["rateId"] = rateId;
+        // payload["rateId"] = rateId;
         payload["roomTypes"] = temp;
         let response: any = await dispatch(addDerived(payload)).unwrap();
-        console.log(response, "ADD dereived RATE");
         if (response) {
-          RouteChange();
+          // RouteChange();
           Success("Derived rate has been added");
         }
       } catch (err: any) {
@@ -184,6 +179,7 @@ const AddRate = () => {
             </StepWizard>
           ) : (
             <StepWizard>
+              <RateType setType={setType} />
               <RatePlan changeInput={setValues} />
               <DerivedRateFrom
                 derivedRate={derivedRate.offer}
@@ -199,7 +195,7 @@ const AddRate = () => {
               <RateChannelDistribut saveChannel={saveChannel} />
               <DefaultRatePlan setRoomTypes={setRoomTypes} />
               <QualifyRatePlan
-                rate={rate.restrictions}
+                rate={derivedRate.restrictions}
                 restrictionsChange={restrictionsChange}
               />
               <PoliciesRatePlan onSubmit={onSubmit} />
@@ -210,5 +206,4 @@ const AddRate = () => {
     </React.Fragment>
   );
 };
-
 export default AddRate;

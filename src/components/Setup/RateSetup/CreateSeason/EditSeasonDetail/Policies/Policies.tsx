@@ -1,23 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import Select from "react-select";
+import { AppDispatch } from "../../../../../../Redux/Store";
 import { CommanDropDownType } from "../../../../PropertySetup/AddProperty/types";
+import { fetchPolicies, usePolicies } from "../../../RateSetupSlice";
 import "./Policies.scss";
 
-const Policies = () => {
+const Policies = (props: any) => {
+  const { seasonBody, SetSeasonBody } = props;
   const RoomTypes: CommanDropDownType[] = [
     { value: "Master Bedroom", label: "Master Bedroom" },
     { value: "Standard Room", label: "Standard Room" },
     { value: "Southern Hospitality", label: "Southern Hospitality" },
   ];
+  const dispatch = useDispatch<AppDispatch>();
   const [assignPolicies, setAssignPolicies] = useState<boolean>(false);
   const [cancellation, setCancellation] = useState<boolean>(false);
   const [deposit, setDeposit] = useState<boolean>(false);
   const [checkIn, setCheckIn] = useState<boolean>(false);
   const [noShow, setNoShow] = useState<boolean>(false);
+  const [cancellationRadio, setCancellationRadio] = useState<any[]>([]);
+  const { policies } = usePolicies();
   const assignPolicy = (e) => {
     setAssignPolicies(e.target.checked);
   };
+  const getPolicies = () => {
+    let response = dispatch(fetchPolicies()).unwrap;
+  };
+  useEffect(() => {
+    getPolicies();
+  }, []);
+
+  const onHandleRadioChange = (e, id) => {
+    let temp = Object.assign({}, seasonBody)
+    temp[e.target.name] = id
+    SetSeasonBody(temp)
+  }
+
+  const onHandleCheckCHange = (e,name) => {
+    if (!e.target.checked) {
+      let temp = Object.assign({},seasonBody)
+      temp[name] = ''
+      SetSeasonBody(temp)
+    }
+  }
   return (
     <React.Fragment>
       <div className="policies">
@@ -31,13 +58,6 @@ const Policies = () => {
             onChange={(e) => {
               assignPolicy(e);
             }}
-            // onChange={(e) => {
-            //   setFieldValue(
-            //     "additionalCharge",
-            //     e.target.checked
-            //   );
-            // }}
-            // checked={values.additionalCharge}
           />
         </div>
         <div className="policies-body">
@@ -57,154 +77,155 @@ const Policies = () => {
               <input
                 type="checkbox"
                 className="custom-control-input"
-                name="example-checkbox5"
-                defaultValue="option5"
-                onClick={() => setCancellation(!cancellation)}
+                name="cancellationPolicy-check"
+                checked={seasonBody['cancellationPolicy'] || cancellation ? true : false}
+                onChange={(e) => {
+                  setCancellation(!cancellation)
+                  onHandleCheckCHange(e,'cancellationPolicy')
+                }
+                }
               />
               <span className="custom-control-label">Cancellation</span>
             </label>
           </div>
-          {cancellation ? (
-            <div className="inner-class">
-              <label className="custom-control custom-radio-md">
-                <input
-                  type="radio"
-                  className="custom-control-input"
-                  name="cancellation"
-                  defaultValue="option5"
-                  defaultChecked
-                />
-                <span className="custom-control-label">
-                  Room Cancellation Policy -
-                </span>
-                <p>
-                  Cancellation Policy - Any cancellations made outside 48 hours
-                  of arrival are fully refundable. Cancellations made within 48
-                  hours of arrival will be non-refundable
-                </p>
-              </label>
-              <label className="custom-control custom-radio-md">
-                <input
-                  type="radio"
-                  className="custom-control-input"
-                  name="cancellation"
-                  defaultValue="option5"
-                />
-                <span className="custom-control-label">
-                  House Cancellation Policy
-                </span>
-                <p>
-                  Guests will incur a fee of 100% of total charges if they
-                  cancel 0 days after the reservation was made
-                </p>
-              </label>
-            </div>
-          ) : null}
+          {(cancellation || seasonBody['cancellationPolicy']) && policies &&
+            policies.map((item, ind) => {
+              if (item.type === "Cancellation") {
+                return (
+                  <div key={ind} className="inner-class">
+                    <label className="custom-control custom-radio-md">
+                      <input
+                        type="radio"
+                        className="custom-control-input"
+                        name={`cancellationPolicy`}
+                        checked={item._id == seasonBody['cancellationPolicy'] ? true : false}
+                        onChange={(e) => {
+                          onHandleRadioChange(e, item._id)
+                        }}
+                      />
+                      <span className="custom-control-label">{item.name}</span>
+                      <p>{item.description}</p>
+                    </label>
+                  </div>
+                );
+              }
+            })}
 
           <div className="d-flex">
             <label className="custom-control custom-checkbox-md">
               <input
                 type="checkbox"
                 className="custom-control-input"
-                name="example-checkbox5"
-                defaultValue="option5"
-                onClick={() => setDeposit(!deposit)}
+                name="depositPolicy-check"
+                checked={seasonBody['depositPolicy'] || deposit ? true : false}
+                onChange={(e) => {
+                  setDeposit(!deposit)
+                  onHandleCheckCHange(e,'depositPolicy')
+                }}
               />
               <span className="custom-control-label">Deposit</span>
             </label>
           </div>
-          {deposit ? (
-            <div className="inner-class">
-              <label className="custom-control custom-radio-md">
-                <input
-                  type="radio"
-                  className="custom-control-input"
-                  name="deposit"
-                  defaultValue="option5"
-                  defaultChecked
-                />
-                <span className="custom-control-label">
-                  Room Deposit Policy -
-                </span>
-                <p>
-                  Deposit Policy - A deposit equal to 50% of the Total Stay is
-                  required to make a reservation.
-                </p>
-              </label>
-              <label className="custom-control custom-radio-md">
-                <input
-                  type="radio"
-                  className="custom-control-input"
-                  name="deposit"
-                  defaultValue="option6"
-                />
-                <span className="custom-control-label">
-                  House Deposit Policy
-                </span>
-                <p>
-                  When guest books reservation, they must pay 100% of total
-                  charges
-                </p>
-              </label>
-            </div>
-          ) : null}
+          {(deposit || seasonBody['depositPolicy']) && policies &&
+            policies.map((item, ind) => {
+              if (item.type === "Deposit") {
+                return (
+                  <div key={ind} className="inner-class">
+                    <label className="custom-control custom-radio-md">
+                      <input
+                        type="radio"
+                        className="custom-control-input"
+                        name={`depositPolicy`}
+                        checked={item._id == seasonBody['depositPolicy'] ? true : false}
+                        onChange={(e) => {
+                          onHandleRadioChange(e, item._id)
+                        }}
+                      />
+                      <span className="custom-control-label">{item.name}</span>
+                      <p>{item.description}</p>
+                    </label>
+                  </div>
+                );
+              }
+            })}
 
           <div className="d-flex">
             <label className="custom-control custom-checkbox-md">
               <input
                 type="checkbox"
                 className="custom-control-input"
-                name="example-checkbox5"
-                defaultValue="option5"
-                onClick={() => setCheckIn(!checkIn)}
+                checked={seasonBody['checkInPolicy'] || checkIn ? true : false}
+                name="checkInPolicy-check"
+                onChange={(e) => {
+                  setCheckIn(!checkIn)
+
+                  onHandleCheckCHange(e,'checkInPolicy')
+                }}
               />
               <span className="custom-control-label">Check-in</span>
             </label>
           </div>
-          {checkIn ? (
-            <div className="inner-class">
-              <label className="custom-control custom-radio-md">
-                <input
-                  type="radio"
-                  className="custom-control-input"
-                  name="check-in"
-                  defaultValue="option5"
-                  defaultChecked
-                />
-                <span className="custom-control-label">Check in Policy -</span>
-                <p>
-                  Check in Policy - The balance of your stay is due on arrival.
-                </p>
-              </label>
-            </div>
-          ) : null}
+          {(checkIn || seasonBody['checkInPolicy']) && policies &&
+            policies.map((item, ind) => {
+              if (item.type === "Check-in") {
+                return (
+                  <div key={ind} className="inner-class">
+                    <label className="custom-control custom-radio-md">
+                      <input
+                        type="radio"
+                        className="custom-control-input"
+                        checked={item._id == seasonBody['checkInPolicy'] ? true : false}
+                        name={`checkInPolicy`}
+                        onChange={(e) => {
+                          onHandleRadioChange(e, item._id)
+                        }}
+                      />
+                      <span className="custom-control-label">{item.name}</span>
+                      <p>{item.description}</p>
+                    </label>
+                  </div>
+                );
+              }
+            })}
+
           <div className="d-flex">
             <label className="custom-control custom-checkbox-md">
               <input
                 type="checkbox"
                 className="custom-control-input"
-                name="example-checkbox5"
-                defaultValue="option5"
-                onClick={() => setNoShow(!noShow)}
+                checked={seasonBody['noShowPolicy'] || noShow ? true : false}
+                name="noShowPolicy-check"
+                onChange={(e) => {
+                  setNoShow(!noShow)
+
+                  onHandleCheckCHange(e,'noShowPolicy')
+                }}
               />
               <span className="custom-control-label">No Show</span>
             </label>
           </div>
-          {noShow ? (
-            <div className="inner-class">
-              <label className="custom-control custom-radio-md">
-                <input
-                  type="radio"
-                  className="custom-control-input"
-                  name="no-show"
-                  defaultValue="option5"
-                  defaultChecked
-                />
-                <span className="custom-control-label">No-Show Policy -</span>
-                <p>No-Show Policy - No-shows will be non-refundable.</p>
-              </label>
-            </div>
-          ) : null}
+          {(noShow || seasonBody['noShowPolicy'])&& policies &&
+            policies.map((item, ind) => {
+              if (item.type === "No-Show") {
+                return (
+                  <div key={ind} className="inner-class">
+                    <label className="custom-control custom-radio-md">
+                      <input
+                        type="radio"
+                        className="custom-control-input"
+                        name={`checkInPolicy`}
+                        checked={item._id == seasonBody['checkInPolicy'] ? true : false}
+                        onChange={(e) => {
+                          onHandleRadioChange(e, item._id)
+                        }}
+                      />
+                      <span className="custom-control-label">{item.name}</span>
+                      <p>{item.description}</p>
+                    </label>
+                  </div>
+                );
+              }
+            })}
         </div>
       </div>
     </React.Fragment>

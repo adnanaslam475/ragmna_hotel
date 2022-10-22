@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import Select from "react-select";
 import { CommanDropDownType } from "../../../PropertySetup/AddProperty/types";
+import { useRateData } from "../../RateSetupSlice";
 import "./EditRateInfo.scss";
 
 const EditRateInfo = () => {
+  const { rateData } = useRateData();
+  console.log(rateData, "rateData");
+
   const RatePlan: CommanDropDownType[] = [
     { value: "Active", label: "Active" },
     { value: "Inactive", label: "Inactive" },
   ];
+
+  const [ratePlanDetails, setRatePlanDetails] = useState(rateData);
 
   return (
     <React.Fragment>
@@ -22,6 +28,7 @@ const EditRateInfo = () => {
               type="text"
               className="form-control required"
               value="Nightly rate plan"
+              defaultValue='Rate plan'
             />
           </div>
         </Col>
@@ -32,7 +39,8 @@ const EditRateInfo = () => {
               readOnly
               type="text"
               className="form-control required"
-              value="Southern Hospitality"
+              value={ratePlanDetails.name}
+              defaultValue='Property name'
             />
           </div>
         </Col>
@@ -45,7 +53,11 @@ const EditRateInfo = () => {
         <Col lg={4}>
           <div className="control-group form-group">
             <label className="form-label">Rate Plan Name</label>
-            <input type="text" className="form-control required" value="Test" />
+            <input
+              type="text"
+              className="form-control required"
+              value={ratePlanDetails.displayName}
+            />
           </div>
         </Col>
         <Col lg={4}></Col>
@@ -55,14 +67,15 @@ const EditRateInfo = () => {
             className="ps-6 check-switch-style d-flex align-items-center"
             type="switch"
             id="defaultRatePlan"
+            checked={ratePlanDetails.default}
           />
         </Col>
         <Col lg={8}>
           <div className="control-group form-group">
-            <label className="form-label">Rate Plan Name</label>
+            <label className="form-label">Rate Plan Description</label>
             <textarea
               className="form-control required"
-              value="This is very special rate only Test and his family"
+              value={ratePlanDetails.description}
             />
           </div>
         </Col>
@@ -86,10 +99,10 @@ const EditRateInfo = () => {
               <input
                 type="checkbox"
                 className="custom-control-input"
-                name="example-checkbox5"
-                defaultValue="option5"
+                name="Website"
+                checked={ratePlanDetails.channels.includes('Website')}
               />
-              <span className="custom-control-label">innCenter</span>
+              <span className="custom-control-label">Website</span>
             </label>
           </div>
           <div className="d-flex">
@@ -97,34 +110,10 @@ const EditRateInfo = () => {
               <input
                 type="checkbox"
                 className="custom-control-input"
-                name="example-checkbox5"
-                defaultValue="option5"
-              />
-              <span className="custom-control-label">Airbnb</span>
-            </label>
-          </div>
-          <div className="d-flex">
-            <label className="custom-control custom-checkbox-md">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                name="example-checkbox5"
-                defaultValue="option5"
+                name="Booking.com-DC"
+                checked={ratePlanDetails.channels.includes('Booking.com')}
               />
               <span className="custom-control-label">Booking.com-DC</span>
-            </label>
-          </div>
-          <div className="d-flex">
-            <label className="custom-control custom-checkbox-md">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                name="example-checkbox5"
-                defaultValue="option5"
-              />
-              <span className="custom-control-label">
-                innRoad Booking Engine - SouthernHospitality.client.innroad.com
-              </span>
             </label>
           </div>
         </div>
@@ -137,8 +126,7 @@ const EditRateInfo = () => {
               <input
                 type="checkbox"
                 className="custom-control-input"
-                name="example-checkbox5"
-                defaultValue="option5"
+                name="SelectAll"
               />
               <span className="custom-control-label">Select All</span>
             </label>
@@ -148,8 +136,7 @@ const EditRateInfo = () => {
               <input
                 type="checkbox"
                 className="custom-control-input"
-                name="example-checkbox5"
-                defaultValue="option5"
+                name="strandersRoom"
               />
               <span className="custom-control-label">Standers Room</span>
             </label>
@@ -159,8 +146,7 @@ const EditRateInfo = () => {
               <input
                 type="checkbox"
                 className="custom-control-input"
-                name="example-checkbox5"
-                defaultValue="option5"
+                name="masterBadroom"
               />
               <span className="custom-control-label">Master Badroom</span>
             </label>
@@ -170,8 +156,7 @@ const EditRateInfo = () => {
               <input
                 type="checkbox"
                 className="custom-control-input"
-                name="example-checkbox5"
-                defaultValue="option5"
+                name="southernHospitality"
               />
               <span className="custom-control-label">Southern Hospitality</span>
             </label>

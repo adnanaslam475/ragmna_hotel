@@ -28,6 +28,10 @@ import {
   useTaxData,
 } from "../TaxSetup/taxSetupSlice";
 import Sections from "../Sections/Sections";
+import {
+  DangerLeft,
+  Success,
+} from "../../../../../Redux/Services/toaster-service";
 
 interface AddPropertyProps {
   setAddProperty?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -41,6 +45,7 @@ const AddProperty = (props: AddPropertyProps) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const [isTax, setIsTax] = useState(false);
+  const [isSelectedAmenities, setIsSelectedAmenities] = useState<any>([]);
 
   const [tz, setTz] = useState<ITimezoneOption>({
     value: "",
@@ -176,6 +181,32 @@ const AddProperty = (props: AddPropertyProps) => {
   };
 
   let onSubmit = async (values) => {
+    if (key == "six") {
+      try {
+        let payload = Object.assign({}, taxInfo);
+        payload["propertyId"] = id;
+        payload["surcharge"] = parseInt(payload["surcharge"]);
+        let response: any = await dispatch(
+          addTaxConfigDetails(payload)
+        ).unwrap();
+        if (response) {
+          Success("Tax Config details has been saved");
+          getTaxDetail();
+          setTaxInfo({
+            shortCode: "",
+            name: "",
+            startDate: "",
+            endDate: "",
+            surcharge: 0,
+            type: 0,
+            calculationType: 0,
+            isVatApplicable: false,
+          });
+        }
+      } catch (err: any) {
+        DangerLeft("Something went wrong in tax Config");
+      }
+    }
     try {
       let payload = Object.assign({}, values);
       payload["supplierId"] = user.supplierId;
@@ -232,6 +263,7 @@ const AddProperty = (props: AddPropertyProps) => {
         timeZone: tz ? tz.value : "",
       };
       payload["sections"] = [...sectionArray];
+      payload["amenities"] = [...isSelectedAmenities];
       // payload["images"] = [];
       // payload['availableForEntireRental'] = isChecked
       let deletekeys = [
@@ -275,40 +307,46 @@ const AddProperty = (props: AddPropertyProps) => {
         let response: any = await dispatch(
           updatePropertyData(payload)
         ).unwrap();
+        if (response) {
+          Success("Property Details has been updated");
+        }
       } else {
         let response: any = await dispatch(addPropertyData(payload)).unwrap();
+        if (response) {
+          Success("New Property has been Added");
+        }
         navigateToId(response.data._id);
       }
     } catch (err: any) {
-      console.log(err, "err");
+      DangerLeft("Something went wrong in Adding Property");
     }
   };
 
-  const setTaxData = () => {
-    if (taxData[0] && id) {
-      setTaxInfo({
-        ...taxInfo,
-        name: taxData[0].name ? taxData[0].name : "",
-        shortCode: taxData[0].shortCode ? taxData[0].shortCode : "",
-        startDate: taxData[0].startDate ? taxData[0].startDate : "",
-        endDate: taxData[0].endDate ? taxData[0].endDate : "",
-        surcharge: taxData[0].surcharge ? taxData[0].surcharge.toString() : 0,
-        type: taxData[0].type ? taxData[0].type : 0,
-        calculationType: taxData[0].calculationType
-          ? taxData[0].calculationType
-          : 0,
-        isVatApplicable: taxData[0].isVatApplicable
-          ? taxData[0].isVatApplicable
-          : false,
-      });
-    }
-  };
+  // const setTaxData = () => {
+  //   if (taxData[0] && id) {
+  //     setTaxInfo({
+  //       ...taxInfo,
+  //       name: taxData[0].name ? taxData[0].name : "",
+  //       shortCode: taxData[0].shortCode ? taxData[0].shortCode : "",
+  //       startDate: taxData[0].startDate ? taxData[0].startDate : "",
+  //       endDate: taxData[0].endDate ? taxData[0].endDate : "",
+  //       surcharge: taxData[0].surcharge ? taxData[0].surcharge.toString() : 0,
+  //       type: taxData[0].type ? taxData[0].type : 0,
+  //       calculationType: taxData[0].calculationType
+  //         ? taxData[0].calculationType
+  //         : 0,
+  //       isVatApplicable: taxData[0].isVatApplicable
+  //         ? taxData[0].isVatApplicable
+  //         : false,
+  //     });
+  //   }
+  // };
 
   const setKeyValue = (key) => {
     setKey(key);
     if (key == "six") {
       setIsTax(true);
-      setTaxData();
+      // setTaxData();
     } else {
       setIsTax(false);
     }
@@ -487,25 +525,25 @@ const AddProperty = (props: AddPropertyProps) => {
     }
   }, [id]);
 
-  const TaxSave = async () => {
-    if (key == "six") {
-      try {
-        let payload = Object.assign({}, taxInfo);
-        payload["propertyId"] = id;
-        payload["surcharge"] = parseInt(payload["surcharge"]);
-        if (taxData[0]?._id) {
-          payload["taxId"] = taxData[0]._id;
-          let response: any = await dispatch(updateTaxData(payload)).unwrap();
-        } else {
-          let response: any = await dispatch(
-            addTaxConfigDetails(payload)
-          ).unwrap();
-        }
-      } catch (err: any) {
-        console.log(err, "err");
-      }
-    }
-  };
+  // const TaxSave = async () => {
+  //   if (key == "six") {
+  //     try {
+  //       let payload = Object.assign({}, taxInfo);
+  //       payload["propertyId"] = id;
+  //       payload["surcharge"] = parseInt(payload["surcharge"]);
+  //       if (taxData[0]?._id) {
+  //         payload["taxId"] = taxData[0]._id;
+  //         let response: any = await dispatch(updateTaxData(payload)).unwrap();
+  //       } else {
+  //         let response: any = await dispatch(
+  //           addTaxConfigDetails(payload)
+  //         ).unwrap();
+  //       }
+  //     } catch (err: any) {
+  //       console.log(err, "err");
+  //     }
+  //   }
+  // };
 
   const setTaxInfoValue = (key, value) => {
     setTaxInfo({
@@ -574,10 +612,7 @@ const AddProperty = (props: AddPropertyProps) => {
                   </Nav>
                   {isTax ? (
                     <Button
-                      type="button"
-                      onClick={() => {
-                        TaxSave();
-                      }}
+                      type="submit"
                       style={{ borderRadius: "0px 20px 20px 0px" }}
                     >
                       Save
@@ -629,8 +664,11 @@ const AddProperty = (props: AddPropertyProps) => {
                       />
                     </Tab.Pane>
                     <Tab.Pane eventKey="seven">
-                      <Amenities />
-                      <AmenitiesSelection />
+                      {/* <Amenities /> */}
+                      <AmenitiesSelection
+                        isSelectedAmenities={isSelectedAmenities}
+                        setIsSelectedAmenities={setIsSelectedAmenities}
+                      />
                     </Tab.Pane>
                     <Tab.Pane eventKey="eight">
                       <Sections

@@ -3,12 +3,13 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import {
   addTaxConfig,
+  deleteTaxDataById,
   getTaxConfigById,
   updateTaxConfig,
 } from "../../../../../Redux/Services/propertyService";
 
 const initialState = {
-  taxData: {},
+  taxData: [],
 };
 export const getTaxConfigDetails = createAsyncThunk(
   "tax-config/get",
@@ -24,9 +25,19 @@ export const addTaxConfigDetails = createAsyncThunk(
   }
 );
 
-export const updateTaxData = createAsyncThunk("tax-config/update", async (payload: any) => {
-  return await updateTaxConfig(payload.propertyId,payload,payload.taxId);
-});
+export const updateTaxData = createAsyncThunk(
+  "tax-config/update",
+  async (payload: any) => {
+    return await updateTaxConfig(payload.propertyId, payload, payload.taxId);
+  }
+);
+
+export const deleteTaxData = createAsyncThunk(
+  "tax-config/delete",
+  async (payload: any) => {
+    return await deleteTaxDataById(payload.id, payload.taxId);
+  }
+);
 
 const taxSetupSlice = createSlice({
   name: "taxCongfig",

@@ -18,7 +18,7 @@ const Sections = (props: SectionsProps) => {
     quantity: 0,
     allowedFor: "",
     isNonSmoking: false,
-    isActive: false,
+    isActive: true,
     virtualTourLink: "",
   });
 
@@ -53,16 +53,16 @@ const Sections = (props: SectionsProps) => {
   // const [sectionArray , setSectionArray] = useState<any>([])
 
   const deleteDetail = (index) => {
-    let sectionData = sectionArray.filter((val,i)=>{
-      return i != index
-    })
-    setSectionArray([...sectionData])
-  }
+    let sectionData = sectionArray.filter((val, i) => {
+      return i != index;
+    });
+    setSectionArray([...sectionData]);
+  };
 
   const editDetail = (index) => {
-    let editdata = sectionArray.find((val,i)=> i == index  )
-    setSelectValues({...editdata})
-  }
+    let editdata = sectionArray.find((val, i) => i == index);
+    setSelectValues({ ...editdata });
+  };
 
   const onSubmit = () => {
     sectionArray.push(selectValues);
@@ -72,9 +72,9 @@ const Sections = (props: SectionsProps) => {
       quantity: 0,
       allowedFor: "",
       isNonSmoking: false,
-      isActive: false,
+      isActive: true,
       virtualTourLink: "",
-    })
+    });
   };
 
   const handleChange = (key, value) => {
@@ -188,7 +188,14 @@ const Sections = (props: SectionsProps) => {
           className="align-items-center d-flex justify-content-end mt-6"
         >
           <div className="control-group form-group">
-            <Button onClick={()=>{onSubmit()}}> Add </Button>
+            <Button
+              onClick={() => {
+                onSubmit();
+              }}
+            >
+              {" "}
+              Add{" "}
+            </Button>
           </div>
         </Col>
       </Row>
@@ -216,8 +223,18 @@ const Sections = (props: SectionsProps) => {
                   <td>{val.isNonSmoking.toString()}</td>
                   <td>{val.isActive.toString()}</td>
                   <td className="table-icon">
-                      <i className="icon fe fe-edit-2" onClick={()=>{editDetail(index)}}/>
-                      <i className="icon fe fe-trash-2" onClick={(e)=>{deleteDetail(index)}}/>
+                    <i
+                      className="icon fe fe-edit-2"
+                      onClick={() => {
+                        editDetail(index);
+                      }}
+                    />
+                    <i
+                      className="icon fe fe-trash-2"
+                      onClick={(e) => {
+                        deleteDetail(index);
+                      }}
+                    />
                   </td>
                 </tr>
               </Fragment>
