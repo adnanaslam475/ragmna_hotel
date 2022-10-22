@@ -664,7 +664,7 @@ const AddProperty = (props: AddPropertyProps) => {
                       />
                     </Tab.Pane>
                     <Tab.Pane eventKey="seven">
-                      <Amenities />
+                      {/* <Amenities /> */}
                       <AmenitiesSelection
                         isSelectedAmenities={isSelectedAmenities}
                         setIsSelectedAmenities={setIsSelectedAmenities}

@@ -19,22 +19,19 @@ import { AppDispatch } from "../../../../Redux/Store";
 import { daysInWeek } from "date-fns";
 
 const CreateSeason = () => {
-
   const dispatch = useDispatch<AppDispatch>();
   let { id } = useParams();
   const { rateData } = useRateData();
   const getByRateId = () => {
     let response = dispatch(getById(id ? id : "")).unwrap;
   };
-  console.log(rateData, 'rateData');
-
+  console.log(rateData, "rateData");
 
   useEffect(() => {
     if (id) {
-      getByRateId()
+      getByRateId();
     }
-  }, [id])
-
+  }, [id]);
 
   let colorTypes: CommanDropDownType[] = [
     { value: "#f0642a", label: "#f6881c" },
@@ -54,8 +51,7 @@ const CreateSeason = () => {
     { value: "#8f2d56", label: "#8f2d56" },
   ];
 
-  const [selectColor] =
-    useState<CommanDropDownType[]>(colorTypes);
+  const [selectColor] = useState<CommanDropDownType[]>(colorTypes);
 
   const [openSelectColor, setOpenSelectColor] = useState([false]);
   const [isEditModal, setIsEditModel] = useState(false);
@@ -66,24 +62,22 @@ const CreateSeason = () => {
       endDate: "",
       color: "#707070",
       days: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday',
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
       ],
-      roomTypes: [
-      ],
+      roomTypes: [],
 
-      channels: [
-      ],
+      channels: [],
       restrictions: {
         minimumNights: 0,
         maximumNights: 0,
-        promoCode: "string"
-      }
+        promoCode: "",
+      },
     },
   ]);
   const [season, setSeason] = useState<any>({});
@@ -100,42 +94,42 @@ const CreateSeason = () => {
         endDate: "",
         color: "#707070",
         days: [
-          'Monday',
-          'Tuesday',
-          'Wednesday',
-          'Thursday',
-          'Friday',
-          'Saturday',
-          'Sunday',
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday",
         ],
-        roomTypes: [
-        ],
+        roomTypes: [],
 
-        channels: [
-        ],
+        channels: [],
         restrictions: {
           minimumNights: 0,
           maximumNights: 0,
-          promoCode: "string"
-        }
+          promoCode: "string",
+        },
       },
     ]);
     setOpenSelectColor([...openSelectColor, false]);
   };
 
   const onSubmitSeason = (index) => {
-    if (seasonDetails[index].name && seasonDetails[index].startDate && seasonDetails[index].endDate) {
-
-      setIsEditModel(true)
-      setSeason(seasonDetails[index])
+    if (
+      seasonDetails[index].name &&
+      seasonDetails[index].startDate &&
+      seasonDetails[index].endDate
+    ) {
+      setIsEditModel(true);
+      setSeason(seasonDetails[index]);
     }
-  }
-
+  };
 
   const removeSeason = (index) => {
-    if (seasonDetails.length < 2) return
+    if (seasonDetails.length < 2) return;
     let temp = Object.assign([], seasonDetails);
-    temp.splice(index, 1)
+    temp.splice(index, 1);
     setSeasonDetails(temp);
   };
 
@@ -143,7 +137,7 @@ const CreateSeason = () => {
     let temp = Object.assign([], seasonDetails);
     temp[index][key] = value;
     setSeasonDetails(temp);
-  }
+  };
 
   const printRange = (range: any) => {
     const from = range.from.toLocaleDateString();
@@ -157,7 +151,7 @@ const CreateSeason = () => {
         <Card.Body>
           <Row>
             <Col lg={6}>
-              <h4>Rate Name</h4>
+              <h4>{rateData.name}</h4>
             </Col>
             <Col lg={6}>
               <div className="d-flex justify-content-end">
@@ -181,7 +175,9 @@ const CreateSeason = () => {
                     placeholder="Enter Season Name"
                     name={`[${index}].name`}
                     value={seasonDetails[index].name}
-                    onChange={(e) => handleChange('name', e.target.value, index)}
+                    onChange={(e) =>
+                      handleChange("name", e.target.value, index)
+                    }
                   />
                 </div>
               </Col>
@@ -191,11 +187,10 @@ const CreateSeason = () => {
                   placeholder="From"
                   value={seasonDetails.startDate}
                   onDayChange={(e) => {
-                    let temp = Object.assign([], seasonDetails)
-                    temp[index]['startDate'] = e
-                    setSeasonDetails(temp)
-                  }
-                  }
+                    let temp = Object.assign([], seasonDetails);
+                    temp[index]["startDate"] = e;
+                    setSeasonDetails(temp);
+                  }}
                 />
               </Col>
               <Col lg={2} className="date-picker">
@@ -204,11 +199,10 @@ const CreateSeason = () => {
                   placeholder="To"
                   value={seasonDetails[index].endDate}
                   onDayChange={(e) => {
-                    let temp = Object.assign([], seasonDetails)
-                    temp[index]['endDate'] = e
-                    setSeasonDetails(temp)
-                  }
-                  }
+                    let temp = Object.assign([], seasonDetails);
+                    temp[index]["endDate"] = e;
+                    setSeasonDetails(temp);
+                  }}
                 />
               </Col>
               <Col lg={1}>
@@ -240,9 +234,12 @@ const CreateSeason = () => {
                               backgroundColor: coloritem.value,
                             }}
                             onClick={() => {
-                              let temp = Object.assign([], seasonDetails)
-                              temp.splice(index, 1, { ...seasonDetails[index], color: `${coloritem.value}` })
-                              setSeasonDetails(temp)
+                              let temp = Object.assign([], seasonDetails);
+                              temp.splice(index, 1, {
+                                ...seasonDetails[index],
+                                color: `${coloritem.value}`,
+                              });
+                              setSeasonDetails(temp);
                               setOpenSelectColor({
                                 ...openSelectColor,
                                 [index]: !openSelectColor[index],
@@ -259,180 +256,176 @@ const CreateSeason = () => {
                 <Form.Check
                   label="M"
                   type="checkbox"
-                  checked={seasonDetails[index].days.includes('Monday')}
-                  value={seasonDetails[index].days.includes('Monday')}
+                  checked={seasonDetails[index].days.includes("Monday")}
+                  value={seasonDetails[index].days.includes("Monday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days)
-                    let temp2 = Object.assign([], seasonDetails)
+                    let temp = Object.assign([], seasonDetails[index].days);
+                    let temp2 = Object.assign([], seasonDetails);
                     if (e.target.checked) {
-                      temp.push('Monday')
-                      temp2[index] = { ...seasonDetails[index], days: temp }
+                      temp.push("Monday");
+                      temp2[index] = { ...seasonDetails[index], days: temp };
                       // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2)
+                      setSeasonDetails(temp2);
                     } else {
-                      let i = temp.findIndex((val) => val == 'Monday')
+                      let i = temp.findIndex((val) => val == "Monday");
 
                       if (i > -1) {
-                        temp.splice(i, 1)
-                        temp2[index] = { ...seasonDetails[index], days: temp }
-                        setSeasonDetails(temp2)
+                        temp.splice(i, 1);
+                        temp2[index] = { ...seasonDetails[index], days: temp };
+                        setSeasonDetails(temp2);
                       }
                     }
-                  }
-                  }
+                  }}
                 />
                 <Form.Check
                   label="T"
                   type="checkbox"
-                  value={seasonDetails[index].days.includes('Tuesday')}
-                  checked={seasonDetails[index].days.includes('Tuesday')}
-
+                  value={seasonDetails[index].days.includes("Tuesday")}
+                  checked={seasonDetails[index].days.includes("Tuesday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days)
-                    let temp2 = Object.assign([], seasonDetails)
+                    let temp = Object.assign([], seasonDetails[index].days);
+                    let temp2 = Object.assign([], seasonDetails);
                     if (e.target.checked) {
-                      temp.push('Tuesday')
-                      temp2[index] = { ...seasonDetails[index], days: temp }
+                      temp.push("Tuesday");
+                      temp2[index] = { ...seasonDetails[index], days: temp };
                       // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2)
+                      setSeasonDetails(temp2);
                     } else {
-                      let i = temp.indexOf('Tuesday')
+                      let i = temp.indexOf("Tuesday");
                       if (i > -1) {
-                        temp.splice(i, 1)
-                        temp2[index] = { ...seasonDetails[index], days: temp }
-                        setSeasonDetails(temp2)
+                        temp.splice(i, 1);
+                        temp2[index] = { ...seasonDetails[index], days: temp };
+                        setSeasonDetails(temp2);
                       }
                     }
-                  }
-                  }
+                  }}
                 />
                 <Form.Check
                   label="W"
                   type="checkbox"
-                  value={seasonDetails[index].days.includes('Wednesday')}
-                  checked={seasonDetails[index].days.includes('Wednesday')}
+                  value={seasonDetails[index].days.includes("Wednesday")}
+                  checked={seasonDetails[index].days.includes("Wednesday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days)
-                    let temp2 = Object.assign([], seasonDetails)
+                    let temp = Object.assign([], seasonDetails[index].days);
+                    let temp2 = Object.assign([], seasonDetails);
                     if (e.target.checked) {
-                      temp.push('WednesDay')
-                      temp2[index] = { ...seasonDetails[index], days: temp }
+                      temp.push("WednesDay");
+                      temp2[index] = { ...seasonDetails[index], days: temp };
                       // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2)
+                      setSeasonDetails(temp2);
                     } else {
-                      let i = temp.indexOf('WednesDay')
+                      let i = temp.indexOf("WednesDay");
                       if (i > -1) {
-                        temp.splice(i, 1)
-                        temp2[index] = { ...seasonDetails[index], days: temp }
-                        setSeasonDetails(temp2)
+                        temp.splice(i, 1);
+                        temp2[index] = { ...seasonDetails[index], days: temp };
+                        setSeasonDetails(temp2);
                       }
                     }
-                  }
-                  }
+                  }}
                 />
                 <Form.Check
                   label="T"
                   type="checkbox"
-                  value={seasonDetails[index].days.includes('Thursday')}
-                  checked={seasonDetails[index].days.includes('Thursday')}
+                  value={seasonDetails[index].days.includes("Thursday")}
+                  checked={seasonDetails[index].days.includes("Thursday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days)
-                    let temp2 = Object.assign([], seasonDetails)
+                    let temp = Object.assign([], seasonDetails[index].days);
+                    let temp2 = Object.assign([], seasonDetails);
                     if (e.target.checked) {
-                      temp.push('Thursday')
-                      temp2[index] = { ...seasonDetails[index], days: temp }
+                      temp.push("Thursday");
+                      temp2[index] = { ...seasonDetails[index], days: temp };
                       // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2)
+                      setSeasonDetails(temp2);
                     } else {
-                      let i = temp.indexOf('Thursday')
+                      let i = temp.indexOf("Thursday");
                       if (i > -1) {
-                        temp.splice(i, 1)
-                        temp2[index] = { ...seasonDetails[index], days: temp }
-                        setSeasonDetails(temp2)
+                        temp.splice(i, 1);
+                        temp2[index] = { ...seasonDetails[index], days: temp };
+                        setSeasonDetails(temp2);
                       }
                     }
-                  }
-                  }
+                  }}
                 />
                 <Form.Check
                   label="F"
                   type="checkbox"
-                  value={seasonDetails[index].days.includes('Friday')}
-                  checked={seasonDetails[index].days.includes('Friday')}
+                  value={seasonDetails[index].days.includes("Friday")}
+                  checked={seasonDetails[index].days.includes("Friday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days)
-                    let temp2 = Object.assign([], seasonDetails)
+                    let temp = Object.assign([], seasonDetails[index].days);
+                    let temp2 = Object.assign([], seasonDetails);
                     if (e.target.checked) {
-                      temp.push('Friday')
-                      temp2[index] = { ...seasonDetails[index], days: temp }
+                      temp.push("Friday");
+                      temp2[index] = { ...seasonDetails[index], days: temp };
                       // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2)
+                      setSeasonDetails(temp2);
                     } else {
-                      let i = temp.indexOf('Friday')
+                      let i = temp.indexOf("Friday");
                       if (i > -1) {
-                        temp.splice(i, 1)
-                        temp2[index] = { ...seasonDetails[index], days: temp }
-                        setSeasonDetails(temp2)
+                        temp.splice(i, 1);
+                        temp2[index] = { ...seasonDetails[index], days: temp };
+                        setSeasonDetails(temp2);
                       }
                     }
-                  }
-                  }
+                  }}
                 />
                 <Form.Check
                   label="S"
                   type="checkbox"
-                  value={seasonDetails[index].days.includes('Saturday')}
-                  checked={seasonDetails[index].days.includes('Saturday')}
+                  value={seasonDetails[index].days.includes("Saturday")}
+                  checked={seasonDetails[index].days.includes("Saturday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days)
-                    let temp2 = Object.assign([], seasonDetails)
+                    let temp = Object.assign([], seasonDetails[index].days);
+                    let temp2 = Object.assign([], seasonDetails);
                     if (e.target.checked) {
-                      temp.push('Saturday')
-                      temp2[index] = { ...seasonDetails[index], days: temp }
+                      temp.push("Saturday");
+                      temp2[index] = { ...seasonDetails[index], days: temp };
                       // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2)
+                      setSeasonDetails(temp2);
                     } else {
-                      let i = temp.indexOf('Saturday')
+                      let i = temp.indexOf("Saturday");
                       if (i > -1) {
-                        temp.splice(i, 1)
-                        temp2[index] = { ...seasonDetails[index], days: temp }
-                        setSeasonDetails(temp2)
+                        temp.splice(i, 1);
+                        temp2[index] = { ...seasonDetails[index], days: temp };
+                        setSeasonDetails(temp2);
                       }
                     }
-                  }
-                  }
+                  }}
                 />
                 <Form.Check
                   label="S"
                   type="checkbox"
-                  value={seasonDetails[index].days.includes('Sunday')}
-                  checked={seasonDetails[index].days.includes('Sunday')}
+                  value={seasonDetails[index].days.includes("Sunday")}
+                  checked={seasonDetails[index].days.includes("Sunday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days)
-                    let temp2 = Object.assign([], seasonDetails)
+                    let temp = Object.assign([], seasonDetails[index].days);
+                    let temp2 = Object.assign([], seasonDetails);
                     if (e.target.checked) {
-                      temp.push('Sunday')
-                      temp2[index] = { ...seasonDetails[index], days: temp }
+                      temp.push("Sunday");
+                      temp2[index] = { ...seasonDetails[index], days: temp };
                       // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2)
+                      setSeasonDetails(temp2);
                     } else {
-                      let i = temp.indexOf('Sunday')
+                      let i = temp.indexOf("Sunday");
                       if (i > -1) {
-                        temp.splice(i, 1)
-                        temp2[index] = { ...seasonDetails[index], days: temp }
-                        setSeasonDetails(temp2)
+                        temp.splice(i, 1);
+                        temp2[index] = { ...seasonDetails[index], days: temp };
+                        setSeasonDetails(temp2);
                       }
                     }
-                  }
-                  }
+                  }}
                 />
               </Col>
               <Col lg={1}>
                 <div className="Save-delete-icon">
                   <button type="submit" className="save-btn">
-                    <i className="icon fe fe-check-circle" title="Save" onClick={() => {
-                      onSubmitSeason(index)
-                    }} />
+                    <i
+                      className="icon fe fe-check-circle"
+                      title="Save"
+                      onClick={() => {
+                        onSubmitSeason(index);
+                      }}
+                    />
                   </button>
                   <button className="delete-btn">
                     <i
@@ -461,7 +454,9 @@ const CreateSeason = () => {
           </Row>
         </Card.Body>
       </Card>
-      {isEditModal && <EditSeasonDetail isModelClose={isModelClose} />}
+      {isEditModal && (
+        <EditSeasonDetail season={season} isModelClose={isModelClose} />
+      )}
     </React.Fragment>
   );
 };
