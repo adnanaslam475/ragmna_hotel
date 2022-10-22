@@ -151,7 +151,6 @@ const AddRate = () => {
         // payload["rateId"] = rateId;
         payload["roomTypes"] = temp;
         let response: any = await dispatch(addDerived(payload)).unwrap();
-        console.log(response, "ADD dereived RATE");
         if (response) {
           // RouteChange();
           Success("Derived rate has been added");

@@ -57,6 +57,10 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
     ],
     channels: [],
     color: "",
+    depositPolicy: "",
+    cancellationPolicy: "",
+    checkInPolicy: "",
+    noShowPolicy: "",
     restrictions: {
       minimumNights: 0,
       maximumNights: 0,
@@ -77,6 +81,10 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
         restrictions: rateData.restrictions,
         roomTypes: rateData.roomTypes,
         channels: rateData.channels,
+        depositPolicy: rateData.depositPolicy,
+        cancellationPolicy: rateData.cancellationPolicy,
+        checkInPolicy: rateData.checkInPolicy,
+        noShowPolicy: rateData.noShowPolicy,
       };
       SetSeasonBody(clonedObject);
     }

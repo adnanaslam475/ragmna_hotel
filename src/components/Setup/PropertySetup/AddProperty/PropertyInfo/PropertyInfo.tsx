@@ -29,20 +29,8 @@ export interface PropertyInfoProps {
 }
 
 const PropertyInfo = (props: PropertyInfoProps) => {
-  const {
-    values,
-    handleChange,
-    errors,
-    touched,
-    setFieldValue,
-  } = props;
+  const { values, handleChange, errors, touched, setFieldValue } = props;
   const dispatch = useDispatch<AppDispatch>();
-
-  // let { id } = useParams();
-
-  // useEffect(() => {
-  //     console.log(id);
-  // }, [id])
 
   const goodFors: CommanDropDownType[] = [
     { value: "", label: "Select Good For" },
@@ -371,98 +359,98 @@ const PropertyInfo = (props: PropertyInfoProps) => {
   return (
     <React.Fragment>
       {/* <form onSubmit={handleSubmit}> */}
-        <Row className="Contect-details p-4 mb-4">
-          <h4>Basic Info</h4>
-          <Col lg={6}>
-            <div className="control-group form-group">
-              <label className="form-label">Property Name</label>
-              <input
-                type="text"
-                className={
-                  touched.name && errors.name
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Property Name"
-                name="name"
-                value={values.name}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-              />
-            </div>
-          </Col>
-          <Col lg={6}>
-            <div className="control-group form-group">
-              <label className="form-label">Property Type</label>
-              <Select
-                classNamePrefix="Select"
-                options={propertyTypes}
-                value={propertyTypes.filter(
-                  (option) => option.value === values.propertyType
-                )}
-                placeholder="Select PropertyType"
-                name="propertyType"
-                onChange={(selectedOption: any) => {
-                  handleChange("propertyType")(selectedOption?.value);
-                }}
-              />
-            </div>
-          </Col>
-          <Col lg={6}>
-            <div className="control-group form-group">
-              <label className="form-label">Email</label>
-              <input
-                type="email"
-                className={
-                  touched.email && errors.email
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Email"
-                name="email"
-                value={values.email}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-              />
-            </div>
-          </Col>
-          <Col lg={6}>
-            <div className="control-group form-group">
-              <label className="form-label">Good For</label>
-              <Select<CommanDropDownType>
-                classNamePrefix="Select"
-                options={goodFors}
-                value={goodFors.filter(
-                  (option) => option.value === values.goodFor
-                )}
-                placeholder="Select Good For"
-                name="goodFor"
-                onChange={(selectedOption: any) => {
-                  handleChange("goodFor")(selectedOption?.value);
-                }}
-              />
-            </div>
-          </Col>
-          <Col lg={6}>
-            <div className="control-group form-group">
-              <label className="form-label">Allow For</label>
-              <Select<CommanDropDownType>
-                classNamePrefix="Select"
-                options={allowFors}
-                value={allowFors.filter(
-                  (option) => option.value === values.allowedFor
-                )}
-                placeholder="Select Allow For"
-                name="allowedFor"
-                onChange={(selectedOption: any) => {
-                  handleChange("allowedFor")(selectedOption?.value);
-                }}
-              />
-            </div>
-          </Col>
-          {/* <Col lg={6}>
+      <Row className="Contect-details p-4 mb-4">
+        <h4>Basic Info</h4>
+        <Col lg={6}>
+          <div className="control-group form-group">
+            <label className="form-label">Property Name</label>
+            <input
+              type="text"
+              className={
+                touched.name && errors.name
+                  ? "form-control required error-border"
+                  : "form-control required"
+              }
+              placeholder="Property Name"
+              name="name"
+              value={values.name}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+        </Col>
+        <Col lg={6}>
+          <div className="control-group form-group">
+            <label className="form-label">Property Type</label>
+            <Select
+              classNamePrefix="Select"
+              options={propertyTypes}
+              value={propertyTypes.filter(
+                (option) => option.value === values.propertyType
+              )}
+              placeholder="Select PropertyType"
+              name="propertyType"
+              onChange={(selectedOption: any) => {
+                handleChange("propertyType")(selectedOption?.value);
+              }}
+            />
+          </div>
+        </Col>
+        <Col lg={6}>
+          <div className="control-group form-group">
+            <label className="form-label">Email</label>
+            <input
+              type="email"
+              className={
+                touched.email && errors.email
+                  ? "form-control required error-border"
+                  : "form-control required"
+              }
+              placeholder="Email"
+              name="email"
+              value={values.email}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+        </Col>
+        <Col lg={6}>
+          <div className="control-group form-group">
+            <label className="form-label">Good For</label>
+            <Select<CommanDropDownType>
+              classNamePrefix="Select"
+              options={goodFors}
+              value={goodFors.filter(
+                (option) => option.value === values.goodFor
+              )}
+              placeholder="Select Good For"
+              name="goodFor"
+              onChange={(selectedOption: any) => {
+                handleChange("goodFor")(selectedOption?.value);
+              }}
+            />
+          </div>
+        </Col>
+        <Col lg={6}>
+          <div className="control-group form-group">
+            <label className="form-label">Allow For</label>
+            <Select<CommanDropDownType>
+              classNamePrefix="Select"
+              options={allowFors}
+              value={allowFors.filter(
+                (option) => option.value === values.allowedFor
+              )}
+              placeholder="Select Allow For"
+              name="allowedFor"
+              onChange={(selectedOption: any) => {
+                handleChange("allowedFor")(selectedOption?.value);
+              }}
+            />
+          </div>
+        </Col>
+        {/* <Col lg={6}>
             <div className="control-group form-group">
               <label className="form-label">Space</label>
               <input
@@ -481,62 +469,62 @@ const PropertyInfo = (props: PropertyInfoProps) => {
               />
             </div>
           </Col> */}
-          <Col lg={12}>
-            <div className="control-group form-group">
-              <label className="form-label">Brief Description</label>
-              <textarea
-                className={
-                  touched.briefDescription && errors.briefDescription
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Brief Description"
-                name="briefDescription"
-                value={values.briefDescription}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-              />
-            </div>
-          </Col>
-          <Col lg={12}>
-            <div className="control-group form-group">
-              <label className="form-label">Long Description</label>
-              <textarea
-                className={
-                  touched.longDescription && errors.longDescription
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="long Description"
-                name="longDescription"
-                value={values.longDescription}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-              />
-            </div>
-          </Col>
-          <Col lg={6}>
-            <div className="control-group form-group">
-              <label className="form-label">Virtual Tour Link</label>
-              <input
-                type="text"
-                className={
-                  touched.virtualTourLink && errors.virtualTourLink
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Virtual Tour Link"
-                name="virtualTourLink"
-                value={values.virtualTourLink}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-              />
-            </div>
-          </Col>
-          {/* <Col lg={6}>
+        <Col lg={12}>
+          <div className="control-group form-group">
+            <label className="form-label">Brief Description</label>
+            <textarea
+              className={
+                touched.briefDescription && errors.briefDescription
+                  ? "form-control required error-border"
+                  : "form-control required"
+              }
+              placeholder="Brief Description"
+              name="briefDescription"
+              value={values.briefDescription}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+        </Col>
+        <Col lg={12}>
+          <div className="control-group form-group">
+            <label className="form-label">Long Description</label>
+            <textarea
+              className={
+                touched.longDescription && errors.longDescription
+                  ? "form-control required error-border"
+                  : "form-control required"
+              }
+              placeholder="long Description"
+              name="longDescription"
+              value={values.longDescription}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+        </Col>
+        <Col lg={6}>
+          <div className="control-group form-group">
+            <label className="form-label">Virtual Tour Link</label>
+            <input
+              type="text"
+              className={
+                touched.virtualTourLink && errors.virtualTourLink
+                  ? "form-control required error-border"
+                  : "form-control required"
+              }
+              placeholder="Virtual Tour Link"
+              name="virtualTourLink"
+              value={values.virtualTourLink}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+        </Col>
+        {/* <Col lg={6}>
             <div className="control-group form-group">
               <label className="form-label">Country</label>
               <Select<CommanDropDownType>
@@ -597,369 +585,369 @@ const PropertyInfo = (props: PropertyInfoProps) => {
             </Col>
           ) : null} */}
 
-          <Col lg={6}></Col>
-          <Col lg={6} className="my-3">
-            <Form.Group>
-              <Form.Check
-                className="ps-6 pro-switch-style d-flex align-items-center"
-                type="switch"
-                id="availableForEntireRental"
-                label="Available For EntireRental"
-                onChange={(e) => {
-                  setFieldValue("availableForEntireRental", e.target.checked);
-                }}
-                checked={values.availableForEntireRental}
-              />
-            </Form.Group>
-          </Col>
-          <Col lg={6}></Col>
-          <Col lg={6} className="mb-3">
-            <Form.Group>
-              <Form.Check
-                className="ps-6 pro-switch-style d-flex align-items-center"
-                type="switch"
-                id="strictlyEntireRental"
-                label="Strictly EntireRental"
-                onChange={(e) => {
-                  setFieldValue("strictlyEntireRental", e.target.checked);
-                }}
-                checked={values.strictlyEntireRental}
-              />
-            </Form.Group>
-          </Col>
-          <Col lg={6}></Col>
-          <Col lg={6}>
-            <Form.Group>
-              <Form.Check
-                className="ps-6 pro-switch-style d-flex align-items-center"
-                type="switch"
-                id="isPublished"
-                label="is Published"
-                onChange={(e) => {
-                  setFieldValue("isPublished", e.target.checked);
-                }}
-                checked={values.isPublished}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row className="Contect-details p-4 mb-4">
-          <h4> Addresss</h4>
+        <Col lg={6}></Col>
+        <Col lg={6} className="my-3">
+          <Form.Group>
+            <Form.Check
+              className="ps-6 pro-switch-style d-flex align-items-center"
+              type="switch"
+              id="availableForEntireRental"
+              label="Available For EntireRental"
+              onChange={(e) => {
+                setFieldValue("availableForEntireRental", e.target.checked);
+              }}
+              checked={values.availableForEntireRental}
+            />
+          </Form.Group>
+        </Col>
+        <Col lg={6}></Col>
+        <Col lg={6} className="mb-3">
+          <Form.Group>
+            <Form.Check
+              className="ps-6 pro-switch-style d-flex align-items-center"
+              type="switch"
+              id="strictlyEntireRental"
+              label="Strictly EntireRental"
+              onChange={(e) => {
+                setFieldValue("strictlyEntireRental", e.target.checked);
+              }}
+              checked={values.strictlyEntireRental}
+            />
+          </Form.Group>
+        </Col>
+        <Col lg={6}></Col>
+        <Col lg={6}>
+          <Form.Group>
+            <Form.Check
+              className="ps-6 pro-switch-style d-flex align-items-center"
+              type="switch"
+              id="isPublished"
+              label="is Published"
+              onChange={(e) => {
+                setFieldValue("isPublished", e.target.checked);
+              }}
+              checked={values.isPublished}
+            />
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row className="Contect-details p-4 mb-4">
+        <h4> Addresss</h4>
+        <Col lg={6}>
+          <div className="control-group form-group">
+            <label className="form-label">Address</label>
+            <input
+              type="text"
+              className={
+                touched.address && errors.address
+                  ? "form-control required error-border"
+                  : "form-control required"
+              }
+              placeholder="Address"
+              name="address"
+              value={values.address}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+        </Col>
+        <Col lg={6}>
+          <div className="control-group form-group">
+            <label className="form-label">Country</label>
+            <Select<CommanDropDownType>
+              id="Lcountry"
+              classNamePrefix="Select"
+              name="Lcountry"
+              options={updatedCountries}
+              value={updatedCountries.filter(
+                (option) => option.label === values.Lcountry
+              )}
+              onChange={(value: any) => {
+                setFieldValue("Lcountry", value.label ? value.label : "");
+                setFieldValue("state", "");
+                setFieldValue("Lcity", "");
+              }}
+            />
+          </div>
+        </Col>
+        {values.Lcountry ? (
           <Col lg={6}>
             <div className="control-group form-group">
-              <label className="form-label">Address</label>
-              <input
-                type="text"
-                className={
-                  touched.address && errors.address
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Address"
-                name="address"
-                value={values.address}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-              />
-            </div>
-          </Col>
-          <Col lg={6}>
-            <div className="control-group form-group">
-              <label className="form-label">Country</label>
+              <label className="form-label">State</label>
               <Select<CommanDropDownType>
-                id="Lcountry"
-                classNamePrefix="Select"
-                name="Lcountry"
-                options={updatedCountries}
-                value={updatedCountries.filter(
-                  (option) => option.label === values.Lcountry
+                id="state"
+                name="state"
+                options={updatedStates(
+                  values.Lcountry ? values.Lcountry : null
                 )}
+                value={updatedStates(
+                  values.Lcountry ? values.Lcountry : null
+                ).filter((option) => option.label === values.state)}
                 onChange={(value: any) => {
-                  setFieldValue("Lcountry", value.label ? value.label : "");
-                  setFieldValue("state", "");
+                  setFieldValue("state", value.label ? value.label : "");
                   setFieldValue("Lcity", "");
                 }}
               />
             </div>
           </Col>
-          {values.Lcountry ? (
-            <Col lg={6}>
-              <div className="control-group form-group">
-                <label className="form-label">State</label>
-                <Select<CommanDropDownType>
-                  id="state"
-                  name="state"
-                  options={updatedStates(
-                    values.Lcountry ? values.Lcountry : null
-                  )}
-                  value={updatedStates(
-                    values.Lcountry ? values.Lcountry : null
-                  ).filter((option) => option.label === values.state)}
-                  onChange={(value: any) => {
-                    setFieldValue("state", value.label ? value.label : "");
-                    setFieldValue("Lcity", "");
-                  }}
-                />
-              </div>
-            </Col>
-          ) : null}
-          {values.state ? (
-            <Col lg={6}>
-              <div className="control-group form-group">
-                <label className="form-label">City</label>
-                <Select<CommanDropDownType>
-                  id="Lcity"
-                  name="Lcity"
-                  options={updatedCities(
-                    values.state ? values.state : null,
-                    "location"
-                  )}
-                  value={updatedCities(
-                    values.state ? values.state : null,
-                    "location"
-                  ).filter((option) => option.label === values.Lcity)}
-                  onChange={(value: any) => setFieldValue("Lcity", value.value)}
-                />
-              </div>
-            </Col>
-          ) : null}
-
+        ) : null}
+        {values.state ? (
           <Col lg={6}>
             <div className="control-group form-group">
-              <label className="form-label">Zip Code</label>
-              <input
-                type="text"
-                className={
-                  touched.zipCode && errors.zipCode
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Zip Code"
-                name="zipCode"
-                value={values.zipCode}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-              />
-            </div>
-          </Col>
-          <Col lg={6}>
-            <div className="control-group form-group">
-              <label className="form-label">Latitude</label>
-              <input
-                type="text"
-                className={
-                  touched.latitude && errors.latitude
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Latitude"
-                name="latitude"
-                value={values.latitude}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-              />
-            </div>
-          </Col>
-          <Col lg={6}>
-            <div className="control-group form-group">
-              <label className="form-label">Longitude</label>
-              <input
-                type="text"
-                className={
-                  touched.longitude && errors.longitude
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Longitude"
-                name="longitude"
-                value={values.longitude}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-              />
-            </div>
-          </Col>
-        </Row>
-        <Row className="Contect-details p-4">
-          <h4>Dimensions</h4>
-          <Col lg={6}>
-            <div className="control-group form-group">
-              <label className="form-label">Area</label>
-              <input
-                type="number"
-                className={
-                  touched.area && errors.area
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Area"
-                name="area"
-                value={values.area}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-              />
-            </div>
-          </Col>
-          <Col lg={6}>
-            <div className="control-group form-group">
-              <label className="form-label">Unit</label>
+              <label className="form-label">City</label>
               <Select<CommanDropDownType>
-                classNamePrefix="Select"
-                options={units}
-                value={units.filter((option) => option.value === values.unit)}
-                placeholder="Select Good For"
-                name="unit"
-                onChange={(selectedOption: any) => {
-                  handleChange("unit")(selectedOption?.value);
-                }}
+                id="Lcity"
+                name="Lcity"
+                options={updatedCities(
+                  values.state ? values.state : null,
+                  "location"
+                )}
+                value={updatedCities(
+                  values.state ? values.state : null,
+                  "location"
+                ).filter((option) => option.label === values.Lcity)}
+                onChange={(value: any) => setFieldValue("Lcity", value.value)}
               />
             </div>
           </Col>
-        </Row>
-        <Row className="Contect-details p-4">
-          <h4>Max Capacity</h4>
-          <Col lg={6}>
-            <div className="control-group form-group">
-              <label className="form-label">Adults</label>
-              <input
-                type="number"
-                className={
-                  touched.adults && errors.adults
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Adults"
-                name="adults"
-                value={values.adults}
+        ) : null}
+
+        <Col lg={6}>
+          <div className="control-group form-group">
+            <label className="form-label">Zip Code</label>
+            <input
+              type="text"
+              className={
+                touched.zipCode && errors.zipCode
+                  ? "form-control required error-border"
+                  : "form-control required"
+              }
+              placeholder="Zip Code"
+              name="zipCode"
+              value={values.zipCode}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+        </Col>
+        <Col lg={6}>
+          <div className="control-group form-group">
+            <label className="form-label">Latitude</label>
+            <input
+              type="text"
+              className={
+                touched.latitude && errors.latitude
+                  ? "form-control required error-border"
+                  : "form-control required"
+              }
+              placeholder="Latitude"
+              name="latitude"
+              value={values.latitude}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+        </Col>
+        <Col lg={6}>
+          <div className="control-group form-group">
+            <label className="form-label">Longitude</label>
+            <input
+              type="text"
+              className={
+                touched.longitude && errors.longitude
+                  ? "form-control required error-border"
+                  : "form-control required"
+              }
+              placeholder="Longitude"
+              name="longitude"
+              value={values.longitude}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+        </Col>
+      </Row>
+      <Row className="Contect-details p-4">
+        <h4>Dimensions</h4>
+        <Col lg={6}>
+          <div className="control-group form-group">
+            <label className="form-label">Area</label>
+            <input
+              type="number"
+              className={
+                touched.area && errors.area
+                  ? "form-control required error-border"
+                  : "form-control required"
+              }
+              placeholder="Area"
+              name="area"
+              value={values.area}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+        </Col>
+        <Col lg={6}>
+          <div className="control-group form-group">
+            <label className="form-label">Unit</label>
+            <Select<CommanDropDownType>
+              classNamePrefix="Select"
+              options={units}
+              value={units.filter((option) => option.value === values.unit)}
+              placeholder="Select Good For"
+              name="unit"
+              onChange={(selectedOption: any) => {
+                handleChange("unit")(selectedOption?.value);
+              }}
+            />
+          </div>
+        </Col>
+      </Row>
+      <Row className="Contect-details p-4">
+        <h4>Max Capacity</h4>
+        <Col lg={6}>
+          <div className="control-group form-group">
+            <label className="form-label">Adults</label>
+            <input
+              type="number"
+              className={
+                touched.adults && errors.adults
+                  ? "form-control required error-border"
+                  : "form-control required"
+              }
+              placeholder="Adults"
+              name="adults"
+              value={values.adults}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+        </Col>
+        <Col lg={6}>
+          <div className="control-group form-group">
+            <label className="form-label">Children</label>
+            <input
+              type="number"
+              className={
+                touched.children && errors.children
+                  ? "form-control required error-border"
+                  : "form-control required"
+              }
+              placeholder="Children"
+              name="children"
+              value={values.children}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+        </Col>
+      </Row>
+      <Row className="Contect-details p-4">
+        <h4>Contact Details</h4>
+        <Col lg={6}>
+          <div className="control-group form-group">
+            <label className="form-label">Name</label>
+            <input
+              type="text"
+              className={
+                touched.Cname && errors.Cname
+                  ? "form-control required error-border"
+                  : "form-control required"
+              }
+              placeholder="Name"
+              name="Cname"
+              value={values.Cname}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+        </Col>
+        <Col lg={6}>
+          <label className="form-label">Phone Number</label>
+          <div className="wrap-input100 validate-input input-group property-phone-wrap">
+            <div
+              // className={touched.CphoneNumber && errors.CphoneNumber ? "CountrySelector Property-phone phone-error-border" : "CountrySelector Property-phone"}
+              className="CountrySelector Property-phone"
+            >
+              <PhoneInput
+                country={"us"}
+                value={values.CphoneNumber}
+                inputProps={{ name: "CphoneNumber" }}
                 onChange={(e) => {
-                  handleChange(e);
+                  setFieldValue("CphoneNumber", e);
                 }}
               />
             </div>
-          </Col>
-          <Col lg={6}>
-            <div className="control-group form-group">
-              <label className="form-label">Children</label>
-              <input
-                type="number"
-                className={
-                  touched.children && errors.children
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Children"
-                name="children"
-                value={values.children}
+          </div>
+        </Col>
+        <Col lg={6}>
+          <label className="form-label">Whatsapp Number</label>
+          <div className="wrap-input100 validate-input input-group property-phone-wrap">
+            <div
+              // className={touched.waNumber && errors.waNumber ? "CountrySelector Property-phone phone-error-border" : "CountrySelector Property-phone"}
+              className="CountrySelector Property-phone"
+            >
+              <PhoneInput
+                country={"us"}
+                value={values.waNumber}
+                inputProps={{ name: "waNumber" }}
                 onChange={(e) => {
-                  handleChange(e);
+                  setFieldValue("waNumber", e);
                 }}
               />
             </div>
-          </Col>
-        </Row>
-        <Row className="Contect-details p-4">
-          <h4>Contact Details</h4>
-          <Col lg={6}>
-            <div className="control-group form-group">
-              <label className="form-label">Name</label>
-              <input
-                type="text"
-                className={
-                  touched.Cname && errors.Cname
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Name"
-                name="Cname"
-                value={values.Cname}
+          </div>
+        </Col>
+      </Row>
+      <Row className="Contect-details p-4 mt-4">
+        <h4>Owner Details</h4>
+        <Col lg={6}>
+          <div className="control-group form-group">
+            <label className="form-label">Name</label>
+            <input
+              type="text"
+              className={
+                touched.Oname && errors.Oname
+                  ? "form-control required error-border"
+                  : "form-control required"
+              }
+              placeholder="Name"
+              name="Oname"
+              value={values.Oname}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+        </Col>
+        <Col lg={6}>
+          <label className="form-label">Phone Number</label>
+          <div className="wrap-input100 validate-input input-group property-phone-wrap">
+            <div
+              // className={touched.OphoneNumber && errors.OphoneNumber ? "CountrySelector Property-phone phone-error-border" : "CountrySelector Property-phone"}
+              className="CountrySelector Property-phone"
+            >
+              <PhoneInput
+                country={"us"}
+                inputProps={{ name: "OphoneNumber" }}
+                value={values.OphoneNumber}
                 onChange={(e) => {
-                  handleChange(e);
+                  setFieldValue("OphoneNumber", e);
                 }}
               />
             </div>
-          </Col>
-          <Col lg={6}>
-            <label className="form-label">Phone Number</label>
-            <div className="wrap-input100 validate-input input-group property-phone-wrap">
-              <div
-                // className={touched.CphoneNumber && errors.CphoneNumber ? "CountrySelector Property-phone phone-error-border" : "CountrySelector Property-phone"}
-                className="CountrySelector Property-phone"
-              >
-                <PhoneInput
-                  country={"us"}
-                  value={values.CphoneNumber}
-                  inputProps={{ name: "CphoneNumber"}}
-                  onChange={(e) => {
-                    setFieldValue("CphoneNumber", e);
-                  }}
-                />
-              </div>
-            </div>
-          </Col>
-          <Col lg={6}>
-            <label className="form-label">Whatsapp Number</label>
-            <div className="wrap-input100 validate-input input-group property-phone-wrap">
-              <div
-                // className={touched.waNumber && errors.waNumber ? "CountrySelector Property-phone phone-error-border" : "CountrySelector Property-phone"}
-                className="CountrySelector Property-phone"
-              >
-                <PhoneInput
-                  country={"us"}
-                  value={values.waNumber}
-                  inputProps={{ name: "waNumber"}}
-                  onChange={(e) => {
-                    setFieldValue("waNumber", e);
-                  }}
-                />
-              </div>
-            </div>
-          </Col>
-        </Row>
-        <Row className="Contect-details p-4 mt-4">
-          <h4>Owner Details</h4>
-          <Col lg={6}>
-            <div className="control-group form-group">
-              <label className="form-label">Name</label>
-              <input
-                type="text"
-                className={
-                  touched.Oname && errors.Oname
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Name"
-                name="Oname"
-                value={values.Oname}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-              />
-            </div>
-          </Col>
-          <Col lg={6}>
-            <label className="form-label">Phone Number</label>
-            <div className="wrap-input100 validate-input input-group property-phone-wrap">
-              <div
-                // className={touched.OphoneNumber && errors.OphoneNumber ? "CountrySelector Property-phone phone-error-border" : "CountrySelector Property-phone"}
-                className="CountrySelector Property-phone"
-              >
-                <PhoneInput
-                  country={"us"}
-                  inputProps={{ name: "OphoneNumber"}}
-                  value={values.OphoneNumber}
-                  onChange={(e) => {
-                    setFieldValue("OphoneNumber", e);
-                  }}
-                />
-              </div>
-            </div>
-          </Col>
-        </Row>
-        {/* <div className="d-flex justify-content-end mt-4 me-3">
+          </div>
+        </Col>
+      </Row>
+      {/* <div className="d-flex justify-content-end mt-4 me-3">
           <Button type="submit">Submit</Button>
         </div>
       </form> */}

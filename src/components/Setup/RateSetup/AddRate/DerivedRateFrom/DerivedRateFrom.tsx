@@ -12,12 +12,10 @@ const DerivedRateFrom = (props) => {
   const [selectRateType, selSelectRateType] = useState<
     "Percentage" | "Fixed"
   >();
-  console.log(selectRateType, "selectRateType");
 
   const dispatch = useDispatch<AppDispatch>();
   const getRateDetails = async () => {
     let response: any = await dispatch(getRate()).unwrap();
-    console.log(response, "response");
   };
   useEffect(() => {
     getRateDetails();
@@ -40,9 +38,9 @@ const DerivedRateFrom = (props) => {
   ];
 
   const onSubmit = () => {
-    props.selectedRateTypeID(selectedRate)
+    props.selectedRateTypeID(selectedRate);
     props.nextStep();
-  } 
+  };
 
   return (
     <React.Fragment>
@@ -150,7 +148,13 @@ const DerivedRateFrom = (props) => {
             <Button onClick={props.previousStep}>Previous</Button>
           </div>
           <div className="next-button">
-            <Button onClick={()=>{onSubmit()}}>Next</Button>
+            <Button
+              onClick={() => {
+                onSubmit();
+              }}
+            >
+              Next
+            </Button>
           </div>
         </Col>
       </Row>
