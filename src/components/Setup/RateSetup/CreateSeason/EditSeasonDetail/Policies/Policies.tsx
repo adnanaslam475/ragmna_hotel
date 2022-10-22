@@ -7,7 +7,8 @@ import { CommanDropDownType } from "../../../../PropertySetup/AddProperty/types"
 import { fetchPolicies, usePolicies } from "../../../RateSetupSlice";
 import "./Policies.scss";
 
-const Policies = () => {
+const Policies = (props: any) => {
+  const { seasonBody, SetSeasonBody } = props;
   const RoomTypes: CommanDropDownType[] = [
     { value: "Master Bedroom", label: "Master Bedroom" },
     { value: "Standard Room", label: "Standard Room" },
@@ -19,6 +20,7 @@ const Policies = () => {
   const [deposit, setDeposit] = useState<boolean>(false);
   const [checkIn, setCheckIn] = useState<boolean>(false);
   const [noShow, setNoShow] = useState<boolean>(false);
+  const [cancellationRadio, setCancellationRadio] = useState<any[]>([]);
   const { policies } = usePolicies();
   const assignPolicy = (e) => {
     setAssignPolicies(e.target.checked);
@@ -29,6 +31,20 @@ const Policies = () => {
   useEffect(() => {
     getPolicies();
   }, []);
+
+  const onHandleRadioChange = (e, id) => {
+    let temp = Object.assign({}, seasonBody)
+    temp[e.target.name] = id
+    SetSeasonBody(temp)
+  }
+
+  const onHandleCheckCHange = (e,name) => {
+    if (!e.target.checked) {
+      let temp = Object.assign({},seasonBody)
+      temp[name] = ''
+      SetSeasonBody(temp)
+    }
+  }
   return (
     <React.Fragment>
       <div className="policies">
@@ -42,13 +58,6 @@ const Policies = () => {
             onChange={(e) => {
               assignPolicy(e);
             }}
-            // onChange={(e) => {
-            //   setFieldValue(
-            //     "additionalCharge",
-            //     e.target.checked
-            //   );
-            // }}
-            // checked={values.additionalCharge}
           />
         </div>
         <div className="policies-body">
@@ -68,14 +77,18 @@ const Policies = () => {
               <input
                 type="checkbox"
                 className="custom-control-input"
-                name="example-checkbox5"
-                defaultValue="option5"
-                onClick={() => setCancellation(!cancellation)}
+                name="cancellationPolicy-check"
+                checked={seasonBody['cancellationPolicy'] || cancellation ? true : false}
+                onChange={(e) => {
+                  setCancellation(!cancellation)
+                  onHandleCheckCHange(e,'cancellationPolicy')
+                }
+                }
               />
               <span className="custom-control-label">Cancellation</span>
             </label>
           </div>
-          {policies &&
+          {(cancellation || seasonBody['cancellationPolicy']) && policies &&
             policies.map((item, ind) => {
               if (item.type === "Cancellation") {
                 return (
@@ -84,9 +97,11 @@ const Policies = () => {
                       <input
                         type="radio"
                         className="custom-control-input"
-                        name={`cancellation${ind}`}
-                        defaultValue="option5"
-                        defaultChecked
+                        name={`cancellationPolicy`}
+                        checked={item._id == seasonBody['cancellationPolicy'] ? true : false}
+                        onChange={(e) => {
+                          onHandleRadioChange(e, item._id)
+                        }}
                       />
                       <span className="custom-control-label">{item.name}</span>
                       <p>{item.description}</p>
@@ -101,14 +116,17 @@ const Policies = () => {
               <input
                 type="checkbox"
                 className="custom-control-input"
-                name="example-checkbox5"
-                defaultValue="option5"
-                onClick={() => setDeposit(!deposit)}
+                name="depositPolicy-check"
+                checked={seasonBody['depositPolicy'] || deposit ? true : false}
+                onChange={(e) => {
+                  setDeposit(!deposit)
+                  onHandleCheckCHange(e,'depositPolicy')
+                }}
               />
               <span className="custom-control-label">Deposit</span>
             </label>
           </div>
-          {policies &&
+          {(deposit || seasonBody['depositPolicy']) && policies &&
             policies.map((item, ind) => {
               if (item.type === "Deposit") {
                 return (
@@ -117,9 +135,11 @@ const Policies = () => {
                       <input
                         type="radio"
                         className="custom-control-input"
-                        name={`Deposit${ind}`}
-                        defaultValue="option5"
-                        defaultChecked
+                        name={`depositPolicy`}
+                        checked={item._id == seasonBody['depositPolicy'] ? true : false}
+                        onChange={(e) => {
+                          onHandleRadioChange(e, item._id)
+                        }}
                       />
                       <span className="custom-control-label">{item.name}</span>
                       <p>{item.description}</p>
@@ -134,14 +154,18 @@ const Policies = () => {
               <input
                 type="checkbox"
                 className="custom-control-input"
-                name="example-checkbox5"
-                defaultValue="option5"
-                onClick={() => setCheckIn(!checkIn)}
+                checked={seasonBody['checkInPolicy'] || checkIn ? true : false}
+                name="checkInPolicy-check"
+                onChange={(e) => {
+                  setCheckIn(!checkIn)
+
+                  onHandleCheckCHange(e,'checkInPolicy')
+                }}
               />
               <span className="custom-control-label">Check-in</span>
             </label>
           </div>
-          {policies &&
+          {(checkIn || seasonBody['checkInPolicy']) && policies &&
             policies.map((item, ind) => {
               if (item.type === "Check-in") {
                 return (
@@ -150,9 +174,11 @@ const Policies = () => {
                       <input
                         type="radio"
                         className="custom-control-input"
-                        name={`Check-in${ind}`}
-                        defaultValue="option5"
-                        defaultChecked
+                        checked={item._id == seasonBody['checkInPolicy'] ? true : false}
+                        name={`checkInPolicy`}
+                        onChange={(e) => {
+                          onHandleRadioChange(e, item._id)
+                        }}
                       />
                       <span className="custom-control-label">{item.name}</span>
                       <p>{item.description}</p>
@@ -167,14 +193,18 @@ const Policies = () => {
               <input
                 type="checkbox"
                 className="custom-control-input"
-                name="example-checkbox5"
-                defaultValue="option5"
-                onClick={() => setNoShow(!noShow)}
+                checked={seasonBody['noShowPolicy'] || noShow ? true : false}
+                name="noShowPolicy-check"
+                onChange={(e) => {
+                  setNoShow(!noShow)
+
+                  onHandleCheckCHange(e,'noShowPolicy')
+                }}
               />
               <span className="custom-control-label">No Show</span>
             </label>
           </div>
-          {policies &&
+          {(noShow || seasonBody['noShowPolicy'])&& policies &&
             policies.map((item, ind) => {
               if (item.type === "No-Show") {
                 return (
@@ -183,9 +213,11 @@ const Policies = () => {
                       <input
                         type="radio"
                         className="custom-control-input"
-                        name={`No-Show${ind}`}
-                        defaultValue="option5"
-                        defaultChecked
+                        name={`checkInPolicy`}
+                        checked={item._id == seasonBody['checkInPolicy'] ? true : false}
+                        onChange={(e) => {
+                          onHandleRadioChange(e, item._id)
+                        }}
                       />
                       <span className="custom-control-label">{item.name}</span>
                       <p>{item.description}</p>

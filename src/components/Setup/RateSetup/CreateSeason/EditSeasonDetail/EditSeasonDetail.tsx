@@ -18,7 +18,7 @@ import { CommanDropDownType } from "../../../PropertySetup/AddProperty/types";
 import Rates from "./Rates/Rates";
 import RulesRestrictions from "./RulesRestrictions/RulesRestrictions";
 import Policies from "./Policies/Policies";
-import { getById, useRateData } from "../../RateSetupSlice";
+import { addSeason, alterSeason, getById, useRateData } from "../../RateSetupSlice";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { AppDispatch } from "../../../../../Redux/Store";
@@ -42,6 +42,9 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
       getByRateId();
     }
   }, [id]);
+  
+
+
   const [show, setShow] = useState(true);
   let [seasonBody, SetSeasonBody] = useState<any>({
     name: "",
@@ -67,9 +70,31 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
       promoCode: "",
     },
   });
-
+  useEffect(()=>{
+    if(season && season._id){
+      let clonedObject = { ...seasonBody };
+      clonedObject = {
+        ...clonedObject,
+        name: season.name,
+        color: season.color,
+        startDate: season.startDate,
+        endDate: season.endDate,
+        days: season.days,
+        restrictions: season.restrictions,
+        roomTypes: season.roomTypes,
+        channels: season.channels,
+        depositPolicy: season.depositPolicy,
+        cancellationPolicy: season.cancellationPolicy,
+        checkInPolicy: season.checkInPolicy,
+        noShowPolicy: season.noShowPolicy,
+      };
+      SetSeasonBody(clonedObject);
+    }
+  },[season])
   useEffect(() => {
-    if (season && rateData) {
+    if(!season._id){
+
+    if (season && rateData ) {
       let clonedObject = { ...seasonBody };
       clonedObject = {
         ...clonedObject,
@@ -88,7 +113,11 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
       };
       SetSeasonBody(clonedObject);
     }
+  }
+
   }, [rateData, season]);
+  console.log(seasonBody,'body');
+  
   const setbasePrice = (index, value) => {
     if (seasonBody.roomTypes.length) {
       let array = seasonBody.roomTypes.slice();
@@ -103,11 +132,21 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
       SetSeasonBody(newObj);
     }
   };
+  const hexToRGB = (hex: string, alpha: number | undefined = 1) => {
+    hex = hex.toUpperCase();
+  
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+  
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+   }
+  
   const setChannelPrice = (index, value, channel, cIndex) => {
     let array = seasonBody.roomTypes.slice();
     let channelArray = seasonBody.roomTypes[index].channelPrices.slice();
     channelArray[cIndex] = {
-      price: value,
+      price: parseInt(value),
       channel: channel,
     };
     array[index] = {
@@ -118,6 +157,45 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
     const newObj = { ...seasonBody, roomTypes: array };
     SetSeasonBody(newObj);
   };
+
+  const onHandleRestrictionInputChange = (e) => {
+    let obj = seasonBody['restrictions']
+    if (e.target.name == 'minimumNights') {
+      obj = {
+        ...obj,
+        minimumNights: e.target.value
+      }
+    } else if (e.target.name == 'maximumNights') {
+      obj = {
+        ...obj,
+        maximumNights: e.target.value
+      }
+    } else if (e.target.name == 'promoCode') {
+      obj = {
+        ...obj,
+        promoCode: e.target.value
+      }
+    }
+    const newObj = { ...seasonBody, restrictions: obj }
+    SetSeasonBody(newObj)
+  }
+
+
+  const handleSubmitClick = () => {
+    if(season && season._id){
+      let payload = Object.assign({}, seasonBody)
+      payload['id'] = rateData['_id']
+      payload['sId'] = season._id
+      dispatch(alterSeason(payload))
+    } else {
+      let payload = Object.assign({}, seasonBody)
+      payload['id'] = rateData['_id']
+      console.log(seasonBody, 'seasonBody');
+  
+      dispatch(addSeason(payload))
+    }
+    
+  }
   return (
     <React.Fragment>
       <Modal
@@ -131,7 +209,7 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
         <ModalBody className="season-body-modal">
           <Row>
             <Tab.Container defaultActiveKey="first">
-              <Col lg={3} className="sidebar-main">
+              <Col lg={3} style={{backgroundColor:hexToRGB(season.color,0.5)}} className="sidebar-main">
                 <div className="main-header">
                   <h1>{season.name}</h1>
                 </div>
@@ -153,6 +231,7 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
                     variant="primary"
                     onClick={() => {
                       isModelClose(false);
+                      handleSubmitClick()
                     }}
                   >
                     Save Changes
@@ -169,10 +248,10 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
                     />
                   </Tab.Pane>
                   <Tab.Pane eventKey="second">
-                    <RulesRestrictions />
+                    <RulesRestrictions seasonBody={seasonBody} SetSeasonBody={SetSeasonBody} onHandleRestrictionInputChange={onHandleRestrictionInputChange} />
                   </Tab.Pane>
                   <Tab.Pane eventKey="third">
-                    <Policies />
+                    <Policies seasonBody={seasonBody} SetSeasonBody={SetSeasonBody} />
                   </Tab.Pane>
                 </Tab.Content>
               </Col>

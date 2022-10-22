@@ -13,10 +13,11 @@ import { CommanDropDownType } from "../../PropertySetup/AddProperty/types";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import { Formik, Form as FormikForm, Field, FieldArray } from "formik";
 import { useParams } from "react-router-dom";
-import { getById, useRateData } from "../RateSetupSlice";
+import { getById, removeSeason, useRateData } from "../RateSetupSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../Redux/Store";
 import { daysInWeek } from "date-fns";
+import ConformationPopup from "../../../../Modals/ConformationPopup/ConformationPopup";
 
 const CreateSeason = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -55,6 +56,8 @@ const CreateSeason = () => {
 
   const [openSelectColor, setOpenSelectColor] = useState([false]);
   const [isEditModal, setIsEditModel] = useState(false);
+  const [isOpenDeletePopUp, setIsOpenDeletePopUp] = useState<boolean>(false);
+  const [deleteId, setDeleteId] = useState('')
   const [seasonDetails, setSeasonDetails] = useState<any>([
     {
       name: "",
@@ -84,6 +87,48 @@ const CreateSeason = () => {
   const isModelClose = () => {
     setIsEditModel(false);
   };
+
+  useEffect(() => {
+    if (rateData && rateData.seasons) {
+      let temp = Object.assign([], seasonDetails)
+      let seasons: any = []
+      for (let index = 0; index < rateData.seasons.length; index++) {
+        let payload: any = Object.assign({}, rateData.seasons[index]);
+        payload.startDate = new Date(payload.startDate);
+        payload.endDate = new Date(payload.endDate);
+        seasons.push(payload)
+      }
+      setSeasonDetails(seasons)
+      seasons.push({
+        name: "",
+        startDate: "",
+        endDate: "",
+        color: "#707070",
+        days: [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday",
+        ],
+        roomTypes: [],
+        depositPolicy: "",
+        cancellationPolicy: "",
+        checkInPolicy: "",
+        noShowPolicy: "",
+        channels: [],
+        restrictions: {
+          minimumNights: 0,
+          maximumNights: 0,
+          promoCode: "",
+        },
+      })
+      setSeasonDetails(seasons)
+
+    }
+  }, [rateData])
 
   const AddSeason = () => {
     setSeasonDetails([
@@ -126,12 +171,33 @@ const CreateSeason = () => {
     }
   };
 
-  const removeSeason = (index) => {
-    if (seasonDetails.length < 2) return;
-    let temp = Object.assign([], seasonDetails);
-    temp.splice(index, 1);
-    setSeasonDetails(temp);
+  const deleteSeason = (index, id) => {
+    setIsOpenDeletePopUp(true)
+    setDeleteId(id)
   };
+
+  const smallmodalClose = async (value) => {
+
+    // if (seasonDetails.length < 2) return;
+    //     let temp = Object.assign([], seasonDetails);
+    //     temp.splice(index, 1);
+    // setSeasonDetails(temp);
+    if (value) {
+      try {
+        let payload = {
+          id: rateData['_id'],
+          sId: deleteId
+        }
+        await dispatch(removeSeason(payload))
+        getByRateId();
+        setIsOpenDeletePopUp(false)
+        setDeleteId('')
+      } catch (err: any) {
+        setIsOpenDeletePopUp(false)
+
+      }
+    }
+  }
 
   const handleChange = (key, value, index) => {
     let temp = Object.assign([], seasonDetails);
@@ -185,7 +251,7 @@ const CreateSeason = () => {
                 <DayPickerInput
                   dayPickerProps={{ disabledDays: { before: new Date() } }}
                   placeholder="From"
-                  value={seasonDetails.startDate}
+                  value={seasonDetails[index].startDate}
                   onDayChange={(e) => {
                     let temp = Object.assign([], seasonDetails);
                     temp[index]["startDate"] = e;
@@ -432,7 +498,7 @@ const CreateSeason = () => {
                       className="icon fe fe-x-circle"
                       title="Delete"
                       onClick={() => {
-                        removeSeason(index);
+                        deleteSeason(index, item._id);
                       }}
                     />
                   </button>
@@ -456,6 +522,9 @@ const CreateSeason = () => {
       </Card>
       {isEditModal && (
         <EditSeasonDetail season={season} isModelClose={isModelClose} />
+      )}
+      {isOpenDeletePopUp && (
+        <ConformationPopup smallmodalClose={smallmodalClose} />
       )}
     </React.Fragment>
   );

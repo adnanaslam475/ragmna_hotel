@@ -62,8 +62,8 @@ const Rates = ({ seasonBody, setbasePrice, setChannelPrice }) => {
                         type="checkbox"
                         className="custom-control-input"
                         name={item.roomTypeId}
-                        defaultValue="option5"
-                        onClick={() => setStandardRoom(!standardRoom)}
+                        checked={item.price ? true :false }
+                        onChange={() => setStandardRoom(!standardRoom)}
                       />
                       <span className="custom-control-label">
                         {getRoomTypeByID(item.roomTypeId)}
@@ -71,7 +71,7 @@ const Rates = ({ seasonBody, setbasePrice, setChannelPrice }) => {
                     </label>
                   </Col>
                   <Col lg={3} md={6} sm={12}>
-                    {standardRoom ? (
+                   
                       <div className="standard-rate-night">
                         <div className="control-group form-group">
                           <input
@@ -86,13 +86,12 @@ const Rates = ({ seasonBody, setbasePrice, setChannelPrice }) => {
                           />
                         </div>
                       </div>
-                    ) : null}
                   </Col>
                   {seasonBody &&
                     seasonBody.channels.map((val, ind) => {
                       return (
                         <Col key={ind} lg={3} md={6} sm={12}>
-                          {standardRoom ? (
+                       
                             <div className="standard-rate-night">
                               <div className="control-group form-group">
                                 <input
@@ -100,7 +99,7 @@ const Rates = ({ seasonBody, setbasePrice, setChannelPrice }) => {
                                   className="form-control required"
                                   name={`channel${ind}`}
                                   placeholder="$"
-                                  value={item.channelPrices.price}
+                                  value={item.channelPrices[ind]?.price}
                                   onChange={(e) =>
                                     setChannelPrice(
                                       index,
@@ -112,7 +111,7 @@ const Rates = ({ seasonBody, setbasePrice, setChannelPrice }) => {
                                 />
                               </div>
                             </div>
-                          ) : null}
+                        
                         </Col>
                       );
                     })}
