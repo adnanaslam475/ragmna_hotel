@@ -47,6 +47,7 @@ const SignIn = () => {
     try {
       await dispatch(authLogin(data)).unwrap();
       setLoader(false);
+      RouteChange();
       // await logIn(data);
     } catch (err: any) {
       setLoader(false);
