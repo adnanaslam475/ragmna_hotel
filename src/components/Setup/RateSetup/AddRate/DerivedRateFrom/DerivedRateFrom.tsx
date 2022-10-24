@@ -51,7 +51,7 @@ const DerivedRateFrom = (props) => {
           </div>
         </Col>
         <Col lg={6} md={12} className="Derived-part p-4">
-          <div>
+          <div className="derived">
             {rateList.map((val, index) => {
               return (
                 <div key={index}>
@@ -72,9 +72,11 @@ const DerivedRateFrom = (props) => {
                   </label>
                   {selectedRate == val._id ? (
                     <div className="inner-details">
-                      <span>
-                        Rates for the derived rate plan are the
-                        <div className="type-input">
+                      <Row className="details">
+                        <Col lg={3}>
+                          Rates for the derived rate plan are the
+                        </Col>
+                        <Col lg={2} className="type-input">
                           {props.derivedRate.calculationType == "Fixed" ? (
                             <i className="icon fe fe-dollar-sign" />
                           ) : null}
@@ -89,36 +91,43 @@ const DerivedRateFrom = (props) => {
                           {props.derivedRate.calculationType == "Percentage" ? (
                             <i className="icon fe fe-percent" />
                           ) : null}
-                        </div>
-                        <Select
-                          classNamePrefix="Select"
-                          options={inputType}
-                          value={inputType.filter(
-                            (option) =>
-                              option.value === props.derivedRate.calculationType
-                          )}
-                          placeholder="Select"
-                          name="calculationType"
-                          onChange={(selectedOption: any) => {
-                            props.valueChange(
-                              "calculationType",
-                              selectedOption?.value
-                            );
-                          }}
-                        />
-                        <Select
-                          classNamePrefix="Select"
-                          options={rateThan}
-                          name="type"
-                          value={rateThan.filter(
-                            (option) => option.value === props.derivedRate.type
-                          )}
-                          onChange={(selectedOption: any) => {
-                            props.valueChange("type", selectedOption?.value);
-                          }}
-                        />
-                        {val.displayName}
-                      </span>
+                        </Col>
+                        <Col lg={3}>
+                          <Select
+                            classNamePrefix="Select"
+                            options={inputType}
+                            value={inputType.filter(
+                              (option) =>
+                                option.value ===
+                                props.derivedRate.calculationType
+                            )}
+                            placeholder="Select"
+                            name="calculationType"
+                            onChange={(selectedOption: any) => {
+                              props.valueChange(
+                                "calculationType",
+                                selectedOption?.value
+                              );
+                            }}
+                          />
+                        </Col>
+
+                        <Col lg={3}>
+                          <Select
+                            classNamePrefix="Select"
+                            options={rateThan}
+                            name="type"
+                            value={rateThan.filter(
+                              (option) =>
+                                option.value === props.derivedRate.type
+                            )}
+                            onChange={(selectedOption: any) => {
+                              props.valueChange("type", selectedOption?.value);
+                            }}
+                          />
+                        </Col>
+                        <Col lg={1}>{val.displayName}</Col>
+                      </Row>
                       <div>
                         <label className="custom-control custom-checkbox-md">
                           <input

@@ -1,13 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { AppDispatch } from "../../../../../Redux/Store";
+import { fetchPolicies, usePolicies } from "../../RateSetupSlice";
 import "./PoliciesRatePlan.scss";
 
 const PoliciesRatePlan = (props) => {
+  const dispatch = useDispatch<AppDispatch>();
   const [cancellation, setCancellation] = useState<boolean>(false);
   const [deposit, setDeposit] = useState<boolean>(false);
   const [checkIn, setCheckIn] = useState<boolean>(false);
   const [noShow, setNoShow] = useState<boolean>(false);
+
+  const { policies } = usePolicies();
+  console.log(policies, "policies");
+
+  const getPolicies = () => {
+    let response = dispatch(fetchPolicies()).unwrap;
+  };
+
+  useEffect(() => {
+    getPolicies();
+  }, []);
 
   let navigate = useNavigate();
   const RouteChange = () => {
@@ -17,6 +32,8 @@ const PoliciesRatePlan = (props) => {
   const submitWizard = () => {
     props.onSubmit();
   };
+console.log(props.rate,"rate");
+
   return (
     <React.Fragment>
       <Row>
@@ -39,55 +56,49 @@ const PoliciesRatePlan = (props) => {
               identical policy on the external channel for this Rate Plan in
               order to match innCenter
             </p>
-            <div className="d-flex mt-6">
+            <div className="d-flex">
               <label className="custom-control custom-checkbox-md">
                 <input
                   type="checkbox"
                   className="custom-control-input"
                   name="example-checkbox5"
-                  defaultValue="option5"
-                  onClick={() => setCancellation(!cancellation)}
+                  checked={props.rate.cancellationPolicy || cancellation ? true : false}
+                  onChange={(e) => {
+                    props.clearPolicy(e, "cancellation");
+                    setCancellation(!cancellation)
+                  }}
                 />
                 <span className="custom-control-label">Cancellation</span>
               </label>
             </div>
-            {cancellation ? (
-              <div className="inner-class">
-                <label className="custom-control custom-radio-md">
-                  <input
-                    type="radio"
-                    className="custom-control-input"
-                    name="cancellation"
-                    defaultValue="option5"
-                    defaultChecked
-                  />
-                  <span className="custom-control-label">
-                    Room Cancellation Policy -
-                  </span>
-                  <p>
-                    Cancellation Policy - Any cancellations made outside 48
-                    hours of arrival are fully refundable. Cancellations made
-                    within 48 hours of arrival will be non-refundable
-                  </p>
-                </label>
-                <label className="custom-control custom-radio-md">
-                  <input
-                    type="radio"
-                    className="custom-control-input"
-                    name="cancellation"
-                    defaultValue="option5"
-                  />
-                  <span className="custom-control-label">
-                    House Cancellation Policy
-                  </span>
-                  <p>
-                    Guests will incur a fee of 100% of total charges if they
-                    cancel 0 days after the reservation was made
-                  </p>
-                </label>
-              </div>
-            ) : null}
-
+            {props.rate.cancellationPolicy || cancellation
+              ? policies &&
+                policies.map((item, ind) => {
+                  if (item.type === "Cancellation") {
+                    return (
+                      <div className="inner-class">
+                        <label className="custom-control custom-radio-md">
+                          <input
+                            type="radio"
+                            className="custom-control-input"
+                            name="cancellation"
+                            checked={
+                              item._id === props.rate.cancellationPolicy
+                            }
+                            onChange={(e) => {
+                              props.onRadioChange(e, ind, item, "cancellation");
+                            }}
+                          />
+                          <span className="custom-control-label">
+                            {item.name}
+                          </span>
+                          <p>{item.description}</p>
+                        </label>
+                      </div>
+                    );
+                  }
+                })
+              : null}
             <div className="d-flex">
               <label className="custom-control custom-checkbox-md">
                 <input
@@ -95,46 +106,81 @@ const PoliciesRatePlan = (props) => {
                   className="custom-control-input"
                   name="example-checkbox5"
                   defaultValue="option5"
-                  onClick={() => setDeposit(!deposit)}
+                  checked={props.rate.depositPolicy || deposit ? true : false}
+                  onChange={(e) => {
+                    props.clearPolicy(e, "deposit");
+                    setDeposit(!deposit)
+                  }}
                 />
                 <span className="custom-control-label">Deposit</span>
               </label>
             </div>
-            {deposit ? (
-              <div className="inner-class">
-                <label className="custom-control custom-radio-md">
-                  <input
-                    type="radio"
-                    className="custom-control-input"
-                    name="deposit"
-                    defaultValue="option5"
-                    defaultChecked
-                  />
-                  <span className="custom-control-label">
-                    Room Deposit Policy -
-                  </span>
-                  <p>
-                    Deposit Policy - A deposit equal to 50% of the Total Stay is
-                    required to make a reservation.
-                  </p>
-                </label>
-                <label className="custom-control custom-radio-md">
-                  <input
-                    type="radio"
-                    className="custom-control-input"
-                    name="deposit"
-                    defaultValue="option6"
-                  />
-                  <span className="custom-control-label">
-                    House Deposit Policy
-                  </span>
-                  <p>
-                    When guest books reservation, they must pay 100% of total
-                    charges
-                  </p>
-                </label>
-              </div>
-            ) : null}
+            { deposit || props.rate.depositPolicy ? policies &&
+              policies.map((item, ind) => {
+                if (item.type === "Deposit") {
+                  return (
+                    <div className="inner-class">
+                      <label className="custom-control custom-radio-md">
+                        <input
+                          type="radio"
+                          className="custom-control-input"
+                          name="Deposit"
+                          defaultValue="option5"
+                          checked={item._id === props.rate.depositPolicy}
+                          onChange={(e) => {
+                            props.onRadioChange(e, ind, item, "deposit");
+                          }}
+                        />
+                        <span className="custom-control-label">
+                          {item.name}
+                        </span>
+                        <p>{item.description}</p>
+                      </label>
+                    </div>
+                  );
+                }
+              }): null}
+            <div className="d-flex">
+              <label className="custom-control custom-checkbox-md">
+                <input
+                  type="checkbox"
+                  className="custom-control-input"
+                  name="example-checkbox5"
+                  defaultValue="option5"
+                  checked={props.rate.checkInPolicy || checkIn ? true : false}
+                  onChange={(e) => {
+                    props.clearPolicy(e, "check-In");
+                    setCheckIn(!checkIn)
+                  }}
+                />
+                <span className="custom-control-label">Check-in</span>
+              </label>
+            </div>
+            <div className="inner-class">
+              {checkIn || props.rate.checkInPolicy ? policies &&
+                policies.map((item, ind) => {
+                  if (item.type === "Check-in") {
+                    return (
+                      <label className="custom-control custom-radio-md">
+                        <input
+                          type="radio"
+                          className="custom-control-input"
+                          name="Check-in"
+                          defaultValue="option5"
+                          checked={item._id === props.rate.checkInPolicy}
+                          onChange={(e) => {
+                            props.onRadioChange(e, ind, item, "check-In");
+                          }}
+                        />
+                        <span className="custom-control-label">
+                          {item.name}
+                        </span>
+                        <p>{item.description}</p>
+                      </label>
+                    );
+                  }
+                }): null}
+            </div>
 
             <div className="d-flex">
               <label className="custom-control custom-checkbox-md">
@@ -143,58 +189,40 @@ const PoliciesRatePlan = (props) => {
                   className="custom-control-input"
                   name="example-checkbox5"
                   defaultValue="option5"
-                  onClick={() => setCheckIn(!checkIn)}
-                />
-                <span className="custom-control-label">Check-in</span>
-              </label>
-            </div>
-            {checkIn ? (
-              <div className="inner-class">
-                <label className="custom-control custom-radio-md">
-                  <input
-                    type="radio"
-                    className="custom-control-input"
-                    name="check-in"
-                    defaultValue="option5"
-                    defaultChecked
-                  />
-                  <span className="custom-control-label">
-                    Check in Policy -
-                  </span>
-                  <p>
-                    Check in Policy - The balance of your stay is due on
-                    arrival.
-                  </p>
-                </label>
-              </div>
-            ) : null}
-            <div className="d-flex">
-              <label className="custom-control custom-checkbox-md">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  name="example-checkbox5"
-                  defaultValue="option5"
-                  onClick={() => setNoShow(!noShow)}
+                  checked={props.rate.noShowPolicy || noShow ? true : false}
+                  onChange={(e) => {
+                    props.clearPolicy(e, "No-Show");
+                    setNoShow(!noShow)
+                  }}
                 />
                 <span className="custom-control-label">No Show</span>
               </label>
             </div>
-            {noShow ? (
-              <div className="inner-class">
-                <label className="custom-control custom-radio-md">
-                  <input
-                    type="radio"
-                    className="custom-control-input"
-                    name="no-show"
-                    defaultValue="option5"
-                    defaultChecked
-                  />
-                  <span className="custom-control-label">No-Show Policy -</span>
-                  <p>No-Show Policy - No-shows will be non-refundable.</p>
-                </label>
-              </div>
-            ) : null}
+            {noShow || props.rate.noShowPolicy ? policies &&
+              policies.map((item, ind) => {
+                if (item.type === "No-Show") {
+                  return (
+                    <div className="inner-class">
+                      <label className="custom-control custom-radio-md">
+                        <input
+                          type="radio"
+                          className="custom-control-input"
+                          name="No-Show"
+                          defaultValue="option5"
+                          checked={item._id === props.rate.noShowPolicy}
+                          onChange={(e) => {
+                            props.onRadioChange(e, ind, item, "No-Show");
+                          }}
+                        />
+                        <span className="custom-control-label">
+                          {item.name}
+                        </span>
+                        <p>{item.description}</p>
+                      </label>
+                    </div>
+                  );
+                }
+              }): null}
           </div>
           <div className="Previous-button">
             <Button onClick={props.previousStep}>Previous</Button>
