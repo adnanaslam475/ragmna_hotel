@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Card, Nav, Tab } from "react-bootstrap";
+import { Button, Card, Nav, Tab } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { AppDispatch } from "../../../../Redux/Store";
@@ -26,7 +26,7 @@ const EditRateSetup = () => {
         <Card.Body>
           <div className="panel panel-secondary">
             <Tab.Container id="left-tabs-example p-0" defaultActiveKey="first">
-              <div className="tab-name-container">
+              <div className="tab-name-container d-flex justify-content-between">
                 <Nav
                   variant="pills"
                   className="panel-tabs nav-tabs panel-secondary"
@@ -43,6 +43,7 @@ const EditRateSetup = () => {
                     <Nav.Link eventKey="third">Calendar</Nav.Link>
                   </Nav.Item>
                 </Nav>
+                <Button style={{borderRadius:'0px 10px 10px 0'}} >Save</Button>
               </div>
               <div className="tab-content-container">
                 <Tab.Content>

@@ -31,11 +31,15 @@ const AddRate = () => {
       promoCode: "",
     },
     default: false,
+    depositPolicy: undefined,
+    cancellationPolicy: undefined,
+    checkInPolicy: undefined,
+    noShowPolicy: undefined,
   });
   const [customDate, setCustomDate] = useState<any>([
     {
-      startDate: null,
-      endDate: null,
+      startDate: undefined,
+      endDate: undefined,
     },
   ]);
   const [derivedRate, setDerivedRate] = useState({
@@ -58,6 +62,10 @@ const AddRate = () => {
       maximumNights: 0,
       promoCode: "",
     },
+    depositPolicy: undefined,
+    cancellationPolicy: undefined,
+    checkInPolicy: undefined,
+    noShowPolicy: undefined,
     roomTypes: [{ roomTypeId: "" }],
   });
   const setType = (type) => {
@@ -148,15 +156,124 @@ const AddRate = () => {
         }
         let payload = Object.assign({}, derivedRate);
         payload["period"] = [...customDate];
-        // payload["rateId"] = rateId;
+        payload["rateId"] = rateId;
         payload["roomTypes"] = temp;
         let response: any = await dispatch(addDerived(payload)).unwrap();
         if (response) {
-          // RouteChange();
+          RouteChange(response.data._id);
           Success("Derived rate has been added");
         }
       } catch (err: any) {
         console.log(err);
+      }
+    }
+  };
+  const onRadioChange = (e, ind, val, types) => {
+    if (type == "nightly") {
+    switch (types) {
+      case "cancellation":
+        if (e.target.checked) {
+          setRate({ ...rate, cancellationPolicy: val._id });
+        } else {
+          setRate({ ...rate, cancellationPolicy: undefined });
+        }
+        break;
+      case "deposit":
+        if (e.target.checked) {
+          setRate({ ...rate, depositPolicy: val._id });
+        } else {
+          setRate({ ...rate, depositPolicy: undefined });
+        }
+        break;
+      case "check-In":
+        if (e.target.checked) {
+          setRate({ ...rate, checkInPolicy: val._id });
+        } else {
+          setRate({ ...rate, checkInPolicy: undefined });
+        }
+        break;
+      case "No-Show":
+        if (e.target.checked) {
+          setRate({ ...rate, noShowPolicy: val._id });
+        } else {
+          setRate({ ...rate, noShowPolicy: undefined });
+        }
+        break;
+
+      default:
+        break;
+    }
+  }else{
+    switch (types) {
+      case "cancellation":
+        if (e.target.checked) {
+          setDerivedRate({ ...derivedRate, cancellationPolicy: val._id });
+        } else {
+          setDerivedRate({ ...derivedRate, cancellationPolicy: undefined });
+        }
+        break;
+      case "deposit":
+        if (e.target.checked) {
+          setDerivedRate({ ...derivedRate, depositPolicy: val._id });
+        } else {
+          setDerivedRate({ ...derivedRate, depositPolicy: undefined });
+        }
+        break;
+      case "check-In":
+        if (e.target.checked) {
+          setDerivedRate({ ...derivedRate, checkInPolicy: val._id });
+        } else {
+          setDerivedRate({ ...derivedRate, checkInPolicy: undefined });
+        }
+        break;
+      case "No-Show":
+        if (e.target.checked) {
+          setDerivedRate({ ...derivedRate, noShowPolicy: val._id });
+        } else {
+          setDerivedRate({ ...derivedRate, noShowPolicy: undefined });
+        }
+        break;
+
+      default:
+        break;
+    }
+  }
+  };
+
+  const clearPolicy = (e, types) => {
+    if (type == "nightly") {
+      switch (types) {
+        case "cancellation":
+          setRate({ ...rate, cancellationPolicy: undefined });
+          break;
+        case "deposit":
+          setRate({ ...rate, depositPolicy: undefined });
+          break;
+        case "check-In":
+          setRate({ ...rate, checkInPolicy: undefined });
+          break;
+        case "No-Show":
+          setRate({ ...rate, noShowPolicy: undefined });
+          break;
+        default:
+          break;
+      }
+    }else{
+      switch (types) {
+        case "cancellation":
+          setDerivedRate({ ...derivedRate, cancellationPolicy: undefined });
+          break;
+        case "deposit":
+          setDerivedRate({ ...derivedRate, depositPolicy: undefined });
+          break;
+        case "check-In":
+          setDerivedRate({ ...derivedRate, checkInPolicy: undefined });
+          break;
+        case "No-Show":
+          setDerivedRate({ ...derivedRate, noShowPolicy: undefined });
+          break;
+        default:
+          break;
       }
     }
   };
@@ -175,7 +292,12 @@ const AddRate = () => {
                 rate={rate.restrictions}
                 restrictionsChange={restrictionsChange}
               />
-              <PoliciesRatePlan onSubmit={onSubmit} />
+              <PoliciesRatePlan
+                rate={rate}
+                clearPolicy={clearPolicy}
+                onRadioChange={onRadioChange}
+                onSubmit={onSubmit}
+              />
             </StepWizard>
           ) : (
             <StepWizard>
@@ -198,7 +320,12 @@ const AddRate = () => {
                 rate={derivedRate.restrictions}
                 restrictionsChange={restrictionsChange}
               />
-              <PoliciesRatePlan onSubmit={onSubmit} />
+             <PoliciesRatePlan
+                rate={derivedRate}
+                clearPolicy={clearPolicy}
+                onRadioChange={onRadioChange}
+                onSubmit={onSubmit}
+              />
             </StepWizard>
           )}
         </Card.Body>

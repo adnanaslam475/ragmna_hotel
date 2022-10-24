@@ -18,6 +18,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../Redux/Store";
 import { daysInWeek } from "date-fns";
 import ConformationPopup from "../../../../Modals/ConformationPopup/ConformationPopup";
+import { DangerLeft, Success } from "../../../../Redux/Services/toaster-service";
 
 const CreateSeason = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -181,12 +182,14 @@ const CreateSeason = () => {
           id: rateData['_id'],
           sId: deleteId
         }
-        await dispatch(removeSeason(payload))
+        await dispatch(removeSeason(payload)).unwrap()
         getByRateId();
         setIsOpenDeletePopUp(false)
         setDeleteId('')
+        Success('Season has been deleted')
       } catch (err: any) {
         setIsOpenDeletePopUp(false)
+        DangerLeft('Something went Wrong')
       }
     } else {
       setIsOpenDeletePopUp(false)

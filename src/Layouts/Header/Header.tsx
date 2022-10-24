@@ -80,7 +80,6 @@ const RightSideBar: any = () => {
   //swichermainright
 };
 const Header = () => {
-
   const { property } = useGlobalProperty();
   const { propertyList } = usePropertyList();
   const dispatch = useDispatch<AppDispatch>();
@@ -210,7 +209,7 @@ const Header = () => {
                 alt="logo"
               />
             </Link>
-            <div className="main-header-center ms-3 d-none d-lg-block">
+            {/* <div className="main-header-center ms-3 d-none d-lg-block">
               <FormControl
                 onChange={(ele) => {
                   myfunction(ele.target.value);
@@ -251,7 +250,7 @@ const Header = () => {
               ) : (
                 ""
               )}
-            </div>
+            </div> */}
 
             <Navbar className="d-flex order-lg-2 ms-auto header-right-icons">
               <Dropdown className="dropdown d-none">
@@ -670,12 +669,12 @@ const Header = () => {
 
               {/* Switcher  */}
 
-              <div
+              {/* <div
                 className="demo-icon nav-link icon"
                 onClick={() => SidSwitcherIcon()}
               >
                 <i className="fe fe-settings fa-spin  text_primary"></i>
-              </div>
+              </div> */}
             </Navbar>
           </div>
         </div>

@@ -1,11 +1,11 @@
-import { ADD_DERIVED_RATE, DELETE_SEASON, POLICIES, RATE, ROOM_TYPE, SEASON, UPDATE_SEASON } from "../../components/ConstAPI/ConstAPI";
+import { ADD_DERIVED_RATE, ALL_ROOM_TYPE, DELETE_SEASON, POLICIES, RATE, SEASON, UPDATE_SEASON } from "../../components/ConstAPI/ConstAPI";
 import { apiInstance } from "./AxiosApi";
 import authHeader from "./authHeader";
 export const getRateProperty = () => {
   return apiInstance.get(RATE, { headers: authHeader() });
 };
-export const getRoomTypes = (id) => {
-  return apiInstance.get(`${id}/` + ROOM_TYPE, { headers: authHeader() });
+export const getRoomTypes = () => {
+  return apiInstance.get(ALL_ROOM_TYPE, { headers: authHeader() });
 };
 export const addNightlyRate = (payload) => {
   return apiInstance.post(RATE, payload, { headers: authHeader() });
@@ -27,4 +27,10 @@ export const updateSeason = (payload,id,sID) => {
 }
 export const deleteSeason = (id,sId) => {
   return apiInstance.delete(RATE + `/${id}/` + DELETE_SEASON + `/${sId}`, { headers: authHeader() } )
+}
+export const updateRate = (id, payload) => {
+  return apiInstance.put(RATE+`/${id}`,payload,{headers:authHeader()})
+}
+export const deleteRate = (id) => {
+  return apiInstance.delete(RATE+`/${id}`,{headers:authHeader()})
 }
