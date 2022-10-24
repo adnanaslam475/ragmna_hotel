@@ -1,13 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../../../Redux/Store";
 import { usePropertyList } from "../../PropertySetup/propertySetupSlice";
 import "./RateList.scss";
-import { getRate, useRateList } from "../RateSetupSlice";
+import { getRate, removeRate, useRateList } from "../RateSetupSlice";
+import {
+  DangerLeft,
+  Success,
+} from "../../../../Redux/Services/toaster-service";
+import ConformationPopup from "../../../../Modals/ConformationPopup/ConformationPopup";
 const RateList = () => {
   let navigate = useNavigate();
+  const [isOpenDeletePopUp, setIsOpenDeletePopUp] = useState<boolean>(false);
+  const [deleteId, setDeleteId] = useState("");
   const RouteChange = () => {
     let path = `/setup/ratesetup/addrate`;
     navigate(path);
@@ -21,7 +28,26 @@ const RateList = () => {
   useEffect(() => {
     getRateDetails();
   }, []);
-
+  const deleteRate = (index, id) => {
+    setIsOpenDeletePopUp(true);
+    setDeleteId(id);
+  };
+  const smallmodalClose = async (value) => {
+    if (value) {
+      try {
+        await dispatch(removeRate(deleteId)).unwrap();
+        let response: any = await dispatch(getRate()).unwrap();
+        setIsOpenDeletePopUp(false);
+        setDeleteId("");
+        Success("Rate has been deleted");
+      } catch (err: any) {
+        setIsOpenDeletePopUp(false);
+        DangerLeft("Something went Wrong");
+      }
+    } else {
+      setIsOpenDeletePopUp(false);
+    }
+  };
   return (
     <React.Fragment>
       <Row>
@@ -32,11 +58,11 @@ const RateList = () => {
               RouteChange();
             }}
           >
-            Add
+            Add Rate
           </Button>
         </div>
       </Row>
-      <Row className="d-flex justify-content-between">
+      <Row className="d-flex">
         {rateList &&
           rateList.map((item, index) => {
             return (
@@ -53,7 +79,7 @@ const RateList = () => {
                           }}
                         ></i>
                       </span>
-                      <span>
+                      <span onClick={() => deleteRate(index, item._id)}>
                         <i className="fe fe-trash-2"></i>
                       </span>
                     </div>
@@ -125,6 +151,9 @@ const RateList = () => {
             );
           })}
       </Row>
+      {isOpenDeletePopUp && (
+        <ConformationPopup smallmodalClose={smallmodalClose} />
+      )}
     </React.Fragment>
   );
 };

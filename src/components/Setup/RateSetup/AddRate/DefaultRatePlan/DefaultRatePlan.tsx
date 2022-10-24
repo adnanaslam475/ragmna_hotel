@@ -11,9 +11,7 @@ const DefaultRatePlan = (props) => {
   const dispatch = useDispatch<AppDispatch>();
   const { roomTypes } = useRoomTypes();
   const getRoomTypes = async () => {
-    const response = await dispatch(
-      getRoomType("634f7d62e2be24a2b6f3503e")
-    ).unwrap();
+    const response = await dispatch(getRoomType()).unwrap();
   };
   useEffect(() => {
     getRoomTypes();

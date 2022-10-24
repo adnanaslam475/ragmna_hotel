@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { addDerivedRate, addNightlyRate, createSeason, deleteSeason, getPolicies, getRateById, getRateProperty, getRoomTypes, updateSeason } from "../../../Redux/Services/rateService";
+import { addDerivedRate, addNightlyRate, createSeason, deleteRate, deleteSeason, getPolicies, getRateById, getRateProperty, getRoomTypes, updateRate, updateSeason } from "../../../Redux/Services/rateService";
 const initialState = {
   rateList: [],
   roomTypes: [],
@@ -11,8 +11,8 @@ const initialState = {
 export const getRate = createAsyncThunk("rate/get", async () => {
   return await getRateProperty();
 });
-export const getRoomType = createAsyncThunk("roomType/get", async (id: string) => {
-  return await getRoomTypes(id)
+export const getRoomType = createAsyncThunk("roomType/get", async () => {
+  return await getRoomTypes()
 })
 export const addNightly = createAsyncThunk('addNighty/add', async (payload:any) => {
   return await addNightlyRate(payload)
@@ -37,6 +37,13 @@ export const fetchPolicies = createAsyncThunk('policies/get', async () => {
 export const removeSeason = createAsyncThunk('season/delete', async (payload: any) => {
   const {id,sId} = payload
   return await deleteSeason(id,sId)
+})
+export const updateNightlyRate = createAsyncThunk('rate/update', async (payload: any) => {
+  const {id,...rest} = payload
+  return await updateRate(id,rest)
+})
+export const removeRate = createAsyncThunk('rate/remove', async (id: string) => {
+  return await deleteRate(id)
 })
 const rateSetupSlice = createSlice({
   name: "rateSetup",

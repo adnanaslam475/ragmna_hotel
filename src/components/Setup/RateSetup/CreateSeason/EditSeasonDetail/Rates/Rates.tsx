@@ -15,9 +15,7 @@ const Rates = ({ seasonBody, setbasePrice, setChannelPrice }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { roomTypes } = useRoomTypes();
   const getRoomTypes = async () => {
-    const response = await dispatch(
-      getRoomType("634f7d62e2be24a2b6f3503e")
-    ).unwrap();
+    const response = await dispatch(getRoomType()).unwrap();
   };
   useEffect(() => {
     getRoomTypes();
@@ -61,7 +59,7 @@ const Rates = ({ seasonBody, setbasePrice, setChannelPrice }) => {
                         type="checkbox"
                         className="custom-control-input"
                         name={item.roomTypeId}
-                        checked={item.price ? true :false }
+                        checked={item.price ? true : false}
                         onChange={() => setStandardRoom(!standardRoom)}
                       />
                       <span className="custom-control-label">
@@ -70,47 +68,42 @@ const Rates = ({ seasonBody, setbasePrice, setChannelPrice }) => {
                     </label>
                   </Col>
                   <Col lg={3} md={6} sm={12}>
-                   
-                      <div className="standard-rate-night">
-                        <div className="control-group form-group">
-                          <input
-                            type="number"
-                            className="form-control required"
-                            name={`baseprice${index}`}
-                            placeholder="$"
-                            value={item.price}
-                            onChange={(e) =>
-                              setbasePrice(index, e.target.value)
-                            }
-                          />
-                        </div>
+                    <div className="standard-rate-night">
+                      <div className="control-group form-group">
+                        <input
+                          type="number"
+                          className="form-control required"
+                          name={`baseprice${index}`}
+                          placeholder="$"
+                          value={item.price}
+                          onChange={(e) => setbasePrice(index, e.target.value)}
+                        />
                       </div>
+                    </div>
                   </Col>
                   {seasonBody &&
                     seasonBody.channels.map((val, ind) => {
                       return (
                         <Col key={ind} lg={3} md={6} sm={12}>
-                       
-                            <div className="standard-rate-night">
-                              <div className="control-group form-group">
-                                <input
-                                  type="number"
-                                  className="form-control required"
-                                  name={`channel${ind}`}
-                                  placeholder="$"
-                                  value={item.channelPrices[ind]?.price}
-                                  onChange={(e) =>
-                                    setChannelPrice(
-                                      index,
-                                      e.target.value,
-                                      val,
-                                      ind
-                                    )
-                                  }
-                                />
-                              </div>
+                          <div className="standard-rate-night">
+                            <div className="control-group form-group">
+                              <input
+                                type="number"
+                                className="form-control required"
+                                name={`channel${ind}`}
+                                placeholder="$"
+                                value={item.channelPrices[ind]?.price}
+                                onChange={(e) =>
+                                  setChannelPrice(
+                                    index,
+                                    e.target.value,
+                                    val,
+                                    ind
+                                  )
+                                }
+                              />
                             </div>
-                        
+                          </div>
                         </Col>
                       );
                     })}
