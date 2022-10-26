@@ -13,13 +13,13 @@ const SPNAddOn = () => {
 			<div>
 				<Row className="mt-4">
 					<Card id="Tooltip">
-						<span className="ribbone-success-left">
+						<span className="ribbone-success-left ">
 							<span>
 								<i className="fe fe-zap"></i>
 							</span>
 						</span>
 						<Card.Header>
-							<Card.Title>Select All Services</Card.Title>
+							<Card.Title className="mt-4">Select All Services</Card.Title>
 							<Form className="ms-auto">
 								<Form.Check type="switch" id="custom-switch" className="showcode d-flex ms-auto mx-2" />
 							</Form>
