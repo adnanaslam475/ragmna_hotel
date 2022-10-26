@@ -1,0 +1,43 @@
+.card-bg {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.panel-secondary {
+    .tab-name {
+        background-color: white;
+        margin-bottom: 20px;
+        border-radius: 20px;
+
+        .panel-tabs.panel-secondary.nav .nav-item .nav-link.active {
+            border-radius: 20px !important;
+        }
+    }
+
+    .tab-data {
+        background-color: white;
+        border-radius: 10px;
+        padding: 0 !important;
+
+        .tab-content {
+            padding: 5px !important;
+        }
+    }
+}
+
+.modal_footer_button_alignment {
+    justify-content: center !important;
+}
+
+.modal_footer_button {
+    background-color: #8cc63f !important;
+}
+
+.policy-item {
+    margin-bottom: 15px !important;
+    margin-top: 15px;
+}
+
+.policy-item .icon-edit {
+    background: url('https://app.innroad.com/inventory/static/media/Edit.9d061896.svg') no-repeat;
+}
