@@ -16,6 +16,7 @@ import {
   ModalFooter,
 } from "react-bootstrap";
 import { useFormik } from "formik";
+import { CircularProgress } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { LedgerAccountsList } from "../../../Data/App/LedgerAccountsList";
 import { LedgerAccountTypesList } from "../../../Data/App/LedgerAccountTypesList";
@@ -32,10 +33,10 @@ import {
 import "./LedgerSetup.scss";
 
 const validationSchema = Yup.object({
-  name: Yup.string().required(),
-  description: Yup.string(),
-  type: Yup.string(),
-  defaultAmount: Yup.string(),
+  name: Yup.string().required("Name is required"),
+  description: Yup.string().required("Description is required"),
+  type: Yup.string().required("Type is required"),
+  defaultAmount: Yup.string().min(0).required("Default Amount is required"),
 });
 
 const createLedgerInputs = [
@@ -67,12 +68,12 @@ const createLedgerInputs = [
 
 function LedgerSetup() {
   const dispatch = useDispatch<AppDispatch>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { ledgerAccountsList } = useLedgerAccountList();
   const { ledgerAccountTypes } = useLedgerAccountTypeList();
   const [ledgerAccountsFetched, setLedgerAccountsFetched] =
     useState<boolean>(false);
   const [accountTypeFetched, setAccountTypeFetched] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [deleteModalId, setDeleteModalId] = useState<string>("");
@@ -95,7 +96,7 @@ function LedgerSetup() {
         icon: "error",
       });
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -110,7 +111,7 @@ function LedgerSetup() {
         icon: "error",
       });
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -123,6 +124,7 @@ function LedgerSetup() {
   }, [accountTypeFetched]);
 
   const onSubmit = async () => {
+    setSubmitting(true);
     try {
       let payload: any = Object.assign({}, values);
       if (isEditMode) {
@@ -134,6 +136,8 @@ function LedgerSetup() {
         );
         setLedgerAccountsFetched(!ledgerAccountsFetched);
         setValues({ ...initialValues });
+        resetForm();
+        setIsEditMode(false);
         return setOpenModal(false);
       }
       await dispatch(
@@ -142,9 +146,10 @@ function LedgerSetup() {
           defaultAmount: +payload.defaultAmount,
         } as any)
       );
-      setValues({ ...initialValues });
+      resetForm();
       setLedgerAccountsFetched(!ledgerAccountsFetched);
       setOpenModal(false);
+      setIsEditMode(false);
     } catch (error: any) {
       Swal.fire({
         title: "ERROR!!!",
@@ -152,16 +157,30 @@ function LedgerSetup() {
         allowOutsideClick: false,
         icon: "error",
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  const { handleChange, handleSubmit, values, setValues } = useFormik({
+  const {
+    handleChange,
+    handleSubmit,
+    values,
+    resetForm,
+    setValues,
+    isSubmitting,
+    setSubmitting,
+    errors,
+    touched,
+    handleBlur,
+  } = useFormik({
     initialValues,
     validationSchema,
     onSubmit,
   });
 
   const deleteHandler = async () => {
+    setIsLoading(true);
     try {
       await dispatch(deleteLedgerAccountById(deleteModalId));
       setLedgerAccountsFetched(!ledgerAccountsFetched);
@@ -173,6 +192,8 @@ function LedgerSetup() {
         allowOutsideClick: false,
         icon: "error",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -275,12 +296,16 @@ function LedgerSetup() {
                         <input
                           type="text"
                           className={"form-control required"}
-                          placeholder={v.name}
+                          placeholder={v.placeholder}
                           name={v.name}
                           id={v.name}
+                          onKeyUp={handleBlur}
                           value={values[v.name]}
                           onChange={handleChange}
                         />
+                        <p style={{ color: "red" }}>
+                          {touched[v.name] && (errors[v.name] as any)}
+                        </p>
                       </>
                     )}
                     {v.inputType === "select" && (
@@ -299,6 +324,9 @@ function LedgerSetup() {
                             handleChange("type")(selectedOption?.value);
                           }}
                         />
+                        <p style={{ color: "red" }}>
+                          {touched[v.name] && (errors[v.name] as any)}
+                        </p>
                       </>
                     )}
                   </div>
@@ -310,8 +338,21 @@ function LedgerSetup() {
             <Button variant="secondary" onClick={() => setOpenModal(false)}>
               Cancel
             </Button>
-            <Button variant="primary" type="submit" onClick={() => ""}>
-              {isEditMode ? "Update" : "Add"}
+            <Button
+              variant="primary"
+              type="submit"
+              disabled={isSubmitting}
+              onClick={() => ""}
+              className="d-flex"
+            >
+              {isSubmitting ? (
+                <CircularProgress
+                  style={{ color: "white", margin: "2px" }}
+                  size={20}
+                />
+              ) : (
+                <>{isEditMode ? "Update" : "Add"}</>
+              )}
             </Button>
           </ModalFooter>
         </form>
@@ -341,8 +382,15 @@ function LedgerSetup() {
           <Button variant="secondary" onClick={() => setDeleteModalId("")}>
             Close
           </Button>
-          <Button variant="primary" onClick={deleteHandler}>
-            Delete
+          <Button variant="primary" className="d-flex" onClick={deleteHandler}>
+            {isLoading ? (
+              <CircularProgress
+                style={{ color: "white", margin: "2px" }}
+                size={20}
+              />
+            ) : (
+              "Delete"
+            )}
           </Button>
         </ModalFooter>
       </Modal>

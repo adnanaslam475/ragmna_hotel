@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import moment from "moment";
+import * as Yup from "yup";
 import {
   useTable,
   useSortBy,
   useGlobalFilter,
   usePagination,
 } from "react-table";
-import * as Yup from "yup";
-
 import {
   Card,
   Col,
@@ -32,9 +31,10 @@ import {
 } from "../../components/Setup/LedgerSetup/ledgerAccountSetupSlice";
 import { AppDispatch } from "../../Redux/Store";
 
+import { CircularProgress } from "@mui/material";
 const validationSchema = Yup.object({
-  name: Yup.string().required(),
-  description: Yup.string(),
+  name: Yup.string().required().required("Name is required"),
+  description: Yup.string().required("Description is required"),
 });
 
 const createLedgerTypeInputs = [
@@ -106,6 +106,7 @@ export const LedgerAccountTypesList = ({
   const dispatch = useDispatch<AppDispatch>();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [deleteModalId, setDeleteModalId] = useState<string>("");
 
   const onEditRow = (row) => {
@@ -113,6 +114,7 @@ export const LedgerAccountTypesList = ({
     setIsEditMode(true);
     setValues({ ...row, type: row.type });
   };
+
   const tableInstance = useTable(
     {
       columns: COLUMNS,
@@ -132,13 +134,6 @@ export const LedgerAccountTypesList = ({
     prepareRow, // Prepare the row (this function needs to be called for each row before getting the row props)
     state,
     page, // use, page or rows
-    nextPage,
-    previousPage,
-    canNextPage,
-    canPreviousPage,
-    pageOptions,
-    gotoPage,
-    pageCount,
   } = tableInstance;
 
   const initialValues: any = {
@@ -147,6 +142,7 @@ export const LedgerAccountTypesList = ({
   };
 
   const onSubmit = async (e) => {
+    setSubmitting(true);
     try {
       let payload: any = Object.assign({}, values);
       if (isEditMode) {
@@ -156,14 +152,15 @@ export const LedgerAccountTypesList = ({
             defaultAmount: +payload.defaultAmount,
           } as any)
         );
-        setValues({ ...initialValues });
         onSetAccountTypeFetched();
+        setIsEditMode(false);
         return setOpenModal(false);
       }
       await dispatch(createLedgerAccountsType(payload as any));
       onSetAccountTypeFetched();
       setOpenModal(false);
-      setValues({ ...initialValues });
+      setIsEditMode(false);
+      resetForm();
     } catch (error: any) {
       Swal.fire({
         title: "ERROR!!!",
@@ -171,6 +168,8 @@ export const LedgerAccountTypesList = ({
         allowOutsideClick: false,
         icon: "error",
       });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -178,28 +177,29 @@ export const LedgerAccountTypesList = ({
     handleChange,
     handleSubmit,
     values,
-    // errors,
-    // touched,
     setValues,
     isSubmitting,
+    setErrors,
+    handleBlur,
+    setSubmitting,
+    errors,
+    resetForm,
+    touched,
   } = useFormik({
     initialValues,
     validationSchema,
     onSubmit,
   });
-
+  console.log("errorserrors", errors);
   const deleteHandler = async () => {
+    setIsLoading(true);
     try {
-      await dispatch(deleteLedgerAccountTypeById(deleteModalId));
+      const res = await dispatch(deleteLedgerAccountTypeById(deleteModalId));
       onSetAccountTypeFetched();
       setDeleteModalId("");
     } catch (error: any) {
-      Swal.fire({
-        title: "ERROR!!!",
-        text: error?.message || "Something Went wrong",
-        allowOutsideClick: false,
-        icon: "error",
-      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -284,12 +284,16 @@ export const LedgerAccountTypesList = ({
                         <input
                           type="text"
                           className={"form-control required"}
-                          placeholder={v.name}
+                          placeholder={v.placeholder}
                           name={v.name}
                           id={v.name}
+                          onKeyUp={handleBlur}
                           value={values[v.name]}
                           onChange={handleChange}
                         />
+                        <p style={{ color: "red" }}>
+                          {touched[v.name] && (errors[v.name] as any)}
+                        </p>
                       </>
                     )}
                   </div>
@@ -301,8 +305,21 @@ export const LedgerAccountTypesList = ({
             <Button variant="secondary" onClick={() => setOpenModal(false)}>
               Cancel
             </Button>
-            <Button variant="primary" type="submit" onClick={() => ""}>
-              {isEditMode ? "Update" : "Add"}
+            <Button
+              variant="primary"
+              type="submit"
+              disabled={isSubmitting}
+              className="d-flex"
+              onClick={() => ""}
+            >
+              {isSubmitting ? (
+                <CircularProgress
+                  style={{ color: "white", margin: "2px" }}
+                  size={20}
+                />
+              ) : (
+                <>{isEditMode ? "Update" : "Add"}</>
+              )}
             </Button>
           </ModalFooter>
         </form>
@@ -317,12 +334,7 @@ export const LedgerAccountTypesList = ({
       >
         <ModalHeader>
           <ModalTitle>Delete</ModalTitle>
-          <span
-            className="d-flex ms-auto"
-            onClick={() => {
-              setDeleteModalId("");
-            }}
-          >
+          <span className="d-flex ms-auto" onClick={() => setDeleteModalId("")}>
             <i className="fe fe-x ms-auto"></i>
           </span>
         </ModalHeader>
@@ -331,8 +343,20 @@ export const LedgerAccountTypesList = ({
           <Button variant="secondary" onClick={() => setDeleteModalId("")}>
             Close
           </Button>
-          <Button variant="primary" onClick={deleteHandler}>
-            Delete
+          <Button
+            variant="primary"
+            onClick={deleteHandler}
+            disabled={isLoading}
+            className="d-flex"
+          >
+            {isLoading ? (
+              <CircularProgress
+                style={{ color: "white", margin: "2px" }}
+                size={20}
+              />
+            ) : (
+              "Delete"
+            )}
           </Button>
         </ModalFooter>
       </Modal>
