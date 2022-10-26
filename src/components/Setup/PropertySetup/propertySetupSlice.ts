@@ -1,19 +1,26 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { deletePropertyById, getProperty } from "../../../Redux/Services/propertyService";
-import { propertySetupApi } from "./propertySetupApi";
+import {
+  deletePropertyById,
+  getProperty,
+} from "../../../Redux/Services/propertyService";
+// import { propertySetupApi } from "./propertySetupApi";
 
 const initialState = {
   propertyList: [],
 };
+
 export const getProperties = createAsyncThunk("properties/get", async () => {
   return await getProperty();
 });
 
-export const deleteProperties = createAsyncThunk("properties/delete", async (id:string) => {
-  return await deletePropertyById(id);
-});
+export const deleteProperties = createAsyncThunk(
+  "properties/delete",
+  async (id: string) => {
+    return await deletePropertyById(id);
+  }
+);
 
 const propertySetupSlice = createSlice({
   name: "proprtySetup",
@@ -50,4 +57,3 @@ export const usePropertyList = () => {
   const propertyList = useSelector(selectPropertyList);
   return useMemo(() => ({ propertyList }), [propertyList]);
 };
-

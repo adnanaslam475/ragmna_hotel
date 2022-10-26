@@ -123,6 +123,13 @@ export const MENUITEMS = [
             selected: false,
             title: "Channel Mgt ",
           },
+          {
+            path: `/setup/ledgerSetup`,
+            type: "link",
+            active: false,
+            selected: false,
+            title: "Ledger Setup",
+          },
         ],
       },
     ],

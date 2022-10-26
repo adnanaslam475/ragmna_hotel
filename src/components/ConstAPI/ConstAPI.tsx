@@ -12,3 +12,13 @@ export const SEASON = "add-seasonal-rate";
 export const POLICIES = "policies";
 export const UPDATE_SEASON = "update-seasonal-rate";
 export const DELETE_SEASON = "remove-seasonal-rate";
+
+export const GET_LEDGER_ACCOUNTS = "ledger-accounts";
+export const CREATE_LEDGER_ACCOUNTS = "ledger-accounts";
+export const UPDATE_LEDGER_ACCOUNTS = "ledger-accounts"; // /ledger-accounts/{ledgerAccountId}
+export const DELETE_LEDGER_ACCOUNTS = "ledger-accounts"; // /ledger-accounts/{ledgerAccountId}
+
+export const GET_LEDGER_ACCOUNT_TYPES = "ledger-account-types";
+export const CREATE_LEDGER_ACCOUNT_TYPES = "ledger-account-types";
+export const UPDATE_LEDGER_ACCOUNT_TYPES = "ledger-account-types";
+export const DELETE_LEDGER_ACCOUNT_TYPES = "ledger-account-types"; // ledger-account-types/{ledgerAccountTypeId}

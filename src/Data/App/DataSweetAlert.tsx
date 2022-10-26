@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import Swal from "sweetalert2";
-import { Button } from 'react-bootstrap';
-import Media from '../../assets/images/brand/logo-2.png'
+import { Button } from "react-bootstrap";
+import Media from "../../assets/images/brand/logo-2.png";
 
-// Sample Sweet Alerts 
+// Sample Sweet Alerts
 
 export class CongratulationAlert extends Component {
-
   constructor(props) {
     super(props);
     this.HandleClick = this.HandleClick.bind(this);
@@ -14,24 +13,26 @@ export class CongratulationAlert extends Component {
 
   HandleClick() {
     Swal.fire({
-      title: 'Congratulations!',
-      text: 'Your message has been succesfully sent',
+      title: "Congratulations!",
+      text: "Your message has been succesfully sent",
       allowOutsideClick: false,
-      icon: 'success',
-    })
-  };
+      icon: "success",
+    });
+  }
   render() {
     return (
-
-      <Button className="mt-2 me-2" variant="success" onClick={this.HandleClick}>Success Alert</Button>
-
+      <Button
+        className="mt-2 me-2"
+        variant="success"
+        onClick={this.HandleClick}
+      >
+        Success Alert
+      </Button>
     );
   }
 }
 
-
 export class WarningAlert extends Component {
-
   constructor(props) {
     super(props);
     this.HandleClick = this.HandleClick.bind(this);
@@ -39,28 +40,32 @@ export class WarningAlert extends Component {
 
   HandleClick() {
     Swal.fire({
-      title: 'Alert',
+      title: "Alert",
       text: "Waring alert",
-      icon: 'warning',
+      icon: "warning",
       allowOutsideClick: false,
       showCancelButton: true,
-      confirmButtonText: 'Stay on the page',
-      cancelButtonText: 'Exit',
+      confirmButtonText: "Stay on the page",
+      cancelButtonText: "Exit",
       confirmButtonColor: "default",
       cancelButtonColor: "#6c5ffc",
-    })
+    });
   }
 
   render() {
     return (
-
-      <Button className="mt-2 me-2" variant="warning" onClick={this.HandleClick}>Warning Alert</Button>
+      <Button
+        className="mt-2 me-2"
+        variant="warning"
+        onClick={this.HandleClick}
+      >
+        Warning Alert
+      </Button>
     );
   }
 }
 
 export class DangerAlert extends Component {
-
   constructor(props) {
     super(props);
     this.HandleClick = this.HandleClick.bind(this);
@@ -68,31 +73,28 @@ export class DangerAlert extends Component {
 
   HandleClick() {
     Swal.fire({
-      title: 'Alert',
+      title: "Alert",
       text: "Danger alert",
-      icon: 'error',
+      icon: "error",
       allowOutsideClick: false,
       showCancelButton: true,
-      confirmButtonText: 'Stay on the page',
-      cancelButtonText: 'Exit',
+      confirmButtonText: "Stay on the page",
+      cancelButtonText: "Exit",
       confirmButtonColor: "default",
       cancelButtonColor: "#6c5ffc",
-    })
+    });
   }
 
   render() {
     return (
-
-      <Button className="mt-2 me-2" variant="danger" onClick={this.HandleClick}>Danger Alert</Button>
-
-
-
+      <Button className="mt-2 me-2" variant="danger" onClick={this.HandleClick}>
+        Danger Alert
+      </Button>
     );
   }
 }
 
 export class InfoAlert extends Component {
-
   constructor(props) {
     super(props);
     this.HandleClick = this.HandleClick.bind(this);
@@ -100,25 +102,27 @@ export class InfoAlert extends Component {
 
   HandleClick() {
     Swal.fire({
-      title: 'Alert',
+      title: "Alert",
       text: "Info alert",
-      icon: 'info',
+      icon: "info",
       allowOutsideClick: false,
       showCancelButton: true,
-      confirmButtonText: 'Stay on the page',
-      cancelButtonText: 'Exit',
+      confirmButtonText: "Stay on the page",
+      cancelButtonText: "Exit",
       confirmButtonColor: "default",
       cancelButtonColor: "#6c5ffc",
-    })
+    });
   }
 
   render() {
     return (
-
-      <Button className="mt-2 me-2 mb-2 mb-md-0" variant="info" onClick={this.HandleClick}>Info Alert</Button>
-
-
-
+      <Button
+        className="mt-2 me-2 mb-2 mb-md-0"
+        variant="info"
+        onClick={this.HandleClick}
+      >
+        Info Alert
+      </Button>
     );
   }
 }
@@ -126,50 +130,56 @@ export class InfoAlert extends Component {
 // Forms Sweet-alert
 
 export class SimpleAlert extends Component {
-
   constructor(props) {
     super(props);
     this.HandleClick = this.HandleClick.bind(this);
   }
 
   HandleClick() {
-    Swal.fire({ title: 'Your message', allowOutsideClick: false, })
+    Swal.fire({ title: "Your message", allowOutsideClick: false });
   }
-
 
   render() {
     return (
-
-      <Button className="mt-2 me-2" variant="primary" onClick={this.HandleClick}>Simple Alert</Button>
-
+      <Button
+        className="mt-2 me-2"
+        variant="primary"
+        onClick={this.HandleClick}
+      >
+        Simple Alert
+      </Button>
     );
   }
 }
 
 export class TitlewithAlert extends Component {
-
   constructor(props) {
     super(props);
     this.HandleClick = this.HandleClick.bind(this);
   }
 
   HandleClick() {
-    Swal.fire({ title: 'Your message', text: "Your message", allowOutsideClick: false, })
+    Swal.fire({
+      title: "Your message",
+      text: "Your message",
+      allowOutsideClick: false,
+    });
   }
-
 
   render() {
     return (
-
-      <Button className="mt-2 me-2" variant="secondary" onClick={this.HandleClick}>Alert with title</Button>
-
+      <Button
+        className="mt-2 me-2"
+        variant="secondary"
+        onClick={this.HandleClick}
+      >
+        Alert with title
+      </Button>
     );
   }
 }
-
 
 export class ImagewithAlert extends Component {
-
   constructor(props) {
     super(props);
     this.HandleClick = this.HandleClick.bind(this);
@@ -177,26 +187,24 @@ export class ImagewithAlert extends Component {
 
   HandleClick() {
     Swal.fire({
-      title: 'Your message',
-      text: 'Your message',
+      title: "Your message",
+      text: "Your message",
       imageUrl: Media,
-      imageAlt: 'logo',
+      imageAlt: "logo",
       allowOutsideClick: false,
-    })
+    });
   }
 
   render() {
     return (
-
-      <Button className="mt-2 me-2" variant="info" onClick={this.HandleClick}>Alert with image</Button>
-
+      <Button className="mt-2 me-2" variant="info" onClick={this.HandleClick}>
+        Alert with image
+      </Button>
     );
   }
 }
 
-
 export class TimmerwithAlert extends Component {
-
   constructor(props) {
     super(props);
     this.HandleClick = this.HandleClick.bind(this);
@@ -204,19 +212,23 @@ export class TimmerwithAlert extends Component {
 
   HandleClick() {
     Swal.fire({
-      title: 'Your message',
-      text: 'Your message(close after 2 seconds)',
+      title: "Your message",
+      text: "Your message(close after 2 seconds)",
       allowOutsideClick: false,
       timer: 2000,
       timerProgressBar: true,
-    })
+    });
   }
 
   render() {
     return (
-
-      <Button className="mt-2 me-2" variant="warning" onClick={this.HandleClick}>with timer</Button>
-
+      <Button
+        className="mt-2 me-2"
+        variant="warning"
+        onClick={this.HandleClick}
+      >
+        with timer
+      </Button>
     );
   }
 }

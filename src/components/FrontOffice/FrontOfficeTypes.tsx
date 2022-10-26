@@ -29,6 +29,14 @@ export interface TableData {
     DATE_ADDED?: string
 }
 
+export interface LedgerTableData {
+    TOTAL?: string | number
+    TAX?: string | number
+    AMOUNT?: string | number
+    QTY?: string | number
+    
+}
+
 export interface Column {
     name?: string
     selector?: (row: any, rowIndex?: number) => Primitive;

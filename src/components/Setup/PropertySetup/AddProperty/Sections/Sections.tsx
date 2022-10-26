@@ -220,8 +220,8 @@ const Sections = (props: SectionsProps) => {
                   <td>{val.name}</td>
                   <td>{val.quantity}</td>
                   <td>{val.allowedFor}</td>
-                  <td>{val.isNonSmoking.toString()}</td>
-                  <td>{val.isActive.toString()}</td>
+                  <td>{val.isNonSmoking?.toString()}</td>
+                  <td>{val.isActive?.toString()}</td>
                   <td className="table-icon">
                     <i
                       className="icon fe fe-edit-2"

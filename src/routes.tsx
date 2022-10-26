@@ -215,6 +215,8 @@ const HKMaintenance = lazy(
 const ChannelMgt = lazy(
   () => import("./components/Setup/ChannelMgt/ChannelMgt")
 );
+const LedgerSetup = lazy(() => import("./components/Setup/LedgerSetup"));
+
 const Accounts = lazy(() => import("./components/Accounts/Accounts"));
 const Rates = lazy(() => import("./components/Rates/Rates"));
 const Marketing = lazy(() => import("./components/Marketing/Marketing"));
@@ -298,6 +300,10 @@ const RoutesMain = () => {
                     element={<HKMaintenance />}
                   />
                   <Route path={`/setup/channelmgt`} element={<ChannelMgt />} />
+                  <Route
+                    path={`/setup/ledgerSetup`}
+                    element={<LedgerSetup />}
+                  />
                   <Route
                     path={`/apps/defaultcalender`}
                     element={<DefaultCalender />}

@@ -1,55 +1,55 @@
-import React, { useState } from 'react';
-import {DropzoneArea} from 'material-ui-dropzone';
+import React, { useState } from "react";
+import { DropzoneArea } from "material-ui-dropzone";
 import Dropzone from "react-dropzone";
-import Select from 'react-select';
+import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import {Compact} from '@uiw/react-color';
-import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/style.css'
-import TextField from '@mui/material/TextField';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Stack from '@mui/material/Stack';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import Badge from '@mui/material/Badge';
-import { PickersDay } from '@mui/x-date-pickers/PickersDay';
-import { CalendarPickerSkeleton } from '@mui/x-date-pickers/CalendarPickerSkeleton';
-import getDaysInMonth from 'date-fns/getDaysInMonth';
-import DualListBox from 'react-dual-listbox';
-import 'react-dual-listbox/lib/react-dual-listbox.css';
+import { Compact } from "@uiw/react-color";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import TextField from "@mui/material/TextField";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import Stack from "@mui/material/Stack";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import Badge from "@mui/material/Badge";
+import { PickersDay } from "@mui/x-date-pickers/PickersDay";
+import { CalendarPickerSkeleton } from "@mui/x-date-pickers/CalendarPickerSkeleton";
+import getDaysInMonth from "date-fns/getDaysInMonth";
+import DualListBox from "react-dual-listbox";
+import "react-dual-listbox/lib/react-dual-listbox.css";
 import { ChromePicker, SketchPicker } from "react-color";
-import { Button } from 'react-bootstrap';
-import ColorLensIcon from '@mui/icons-material/ColorLens';
+import { Button } from "react-bootstrap";
+import ColorLensIcon from "@mui/icons-material/ColorLens";
 
 // File Upload 1
 
 export function FileUpload() {
   const [fileNames, setFileNames] = useState([]);
-  const handleDrop = acceptedFiles =>
-    setFileNames(acceptedFiles.map(file => file.name));
+  const handleDrop = (acceptedFiles) =>
+    setFileNames(acceptedFiles.map((file) => file.name));
 
   return (
     <div className="App">
-      <Dropzone onDrop={handleDrop} >
+      <Dropzone onDrop={handleDrop}>
         {({ getRootProps, getInputProps }) => (
           <div {...getRootProps({ className: "dropzone" })}>
             <input {...getInputProps()} />
-            <p className='mt-5'>Drag and Drop a file here or Click</p>
+            <p className="mt-5">Drag and Drop a file here or Click</p>
           </div>
         )}
       </Dropzone>
       <div className="dropzone-main">
         <strong>Files:</strong>
         <ul>
-          {fileNames.map(fileName => (
+          {fileNames.map((fileName) => (
             <li key={fileName}>{fileName}</li>
           ))}
         </ul>
       </div>
     </div>
-  )
+  );
 }
 
 // File Upload 2
@@ -58,24 +58,23 @@ export class FileuploadCustomised extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      files: []
+      files: [],
     };
   }
   handleChange(files) {
     this.setState({
-      files: files
+      files: files,
     });
   }
   render() {
     return (
       <DropzoneArea
-        acceptedFiles={['image/*']}
+        acceptedFiles={["image/*"]}
         onChange={this.handleChange.bind(this)}
         showFileNames
         dropzoneText="Drag and Drop a file here or Click"
         showAlerts={true}
         filesLimit={20}
-
       />
     );
   }
@@ -83,24 +82,24 @@ export class FileuploadCustomised extends React.Component {
 
 // File Upload 3
 
-
 export function DisabledFileDropZone() {
   const setFileNames = useState;
-  const handleDrop = acceptedFiles =>
-    setFileNames(acceptedFiles.map(file => file.name));
+  const handleDrop = (acceptedFiles) =>
+    setFileNames(acceptedFiles.map((file) => file.name));
   return (
-
     <div className="App">
       <Dropzone onDrop={handleDrop} disabled>
         {({ getRootProps, getInputProps }) => (
           <div {...getRootProps({ className: "dropzone" })}>
             <input {...getInputProps()} />
-            <p className='disable-dropzone'>Drag and Drop a file here or Click</p>
+            <p className="disable-dropzone">
+              Drag and Drop a file here or Click
+            </p>
           </div>
         )}
       </Dropzone>
     </div>
-  )
+  );
 }
 
 // Multiple Filedropzone
@@ -109,18 +108,18 @@ export class CustomFileuploader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      files: []
+      files: [],
     };
   }
   handleChange(files) {
     this.setState({
-      files: files
+      files: files,
     });
   }
   render() {
     return (
       <DropzoneArea
-        acceptedFiles={['image/*']}
+        acceptedFiles={["image/*"]}
         onChange={this.handleChange.bind(this)}
         showFileNames
         showAlerts={true}
@@ -136,23 +135,24 @@ export class CustomFileuploader extends React.Component {
 // Basic
 
 const options = [
-  { value: 'Choose one', label: 'Choose one', isDisabled: "true" },
-  { value: 'Chuck Testa', label: 'Chuck Testa' },
-  { value: 'Sage Cattabriga-Alosa', label: 'Sage Cattabriga-Alosa' },
-  { value: 'Nikola Tesla', label: 'Nikola Tesla' },
-  { value: 'Cattabriga-Alosa', label: 'Cattabriga-Alosa' },
-  { value: 'Nikola Alosa', label: 'Nikola Alosa' },
-
+  { value: "Choose one", label: "Choose one", isDisabled: "true" },
+  { value: "Chuck Testa", label: "Chuck Testa" },
+  { value: "Sage Cattabriga-Alosa", label: "Sage Cattabriga-Alosa" },
+  { value: "Nikola Tesla", label: "Nikola Tesla" },
+  { value: "Cattabriga-Alosa", label: "Cattabriga-Alosa" },
+  { value: "Nikola Alosa", label: "Nikola Alosa" },
 ];
 
-export class BasicSelect extends React.Component<{}, { state: any, options: any }> {
-
+export class BasicSelect extends React.Component<
+  {},
+  { state: any; options: any }
+> {
   render() {
     return (
       <Select
         options={options}
-        placeholder='choose one'
-        classNamePrefix='Select'
+        placeholder="choose one"
+        classNamePrefix="Select"
       />
     );
   }
@@ -161,87 +161,83 @@ export class BasicSelect extends React.Component<{}, { state: any, options: any 
 // Basic Select2
 
 export const CitiesData = [
-  { value: 'Arizona', label: 'Arizona', isDisabled: "true" },
-  { value: 'Colorado', label: 'Colorado' },
-  { value: 'Idaho', label: 'Idaho' },
-  { value: 'Montana', label: 'Montana' },
-  { value: 'New Mexico', label: 'New Mexico' },
-  { value: 'North Dakota', label: 'North Dakota' },
-  { value: 'Utah', label: 'Utah' },
-  { value: 'Wyoming', label: 'Wyoming' },
+  { value: "Arizona", label: "Arizona", isDisabled: "true" },
+  { value: "Colorado", label: "Colorado" },
+  { value: "Idaho", label: "Idaho" },
+  { value: "Montana", label: "Montana" },
+  { value: "New Mexico", label: "New Mexico" },
+  { value: "North Dakota", label: "North Dakota" },
+  { value: "Utah", label: "Utah" },
+  { value: "Wyoming", label: "Wyoming" },
 ];
 
 export const TimeZone = [
-  { value: 'Alabama', label: 'Alabama' },
-  { value: 'Arkansas', label: 'Arkansas' },
-  { value: 'Illinois', label: 'Illinois' },
-  { value: 'Iowa', label: 'Iowa' },
-  { value: 'Kansas', label: 'Kansas' },
-  { value: 'Kentucky', label: 'Kentucky' },
-  { value: 'Louisiana', label: 'Louisiana' },
-  { value: 'Minnesota', label: 'Minnesota' },
-  { value: 'Mississippi', label: 'Mississippi' },
-  { value: 'Missouri', label: 'Missouri' },
-  { value: 'Oklahoma', label: 'Oklahoma' },
-  { value: 'South Dakota', label: 'South Dakota' },
-  { value: 'Texas', label: 'Texas' },
-  { value: 'Tennessee', label: 'Tennessee' },
-  { value: 'Wisconsin', label: 'Wisconsin' },
+  { value: "Alabama", label: "Alabama" },
+  { value: "Arkansas", label: "Arkansas" },
+  { value: "Illinois", label: "Illinois" },
+  { value: "Iowa", label: "Iowa" },
+  { value: "Kansas", label: "Kansas" },
+  { value: "Kentucky", label: "Kentucky" },
+  { value: "Louisiana", label: "Louisiana" },
+  { value: "Minnesota", label: "Minnesota" },
+  { value: "Mississippi", label: "Mississippi" },
+  { value: "Missouri", label: "Missouri" },
+  { value: "Oklahoma", label: "Oklahoma" },
+  { value: "South Dakota", label: "South Dakota" },
+  { value: "Texas", label: "Texas" },
+  { value: "Tennessee", label: "Tennessee" },
+  { value: "Wisconsin", label: "Wisconsin" },
 ];
 
 export const groupedOptions = [
   {
-    label: 'Cities',
+    label: "Cities",
     options: CitiesData,
   },
   {
-    label: 'Central-TimeZone',
+    label: "Central-TimeZone",
     options: TimeZone,
   },
 ];
 
-export class BasicSelectCustom extends React.Component<{}, { state: any, options: any }> {
-
+export class BasicSelectCustom extends React.Component<
+  {},
+  { state: any; options: any }
+> {
   render() {
-    return (
-      <Select
-        options={groupedOptions}
-        classNamePrefix='Select'
-      />
-    );
+    return <Select options={groupedOptions} classNamePrefix="Select" />;
   }
 }
 
 // Basic Select3
 
 export const Data = [
-  { value: 'Arizona', label: 'Arizona', isDisabled: "false" },
-  { value: 'Colorado', label: 'Colorado' },
-  { value: 'Idaho', label: 'Idaho' },
-  { value: 'Montana', label: 'Montana' },
-  { value: 'New Mexico', label: 'New Mexico' },
-  { value: 'North Dakota', label: 'North Dakota' },
-  { value: 'Utah', label: 'Utah' },
-  { value: 'Wyoming', label: 'Wyoming' },
-  { value: 'Alabama', label: 'Alabama' },
-  { value: 'Arkansas', label: 'Arkansas' },
-  { value: 'Illinois', label: 'Illinois' },
-  { value: 'Iowa', label: 'Iowa' },
-  { value: 'Kansas', label: 'Kansas' },
-  { value: 'Kentucky', label: 'Kentucky' },
-  { value: 'Louisiana', label: 'Louisiana' },
-  { value: 'Minnesota', label: 'Minnesota' },
-  { value: 'Mississippi', label: 'Mississippi' },
-  { value: 'Missouri', label: 'Missouri' },
-  { value: 'Oklahoma', label: 'Oklahoma' },
-  { value: 'South Dakota', label: 'South Dakota' },
-  { value: 'Texas', label: 'Texas' },
-  { value: 'Tennessee', label: 'Tennessee' },
-  { value: 'Wisconsin', label: 'Wisconsin' },
+  { value: "Arizona", label: "Arizona", isDisabled: "false" },
+  { value: "Colorado", label: "Colorado" },
+  { value: "Idaho", label: "Idaho" },
+  { value: "Montana", label: "Montana" },
+  { value: "New Mexico", label: "New Mexico" },
+  { value: "North Dakota", label: "North Dakota" },
+  { value: "Utah", label: "Utah" },
+  { value: "Wyoming", label: "Wyoming" },
+  { value: "Alabama", label: "Alabama" },
+  { value: "Arkansas", label: "Arkansas" },
+  { value: "Illinois", label: "Illinois" },
+  { value: "Iowa", label: "Iowa" },
+  { value: "Kansas", label: "Kansas" },
+  { value: "Kentucky", label: "Kentucky" },
+  { value: "Louisiana", label: "Louisiana" },
+  { value: "Minnesota", label: "Minnesota" },
+  { value: "Mississippi", label: "Mississippi" },
+  { value: "Missouri", label: "Missouri" },
+  { value: "Oklahoma", label: "Oklahoma" },
+  { value: "South Dakota", label: "South Dakota" },
+  { value: "Texas", label: "Texas" },
+  { value: "Tennessee", label: "Tennessee" },
+  { value: "Wisconsin", label: "Wisconsin" },
 ];
 
 export class BasicSelectSearch extends React.Component<{}, { options: any }> {
-
   render() {
     return (
       <Select
@@ -261,22 +257,22 @@ const animatedComponents = makeAnimated();
 
 export function Userslist() {
   const option = [
-    { value: 'Firefox', label: 'Firefox' },
-    { value: 'Chrome', label: 'Chrome' },
-    { value: 'Safari', label: 'Safari' },
-    { value: 'Opera', label: 'Opera' },
-    { value: 'Internet Explorer', label: 'Internet Explorer' },
-  ]
+    { value: "Firefox", label: "Firefox" },
+    { value: "Chrome", label: "Chrome" },
+    { value: "Safari", label: "Safari" },
+    { value: "Opera", label: "Opera" },
+    { value: "Internet Explorer", label: "Internet Explorer" },
+  ];
 
   return (
-    <div >
+    <div>
       <div>
         <Select
           closeMenuOnSelect={false}
           components={animatedComponents}
           defaultValue={2}
           isMulti
-          options={option}
+          options={option as any}
           classNamePrefix="Select"
         />
       </div>
@@ -286,23 +282,23 @@ export function Userslist() {
 
 // Select2 elements END
 
-// Time Picker START  
+// Time Picker START
 
 // Default Time Picker
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      height: 40
+      display: "flex",
+      flexWrap: "wrap",
+      height: 40,
     },
     textField: {
       marginLeft: theme.spacing(1),
       marginRight: theme.spacing(1),
       width: 150,
     },
-  }),
+  })
 );
 
 export function TimePickers() {
@@ -311,7 +307,7 @@ export function TimePickers() {
   return (
     <form className={classes.container} noValidate>
       <TextField
-        label='Default Time Picker'
+        label="Default Time Picker"
         id="time"
         type="time"
         defaultValue="00:00"
@@ -327,19 +323,16 @@ export function TimePickers() {
   );
 }
 
-
-
 // Basic Time picker2
-// Set the scroll position 
+// Set the scroll position
 
 export function BasicTimePicker() {
-
   const [value, setValue] = React.useState<Date | null>(null);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <TimePicker
-        label='Set the scroll position'
+        label="Set the scroll position"
         value={value}
         onChange={(newValue) => {
           setValue(newValue);
@@ -359,10 +352,10 @@ export function DynamicTimePicker() {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Stack spacing={3}>
         <TimePicker
-          label='Dynamic Time Picker'
+          label="Dynamic Time Picker"
           ampm={false}
           openTo="hours"
-          views={['hours', 'minutes']}
+          views={["hours", "minutes"]}
           inputFormat="HH:mm"
           mask="__:__"
           value={value}
@@ -371,7 +364,6 @@ export function DynamicTimePicker() {
           }}
           renderInput={(params) => <TextField {...params} />}
         />
-
       </Stack>
     </LocalizationProvider>
   );
@@ -384,24 +376,37 @@ export function DynamicTimePicker() {
 // Basic
 
 export function BasicStyle() {
-  const [color, setColor] = useState('#6c5ffc')
-  const [showColorPicker, setShowColorPicker] = useState(false)
-
+  const [color, setColor] = useState("#6c5ffc");
+  const [showColorPicker, setShowColorPicker] = useState(false);
 
   const handleChangeComplete = (color) => {
-    console.log(color)
+    console.log(color);
   };
 
   return (
-
     <div>
       <p className=" mb-1">Same way you select color in Adobe Photoshop.</p>
-      <Button className='btn-pill' size='sm' onClick={() => setShowColorPicker(showColorPicker => !showColorPicker)}>{showColorPicker ? 'Close Color Picker' : 'Pick a Color'}</Button>
-      {showColorPicker && (<ChromePicker className='mt-3' disableAlpha={true} color={color} onChange={updatedColor => setColor(updatedColor.hex)} onChangeComplete={handleChangeComplete} />
+      <Button
+        className="btn-pill"
+        size="sm"
+        onClick={() =>
+          setShowColorPicker((showColorPicker) => !showColorPicker)
+        }
+      >
+        {showColorPicker ? "Close Color Picker" : "Pick a Color"}
+      </Button>
+      {showColorPicker && (
+        <ChromePicker
+          className="mt-3"
+          disableAlpha={true}
+          color={color}
+          onChange={(updatedColor) => setColor(updatedColor.hex)}
+          onChangeComplete={handleChangeComplete}
+        />
       )}
     </div>
-  )
-};
+  );
+}
 
 // SketchExample style
 
@@ -409,39 +414,49 @@ export class SketchExample extends React.Component {
   state = {
     displayColorPicker: false,
     color: {
-      r: '241',
-      g: '112',
-      b: '19',
-      a: '1',
+      r: "241",
+      g: "112",
+      b: "19",
+      a: "1",
     },
-  }
+  };
   handleClick = () => {
-    this.setState({ displayColorPicker: !this.state.displayColorPicker })
+    this.setState({ displayColorPicker: !this.state.displayColorPicker });
   };
 
   handleClose = () => {
-    this.setState({ displayColorPicker: false })
+    this.setState({ displayColorPicker: false });
   };
 
   handleChange = (color) => {
-    this.setState({ color: color.rgb })
+    this.setState({ color: color.rgb });
   };
   render() {
-
     return (
       <div>
-        <p className="mt-4 mb-1">Show Adove photoshop with Alphaline and pallete. </p>
-        <Button className='btn-pill' variant='primary' size='sm' onClick={this.handleClick}>
+        <p className="mt-4 mb-1">
+          Show Adove photoshop with Alphaline and pallete.{" "}
+        </p>
+        <Button
+          className="btn-pill"
+          variant="primary"
+          size="sm"
+          onClick={this.handleClick}
+        >
           <ColorLensIcon />
         </Button>
-        {this.state.displayColorPicker ? <div >
-          <div onClick={this.handleClose} />
-          <SketchPicker className='mt-3' color={this.state.color} onChange={this.handleChange} />
-        </div> : null}
-
+        {this.state.displayColorPicker ? (
+          <div>
+            <div onClick={this.handleClose} />
+            <SketchPicker
+              className="mt-3"
+              color={this.state.color}
+              onChange={this.handleChange}
+            />
+          </div>
+        ) : null}
       </div>
-
-    )
+    );
   }
 }
 // Palettes Style
@@ -450,7 +465,10 @@ export function PalettesStyle() {
   const [hex, setHex] = useState("#fff");
   return (
     <div>
-      <p className="mt-4 mb-1">Show pallete only. If you'd like, spectrum can show the palettes you specify, and nothing else.</p>
+      <p className="mt-4 mb-1">
+        Show pallete only. If you'd like, spectrum can show the palettes you
+        specify, and nothing else.
+      </p>
       <Compact
         color={hex}
         onChange={(color) => {
@@ -464,9 +482,6 @@ export function PalettesStyle() {
 // Color Picker END
 
 // Styled Color Picker START
-
-
-
 
 // Styled Color Picker END
 
@@ -493,17 +508,16 @@ export function BasicDatePicker() {
 
 // Month
 
-
 export function MonthPicker() {
   const [value, setValue] = React.useState<Date | null>(new Date());
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
-        views={['month']}
+        views={["month"]}
         label="Month Range"
-        minDate={new Date('2012-03-01')}
-        maxDate={new Date('2023-06-01')}
+        minDate={new Date("2012-03-01")}
+        maxDate={new Date("2023-06-01")}
         value={value}
         onChange={(newValue) => {
           setValue(newValue);
@@ -514,14 +528,13 @@ export function MonthPicker() {
   );
 }
 
-
 export function YearPicker() {
   const [value, setValue] = React.useState<Date | null>(new Date());
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
-        views={['year']}
+        views={["year"]}
         label="Year Range"
         value={value}
         onChange={(newValue) => {
@@ -560,19 +573,20 @@ function getRandomNumber(min: number, max: number) {
   return Math.round(Math.random() * (max - min) + min);
 }
 
-
 function fakeFetch(date: Date, { signal }: { signal: AbortSignal }) {
   return new Promise<{ daysToHighlight: number[] }>((resolve, reject) => {
     const timeout = setTimeout(() => {
       const daysInMonth = getDaysInMonth(date);
-      const daysToHighlight = [1, 2, 3].map(() => getRandomNumber(1, daysInMonth));
+      const daysToHighlight = [1, 2, 3].map(() =>
+        getRandomNumber(1, daysInMonth)
+      );
 
       resolve({ daysToHighlight });
     }, 500);
 
     signal.onabort = () => {
       clearTimeout(timeout);
-      reject(new DOMException('aborted', 'AbortError'));
+      reject(new DOMException("aborted", "AbortError"));
     };
   });
 }
@@ -596,7 +610,7 @@ export function MultipleMonths() {
       })
       .catch((error) => {
         // ignore the error if it's caused by `controller.abort`
-        if (error.name !== 'AbortError') {
+        if (error.name !== "AbortError") {
           throw error;
         }
       });
@@ -642,7 +656,7 @@ export function MultipleMonths() {
             <Badge
               key={day.toString()}
               overlap="circular"
-              badgeContent={isSelected ? '🌚' : undefined}
+              badgeContent={isSelected ? "🌚" : undefined}
             >
               <PickersDay {...DayComponentProps} />
             </Badge>
@@ -657,25 +671,25 @@ export function MultipleMonths() {
 
 const optionss = [
   {
-    label: 'Java Script',
+    label: "Java Script",
     options: [
-      { value: 'Jquery', label: 'Jquery' },
-      { value: 'Angular JS', label: 'Angular JS' },
-      { value: 'React JS', label: 'React JS' },
-      { value: 'Vue JS', label: 'Vue JS' }
+      { value: "Jquery", label: "Jquery" },
+      { value: "Angular JS", label: "Angular JS" },
+      { value: "React JS", label: "React JS" },
+      { value: "Vue JS", label: "Vue JS" },
     ],
   },
   {
-    label: 'Popular',
+    label: "Popular",
     options: [
-      { value: 'Java Script', label: 'Java Script' },
-      { value: 'Java', label: 'Java' },
-      { value: 'Python', label: 'Python' },
-      { value: 'TypeScript', label: 'TypeScript' },
-      { value: 'PHP', label: 'PHP' },
-      { value: 'Ruby on Rails', label: 'Ruby on Rails' },
+      { value: "Java Script", label: "Java Script" },
+      { value: "Java", label: "Java" },
+      { value: "Python", label: "Python" },
+      { value: "TypeScript", label: "TypeScript" },
+      { value: "PHP", label: "PHP" },
+      { value: "Ruby on Rails", label: "Ruby on Rails" },
     ],
-  }
+  },
 ];
 
 export class DualList extends React.Component {
@@ -716,7 +730,6 @@ export function SelectBox() {
     console.log(selected);
   }
   const options = [
-
     { value: "HTML5", label: "HTML5" },
     { value: "CSS 3", label: "CSS 3" },
     { value: "PHP", label: "PHP" },
@@ -729,9 +742,8 @@ export function SelectBox() {
     { value: "PhotoShop", label: "PhotoShop" },
     { value: "Python", label: "Python" },
     { value: "Sql", label: "Sql" },
-    { value: "JavaScript", label: "JavaScript" }
+    { value: "JavaScript", label: "JavaScript" },
   ];
-
 
   return (
     <DualListBox
@@ -775,17 +787,17 @@ export function SelectBoxwithLabel() {
         { value: "Web designer", label: "Web designer" },
         {
           value: "Web Developer",
-          label: "Web Developer"
+          label: "Web Developer",
         },
         {
           value: "Application Developer",
-          label: "Application Developer"
+          label: "Application Developer",
         },
         {
           value: "App Designer",
-          label: "App Designer"
-        }
-      ]
+          label: "App Designer",
+        },
+      ],
     },
     {
       label: "Voice Side",
@@ -793,28 +805,27 @@ export function SelectBoxwithLabel() {
         { value: "Tell Caller", label: "Tell Caller" },
         {
           value: "Recruiter",
-          label: "Recruiter"
+          label: "Recruiter",
         },
         {
           value: "HR",
-          label: "HR"
+          label: "HR",
         },
         {
           value: "Data Entry",
-          label: "Data Entry"
+          label: "Data Entry",
         },
         {
           value: "Mapping",
-          label: "Mapping"
+          label: "Mapping",
         },
         {
           value: "US Recruiter",
-          label: "US Recruiter"
-        }
-      ]
-    }
+          label: "US Recruiter",
+        },
+      ],
+    },
   ];
-
 
   return (
     <DualListBox
@@ -845,7 +856,7 @@ export function SelectBoxwithLabel() {
 
 // Select Box END
 
-// Country selectorinterface StyledProps 
+// Country selectorinterface StyledProps
 
 export const CountrySelector = () => {
   return (
@@ -853,7 +864,7 @@ export const CountrySelector = () => {
       <PhoneInput
         country={"us"}
         value="1425652"
-        onChange={phone => console.log({ phone })}
+        onChange={(phone) => console.log({ phone })}
       />
     </div>
   );
