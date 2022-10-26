@@ -156,12 +156,14 @@ export const LedgerAccountTypesList = ({
             defaultAmount: +payload.defaultAmount,
           } as any)
         );
+        setValues({ ...initialValues });
         onSetAccountTypeFetched();
         return setOpenModal(false);
       }
       await dispatch(createLedgerAccountsType(payload as any));
       onSetAccountTypeFetched();
       setOpenModal(false);
+      setValues({ ...initialValues });
     } catch (error: any) {
       Swal.fire({
         title: "ERROR!!!",

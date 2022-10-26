@@ -122,7 +122,7 @@ function LedgerSetup() {
     getallLedgerAccountTypes();
   }, [accountTypeFetched]);
 
-  const onSubmit = async (e) => {
+  const onSubmit = async () => {
     try {
       let payload: any = Object.assign({}, values);
       if (isEditMode) {
@@ -133,6 +133,7 @@ function LedgerSetup() {
           } as any)
         );
         setLedgerAccountsFetched(!ledgerAccountsFetched);
+        setValues({ ...initialValues });
         return setOpenModal(false);
       }
       await dispatch(
@@ -141,6 +142,7 @@ function LedgerSetup() {
           defaultAmount: +payload.defaultAmount,
         } as any)
       );
+      setValues({ ...initialValues });
       setLedgerAccountsFetched(!ledgerAccountsFetched);
       setOpenModal(false);
     } catch (error: any) {
@@ -153,15 +155,7 @@ function LedgerSetup() {
     }
   };
 
-  const {
-    handleChange,
-    handleSubmit,
-    values,
-    errors,
-    touched,
-    setValues,
-    isSubmitting,
-  } = useFormik({
+  const { handleChange, handleSubmit, values, setValues } = useFormik({
     initialValues,
     validationSchema,
     onSubmit,
@@ -190,12 +184,6 @@ function LedgerSetup() {
   }, [ledgerAccountTypes]);
 
   const onEditRow = (row) => {
-    setOpenModal(true);
-    setIsEditMode(true);
-    setValues({ ...row, type: row.type });
-  };
-
-  const onEditLedgerAccountTypeRow = (row) => {
     setOpenModal(true);
     setIsEditMode(true);
     setValues({ ...row, type: row.type });
