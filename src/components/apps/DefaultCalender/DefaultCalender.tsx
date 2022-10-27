@@ -185,52 +185,172 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
 							</Row>
 							<Row className="mt-5">
 								<Col sm={1}>
-									<div className="lightgreen-code"></div>
+									<div
+										style={{
+											height: '20px',
+											width: '20px',
+											backgroundColor: 'lightgreen',
+											borderRadius: '50px',
+											marginLeft: 'auto',
+											marginRight: 'auto',
+											marginBottom: 10,
+										}}
+									></div>
 									<p style={{ textAlign: 'center', fontSize: 'smaller' }}>Reserved</p>
 								</Col>
 								<Col sm={1}>
-									<div className="green-code"></div>
+									<div
+										style={{
+											height: '20px',
+											width: '20px',
+											backgroundColor: 'green',
+											borderRadius: '50px',
+											marginLeft: 'auto',
+											marginRight: 'auto',
+											marginBottom: 10,
+										}}
+									></div>
 									<p style={{ textAlign: 'center', fontSize: 'smaller' }}>Confirmed</p>
 								</Col>
 								<Col sm={1}>
-									<div className="lightskyblue-code"></div>
+									<div
+										style={{
+											height: '20px',
+											width: '20px',
+											backgroundColor: 'lightskyblue',
+											borderRadius: '50px',
+											marginLeft: 'auto',
+											marginRight: 'auto',
+											marginBottom: 10,
+										}}
+									></div>
 									<p style={{ textAlign: 'center', fontSize: 'smaller' }}>Guranteed</p>
 								</Col>
 								<Col sm={1}>
-									<div className="mediumpurple-code"></div>
+									<div
+										style={{
+											height: '20px',
+											width: '20px',
+											backgroundColor: 'mediumpurple',
+											borderRadius: '50px',
+											marginLeft: 'auto',
+											marginRight: 'auto',
+											marginBottom: 10,
+										}}
+									></div>
 									<p style={{ textAlign: 'center', fontSize: 'smaller' }}>In House</p>
 								</Col>
 								<Col sm={1}>
-									<div className="grey-code"></div>
+									<div
+										style={{
+											height: '20px',
+											width: '20px',
+											backgroundColor: 'grey',
+											borderRadius: '50px',
+											marginLeft: 'auto',
+											marginRight: 'auto',
+											marginBottom: 10,
+										}}
+									></div>
 									<p style={{ textAlign: 'center', fontSize: 'smaller' }}>Departed</p>
 								</Col>
 								<Col sm={1}>
-									<div className="orange-code"></div>
+									<div
+										style={{
+											height: '20px',
+											width: '20px',
+											backgroundColor: 'orange',
+											borderRadius: '50px',
+											marginLeft: 'auto',
+											marginRight: 'auto',
+											marginBottom: 10,
+										}}
+									></div>
 
 									<p style={{ textAlign: 'center', fontSize: 'smaller' }}>On Hold</p>
 								</Col>
 								<Col sm={1}>
-									<div className="coral-code"></div>
+									<div
+										style={{
+											height: '20px',
+											width: '20px',
+											backgroundColor: 'coral',
+											borderRadius: '50px',
+											marginLeft: 'auto',
+											marginRight: 'auto',
+											marginBottom: 10,
+										}}
+									></div>
 									<p style={{ textAlign: 'center', fontSize: 'smaller' }}>Reserved</p>
 								</Col>
 								<Col sm={1}>
-									<div className="e372b1-code"></div>
+									<div
+										style={{
+											height: '20px',
+											width: '20px',
+											backgroundColor: '#e372b1',
+											borderRadius: '50px',
+											marginLeft: 'auto',
+											marginRight: 'auto',
+											marginBottom: 10,
+										}}
+									></div>
 									<p style={{ textAlign: 'center', fontSize: 'smaller' }}>Reserved</p>
 								</Col>
 								<Col sm={1}>
-									<div className="d95652-code"></div>
+									<div
+										style={{
+											height: '20px',
+											width: '20px',
+											backgroundColor: '#d95652',
+											borderRadius: '50px',
+											marginLeft: 'auto',
+											marginRight: 'auto',
+											marginBottom: 10,
+										}}
+									></div>
 									<p style={{ textAlign: 'center', fontSize: 'smaller' }}>Reserved</p>
 								</Col>
 								<Col sm={1}>
-									<div className="b415-code"></div>
+									<div
+										style={{
+											height: '20px',
+											width: '20px',
+											backgroundColor: '#415b75',
+											borderRadius: '50px',
+											marginLeft: 'auto',
+											marginRight: 'auto',
+											marginBottom: 10,
+										}}
+									></div>
 									<p style={{ textAlign: 'center', fontSize: 'smaller' }}>Reserved</p>
 								</Col>
 								<Col sm={1}>
-									<div className="f67779-code"></div>
+									<div
+										style={{
+											height: '20px',
+											width: '20px',
+											backgroundColor: '#67779f',
+											borderRadius: '50px',
+											marginLeft: 'auto',
+											marginRight: 'auto',
+											marginBottom: 10,
+										}}
+									></div>
 									<p style={{ textAlign: 'center', fontSize: 'smaller' }}>Reserved</p>
 								</Col>
 								<Col sm={1}>
-									<div className="d3ecf3-code"></div>
+									<div
+										style={{
+											height: '20px',
+											width: '20px',
+											backgroundColor: '#d3ecf3',
+											borderRadius: '50px',
+											marginLeft: 'auto',
+											marginRight: 'auto',
+											marginBottom: 10,
+										}}
+									></div>
 									<p style={{ textAlign: 'center', fontSize: 'smaller' }}>Reserved</p>
 								</Col>
 							</Row>

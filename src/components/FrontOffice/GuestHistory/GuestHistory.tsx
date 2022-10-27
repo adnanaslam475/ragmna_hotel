@@ -4,6 +4,7 @@ import { DataTabless } from "../../../Data/Pages/TablesData/TableData";
 import "./GuestHistory.scss";
 import { Currency } from "../../Types/Types";
 import Select from "react-select";
+import { GuestTableDataItemsProps } from "../FrontOfficeTypes";
 
 const GuestHistory = () => {
   const [user, setUser] = useState(null);
@@ -12,7 +13,7 @@ const GuestHistory = () => {
     { value: "Guest Profile", label: "Guest Profile" },
   ];
   const SelectStatus: Currency[] = [{ value: "Active", label: "Active" }];
-  const NameFilter = [
+  const NameFilter: string[] = [
     "#",
     "A",
     "B",
@@ -69,7 +70,7 @@ const GuestHistory = () => {
       sortable: true,
     },
   ];
-  const guestTableDataItems = [
+  const guestTableDataItems:GuestTableDataItemsProps[] = [
     {
       ACCOUNT_NUMBER: 867,
       ACCOUNT_NAME: "Dany Stormborn",

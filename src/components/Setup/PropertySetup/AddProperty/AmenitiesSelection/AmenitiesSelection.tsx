@@ -2,21 +2,31 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useGetAmenitiesQuery } from "../Amenities/amenitiesApi";
 
-const AmenitiesSelection = () => {
+export interface AmenitiesSectionProps {
+  isSelectedAmenities: string[]
+  setIsSelectedAmenities:any
+}
+
+const AmenitiesSelection = (props:AmenitiesSectionProps) => {
+  const {
+    isSelectedAmenities,
+    setIsSelectedAmenities,
+  } = props
   const { data, isError, isSuccess, isLoading } = useGetAmenitiesQuery();
 
-  const [isCheckedData, setIsCheckedData] = useState<any>([]);
+  // const [isSelectedAmenities, setIsSelectedAmenities] = useState<any>([]);  
 
   const onHandelChnage = (e, index) => {
     let val = e.target.value;
     if (e.target.checked) {
-      setIsCheckedData([...isCheckedData, val]);
+      setIsSelectedAmenities([...isSelectedAmenities, val]);
     } else {
-      let i = isCheckedData.indexOf(val);
-      isCheckedData.splice(i, 1);
-      setIsCheckedData(isCheckedData);
+      let i = isSelectedAmenities.indexOf(val);
+      isSelectedAmenities.splice(i, 1);
+      setIsSelectedAmenities(isSelectedAmenities);
     }
   };
+  
 
   return (
     <React.Fragment>
@@ -30,7 +40,7 @@ const AmenitiesSelection = () => {
                   type="checkbox"
                   className="custom-control-input"
                   name={item.name}
-                  value={item.name}
+                  value={item._id}
                   onChange={(e) => {
                     onHandelChnage(e, index);
                   }}

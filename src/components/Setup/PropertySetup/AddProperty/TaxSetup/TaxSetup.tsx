@@ -1,15 +1,20 @@
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { AppDispatch } from "../../../../../Redux/Store";
-import { getTaxConfigDetails } from "./taxSetupSlice";
+import {
+  deleteTaxData,
+  getTaxConfigDetails,
+  useTaxData,
+} from "./taxSetupSlice";
 import "./TaxSetup.scss";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import Select from "react-select";
 import { CommanDropDownType } from "../types";
+import { Success } from "../../../../../Redux/Services/toaster-service";
 
 export interface TaxSetupProps {
   initialTaxValuesInfo: any;
@@ -17,70 +22,52 @@ export interface TaxSetupProps {
 }
 
 const TaxSetup = (props: TaxSetupProps) => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { taxData } = useTaxData();
+
   const { initialTaxValuesInfo, setTaxInfo } = props;
 
-  const TypeList: any = [
+  const TypeList: CommanDropDownType[] = [
     { value: "", label: "Select Types" },
     { value: "Tax", label: "Tax" },
     { value: "Fee", label: "Fee" },
   ];
 
-  const CalculationTypes: any = [
+  const CalculationTypes: CommanDropDownType[] = [
     { value: "", label: "Select Types" },
     { value: "Percentage", label: "Percentage per charge" },
-    { value: "charge", label: "Flat amount per charge" },
-    {
-      value: "night",
-      label: "Flat amount Per person per night",
-    },
-    { value: "Tiered", label: "Tiered tax" },
+    { value: "Fixed", label: "USD per charge" },
   ];
 
-  // let { id } = useParams();
-  // const dispatch = useDispatch<AppDispatch>();
+  const ledgerAccoutTypes: CommanDropDownType[] = [
+    { value: "", label: "Select Ledger Account" },
+    { value: "Sales Tax", label: "Sales Tax" },
+    { value: "Occupancy Tax", label: "Occupancy Tax" },
+    {
+      value: "Tax Adjustment",
+      label: "Tax Adjustment",
+    },
+  ];
 
-  // const getTaxSetupById = async () => {
-  //   if (id) {
-  //     let response: any = await dispatch(getTaxConfigDetails(id)).unwrap();
-  //     console.log(response, "response");
-  //   }
-  // };
+  const { id } = useParams<string>();
 
-  // useEffect(() => {
-  //   if (id) getTaxSetupById();
-  // }, [id]);
+  const deleteTaxDetail = async (taxId) => {
+    try {
+      let payload = {
+        id,
+        taxId: taxId,
+      };
+      await dispatch(deleteTaxData(payload)).unwrap;
+      Success('Tax Detail has been Deleted')
+      if(id){
+        dispatch(getTaxConfigDetails(id)).unwrap();
+      }
+    } catch (err: any) {
+      console.log("err");
+    }
+  };
 
-  // const initialValues = {
-  //   // propertyId: {},
-  //   // roomTypeId: {},
-  //   shortCode: "",
-  //   name: "",
-  //   startDate: "",
-  //   endDate: "",
-  //   surcharge: 0,
-  //   type: 0,
-  //   calculationType: 0,
-  //   isVatApplicable: false,
-  // };
-
-  // const validationSchema = Yup.object({
-  //   name: Yup.string().required("Please Enter Name"),
-  //   startDate: Yup.string().required("Please Select StartDate"),
-  //   endDate: Yup.string().required("Please Select EndDate"),
-  //   surcharge: Yup.number().required("Please Select Surcharge"),
-  //   type: Yup.number(),
-  //   calculationType: Yup.number(),
-  //   isVatApplicable: Yup.boolean(),
-  //   shortCode: Yup.string(),
-  // });
-  // const onSubmit = (values) => {
-  //   let payload = Object.assign({}, values);
-  // };
-  // const { handleChange, handleSubmit, values, errors, touched, setFieldValue} = useFormik({
-  //   initialValues,
-  //   validationSchema,
-  //   onSubmit,
-  // });
   return (
     <React.Fragment>
       {/* <form onSubmit={handleSubmit}> */}
@@ -175,13 +162,31 @@ const TaxSetup = (props: TaxSetupProps) => {
           <div className="control-group form-group">
             <label className="form-label">Surcharge</label>
             <input
-              type="number"
+              type="text"
               className="form-control required"
               placeholder="Surcharge"
               name="surcharge"
               value={initialTaxValuesInfo.surcharge}
               onChange={(e) => {
                 setTaxInfo("surcharge", e.target.value);
+              }}
+            />
+          </div>
+        </Col>
+        <Col lg={6} md={12}>
+          <div className="control-group form-group">
+            <label className="form-label">Ledger Account</label>
+            <Select
+              classNamePrefix="Select"
+              options={ledgerAccoutTypes}
+              value={ledgerAccoutTypes.filter(
+                (option) =>
+                  option.value === initialTaxValuesInfo.calculationType
+              )}
+              placeholder="Select Ledger Account"
+              name="ledgerAccoutType"
+              onChange={(selectedOption: any) => {
+                setTaxInfo("ledgerAccoutType", selectedOption?.value);
               }}
             />
           </div>
@@ -202,6 +207,64 @@ const TaxSetup = (props: TaxSetupProps) => {
         </Col>
       </Row>
       {/* </form> */}
+      <Row className="Contect-details p-4 mb-4">
+        <h4>Tax Setup Details</h4>
+        <table
+          id="delete-datatable"
+          className="table table-bordered text-nowrap border-bottom"
+        >
+          <thead>
+            <tr>
+              <th>Item Name</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Type</th>
+              <th>Amount</th>
+              <th>Vat Applicable</th>
+              <th>Active</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {taxData &&
+              taxData.map((val, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{val.name}</td>
+                    <td>
+                      {new Date(val.startDate).getDate() +
+                        "-" +
+                        (new Date(val.startDate).getMonth() + 1) +
+                        "-" +
+                        new Date(val.startDate).getFullYear()}
+                    </td>
+                    <td>
+                      {new Date(val.endDate).getDate() +
+                        "-" +
+                        (new Date(val.endDate).getMonth() + 1) +
+                        "-" +
+                        new Date(val.endDate).getFullYear()}
+                    </td>
+                    <td>{val.type}</td>
+                    <td>{val.surcharge}</td>
+                    <td>{val.isVatApplicable.toString()}</td>
+                    <td>{val.isActive.toString()}</td>
+                    <td className="action-icon">
+                      <i className="icon fe fe-edit" 
+                      />
+                      <i
+                        className="icon fe fe-trash-2"
+                        onClick={() => {
+                          deleteTaxDetail(val._id);
+                        }}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+      </Row>
     </React.Fragment>
   );
 };

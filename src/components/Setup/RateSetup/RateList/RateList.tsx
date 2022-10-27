@@ -1,17 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../../../Redux/Store";
 import { usePropertyList } from "../../PropertySetup/propertySetupSlice";
 import "./RateList.scss";
-import { getRate, useRateList } from "../RateSetupSlice";
+import {
+  getRate,
+  getRoomType,
+  removeRate,
+  useRateList,
+  useRoomTypes,
+} from "../RateSetupSlice";
+import {
+  DangerLeft,
+  Success,
+} from "../../../../Redux/Services/toaster-service";
+import ConformationPopup from "../../../../Modals/ConformationPopup/ConformationPopup";
 const RateList = () => {
   let navigate = useNavigate();
+  const [isOpenDeletePopUp, setIsOpenDeletePopUp] = useState<boolean>(false);
+  const [deleteId, setDeleteId] = useState("");
   const RouteChange = () => {
     let path = `/setup/ratesetup/addrate`;
     navigate(path);
   };
+  const { roomTypes } = useRoomTypes();
+  const getRoomTypes = async () => {
+    const response = await dispatch(getRoomType()).unwrap();
+  };
+  useEffect(() => {
+    getRoomTypes();
+  }, []);
   const { rateList } = useRateList();
   const dispatch = useDispatch<AppDispatch>();
   const getRateDetails = async () => {
@@ -21,7 +41,34 @@ const RateList = () => {
   useEffect(() => {
     getRateDetails();
   }, []);
-
+  const deleteRate = (index, id) => {
+    setIsOpenDeletePopUp(true);
+    setDeleteId(id);
+  };
+  const smallmodalClose = async (value) => {
+    if (value) {
+      try {
+        await dispatch(removeRate(deleteId)).unwrap();
+        let response: any = await dispatch(getRate()).unwrap();
+        setIsOpenDeletePopUp(false);
+        setDeleteId("");
+        Success("Rate has been deleted");
+      } catch (err: any) {
+        setIsOpenDeletePopUp(false);
+        DangerLeft("Something went Wrong");
+      }
+    } else {
+      setIsOpenDeletePopUp(false);
+    }
+  };
+  const getRoomTypeByID = (id) => {
+    if (roomTypes) {
+      let i = roomTypes.findIndex((x) => x._id == id);
+      if (i > -1) {
+        return roomTypes[i].name;
+      }
+    }
+  };
   return (
     <React.Fragment>
       <Row>
@@ -32,11 +79,11 @@ const RateList = () => {
               RouteChange();
             }}
           >
-            Add
+            Add Rate
           </Button>
         </div>
       </Row>
-      <Row className="d-flex justify-content-between">
+      <Row className="d-flex">
         {rateList &&
           rateList.map((item, index) => {
             return (
@@ -53,34 +100,55 @@ const RateList = () => {
                           }}
                         ></i>
                       </span>
-                      <span>
+                      <span onClick={() => deleteRate(index, item._id)}>
                         <i className="fe fe-trash-2"></i>
                       </span>
                     </div>
                   </Card.Header>
                   <Card.Body className="h-100">
                     <div className="inner-box">
-                      <div className="inner-box-size">
-                        <span>5%</span>
-                      </div>
-                      <div className="inner-box-size">
-                        <span>D</span>
-                        <span>10%</span>
-                      </div>
+                      {item?.derivedRates
+                        ? item?.derivedRates.map((derived, ind) => {
+                            return (
+                              <div key={ind} className="inner-box-size">
+                                <div className="derived-icons">
+                                  <span className="mx-3">
+                                    <i
+                                      className="fe fe-edit"
+                                      onClick={() => {
+                                        navigate(
+                                          `/setup/ratesetup/editrate/${item._id}/true/${ind}`
+                                        );
+                                      }}
+                                    ></i>
+                                  </span>
+                                </div>
+                                <span>{derived?.name}</span>
+                                <span>
+                                  {derived?.offer?.amount}
+                                  {derived?.offer?.calculationType ===
+                                  "Percentage"
+                                    ? "%"
+                                    : "$"}
+                                </span>
+                              </div>
+                            );
+                          })
+                        : null}
                     </div>
                     <div className="inner-box-row-2">
-                      <div className="inner-box-size-2">
-                        <span>Reg</span>
-                        <span>$90</span>
-                      </div>
-                      <div className="inner-box-size-2">
-                        <span>WKD</span>
-                        <span>$120</span>
-                      </div>
-                      <div className="inner-box-size-2">
-                        <span>Xmas</span>
-                        <span>$210</span>
-                      </div>
+                      {item?.roomTypes
+                        ? item.roomTypes.map((roomType, rindex) => {
+                            return (
+                              <div className="inner-box-size-2">
+                                <span>
+                                  {getRoomTypeByID(roomType.roomTypeId)}
+                                </span>
+                                <span>${roomType.price}</span>
+                              </div>
+                            );
+                          })
+                        : null}
                     </div>
                   </Card.Body>
                 </Card>
@@ -125,6 +193,9 @@ const RateList = () => {
             );
           })}
       </Row>
+      {isOpenDeletePopUp && (
+        <ConformationPopup smallmodalClose={smallmodalClose} />
+      )}
     </React.Fragment>
   );
 };

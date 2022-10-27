@@ -75,9 +75,23 @@
         display: flex;
         justify-content: center;
         background-color: green;
+        position: relative;
+        span {
+          white-space: nowrap;
+          overflow: hidden !important;
+          text-overflow: ellipsis;
+          width: 100%;
+        }
       }
     }
-  
+  .derived-icons {
+    position: absolute;
+    right: -8px;
+    top: 0;
+    i {
+      color: white;
+    }
+  }
     .inner-header {
       display: flex;
       justify-content: center;

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Form } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 import "./RulesRestrictions.scss";
 import Select from "react-select";
 import { CommanDropDownType } from "../../../../PropertySetup/AddProperty/types";
 
-const RulesRestrictions = () => {
+const RulesRestrictions = (props: any) => {
+  const { seasonBody, onHandleRestrictionInputChange, SetSeasonBody } = props
   const RoomTypes: CommanDropDownType[] = [
     { value: "Master Bedroom", label: "Master Bedroom" },
     { value: "Standard Room", label: "Standard Room" },
@@ -12,12 +13,40 @@ const RulesRestrictions = () => {
   ];
   const [addAssignRules, setAddAssignRules] = useState<boolean>(false);
   const [minNights, setMinNight] = useState<boolean>(false);
+  const [maxNights, setMaxNights] = useState<boolean>(false);
+  const [promoCode, setPromoCode] = useState<boolean>(false);
+
   const [noCheckIn, setNoCheckIn] = useState<boolean>(false);
   const [noCheckOut, setNoCheckOut] = useState<boolean>(false);
 
   const assignRules = (e) => {
     setAddAssignRules(e.target.checked);
   };
+
+  const handleCheckCHange = (e) => {
+    let obj = seasonBody['restrictions']
+    if (!e.target.checked) {
+      if (e.target.name == 'minimumNights-check') {
+        obj = {
+          ...obj,
+          minimumNights: 0
+        }
+      } else if (e.target.name == 'maximumNights-check') {
+        obj = {
+          ...obj,
+          maximumNights: 0
+        }
+      } else if (e.target.name == 'promoCode-check') {
+        obj = {
+          ...obj,
+          promoCode: ''
+        }
+      }
+      const newObj = { ...seasonBody, restrictions: obj }
+      SetSeasonBody(newObj)
+    }
+  }
+
   return (
     <React.Fragment>
       <div className="rules">
@@ -30,15 +59,7 @@ const RulesRestrictions = () => {
             label="Assign rules by room class"
             onChange={(e) => {
               assignRules(e);
-            }}
-            // onChange={(e) => {
-            //   setFieldValue(
-            //     "additionalCharge",
-            //     e.target.checked
-            //   );
-            // }}
-            // checked={values.additionalCharge}
-          />
+            }} />
         </div>
         <div className="rules-body">
           {addAssignRules ? (
@@ -52,27 +73,107 @@ const RulesRestrictions = () => {
               />
             </div>
           ) : null}
-          <div className="d-flex rules-body-check">
+        <Row>
+            <Col lg={3}>
             <label className="custom-control custom-checkbox-md">
               <input
                 type="checkbox"
                 className="custom-control-input"
-                name="example-checkbox5"
-                defaultValue="option5"
-                onClick={() => setMinNight(!minNights)}
+                name="minimumNights-check"
+                checked={seasonBody['restrictions']['minimumNights'] || minNights ? true : false}
+                onChange={(e) => {
+                  setMinNight(!minNights)
+                  handleCheckCHange(e)
+                }}
               />
-              <span className="custom-control-label">
-                Min nights <i className="fe fe-minus-circle" />
+              <span className="custom-control-label">Min nights</span>
+                 </label>
+              </Col>
+              <Col lg={3}>
+              <span className="d-flex align-items-center">
+                 <i className="fe fe-minus-circle" />
                 <input
                   disabled={!minNights}
                   className="check-input"
+                  name='minimumNights'
+                  value={seasonBody['restrictions']['minimumNights']}
+                  onChange={(e) => {
+                    onHandleRestrictionInputChange(e)
+                  }}
                   type="number"
                 />
                 <i className="fe fe-plus-circle" />
               </span>
+              </Col>
+          </Row>
+          <Row>
+            <Col lg={3}>
+            <label className="custom-control custom-checkbox-md">
+              <input
+                type="checkbox"
+                className="custom-control-input"
+                name="maximumNights-check"
+                checked={seasonBody['restrictions']['maximumNights'] || maxNights ? true : false}
+                onChange={(e) => {
+                  setMaxNights(!maxNights)
+                  handleCheckCHange(e)
+                }}
+
+              />
+              <span className="custom-control-label">Max nights</span>
+              </label>
+              </Col>
+              <Col lg={3}>
+              <span className="d-flex align-items-center">
+                 <i className="fe fe-minus-circle" />
+                <input
+                  disabled={!maxNights}
+                  className="check-input"
+                  name='maximumNights'
+                  value={seasonBody['restrictions']['maximumNights']}
+                  onChange={(e) => {
+                    onHandleRestrictionInputChange(e)
+                  }}
+                  type="number"
+                />
+                <i className="fe fe-plus-circle" />
+              </span>
+              </Col>
+            
+          </Row>
+          <Row>
+            <Col lg={3}>
+            <label className="custom-control custom-checkbox-md">
+              <input
+                type="checkbox"
+                className="custom-control-input"
+                name="promoCode-check"
+                checked={seasonBody['restrictions']['promoCode'] || promoCode  ? true : false}
+                onChange={(e) => {
+                  setPromoCode(!promoCode)
+                  handleCheckCHange(e)
+                }}
+              />
+              <span className="custom-control-label">
+                Promo Code
+              </span>
             </label>
-          </div>
-          <div className="d-flex">
+            </Col>
+            <Col lg={3}>
+              <input
+                type="text"
+                className="form-control required"
+                value={seasonBody['restrictions']['promoCode']}
+                name='promoCode'
+                disabled={!promoCode && !seasonBody['restrictions']['promoCode']}
+                onChange={(e) => {
+                  onHandleRestrictionInputChange(e)
+                }}
+                placeholder="$"
+              />
+              </Col>
+          </Row>
+          {/* <div className="d-flex">
             <label className="custom-control custom-checkbox-md">
               <input
                 type="checkbox"
@@ -117,7 +218,7 @@ const RulesRestrictions = () => {
               <Form.Check label="S" type="checkbox" />
               <Form.Check label="S" type="checkbox" />
             </div>
-          ) : null}
+          ) : null} */}
         </div>
       </div>
     </React.Fragment>

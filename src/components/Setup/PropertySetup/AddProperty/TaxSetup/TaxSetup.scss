@@ -10,8 +10,29 @@
     }
   }
 }
-
+.css-1s2u09g-control{
+  display: flex !important;
+  align-items: center !important;
+  .Select__input{
+    width: auto !important;
+  }
+}
+.Select__value-container{
+  max-width: 170px !important;
+}
 
 .error-border{
     border-color: red !important;
+}
+
+.action-icon{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  .icon{
+    font-size: 15px;
+  }
+  .icon:last-child{
+    color: red;
+  }
 }

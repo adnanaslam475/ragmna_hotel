@@ -1,158 +1,90 @@
-import React, { useState, useEffect } from 'react'
-import DayPicker, {
-    DateUtils,
-} from 'react-day-picker'
-import service from './services'
-import './CalendarSetup.scss'
+import React, { useState, useEffect } from "react";
+import DayPicker, { DateUtils } from "react-day-picker";
+import "./CalendarSetup.scss";
+const CalendarSetup = ({ dateRange }: any) => {
+  const [ranges, setRanges] = useState<any[]>([]);
+  useEffect(() => {
+    let temp: any = [];
 
-const CalendarSetup = ({ onChange , dateRange}:any) => {
-    const [tempRange, setTempRange] = useState<any>({ from: null, to: null })
-    const [ranges, setRanges] = useState<any[]>([])
-    const [lastDayMouseEnter, setLastDayMouseEnter] = useState<any>(null)
+    for (let index = 0; index < dateRange.length; index++) {
+      if (dateRange[index].startDate && dateRange[index].endDate) {
+        temp.push({
+          from: dateRange[index].startDate,
+          to: dateRange[index].endDate,
+        });
+      }
+    }
+    setRanges(temp);
+  }, [dateRange]);
 
-    useEffect(() => {
-        onChange(ranges)
-    }, [ranges, onChange])
-
-    useEffect(() => {
-        for (let index = 0; index < dateRange.length; index++) {
-        setTempRange({ from: dateRange[index].from, to: dateRange[index].to })
+  const getModifiers = () => {
+    let modifier = {
+    }
+    for (let index = 0; index < dateRange.length; index++) {
+      if (dateRange[index].startDate && dateRange[index].endDate) {
+        let payload = {
+          from: dateRange[index].startDate,
+          to: dateRange[index].endDate
         }
-    }, [dateRange])
-    
+        modifier['R' + index] = payload
 
-    useEffect(() => {
-        if (tempRange) {
-
-            if (!!tempRange.from && !!tempRange.to) {
-              
-                const { shouldIncrease, increasedRanges } = service.increaseSmallerRanges(tempRange, ranges)
-                setRanges(shouldIncrease ? increasedRanges : [...ranges, tempRange])
+      }
+      if (dateRange[index].startDate && dateRange[index].endDate && (dateRange[index]['days'].length < 7)) {
+        modifier['D' + index] = day => {
+          if (DateUtils.isDayBetween(day, dateRange[index].startDate, dateRange[index].endDate) || DateUtils.isSameDay(day, dateRange[index].startDate) || DateUtils.isSameDay(day, dateRange[index].endDate)) {
+            if (day.getDay() == 1 && !dateRange[index]['days'].includes('Monday')) {
+              return true
             }
+            if (day.getDay() == 2 && !dateRange[index]['days'].includes('Tuesday')) {
+              return true
+            }
+            if (day.getDay() == 3 && !dateRange[index]['days'].includes('Wednesday')) {
+              return true
+            }
+            if (day.getDay() == 4 && !dateRange[index]['days'].includes('Thursday')) {
+              return true
+            }
+            if (day.getDay() == 5 && !dateRange[index]['days'].includes('Friday')) {
+              return true
+            }
+            if (day.getDay() == 6 && !dateRange[index]['days'].includes('Saturday')) {
+              return true
+            }
+            if (day.getDay() == 0 && !dateRange[index]['days'].includes('Sunday')) {
+              return true
+            }
+
+          }
         }
-    }, [tempRange])
-
- 
-    
-
-    useEffect(() => {
-        setTempRange({ from: null, to: null })
-        setLastDayMouseEnter(null)
-    }, [ranges])
-
-    const handleDayClick = (day, modifiers) => {
-      
-
-        const { selected } = modifiers
-        const isDayInHoverRange = DateUtils.isDayInRange(day, {
-            from: tempRange.from,
-            to: lastDayMouseEnter
-        })
-        if (!selected || isDayInHoverRange) {
-            setTempRange(DateUtils.addDayToRange(day, tempRange))
-        } else {
-            const filteredRanges = ranges.filter((r) => !DateUtils.isDayInRange(day, r))
-            setRanges(filteredRanges)
-        }
+      }
     }
+    return modifier
+  }
 
-    const handleDayMouseEnter = (day) => {
-        const { from, to } = tempRange
-        if (!service.isSelectingFirstDay(from, to, day)) {
-            setLastDayMouseEnter(day)
-        }
+  const getModifierStyle = () => {
+    let modifierStyle = {}
+    for (let index = 0; index < dateRange.length; index++) {
+
+      let payload =
+        { backgroundColor: dateRange[index].color }
+
+      modifierStyle['R' + index] = payload
+      modifierStyle['D' + index] = { backgroundColor: 'lightGray' }
     }
- 
-    const modifiers = {
-        
-        'R0': (day) =>
-            ranges.some((r, i) => {
-                if (i === 0) {
-                    if (
-                        DateUtils.isDayBetween(day, r.from, r.to) ||
-                        DateUtils.isSameDay(day, r.to) ||
-                        DateUtils.isSameDay(day, r.from)
-                    ) {
-                        return true
-                    }
-                }
-                return false
-            }),
-        'R1': (day) =>
-            ranges.some((r, i) => {
-                if (i === 1) {
-                    if (
-                        DateUtils.isDayBetween(day, r.from, r.to) ||
-                        DateUtils.isSameDay(day, r.to) ||
-                        DateUtils.isSameDay(day, r.from)
-                    ) {
-                        return true
-                    }
-                }
-                return false
-            }),
-        'R2': (day) =>
-            ranges.some((r, i) => {
-                if (i === 2) {
-                    if (
-                        DateUtils.isDayBetween(day, r.from, r.to) ||
-                        DateUtils.isSameDay(day, r.to) ||
-                        DateUtils.isSameDay(day, r.from)
-                    ) {
-                        return true
-                    }
-                }
-                return false
-            }),
-            'R3': (day) =>
-            ranges.some((r, i) => {
-                if (i === 3) {
-                    if (
-                        DateUtils.isDayBetween(day, r.from, r.to) ||
-                        DateUtils.isSameDay(day, r.to) ||
-                        DateUtils.isSameDay(day, r.from)
-                    ) {
-                        return true
-                    }
-                }
-                return false
-            }),
-            'R4': (day) =>
-            ranges.some((r, i) => {
-                if (i === 4) {
-                    if (
-                        DateUtils.isDayBetween(day, r.from, r.to) ||
-                        DateUtils.isSameDay(day, r.to) ||
-                        DateUtils.isSameDay(day, r.from)
-                    ) {
-                        return true
-                    }
-                }
-                return false
-            }),
-    }
-
-    return (
-        <DayPicker
-            className='DatePickerRange'
-            firstDayOfWeek={1}
-            numberOfMonths={12}
-            disabledDays={{before: new Date()}}
-            selectedDays={[{ from: tempRange ? tempRange.from : null, to: lastDayMouseEnter }, ...ranges]}
-            // onDayClick={handleDayClick}
-            // onDayMouseEnter={handleDayMouseEnter}
-            modifiers={modifiers}
-            showOutsideDays={false}
-            enableOutsideDaysClick={false}
-            modifiersStyles={{ R0: { backgroundColor: dateRange[0]?.color },
-            R1: { backgroundColor: dateRange[1]?.color },
-            R2: { backgroundColor: dateRange[2]?.color },
-            R3: { backgroundColor: dateRange[3]?.color },
-            R4: { backgroundColor: dateRange[4]?.color }, 
-        }}
-
-        />
-    )
-}
-
-export default CalendarSetup
+    return modifierStyle
+  }
+  return (
+    <DayPicker
+      className="DatePickerRange"
+      firstDayOfWeek={1}
+      numberOfMonths={12}
+      disabledDays={{ before: new Date() }}
+      selectedDays={ranges}
+      modifiers={getModifiers()}
+      showOutsideDays={false}
+      enableOutsideDaysClick={false}
+      modifiersStyles={getModifierStyle()}
+    />
+  );
+};
+export default CalendarSetup;

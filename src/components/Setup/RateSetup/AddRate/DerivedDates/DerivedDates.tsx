@@ -9,7 +9,9 @@ const DerivedDates = (props) => {
 
 
   const handelChange = (e) => {
+    
     setSelectedPlan(e.target.value);
+
   };
 
   const removeDate = (index) => {
