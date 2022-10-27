@@ -10,10 +10,17 @@ import { addRoomTypeData, getPropertyDataById } from './propertySpaceSlice'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../../../Redux/Store'
 import { useFormik } from 'formik'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import Swal from 'sweetalert2'
+
 import { Success } from '../../../Redux/Services/toaster-service'
 
 export const AddRoomType = () => {
+	let navigate = useNavigate()
+	const RouteChange = () => {
+		let path = `/setup/propertyspace`
+		navigate(path)
+	}
 	// export const CutomValidation: React.FC = () => {
 	const { data } = useGetAmenitiesQuery()
 	const dispatch = useDispatch<AppDispatch>()
@@ -43,81 +50,99 @@ export const AddRoomType = () => {
 		{ value: 'SwimmingPool', label: 'SwimmingPool' },
 		{ value: 'FootballField', label: 'FootballField' },
 		{ value: 'BasketballField', label: 'BasketballField' },
-		{ value: 'Bedroom', label: 'Bedroom' },
-		{ value: 'Ballroom', label: 'Ballroom' },
+		// { value: 'Bedroom', label: 'Bedroom' },
+		// { value: 'Ballroom', label: 'Ballroom' },
 	]
 
 	let onSubmit = async (values: any) => {
-		console.log(values)
-		let data = {
-			name: values.roomname,
-			dimensions: {
-				area: values.roomarea,
-				unit: values.roomunit,
-			},
-			maxCapacity: {
-				adulta: values.roomadults,
-				children: values.children,
-			},
-			virtualTourLink: values.roomlink,
-			allowedFor: values.roomallowedfor,
-			isNonSmoking: values.roomsmoking,
-			section: [
-				{
-					name: values.sectionName,
-					type: values.sectionType,
-					quantity: values.sectionQuantity,
-					allowedFor: values.sectionAllowfor,
-					maxCapacity: {
-						adults: values.sectionAdults,
-						children: values.sectionChildren,
-					},
-					virtualTourLink: values.sectionLink,
-					amenities: [values.sectionAmenities],
-					dimensions: {
-						area: values.sectionArea,
-						unit: values.sectionUnit,
-					},
+		try {
+			console.log(values)
+			let data = {
+				name: values.roomname,
+				dimensions: {
+					area: values.roomarea,
+					unit: values.roomunit,
 				},
-			],
-			rentalUnits: [
-				{
-					rentalUnitNumber: values.rentalUnitNo,
-					stationId: values.stationID,
-					useDefaultSections: values.defaultSection,
-					sections: [
-						{
-							type: values.rentalSectionType,
-							name: values.rentalSectionName,
-							quantity: values.rentalSectionQuantity,
-							virtualTourLink: values.rentalSectionLink,
-							allowedFor: values.rentalSectionAllowed,
-							amenities: [],
-							dimensions: {
-								area: values.rentalSectionArea,
-								unit: values.rentalSectionUnit,
-							},
-							maxCapacity: {
-								adults: values.rentalSectionAdults,
-								children: values.rentalSectionChildren,
-							},
+				maxCapacity: {
+					adulta: values.roomadults,
+					children: values.children,
+				},
+				virtualTourLink: values.roomlink,
+				allowedFor: values.roomallowedfor,
+				isNonSmoking: values.roomsmoking,
+				section: [
+					{
+						name: values.sectionName,
+						type: values.sectionType,
+						quantity: values.sectionQuantity,
+						allowedFor: values.sectionAllowfor,
+						maxCapacity: {
+							adults: values.sectionAdults,
+							children: values.sectionChildren,
 						},
-					],
-				},
-			],
-		}
-		console.log(data)
-		// if (id) {
-		// 	let response: any = await dispatch(updatePropertyData(data)).unwrap()
-		// 	console.log(response)
-		// } else {
-		// 	let response: any = await dispatch(addRoomTypeData(data)).unwrap()
-		// 	console.log(response)
-		// }
-		let response: any = await dispatch(addRoomTypeData(data)).unwrap()
-		console.log(response)
-		if (response !== '') {
+						virtualTourLink: values.sectionLink,
+						amenities: [values.sectionAmenities],
+						dimensions: {
+							area: values.sectionArea,
+							unit: values.sectionUnit,
+						},
+					},
+				],
+				rentalUnits: [
+					{
+						rentalUnitNumber: values.rentalUnitNo,
+						stationId: values.stationID,
+						useDefaultSections: values.defaultSection,
+						sections: [
+							{
+								type: values.rentalSectionType,
+								name: values.rentalSectionName,
+								quantity: values.rentalSectionQuantity,
+								virtualTourLink: values.rentalSectionLink,
+								allowedFor: values.rentalSectionAllowed,
+								amenities: [],
+								dimensions: {
+									area: values.rentalSectionArea,
+									unit: values.rentalSectionUnit,
+								},
+								maxCapacity: {
+									adults: values.rentalSectionAdults,
+									children: values.rentalSectionChildren,
+								},
+							},
+						],
+					},
+				],
+			}
+			console.log(data)
+			// if (id) {
+			// 	let response: any = await dispatch(updatePropertyData(data)).unwrap()
+			// 	console.log(response)
+			// } else {
+			// 	let response: any = await dispatch(addRoomTypeData(data)).unwrap()
+			// 	console.log(response)
+			// }
+			let response: any = await dispatch(addRoomTypeData(data)).unwrap()
+			console.log(response.code)
 			Success('Room Type add successfully')
+			RouteChange()
+			// if (response !== '') {
+			// 	Success('Room Type add successfully')
+			// } else {
+			// 	alert('error')
+			// }
+		} catch (error: any) {
+			console.log(error)
+
+			Swal.fire({
+				title: error.message,
+				icon: 'error',
+				allowOutsideClick: false,
+				showCancelButton: true,
+				cancelButtonText: 'Exit',
+				confirmButtonColor: 'default',
+				cancelButtonColor: '#6c5ffc',
+			})
 		}
 	}
 	const initialValues = {
@@ -139,6 +164,7 @@ export const AddRoomType = () => {
 		sectionAmenities: '',
 		sectionArea: 0,
 		sectionUnit: '',
+
 		rentalUnitNo: 0,
 		stationID: '',
 		defaultSection: false,
@@ -189,6 +215,7 @@ export const AddRoomType = () => {
 			<Card.Body>
 				{/* <Formik initialValues={{ name: '', email: '', phone: '', blog: '' }}> */}
 				<Form noValidate validated={validated} onSubmit={handleSubmit}>
+					<Card.Title>Room Information</Card.Title>
 					<div className="form-row">
 						<Col xl={6} className="mb-3">
 							<Form.Label>Name</Form.Label>
@@ -638,7 +665,9 @@ export const AddRoomType = () => {
 							/>
 						</Col>
 					</div>
-					<Button title="Submit" type="submit" />
+					<Button title="Submit" type="submit">
+						Submit
+					</Button>
 				</Form>
 				{/* </Formik> */}
 			</Card.Body>

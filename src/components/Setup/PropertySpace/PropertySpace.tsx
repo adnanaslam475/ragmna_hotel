@@ -102,22 +102,6 @@ const PropertySpace = () => {
 			</Card>
 			{isOpenDeletePopUp && <ConformationPopup smallmodalClose={smallmodalClose} />}
 		</React.Fragment>
-		// <div className={styles.FormWizard}>
-		// 	<PageHeader titles="Room Types" active="Form-Wizard" items={['Forms']} />
-
-		// 	<Row>
-		// 		<Col md={12}>
-		// 			<CutomValidation
-		// 				name={''}
-		// 				updateName={function (arg: string): void {
-		// 					throw new Error('Function not implemented.')
-		// 				}}
-		// 			/>
-		// 		</Col>
-		// 	</Row>
-
-		// 	{/* <!-- /Row --> */}
-		// </div>
 	)
 }
 
