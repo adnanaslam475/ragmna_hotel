@@ -59,6 +59,7 @@ const PropertySpace = () => {
 								</Button>
 							</div>
 						</Row>
+						{/* Room Type Check */}
 						<Row>
 							{roomtype &&
 								roomtype.map((item, index) => {
