@@ -32,7 +32,7 @@ const PoliciesRatePlan = (props) => {
   const submitWizard = () => {
     props.onSubmit();
   };
-console.log(props.rate,"rate");
+  console.log(props.rate, "rate");
 
   return (
     <React.Fragment>
@@ -62,10 +62,12 @@ console.log(props.rate,"rate");
                   type="checkbox"
                   className="custom-control-input"
                   name="example-checkbox5"
-                  checked={props.rate.cancellationPolicy || cancellation ? true : false}
+                  checked={
+                    props.rate.cancellationPolicy || cancellation ? true : false
+                  }
                   onChange={(e) => {
                     props.clearPolicy(e, "cancellation");
-                    setCancellation(!cancellation)
+                    setCancellation(!cancellation);
                   }}
                 />
                 <span className="custom-control-label">Cancellation</span>
@@ -76,15 +78,13 @@ console.log(props.rate,"rate");
                 policies.map((item, ind) => {
                   if (item.type === "Cancellation") {
                     return (
-                      <div className="inner-class">
+                      <div key={ind} className="inner-class">
                         <label className="custom-control custom-radio-md">
                           <input
                             type="radio"
                             className="custom-control-input"
                             name="cancellation"
-                            checked={
-                              item._id === props.rate.cancellationPolicy
-                            }
+                            checked={item._id === props.rate.cancellationPolicy}
                             onChange={(e) => {
                               props.onRadioChange(e, ind, item, "cancellation");
                             }}
@@ -109,37 +109,39 @@ console.log(props.rate,"rate");
                   checked={props.rate.depositPolicy || deposit ? true : false}
                   onChange={(e) => {
                     props.clearPolicy(e, "deposit");
-                    setDeposit(!deposit)
+                    setDeposit(!deposit);
                   }}
                 />
                 <span className="custom-control-label">Deposit</span>
               </label>
             </div>
-            { deposit || props.rate.depositPolicy ? policies &&
-              policies.map((item, ind) => {
-                if (item.type === "Deposit") {
-                  return (
-                    <div className="inner-class">
-                      <label className="custom-control custom-radio-md">
-                        <input
-                          type="radio"
-                          className="custom-control-input"
-                          name="Deposit"
-                          defaultValue="option5"
-                          checked={item._id === props.rate.depositPolicy}
-                          onChange={(e) => {
-                            props.onRadioChange(e, ind, item, "deposit");
-                          }}
-                        />
-                        <span className="custom-control-label">
-                          {item.name}
-                        </span>
-                        <p>{item.description}</p>
-                      </label>
-                    </div>
-                  );
-                }
-              }): null}
+            {deposit || props.rate.depositPolicy
+              ? policies &&
+                policies.map((item, ind) => {
+                  if (item.type === "Deposit") {
+                    return (
+                      <div key={ind} className="inner-class">
+                        <label className="custom-control custom-radio-md">
+                          <input
+                            type="radio"
+                            className="custom-control-input"
+                            name="Deposit"
+                            defaultValue="option5"
+                            checked={item._id === props.rate.depositPolicy}
+                            onChange={(e) => {
+                              props.onRadioChange(e, ind, item, "deposit");
+                            }}
+                          />
+                          <span className="custom-control-label">
+                            {item.name}
+                          </span>
+                          <p>{item.description}</p>
+                        </label>
+                      </div>
+                    );
+                  }
+                })
+              : null}
             <div className="d-flex">
               <label className="custom-control custom-checkbox-md">
                 <input
@@ -150,36 +152,41 @@ console.log(props.rate,"rate");
                   checked={props.rate.checkInPolicy || checkIn ? true : false}
                   onChange={(e) => {
                     props.clearPolicy(e, "check-In");
-                    setCheckIn(!checkIn)
+                    setCheckIn(!checkIn);
                   }}
                 />
                 <span className="custom-control-label">Check-in</span>
               </label>
             </div>
             <div className="inner-class">
-              {checkIn || props.rate.checkInPolicy ? policies &&
-                policies.map((item, ind) => {
-                  if (item.type === "Check-in") {
-                    return (
-                      <label className="custom-control custom-radio-md">
-                        <input
-                          type="radio"
-                          className="custom-control-input"
-                          name="Check-in"
-                          defaultValue="option5"
-                          checked={item._id === props.rate.checkInPolicy}
-                          onChange={(e) => {
-                            props.onRadioChange(e, ind, item, "check-In");
-                          }}
-                        />
-                        <span className="custom-control-label">
-                          {item.name}
-                        </span>
-                        <p>{item.description}</p>
-                      </label>
-                    );
-                  }
-                }): null}
+              {checkIn || props.rate.checkInPolicy
+                ? policies &&
+                  policies.map((item, ind) => {
+                    if (item.type === "Check-in") {
+                      return (
+                        <label
+                          key={ind}
+                          className="custom-control custom-radio-md"
+                        >
+                          <input
+                            type="radio"
+                            className="custom-control-input"
+                            name="Check-in"
+                            defaultValue="option5"
+                            checked={item._id === props.rate.checkInPolicy}
+                            onChange={(e) => {
+                              props.onRadioChange(e, ind, item, "check-In");
+                            }}
+                          />
+                          <span className="custom-control-label">
+                            {item.name}
+                          </span>
+                          <p>{item.description}</p>
+                        </label>
+                      );
+                    }
+                  })
+                : null}
             </div>
 
             <div className="d-flex">
@@ -192,37 +199,39 @@ console.log(props.rate,"rate");
                   checked={props.rate.noShowPolicy || noShow ? true : false}
                   onChange={(e) => {
                     props.clearPolicy(e, "No-Show");
-                    setNoShow(!noShow)
+                    setNoShow(!noShow);
                   }}
                 />
                 <span className="custom-control-label">No Show</span>
               </label>
             </div>
-            {noShow || props.rate.noShowPolicy ? policies &&
-              policies.map((item, ind) => {
-                if (item.type === "No-Show") {
-                  return (
-                    <div className="inner-class">
-                      <label className="custom-control custom-radio-md">
-                        <input
-                          type="radio"
-                          className="custom-control-input"
-                          name="No-Show"
-                          defaultValue="option5"
-                          checked={item._id === props.rate.noShowPolicy}
-                          onChange={(e) => {
-                            props.onRadioChange(e, ind, item, "No-Show");
-                          }}
-                        />
-                        <span className="custom-control-label">
-                          {item.name}
-                        </span>
-                        <p>{item.description}</p>
-                      </label>
-                    </div>
-                  );
-                }
-              }): null}
+            {noShow || props.rate.noShowPolicy
+              ? policies &&
+                policies.map((item, ind) => {
+                  if (item.type === "No-Show") {
+                    return (
+                      <div key={ind} className="inner-class">
+                        <label className="custom-control custom-radio-md">
+                          <input
+                            type="radio"
+                            className="custom-control-input"
+                            name="No-Show"
+                            defaultValue="option5"
+                            checked={item._id === props.rate.noShowPolicy}
+                            onChange={(e) => {
+                              props.onRadioChange(e, ind, item, "No-Show");
+                            }}
+                          />
+                          <span className="custom-control-label">
+                            {item.name}
+                          </span>
+                          <p>{item.description}</p>
+                        </label>
+                      </div>
+                    );
+                  }
+                })
+              : null}
           </div>
           <div className="Previous-button">
             <Button onClick={props.previousStep}>Previous</Button>

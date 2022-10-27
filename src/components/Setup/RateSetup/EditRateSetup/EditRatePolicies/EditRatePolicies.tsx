@@ -5,7 +5,13 @@ import { AppDispatch } from "../../../../../Redux/Store";
 import { fetchPolicies, usePolicies, useRateData } from "../../RateSetupSlice";
 import "./EditRatePolicies.scss";
 
-const EditRatePolicies = () => {
+const EditRatePolicies = ({
+  handelChangeRestrictions,
+  handelCheckChange,
+  editPolicies,
+  onRadioChange,
+  clearPolicy,
+}) => {
   const dispatch = useDispatch<AppDispatch>();
   const [length, setLength] = useState<boolean>(false);
   const [booking, setBooking] = useState<boolean>(false);
@@ -16,7 +22,7 @@ const EditRatePolicies = () => {
   const [noShow, setNoShow] = useState<boolean>(false);
 
   const { rateData } = useRateData();
-  let [editPolicies, setEditPolicies] = useState<any>(rateData);
+  // let [editPolicies, setEditPolicies] = useState<any>(rateData);
 
   const { policies } = usePolicies();
   console.log(policies, "policies");
@@ -27,90 +33,6 @@ const EditRatePolicies = () => {
   useEffect(() => {
     getPolicies();
   }, []);
-
-  const handelChange = (key, val) => {
-    console.log(key, val);
-    let clonedObject = { ...editPolicies };
-    clonedObject = {
-      ...clonedObject,
-      restrictions: { ...clonedObject.restrictions, [key]: val },
-    };
-    setEditPolicies(clonedObject);
-  };
-  console.log(editPolicies, "editPolicies");
-
-  const handelCheckChange = (e, key) => {
-    if (e.target.checked) {
-      let clonedObject = { ...editPolicies };
-      clonedObject = {
-        ...clonedObject,
-        restrictions: { ...clonedObject.restrictions, [key]: 1 },
-      };
-      setEditPolicies(clonedObject);
-    } else {
-      let clonedObject = { ...editPolicies };
-      clonedObject = {
-        ...clonedObject,
-        restrictions: { ...clonedObject.restrictions, [key]: null },
-      };
-      setEditPolicies(clonedObject);
-    }
-  };
-
-  const clearPolicy = (e, key) => {
-    switch (key) {
-      case "cancellation":
-        setEditPolicies({ ...editPolicies, cancellationPolicy: undefined });
-        break;
-      case "deposit":
-        setEditPolicies({ ...editPolicies, depositPolicy: undefined });
-        break;
-      case "check-In":
-        setEditPolicies({ ...editPolicies, checkInPolicy: undefined });
-        break;
-      case "No-Show":
-        setEditPolicies({ ...editPolicies, noShowPolicy: undefined });
-        break;
-      default:
-        break;
-    }
-  };
-
-  const onRadioChange = (e, ind, val, key) => {
-    switch (key) {
-      case "cancellation":
-        if (e.target.checked) {
-          setEditPolicies({ ...editPolicies, cancellationPolicy: val._id });
-        } else {
-          setEditPolicies({ ...editPolicies, cancellationPolicy: undefined });
-        }
-        break;
-      case "deposit":
-        if (e.target.checked) {
-          setEditPolicies({ ...editPolicies, depositPolicy: val._id });
-        } else {
-          setEditPolicies({ ...editPolicies, depositPolicy: undefined });
-        }
-        break;
-      case "check-In":
-        if (e.target.checked) {
-          setEditPolicies({ ...editPolicies, checkInPolicy: val._id });
-        } else {
-          setEditPolicies({ ...editPolicies, checkInPolicy: undefined });
-        }
-        break;
-      case "No-Show":
-        if (e.target.checked) {
-          setEditPolicies({ ...editPolicies, noShowPolicy: val._id });
-        } else {
-          setEditPolicies({ ...editPolicies, noShowPolicy: undefined });
-        }
-        break;
-
-      default:
-        break;
-    }
-  };
 
   return (
     <React.Fragment>
@@ -161,7 +83,7 @@ const EditRatePolicies = () => {
                     name="minimumNights"
                     value={editPolicies.restrictions?.minimumNights}
                     onChange={(e) => {
-                      handelChange("minimumNights", e.target.value);
+                      handelChangeRestrictions("minimumNights", e.target.value);
                     }}
                   />
                   <i className="fe fe-plus-circle" />
@@ -187,7 +109,7 @@ const EditRatePolicies = () => {
                     name="maximumNights"
                     value={editPolicies.restrictions?.maximumNights}
                     onChange={(e) => {
-                      handelChange("maximumNights", e.target.value);
+                      handelChangeRestrictions("maximumNights", e.target.value);
                     }}
                   />
                   <i className="fe fe-plus-circle" />
@@ -220,7 +142,7 @@ const EditRatePolicies = () => {
                 name="promoCode"
                 value={editPolicies?.restrictions?.promoCode}
                 onChange={(e) => {
-                  handelChange("promoCode", e.target.value);
+                  handelChangeRestrictions("promoCode", e.target.value);
                 }}
               />
             </div>

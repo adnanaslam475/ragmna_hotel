@@ -6,8 +6,12 @@ import { CommanDropDownType } from "../../../PropertySetup/AddProperty/types";
 import { getRoomType, useRateData, useRoomTypes } from "../../RateSetupSlice";
 import "./EditRateInfo.scss";
 
-const EditRateInfo = () => {
-  const { rateData } = useRateData();
+const EditRateInfo = ({
+  ratePlanDetails,
+  handelChange,
+  handelCheckBoxChange,
+  handelRoomChange,
+}) => {
   const dispatch = useDispatch<AppDispatch>();
   const { roomTypes } = useRoomTypes();
   const getRoomTypes = async () => {
@@ -16,53 +20,6 @@ const EditRateInfo = () => {
   useEffect(() => {
     getRoomTypes();
   }, []);
-
-  const RatePlan: CommanDropDownType[] = [
-    { value: "Active", label: "Active" },
-    { value: "Inactive", label: "Inactive" },
-  ];
-
-  const [ratePlanDetails, setRatePlanDetails] = useState(rateData);
-
-  const handelChange = (key, val) => {
-    setRatePlanDetails({ ...ratePlanDetails, [key]: val });
-  };
-
-  const handelCheckBoxChange = (e) => {
-    if (e.target.checked) {
-      let i = ratePlanDetails.channels.findIndex((x) => x === e.target.name);
-      let array = ratePlanDetails.channels.slice();
-      array.push(e.target.name);
-      const newObj = { ...ratePlanDetails, channels: array };
-      setRatePlanDetails(newObj);
-    } else {
-      let i = ratePlanDetails.channels.findIndex((x) => x === e.target.name);
-      let array = ratePlanDetails.channels.slice();
-      array.splice(i, 1);
-      const newObj = { ...ratePlanDetails, channels: array };
-      setRatePlanDetails(newObj);
-    }
-  };
-
-  const handelRoomChange = (e, id, index) => {
-    if (e.target.checked) {
-      let array = ratePlanDetails.roomTypes.slice();
-      array.push({
-        roomTypeId: roomTypes[index]._id,
-        price: 0,
-        channelPrices: [],
-      });
-      const newObj = { ...ratePlanDetails, roomTypes: array };
-      setRatePlanDetails(newObj);
-    } else {
-      let array = ratePlanDetails.roomTypes.slice();
-      let i = array.findIndex((x) => x.roomTypeId === id);
-      array.splice(i, 1);
-      const newObj = { ...ratePlanDetails, roomTypes: array };
-      setRatePlanDetails(newObj);
-    }
-  };
-  console.log(ratePlanDetails, "ratePlanDetails");
 
   return (
     <React.Fragment>
@@ -147,6 +104,9 @@ const EditRateInfo = () => {
             checked={ratePlanDetails.default}
           />
         </Col>
+      </Row>
+      <Row className="Edit-RateInfo">
+        <h2 className="mt-2 mb-3 font-weight-bold">Parent rate plan offset</h2>
       </Row>
       <Row className="Edit-RateInfo">
         <h2 className="mt-2 mb-3 font-weight-bold">Channel</h2>
