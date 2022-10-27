@@ -10,6 +10,8 @@
 	}
 }
 
+
+
 .rateplan {
 	border: 1px solid #e3e3e3;
 	display: flex;
@@ -131,8 +133,33 @@
 	height: 50px !important;
 }
 
+.labeladd {
+	color: red;
+	font-size: medium;
+	font-weight: 900;
+	margin-left: 35%;
+}
+
+// .fc-resource {
+// 	.fc-datagrid-cell-frame {
+// 		.fc-datagrid-cell-cushion .fc-scrollgrid-sync-inner {
+// 			.fc-datagrid-cell-main {
+// 				background-color: red !important;
+// 			}
+// 		}
+// 	}
+// }
+
 .fc-timeline-event .fc-h-event .fc-event .fc-event-draggable .fc-event-resizable .fc-event-start .fc-event-end .fc-event-today .fc-event-future {
 	height: 30px !important;
+}
+
+.fc-event-main {
+	p {
+		i {
+			color: white !important;
+		}
+	}
 }
 
 .fc-datagrid-header {
@@ -175,10 +202,13 @@
 }
 
 .fc-myCustomButton-button {
-	background-color: #165d93 !important;
+	background-color: steelblue !important;
 	color: white !important;
 	height: 25px !important;
 	width: 25px !important;
+	display: flex;
+	justify-content: center !important;
+	align-items: center !important;
 
 }
 
@@ -186,7 +216,7 @@
 	>div {
 		display: flex;
 		align-items: center;
-		width: 165px !important;
+		width: 190px !important;
 	}
 }
 
@@ -364,13 +394,13 @@
 }
 
 .d3ecf3-code {
-	background-color: '#d3ecf3';
-	height: 20;
-	width: 20;
-	border-radius: 50px;
-	margin-left: 'auto';
-	margin-right: 'auto';
-	margin-bottom: 10;
+	background-color: '#d3ecf3' !important;
+	height: 20 !important;
+	width: 20 !important;
+	border-radius: 50px !important;
+	margin-left: 'auto' !important;
+	margin-right: 'auto' !important;
+	margin-bottom: 10 !important;
 }
 
 .react-date-picker {

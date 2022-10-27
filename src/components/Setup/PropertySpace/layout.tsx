@@ -1,4 +1,4 @@
-import React, { FormEventHandler, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Card, Col, Form } from 'react-bootstrap'
 import Select from 'react-select'
 
@@ -6,18 +6,20 @@ import { DropzoneArea } from 'material-ui-dropzone'
 import { CommanDropDownType } from './types'
 import { Box } from '@mui/system'
 import { useGetAmenitiesQuery } from './apiendpoints'
-import { addRoomTypeData } from './propertySpaceSlice'
+import { addRoomTypeData, getPropertyDataById } from './propertySpaceSlice'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../../../Redux/Store'
 import { useFormik } from 'formik'
-interface IfirstChildProps {
-	name: string
-	updateName: (arg: string) => void
-}
-export const CutomValidation: React.FC<IfirstChildProps> = ({ name, updateName }) => {
+import { useParams } from 'react-router-dom'
+import { Success } from '../../../Redux/Services/toaster-service'
+
+export const AddRoomType = () => {
 	// export const CutomValidation: React.FC = () => {
 	const { data } = useGetAmenitiesQuery()
 	const dispatch = useDispatch<AppDispatch>()
+
+	let { id } = useParams()
+	console.log(id)
 
 	console.log(data)
 
@@ -41,70 +43,86 @@ export const CutomValidation: React.FC<IfirstChildProps> = ({ name, updateName }
 		{ value: 'SwimmingPool', label: 'SwimmingPool' },
 		{ value: 'FootballField', label: 'FootballField' },
 		{ value: 'BasketballField', label: 'BasketballField' },
+		{ value: 'Bedroom', label: 'Bedroom' },
+		{ value: 'Ballroom', label: 'Ballroom' },
 	]
 
 	let onSubmit = async (values: any) => {
 		console.log(values)
-
-		// try {
-		let payload = Object.assign({}, values)
-		//  payload['supplierId'] = user.supplierId
-		// 	payload['contact'] = {
-		// 		name: values.Cname,
-		// 		phoneNumber: values.CphoneNumber,
-		// 		waNumber: values.waNumber,
-		// 	}
-
 		let data = {
 			name: values.roomname,
+			dimensions: {
+				area: values.roomarea,
+				unit: values.roomunit,
+			},
+			maxCapacity: {
+				adulta: values.roomadults,
+				children: values.children,
+			},
+			virtualTourLink: values.roomlink,
+			allowedFor: values.roomallowedfor,
+			isNonSmoking: values.roomsmoking,
 			section: [
 				{
 					name: values.sectionName,
+					type: values.sectionType,
+					quantity: values.sectionQuantity,
+					allowedFor: values.sectionAllowfor,
+					maxCapacity: {
+						adults: values.sectionAdults,
+						children: values.sectionChildren,
+					},
+					virtualTourLink: values.sectionLink,
+					amenities: [values.sectionAmenities],
+					dimensions: {
+						area: values.sectionArea,
+						unit: values.sectionUnit,
+					},
+				},
+			],
+			rentalUnits: [
+				{
+					rentalUnitNumber: values.rentalUnitNo,
+					stationId: values.stationID,
+					useDefaultSections: values.defaultSection,
+					sections: [
+						{
+							type: values.rentalSectionType,
+							name: values.rentalSectionName,
+							quantity: values.rentalSectionQuantity,
+							virtualTourLink: values.rentalSectionLink,
+							allowedFor: values.rentalSectionAllowed,
+							amenities: [],
+							dimensions: {
+								area: values.rentalSectionArea,
+								unit: values.rentalSectionUnit,
+							},
+							maxCapacity: {
+								adults: values.rentalSectionAdults,
+								children: values.rentalSectionChildren,
+							},
+						},
+					],
 				},
 			],
 		}
 		console.log(data)
-
-		// 	payload['owner'] = {
-		// 		name: values.Oname,
-		// 		phoneNumber: values.OphoneNumber,
-		// 	}
-		// 	payload['dimensions'] = {
-		// 		area: values.area,
-		// 		unit: values.unit,
-		// 	}
-		// 	payload['maxCapacity'] = {
-		// 		adults: values.adults,
-		// 		children: values.children,
-		// 	}
-		// 	payload['reservationConfig'] = {
-		// 		automaticRoomAssignment: values.automaticRoomAssignment,
-		// 		emailDisplayName: values.emailDisplayName,
-		// 		replyToEmailAddress: values.replyToEmailAddress,
-		// 		sendCCOnAllEmails: values.sendCCOnAllEmails,
-		// 		setOccupiedRoomToDirty: values.setOccupiedRoomToDirty,
-		// 		allowOverBookingManually: values.allowOverBookingManually,
-		// 		addMarketSegment: [],
-		// 	}
-		// 	// payload['sections'] = [...sectionArray]
-		// 	// payload["images"] = [];
-		// 	// payload['availableForEntireRental'] = isChecked
-		// 	// if (id) {
-		// 	// 	payload['id'] = id
-		// 	// 	let response: any = await dispatch(updatePropertyData(payload)).unwrap()
-		// 	// }
-		// 	//  if {
-		let response: any = await dispatch(addRoomTypeData(values)).unwrap()
-		console.log(response)
-		// 	// navigateToId(response.data._id)
-		// 	// }
-		// } catch (err: any) {
-		// 	console.log(err, 'err')
+		// if (id) {
+		// 	let response: any = await dispatch(updatePropertyData(data)).unwrap()
+		// 	console.log(response)
+		// } else {
+		// 	let response: any = await dispatch(addRoomTypeData(data)).unwrap()
+		// 	console.log(response)
 		// }
+		let response: any = await dispatch(addRoomTypeData(data)).unwrap()
+		console.log(response)
+		if (response !== '') {
+			Success('Room Type add successfully')
+		}
 	}
 	const initialValues = {
 		roomname: '',
-		roomarea: '',
+		roomarea: 0,
 		roomunit: '',
 		roomadults: 0,
 		roomchilderen: 0,
@@ -113,14 +131,57 @@ export const CutomValidation: React.FC<IfirstChildProps> = ({ name, updateName }
 		roomsmoking: false,
 		sectionType: '',
 		sectionName: '',
-		sectionQuantity: '',
+		sectionQuantity: 0,
 		sectionAllowfor: '',
+		sectionAdults: 0,
+		sectionChildren: 0,
+		sectionLink: '',
+		sectionAmenities: '',
+		sectionArea: 0,
+		sectionUnit: '',
+		rentalUnitNo: 0,
+		stationID: '',
+		defaultSection: false,
+		rentalSectionType: '',
+		rentalSectionName: '',
+		rentalSectionQuantity: 0,
+		rentalSectionLink: '',
+		rentalSectionAllowed: '',
+		rentalSectionAmenities: '',
+		rentalSectionArea: 0,
+		rentalSectionUnit: '',
+		rentalSectionadults: 0,
+		rentalSectionChildren: 0,
+		section: [],
 	}
-	const { handleSubmit, values, handleChange } = useFormik({
+	const { handleSubmit, values, handleChange, setValues } = useFormik({
 		initialValues,
 		onSubmit,
 	})
+	const getById = async () => {
+		if (id) {
+			let response: any = await dispatch(getPropertyDataById(id)).unwrap()
+			console.log(response)
 
+			if (response?.data) {
+				setValues({
+					...values,
+					roomname: response?.data?.name ? response?.data?.name : '',
+					roomarea: response?.data?.dimensions.area ? response?.data?.dimensions.area : '',
+					roomunit: response?.data?.dimensions.unit ? response?.data?.dimensions.unit : '',
+					roomadults: response?.data?.maxCapacity.adults ? response?.data?.maxCapacity.adults : '',
+					roomchilderen: response?.data?.maxCapacity.children ? response?.data?.maxCapacity.children : '',
+					section: response?.data?.sections,
+				})
+				// if (response?.data?.sections) setSectionArray(response.data.sections)
+			}
+		}
+	}
+	useEffect(() => {
+		if (id) {
+			getById()
+		}
+	}, [id])
 	console.log(values.roomunit)
 
 	return (
@@ -161,9 +222,7 @@ export const CutomValidation: React.FC<IfirstChildProps> = ({ name, updateName }
 								placeholder="Unite"
 								options={units}
 								name="roomunit"
-								// value={values.roomunit}
 								onChange={(v) => handleChange({ target: { name: 'roomunit', value: v?.value || '' } })}
-								// value={units.filter((option) => option.value === values.goodFor)}
 							/>
 							<Form.Control.Feedback type="invalid"> Please provide a valid unit.</Form.Control.Feedback>
 						</Col>
@@ -174,19 +233,28 @@ export const CutomValidation: React.FC<IfirstChildProps> = ({ name, updateName }
 								<div className="form-row">
 									<Col xl={6}>
 										<Form.Label>Adults</Form.Label>
-										<Form.Control type="number" name="roomadults" placeholder="Adults" required />
+										<Form.Control
+											type="number"
+											name="roomadults"
+											placeholder="Adults"
+											required
+											onChange={handleChange}
+										/>
 										<Form.Control.Feedback type="invalid">Please provide a valid area.</Form.Control.Feedback>
 									</Col>
 									<Col xl={6}>
 										<Form.Label>Childeren</Form.Label>
-										<Form.Control type="number" name="roomchilderen" placeholder="Childerens" required />
+										<Form.Control
+											type="number"
+											name="roomchilderen"
+											placeholder="Childerens"
+											required
+											onChange={handleChange}
+										/>
 										<Form.Control.Feedback type="invalid">Please provide a valid area.</Form.Control.Feedback>
 									</Col>
 								</div>
 							</Box>
-							{/* <Form.Label>Capacity</Form.Label>
-							<Select classNamePrefix="Select" options={state} placeholder="Capacity" onChange={onFormChange} />
-							<Form.Control.Feedback type="invalid"> Please provide a valid capacity.</Form.Control.Feedback> */}
 						</Col>
 						<Col xl={3} className="mb-3">
 							<Form.Label>Allowed For</Form.Label>
@@ -204,7 +272,13 @@ export const CutomValidation: React.FC<IfirstChildProps> = ({ name, updateName }
 						</Col>
 						<Col xl={3} className="mb-3">
 							<Form.Label>Virtual Link</Form.Label>
-							<Form.Control type="text" placeholder="Virtual Tour Link" name="roomlink" required />
+							<Form.Control
+								type="text"
+								placeholder="Virtual Tour Link"
+								name="sectionlink"
+								required
+								onChange={handleChange}
+							/>
 							<Form.Control.Feedback type="invalid">Please provide a valid link.</Form.Control.Feedback>
 						</Col>
 						<Col xl={12} className="mb-3 mt-4">
@@ -233,6 +307,46 @@ export const CutomValidation: React.FC<IfirstChildProps> = ({ name, updateName }
 					<Card.Title className="mt-5" style={{ fontWeight: 'bold', fontSize: '24px' }}>
 						Section
 					</Card.Title>
+					{/* {values.section.map((item: any) => (
+						<div className="form-row">
+							<Col xl={4} className="mb-3">
+								<Form.Label>Section Type</Form.Label>
+								<Select
+									classNamePrefix="Select"
+									options={sectionsType}
+									placeholder="Type"
+									name="sectionType"
+									onChange={(v) => handleChange({ target: { name: 'sectionType', value: v?.value || '' } })}
+								/>
+								<Form.Control.Feedback type="invalid"> Please provide a valid Type.</Form.Control.Feedback>
+							</Col>
+							<Col xl={4} className="mb-3">
+								<Form.Label>Name</Form.Label>
+								<Form.Control
+									required
+									type="text"
+									name="sectionName"
+									onChange={handleChange}
+									placeholder="Name"
+									value={item.name}
+									defaultValue="Mark"
+								/>
+								<Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+							</Col>
+							<Col xl={4} className="mb-3">
+								<Form.Label>Quantity</Form.Label>
+								<Form.Control
+									required
+									type="text"
+									placeholder="Quantity"
+									name="sectionQuantity"
+									onChange={handleChange}
+									defaultValue="12"
+								/>
+								<Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+							</Col>
+						</div>
+					))} */}
 					<div className="form-row">
 						<Col xl={4} className="mb-3">
 							<Form.Label>Section Type</Form.Label>
@@ -241,7 +355,7 @@ export const CutomValidation: React.FC<IfirstChildProps> = ({ name, updateName }
 								options={sectionsType}
 								placeholder="Type"
 								name="sectionType"
-								onChange={handleChange}
+								onChange={(v) => handleChange({ target: { name: 'sectionType', value: v?.value || '' } })}
 							/>
 							<Form.Control.Feedback type="invalid"> Please provide a valid Type.</Form.Control.Feedback>
 						</Col>
@@ -253,6 +367,7 @@ export const CutomValidation: React.FC<IfirstChildProps> = ({ name, updateName }
 								name="sectionName"
 								onChange={handleChange}
 								placeholder="Name"
+								// value={item.name}
 								defaultValue="Mark"
 							/>
 							<Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -271,10 +386,21 @@ export const CutomValidation: React.FC<IfirstChildProps> = ({ name, updateName }
 						</Col>
 					</div>
 					<div className="form-row">
-						<Col xl={3} className="mb-3">
-							<Form.Label>Capacity</Form.Label>
-							<Select classNamePrefix="Select" options={state} placeholder="Capacity" />
-							<Form.Control.Feedback type="invalid"> Please provide a valid capacity.</Form.Control.Feedback>
+						<Col xl={3}>
+							<Form.Label>Adults</Form.Label>
+							<Form.Control type="number" name="sectionAdults" placeholder="Adults" required onChange={handleChange} />
+							<Form.Control.Feedback type="invalid">Please provide a valid area.</Form.Control.Feedback>
+						</Col>
+						<Col xl={3}>
+							<Form.Label>Childrens</Form.Label>
+							<Form.Control
+								type="number"
+								name="sectionChildren"
+								placeholder="Childrens"
+								required
+								onChange={handleChange}
+							/>
+							<Form.Control.Feedback type="invalid">Please provide a valid area.</Form.Control.Feedback>
 						</Col>
 						<Col xl={3} className="mb-3">
 							<Form.Label>Allowed For</Form.Label>
@@ -282,36 +408,32 @@ export const CutomValidation: React.FC<IfirstChildProps> = ({ name, updateName }
 								classNamePrefix="Select"
 								options={allowFors}
 								placeholder="State"
-								onChange={handleChange}
+								onChange={(v) => handleChange({ target: { name: 'sectionAllowfor', value: v?.value || '' } })}
 								name="sectionAllowfor"
 							/>
 							<Form.Control.Feedback type="invalid"> Please provide a valid state.</Form.Control.Feedback>
 						</Col>
-						<Col xl={6} className="mb-3">
+						<Col xl={3} className="mb-3">
 							<Form.Label>Virtual Link</Form.Label>
-							<Form.Control type="text" placeholder="Virtual Tour Link" required />
+							<Form.Control
+								type="text"
+								placeholder="Virtual Tour Link"
+								required
+								name="sectionLink"
+								onChange={handleChange}
+							/>
 							<Form.Control.Feedback type="invalid">Please provide a valid link.</Form.Control.Feedback>
 						</Col>
 					</div>
 					<div className="form-row">
 						<Col xl={3} className="mb-3">
 							<Form.Label>Amenities</Form.Label>
-							{/* {data.} */}
-							{/* 0<Form.Control as="select">
-								{data?data.map((opt) => (
-									<option value={opt.value}>{opt.value}</option>
-								))} */}
-							{/* <Select
-								classNamePrefix="Select"
-								options={amenitiesTypes}
-								value={data.filter((option) => option.value === values.type)}
-								placeholder="Select Amenities Type"
-								name="type"
-								onChange={(selectedOption: any, e) => {
-									handleChange('type')(selectedOption?.value)
-								}}
-							/> */}
-							<select placeholder="Amentities">
+
+							<select
+								placeholder="Amentities"
+								name="sectionAmenities"
+								onChange={(v) => handleChange({ target: { name: 'sectionAmenities', value: v?.target.value || '' } })}
+							>
 								{data?.data.map((item, index) => {
 									return <option value={item._id}>{item.name}</option>
 								})}
@@ -321,12 +443,18 @@ export const CutomValidation: React.FC<IfirstChildProps> = ({ name, updateName }
 						</Col>
 						<Col xl={3} className="mb-3">
 							<Form.Label>Dimesnions area</Form.Label>
-							<Form.Control type="number" placeholder="Area" required />
+							<Form.Control type="number" placeholder="Area" required name="sectionArea" onChange={handleChange} />
 							<Form.Control.Feedback type="invalid">Please provide a valid area.</Form.Control.Feedback>
 						</Col>
 						<Col xl={6} className="mb-3">
 							<Form.Label>Dimensions Unit</Form.Label>
-							<Select classNamePrefix="Select" options={units} placeholder="Unite" />
+							<Select
+								classNamePrefix="Select"
+								options={units}
+								placeholder="Unit"
+								name="sectionUnit"
+								onChange={(v) => handleChange({ target: { name: 'sectionUnit', value: v?.value || '' } })}
+							/>
 							<Form.Control.Feedback type="invalid"> Please provide a valid unit.</Form.Control.Feedback>
 						</Col>
 						<Col xl={12} className="mb-3 mt-4">
@@ -340,18 +468,33 @@ export const CutomValidation: React.FC<IfirstChildProps> = ({ name, updateName }
 							/>
 						</Col>
 					</div>
+
 					<Card.Title className="mt-5" style={{ fontWeight: 'bold', fontSize: '24px' }}>
 						Rental
 					</Card.Title>
 					<div className="form-row">
 						<Col xl={4} className="mb-3">
 							<Form.Label>Rental Unit No</Form.Label>
-							<Form.Control required type="text" placeholder="Name" defaultValue="Mark" />
+							<Form.Control
+								required
+								type="number"
+								placeholder="Name"
+								defaultValue="10"
+								name="rentalUnit"
+								onChange={handleChange}
+							/>
 							<Form.Control.Feedback>Looks good!</Form.Control.Feedback>
 						</Col>
 						<Col xl={4} className="mb-3">
 							<Form.Label>Station ID</Form.Label>
-							<Form.Control required type="text" placeholder="Station ID" defaultValue="12" />
+							<Form.Control
+								required
+								type="text"
+								placeholder="Station ID"
+								defaultValue="12"
+								name="stationID"
+								onChange={handleChange}
+							/>
 							<Form.Control.Feedback>Looks good!</Form.Control.Feedback>
 							<Form.Group className="mb-3"></Form.Group>
 						</Col>
@@ -364,6 +507,8 @@ export const CutomValidation: React.FC<IfirstChildProps> = ({ name, updateName }
 								label="Use Default Section"
 								feedback="You must agree before submitting."
 								feedbackType="invalid"
+								name="defaultSection"
+								onChange={handleChange}
 							/>
 						</Col>
 					</div>
@@ -375,50 +520,111 @@ export const CutomValidation: React.FC<IfirstChildProps> = ({ name, updateName }
 
 						<Col xl={4} className="mb-3">
 							<Form.Label>Section Type</Form.Label>
-							<Select classNamePrefix="Select" options={state} placeholder="Type" />
+							<Select
+								classNamePrefix="Select"
+								options={sectionsType}
+								placeholder="Type"
+								name="rentalSectionType"
+								onChange={(v) => handleChange({ target: { name: 'rentalSectionType', value: v?.value || '' } })}
+							/>
 							<Form.Control.Feedback type="invalid"> Please provide a valid Type.</Form.Control.Feedback>
 						</Col>
 						<Col xl={4} className="mb-3">
 							<Form.Label>Name</Form.Label>
-							<Form.Control required type="text" placeholder="Name" defaultValue="Mark" />
+							<Form.Control
+								required
+								type="text"
+								placeholder="Name"
+								defaultValue="Mark"
+								name="rentalSectionName"
+								onChange={handleChange}
+							/>
 							<Form.Control.Feedback>Looks good!</Form.Control.Feedback>
 						</Col>
 						<Col xl={4} className="mb-3">
 							<Form.Label>Quantity</Form.Label>
-							<Form.Control required type="text" placeholder="Quantity" defaultValue="12" />
+							<Form.Control
+								required
+								type="number"
+								placeholder="Quantity"
+								defaultValue="12"
+								name="rentalSectionQuantity"
+								onChange={handleChange}
+							/>
 							<Form.Control.Feedback>Looks good!</Form.Control.Feedback>
 						</Col>
 
-						<Col xl={3} className="mb-3">
-							<Form.Label>Capacity</Form.Label>
-							<Select classNamePrefix="Select" options={state} placeholder="Capacity" />
-							<Form.Control.Feedback type="invalid"> Please provide a valid capacity.</Form.Control.Feedback>
+						<Col xl={3}>
+							<Form.Label>Adults</Form.Label>
+							<Form.Control
+								type="number"
+								name="rentalSectionAdults"
+								placeholder="Adults"
+								required
+								onChange={handleChange}
+							/>
+							<Form.Control.Feedback type="invalid">Please provide a valid area.</Form.Control.Feedback>
+						</Col>
+						<Col xl={3}>
+							<Form.Label>Childrens</Form.Label>
+							<Form.Control
+								type="number"
+								name="rentalSectionChildren"
+								placeholder="Childrens"
+								required
+								onChange={handleChange}
+							/>
+							<Form.Control.Feedback type="invalid">Please provide a valid area.</Form.Control.Feedback>
 						</Col>
 						<Col xl={3} className="mb-3">
 							<Form.Label>Allowed For</Form.Label>
-							<Select classNamePrefix="Select" options={allowFors} placeholder="State" />
+							<Select
+								classNamePrefix="Select"
+								options={allowFors}
+								placeholder="State"
+								name="rentalSectionAllowed"
+								onChange={(v) => handleChange({ target: { name: 'rentalSectionAllowed', value: v?.value || '' } })}
+							/>
 							<Form.Control.Feedback type="invalid"> Please provide a valid state.</Form.Control.Feedback>
 						</Col>
-						<Col xl={6} className="mb-3">
+						<Col xl={3} className="mb-3">
 							<Form.Label>Virtual Link</Form.Label>
-							<Form.Control type="text" placeholder="Virtual Tour Link" required />
+							<Form.Control
+								type="text"
+								placeholder="Virtual Tour Link"
+								required
+								name="rentalSectionLink"
+								onChange={handleChange}
+							/>
 							<Form.Control.Feedback type="invalid">Please provide a valid link.</Form.Control.Feedback>
 						</Col>
 					</div>
 					<div className="form-row">
 						<Col xl={3} className="mb-3">
 							<Form.Label>Amenities</Form.Label>
-							<Select classNamePrefix="Select" options={state} placeholder="Amenities" />
+							<Select classNamePrefix="Select" options={state} placeholder="Amenities" name="rentalSectionAmenities" />
 							<Form.Control.Feedback type="invalid"> Please provide a valid Amenities.</Form.Control.Feedback>
 						</Col>
 						<Col xl={3} className="mb-3">
 							<Form.Label>Dimesnions area</Form.Label>
-							<Form.Control type="number" placeholder="Area" required />
+							<Form.Control
+								type="number"
+								placeholder="Area"
+								required
+								name="rentalSectionArea"
+								onChange={handleChange}
+							/>
 							<Form.Control.Feedback type="invalid">Please provide a valid area.</Form.Control.Feedback>
 						</Col>
 						<Col xl={6} className="mb-3">
 							<Form.Label>Dimensions Unit</Form.Label>
-							<Select classNamePrefix="Select" options={units} placeholder="Unite" />
+							<Select
+								classNamePrefix="Select"
+								options={units}
+								placeholder="Unite"
+								name="rentalSectionUnit"
+								onChange={(v) => handleChange({ target: { name: 'rentalSectionUnit', value: v?.value || '' } })}
+							/>
 							<Form.Control.Feedback type="invalid"> Please provide a valid unit.</Form.Control.Feedback>
 						</Col>
 						<Col xl={12} className="mb-3 mt-4">
