@@ -5,7 +5,10 @@ import { addDerivedRate, addNightlyRate, createSeason, deleteRate, deleteSeason,
 const initialState = {
   rateList: [],
   roomTypes: [],
-  rateData: {},
+  rateData: {
+    derivedRates:[]
+  },
+  
   policies:[]
 };
 export const getRate = createAsyncThunk("rate/get", async () => {

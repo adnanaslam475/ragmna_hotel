@@ -20,31 +20,47 @@ import EditRateInfo from "./EditRateInfo/EditRateInfo";
 import EditRatePolicies from "./EditRatePolicies/EditRatePolicies";
 
 const EditRateSetup = () => {
+  const [nightlyName, setNightlyName] = useState<any>("");
   const dispatch = useDispatch<AppDispatch>();
-  let { id, isDerived } = useParams();
+  let { id, isDerived, ind } = useParams();
   const { rateData } = useRateData();
   const { roomTypes } = useRoomTypes();
   const getRoomTypes = async () => {
     const response = await dispatch(getRoomType()).unwrap();
   };
-  useEffect(() => {
-    getRoomTypes();
-  }, []);
-  const [ratePlanDetails, setRatePlanDetails] = useState(rateData);
-  const getByRateId = () => {
-    let response = dispatch(getById(id ? id : "")).unwrap;
+
+  const getByRateId = async () => {
+    let response = await dispatch(getById(id ? id : "")).unwrap();
+    console.log(response);
+    setNightlyName(response?.data?.name);
   };
-  const getDerivedRateById = () => {};
   useEffect(() => {
-    if (isDerived) {
-      getDerivedRateById();
-    } else {
+    if (id) {
       getByRateId();
     }
   }, [id]);
+  useEffect(() => {
+    getRoomTypes();
+  }, []);
+  const [details, setDetails] = useState<any[]>([
+    { startDate: null, endDate: null },
+  ]);
+  const [ratePlanDetails, setRatePlanDetails] = useState<any>(
+    isDerived && ind ? rateData?.derivedRates[ind] : rateData
+  );
+
   const handelChange = (key, val) => {
     setRatePlanDetails({ ...ratePlanDetails, [key]: val });
   };
+
+  const handleParentRatePlanChange = (key, val) => {
+    setRatePlanDetails({
+      ...ratePlanDetails,
+      offer: { ...ratePlanDetails.offer, [key]: val.value },
+    });
+  };
+  console.log(ratePlanDetails, "ratePlanDetails");
+
   const handelCheckBoxChange = (e) => {
     if (e.target.checked) {
       let i = ratePlanDetails.channels.findIndex((x) => x === e.target.name);
@@ -221,8 +237,12 @@ const EditRateSetup = () => {
                     <EditRateInfo
                       ratePlanDetails={ratePlanDetails}
                       handelChange={handelChange}
+                      nightlyName={nightlyName}
+                      setRatePlanDetails={setRatePlanDetails}
                       handelCheckBoxChange={handelCheckBoxChange}
+                      handleParentRatePlanChange={handleParentRatePlanChange}
                       handelRoomChange={handelRoomChange}
+                      isDerived={isDerived}
                     />
                   </Tab.Pane>
                   <Tab.Pane eventKey="second">
@@ -232,10 +252,16 @@ const EditRateSetup = () => {
                       onRadioChange={onRadioChange}
                       handelCheckChange={handelCheckChange}
                       clearPolicy={clearPolicy}
+                      isDerived={isDerived}
                     />
                   </Tab.Pane>
                   <Tab.Pane eventKey="third">
-                    <CreateSeason />
+                    <CreateSeason
+                      ratePlanDetails={ratePlanDetails}
+                      setRatePlanDetails={setRatePlanDetails}
+                      details={details}
+                      setDetails={setDetails}
+                    />
                   </Tab.Pane>
                 </Tab.Content>
               </div>

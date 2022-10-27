@@ -117,7 +117,7 @@ const RateList = () => {
                                       className="fe fe-edit"
                                       onClick={() => {
                                         navigate(
-                                          `/setup/ratesetup/editrate/${item._id}/true`
+                                          `/setup/ratesetup/editrate/${item._id}/true/${ind}`
                                         );
                                       }}
                                     ></i>

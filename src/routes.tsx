@@ -285,7 +285,7 @@ const RoutesMain = () => {
                     element={<EditRate />}
                   />
                   <Route
-                    path={`/setup/ratesetup/editrate/:id/:isDerived`}
+                    path={`/setup/ratesetup/editrate/:id/:isDerived/:ind`}
                     element={<EditRate />}
                   />
                   <Route
