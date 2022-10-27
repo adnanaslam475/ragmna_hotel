@@ -5,7 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../../../Redux/Store";
 import { usePropertyList } from "../../PropertySetup/propertySetupSlice";
 import "./RateList.scss";
-import { getRate, removeRate, useRateList } from "../RateSetupSlice";
+import {
+  getRate,
+  getRoomType,
+  removeRate,
+  useRateList,
+  useRoomTypes,
+} from "../RateSetupSlice";
 import {
   DangerLeft,
   Success,
@@ -19,6 +25,13 @@ const RateList = () => {
     let path = `/setup/ratesetup/addrate`;
     navigate(path);
   };
+  const { roomTypes } = useRoomTypes();
+  const getRoomTypes = async () => {
+    const response = await dispatch(getRoomType()).unwrap();
+  };
+  useEffect(() => {
+    getRoomTypes();
+  }, []);
   const { rateList } = useRateList();
   const dispatch = useDispatch<AppDispatch>();
   const getRateDetails = async () => {
@@ -46,6 +59,14 @@ const RateList = () => {
       }
     } else {
       setIsOpenDeletePopUp(false);
+    }
+  };
+  const getRoomTypeByID = (id) => {
+    if (roomTypes) {
+      let i = roomTypes.findIndex((x) => x._id == id);
+      if (i > -1) {
+        return roomTypes[i].name;
+      }
     }
   };
   return (
@@ -86,27 +107,48 @@ const RateList = () => {
                   </Card.Header>
                   <Card.Body className="h-100">
                     <div className="inner-box">
-                      <div className="inner-box-size">
-                        <span>5%</span>
-                      </div>
-                      <div className="inner-box-size">
-                        <span>D</span>
-                        <span>10%</span>
-                      </div>
+                      {item?.derivedRates
+                        ? item?.derivedRates.map((derived, ind) => {
+                            return (
+                              <div key={ind} className="inner-box-size">
+                                <div className="derived-icons">
+                                  <span className="mx-3">
+                                    <i
+                                      className="fe fe-edit"
+                                      onClick={() => {
+                                        navigate(
+                                          `/setup/ratesetup/editrate/${item._id}/true/${ind}`
+                                        );
+                                      }}
+                                    ></i>
+                                  </span>
+                                </div>
+                                <span>{derived?.name}</span>
+                                <span>
+                                  {derived?.offer?.amount}
+                                  {derived?.offer?.calculationType ===
+                                  "Percentage"
+                                    ? "%"
+                                    : "$"}
+                                </span>
+                              </div>
+                            );
+                          })
+                        : null}
                     </div>
                     <div className="inner-box-row-2">
-                      <div className="inner-box-size-2">
-                        <span>Reg</span>
-                        <span>$90</span>
-                      </div>
-                      <div className="inner-box-size-2">
-                        <span>WKD</span>
-                        <span>$120</span>
-                      </div>
-                      <div className="inner-box-size-2">
-                        <span>Xmas</span>
-                        <span>$210</span>
-                      </div>
+                      {item?.roomTypes
+                        ? item.roomTypes.map((roomType, rindex) => {
+                            return (
+                              <div className="inner-box-size-2">
+                                <span>
+                                  {getRoomTypeByID(roomType.roomTypeId)}
+                                </span>
+                                <span>${roomType.price}</span>
+                              </div>
+                            );
+                          })
+                        : null}
                     </div>
                   </Card.Body>
                 </Card>

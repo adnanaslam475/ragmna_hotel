@@ -18,11 +18,15 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../Redux/Store";
 import { daysInWeek } from "date-fns";
 import ConformationPopup from "../../../../Modals/ConformationPopup/ConformationPopup";
-import { DangerLeft, Success } from "../../../../Redux/Services/toaster-service";
+import {
+  DangerLeft,
+  Success,
+} from "../../../../Redux/Services/toaster-service";
 
-const CreateSeason = () => {
+const CreateSeason = (props: any) => {
+  const {setRatePlanDetails,ratePlanDetails}=props
   const dispatch = useDispatch<AppDispatch>();
-  let { id } = useParams();
+  let { id, ind, isDerived ,}: any = useParams();
   const { rateData } = useRateData();
   const getByRateId = () => {
     let response = dispatch(getById(id ? id : "")).unwrap;
@@ -56,7 +60,8 @@ const CreateSeason = () => {
   const [openSelectColor, setOpenSelectColor] = useState([false]);
   const [isEditModal, setIsEditModel] = useState(false);
   const [isOpenDeletePopUp, setIsOpenDeletePopUp] = useState<boolean>(false);
-  const [deleteId, setDeleteId] = useState('')
+  const [deleteId, setDeleteId] = useState<string>('')
+  const [selectedRadio, setSelectedRadio] = useState<any>("");
   const [seasonDetails, setSeasonDetails] = useState<any>([
     {
       name: "",
@@ -89,15 +94,15 @@ const CreateSeason = () => {
 
   useEffect(() => {
     if (rateData && rateData.seasons) {
-      let temp = Object.assign([], seasonDetails)
-      let seasons: any = []
+      let temp = Object.assign([], seasonDetails);
+      let seasons: any = [];
       for (let index = 0; index < rateData.seasons.length; index++) {
         let payload: any = Object.assign({}, rateData.seasons[index]);
         payload.startDate = new Date(payload.startDate);
         payload.endDate = new Date(payload.endDate);
-        seasons.push(payload)
+        seasons.push(payload);
       }
-      setSeasonDetails(seasons)
+      setSeasonDetails(seasons);
       seasons.push({
         name: "",
         startDate: "",
@@ -123,11 +128,16 @@ const CreateSeason = () => {
           maximumNights: 0,
           promoCode: "",
         },
-      })
-      setSeasonDetails(seasons)
-
+      });
+      setSeasonDetails(seasons);
     }
-  }, [rateData])
+  }, [rateData]);
+  useEffect(() => {
+    if (rateData && ind) {
+      
+    }
+  }, [rateData]);
+  console.log(rateData, "rateData");
 
   const AddSeason = () => {
     setSeasonDetails([
@@ -171,30 +181,30 @@ const CreateSeason = () => {
   };
 
   const deleteSeason = (index, id) => {
-    setIsOpenDeletePopUp(true)
-    setDeleteId(id)
+    setIsOpenDeletePopUp(true);
+    setDeleteId(id);
   };
 
   const smallmodalClose = async (value) => {
     if (value) {
       try {
         let payload = {
-          id: rateData['_id'],
-          sId: deleteId
-        }
-        await dispatch(removeSeason(payload)).unwrap()
+          id: rateData["_id"],
+          sId: deleteId,
+        };
+        await dispatch(removeSeason(payload)).unwrap();
         getByRateId();
-        setIsOpenDeletePopUp(false)
-        setDeleteId('')
-        Success('Season has been deleted')
+        setIsOpenDeletePopUp(false);
+        setDeleteId("");
+        Success("Season has been deleted");
       } catch (err: any) {
-        setIsOpenDeletePopUp(false)
-        DangerLeft('Something went Wrong')
+        setIsOpenDeletePopUp(false);
+        DangerLeft("Something went Wrong");
       }
     } else {
-      setIsOpenDeletePopUp(false)
+      setIsOpenDeletePopUp(false);
     }
-  }
+  };
 
   const handleChange = (key, value, index) => {
     let temp = Object.assign([], seasonDetails);
@@ -202,119 +212,256 @@ const CreateSeason = () => {
     setSeasonDetails(temp);
   };
 
-  const printRange = (range: any) => {
-    const from = range.from.toLocaleDateString();
-    const to = range.to.toLocaleDateString();
-    return `${from} - ${to}`;
+  const onHandleDayChange = (e, key, index) => {
+    let array = seasonDetails.slice();
+    let array2 = seasonDetails[index].days.slice()
+    if (e.target.checked) {
+      array2.push(key)
+      const newObj = { ...seasonDetails[index], days: array2 };
+      array.splice(index, 1, newObj)
+      setSeasonDetails(array);
+    } else {
+      let i = array2.indexOf(key);
+      array2.splice(i, 1)
+      const newObj = { ...seasonDetails[index], days: array2 };
+      array.splice(index, 1, newObj)
+      setSeasonDetails(array);
+    }
+  }
+ 
+  const onRadioChange = (e) => {
+    if (e.target.checked) {
+      setSelectedRadio(e.target.name);
+    }
   };
+  console.log(ratePlanDetails, "ratePlanDetails");
 
   return (
     <React.Fragment>
-      <Card className="mt-6">
-        <Card.Body>
+      <div className="tab-content-container">
+        {isDerived ? (
           <Row>
-            <Col lg={6}>
-              <h4>{rateData.name}</h4>
-            </Col>
-            <Col lg={6}>
-              <div className="d-flex justify-content-end">
-                <Button
-                  onClick={() => {
-                    AddSeason();
+            <Col className="lg-6">
+              <label className="custom-control custom-radio-md">
+                <input
+                  type="radio"
+                  className="custom-control-input"
+                  name="alwaysAvailable"
+                  onChange={(e) => {
+                    onRadioChange(e);
                   }}
-                >
-                  Add Season
-                </Button>
-              </div>
+                  // checked={rateData?.derivedRates[ind]?.period.length <= 0 || selectedRadio === "alwaysAvailable" }
+                  checked={selectedRadio === "alwaysAvailable"}
+                />
+                <span className="custom-control-label">
+                  <b>Always available</b>
+                </span>
+                <p>
+                  Rates will exist for this rate plan for every day that the
+                  parent rate plan has rates
+                </p>
+              </label>
+              <label className="custom-control custom-radio-md">
+                <input
+                  type="radio"
+                  className="custom-control-input"
+                  checked={selectedRadio === "customDateRange"}
+                  onChange={(e) => {
+                    onRadioChange(e);
+                  }}
+                  name="customDateRange"
+                />
+                <span className="custom-control-label">
+                  <b>Custom date range</b>
+                </span>
+                <p>
+                  Enter date ranges for when the derived rate plan will be
+                  available
+                </p>
+              </label>
+              {selectedRadio === "customDateRange" ? (
+                <div>
+                  {rateData &&
+                    ind &&
+                    ratePlanDetails?.period.map(
+                      (item, index) => (
+                        <Row key={index} className="mt-4 align-items-center">
+                          <Col lg={3} className="date-picker">
+                            <DayPickerInput
+                              dayPickerProps={{
+                                disabledDays: { before: new Date() },
+                              }}
+                              placeholder="From"
+                              value={seasonDetails[index].startDate}
+                              onDayChange={(e) => {
+                                let temp = Object.assign([], seasonDetails);
+                                temp[index]["startDate"] = e;
+                                setSeasonDetails(temp);
+                              }}
+                            />
+                          </Col>
+                          <Col lg={3} className="date-picker">
+                            <DayPickerInput
+                              dayPickerProps={{
+                                disabledDays: { before: new Date() },
+                              }}
+                              placeholder="To"
+                              value={seasonDetails[index].endDate}
+                              onDayChange={(e) => {
+                                let temp = Object.assign([], seasonDetails);
+                                temp[index]["endDate"] = e;
+                                setSeasonDetails(temp);
+                              }}
+                            />
+                          </Col>
+                          <Col lg={2} md={6} sm={12}>
+                            <i
+                              className="icon fe fe-minus-circle"
+                              onClick={() => {
+                                // removeDate(index)
+                              }}
+                            />
+                          </Col>
+                        </Row>
+                      )
+                    )}
+                  <Row>
+                    <i
+                      className="icon i-plus fe fe-plus-circle mt-2"
+                      onClick={() => {
+                        let array =
+                        ratePlanDetails?.derivedRates[ind]?.period.slice();
+                        let array2 = ratePlanDetails?.derivedRates.slice()
+                        array = [{ startDate: null, endDate: null }];
+                        let data = {...ratePlanDetails?.derivedRates[ind],period:array}
+                        array2.splice(ind,1,data)
+                        let newObj = {...ratePlanDetails,derivedRates:array2}
+                        setRatePlanDetails(newObj);
+                        // props.setCustomDate([...props.customDate, { startDate:null, endDate:null}]);
+                      }}
+                    />
+                  </Row>
+                </div>
+              ) : null}
+            </Col>
+            <Col className="lg-6">
+              <CalendarSetup dateRange={seasonDetails} />
             </Col>
           </Row>
-          {seasonDetails.map((item, index) => (
-            <Row key={index} className="mt-4 align-items-center">
-              <Col lg={3}>
-                <div className="control-group form-group season-input m-0">
-                  <input
-                    type="text"
-                    className="form-control required"
-                    placeholder="Enter Season Name"
-                    name={`[${index}].name`}
-                    value={seasonDetails[index].name}
-                    onChange={(e) =>
-                      handleChange("name", e.target.value, index)
-                    }
-                  />
-                </div>
-              </Col>
-              <Col lg={2} className="date-picker">
-                <DayPickerInput
-                  dayPickerProps={{ disabledDays: { before: new Date() } }}
-                  placeholder="From"
-                  value={seasonDetails[index].startDate}
-                  onDayChange={(e) => {
-                    let temp = Object.assign([], seasonDetails);
-                    temp[index]["startDate"] = e;
-                    setSeasonDetails(temp);
-                  }}
-                />
-              </Col>
-              <Col lg={2} className="date-picker">
-                <DayPickerInput
-                  dayPickerProps={{ disabledDays: { before: new Date() } }}
-                  placeholder="To"
-                  value={seasonDetails[index].endDate}
-                  onDayChange={(e) => {
-                    let temp = Object.assign([], seasonDetails);
-                    temp[index]["endDate"] = e;
-                    setSeasonDetails(temp);
-                  }}
-                />
-              </Col>
-              <Col lg={1}>
-                <div className="position-relative">
-                  <div className="selection">
-                    <div
-                      className="selection-item"
-                      style={{ backgroundColor: seasonDetails[index].color }}
-                    ></div>
-                    <span
-                      onClick={() => {
-                        setOpenSelectColor({
-                          ...openSelectColor,
-                          [index]: !openSelectColor[index],
-                        });
-                      }}
-                    >
-                      <i className="icon fa fa-chevron-down" />
-                    </span>
-                  </div>
-                  {openSelectColor[index] ? (
-                    <div className="color-seletor">
-                      {selectColor.map((coloritem: any, colorindex) => {
-                        return (
+        ) : (
+          <Row>
+            <Card>
+              <Card.Body>
+                <Row>
+                  <Col lg={6}>
+                    <h4>{rateData.name}</h4>
+                  </Col>
+                  <Col lg={6}>
+                    <div className="d-flex justify-content-end">
+                      <Button
+                        onClick={() => {
+                          AddSeason();
+                        }}
+                      >
+                        Add Season
+                      </Button>
+                    </div>
+                  </Col>
+                </Row>
+                {seasonDetails.map((item, index) => (
+                  <Row key={index} className="mt-4 align-items-center">
+                    <Col lg={3}>
+                      <div className="control-group form-group season-input m-0">
+                        <input
+                          type="text"
+                          className="form-control required"
+                          placeholder="Enter Season Name"
+                          name={`[${index}].name`}
+                          value={seasonDetails[index].name}
+                          onChange={(e) =>
+                            handleChange("name", e.target.value, index)
+                          }
+                        />
+                      </div>
+                    </Col>
+                    <Col lg={2} className="date-picker">
+                      <DayPickerInput
+                        dayPickerProps={{
+                          disabledDays: { before: new Date() },
+                        }}
+                        placeholder="From"
+                        value={seasonDetails[index].startDate}
+                        onDayChange={(e) => {
+                          let temp = Object.assign([], seasonDetails);
+                          temp[index]["startDate"] = e;
+                          setSeasonDetails(temp);
+                        }}
+                      />
+                    </Col>
+                    <Col lg={2} className="date-picker">
+                      <DayPickerInput
+                        dayPickerProps={{
+                          disabledDays: { before: new Date() },
+                        }}
+                        placeholder="To"
+                        value={seasonDetails[index].endDate}
+                        onDayChange={(e) => {
+                          let temp = Object.assign([], seasonDetails);
+                          temp[index]["endDate"] = e;
+                          setSeasonDetails(temp);
+                        }}
+                      />
+                    </Col>
+                    <Col lg={1}>
+                      <div className="position-relative">
+                        <div className="selection">
                           <div
-                            key={colorindex}
-                            className="color-item"
+                            className="selection-item"
                             style={{
-                              backgroundColor: coloritem.value,
+                              backgroundColor: seasonDetails[index].color,
                             }}
+                          ></div>
+                          <span
                             onClick={() => {
-                              let temp = Object.assign([], seasonDetails);
-                              temp.splice(index, 1, {
-                                ...seasonDetails[index],
-                                color: `${coloritem.value}`,
-                              });
-                              setSeasonDetails(temp);
                               setOpenSelectColor({
                                 ...openSelectColor,
                                 [index]: !openSelectColor[index],
                               });
                             }}
-                          ></div>
-                        );
-                      })}
-                    </div>
-                  ) : null}
-                </div>
+                            >
+                              <i className="icon fa fa-chevron-down"></i>
+                              </span>
+                              </div>
+                                 {openSelectColor[index] ? (
+                          <div className="color-seletor">
+                            {selectColor.map((coloritem: any, colorindex) => {
+                              return (
+                                <div
+                                  key={colorindex}
+                                  className="color-item"
+                                  style={{
+                                    backgroundColor: coloritem.value,
+                                  }}
+                                  onClick={() => {
+                                    let temp = Object.assign([], seasonDetails);
+                                    temp.splice(index, 1, {
+                                      ...seasonDetails[index],
+                                      color: `${coloritem.value}`,
+                                    });
+                                    setSeasonDetails(temp);
+                                    setOpenSelectColor({
+                                      ...openSelectColor,
+                                      [index]: !openSelectColor[index],
+                                    });
+                                  }}
+                                ></div>
+                              );
+                            })}
+                          </div>
+                        ) : null}
+                            </div>
               </Col>
+                 
               <Col lg={3} className="day-list">
                 <Form.Check
                   label="M"
@@ -322,22 +469,7 @@ const CreateSeason = () => {
                   checked={seasonDetails[index].days.includes("Monday")}
                   value={seasonDetails[index].days.includes("Monday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days);
-                    let temp2 = Object.assign([], seasonDetails);
-                    if (e.target.checked) {
-                      temp.push("Monday");
-                      temp2[index] = { ...seasonDetails[index], days: temp };
-                      // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2);
-                    } else {
-                      let i = temp.findIndex((val) => val == "Monday");
-
-                      if (i > -1) {
-                        temp.splice(i, 1);
-                        temp2[index] = { ...seasonDetails[index], days: temp };
-                        setSeasonDetails(temp2);
-                      }
-                    }
+                    onHandleDayChange(e, 'Monday', index)
                   }}
                 />
                 <Form.Check
@@ -346,21 +478,7 @@ const CreateSeason = () => {
                   value={seasonDetails[index].days.includes("Tuesday")}
                   checked={seasonDetails[index].days.includes("Tuesday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days);
-                    let temp2 = Object.assign([], seasonDetails);
-                    if (e.target.checked) {
-                      temp.push("Tuesday");
-                      temp2[index] = { ...seasonDetails[index], days: temp };
-                      // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2);
-                    } else {
-                      let i = temp.indexOf("Tuesday");
-                      if (i > -1) {
-                        temp.splice(i, 1);
-                        temp2[index] = { ...seasonDetails[index], days: temp };
-                        setSeasonDetails(temp2);
-                      }
-                    }
+                    onHandleDayChange(e, 'Tuesday', index)
                   }}
                 />
                 <Form.Check
@@ -369,21 +487,7 @@ const CreateSeason = () => {
                   value={seasonDetails[index].days.includes("Wednesday")}
                   checked={seasonDetails[index].days.includes("Wednesday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days);
-                    let temp2 = Object.assign([], seasonDetails);
-                    if (e.target.checked) {
-                      temp.push("WednesDay");
-                      temp2[index] = { ...seasonDetails[index], days: temp };
-                      // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2);
-                    } else {
-                      let i = temp.indexOf("WednesDay");
-                      if (i > -1) {
-                        temp.splice(i, 1);
-                        temp2[index] = { ...seasonDetails[index], days: temp };
-                        setSeasonDetails(temp2);
-                      }
-                    }
+                    onHandleDayChange(e, 'Wednesday', index)
                   }}
                 />
                 <Form.Check
@@ -392,21 +496,7 @@ const CreateSeason = () => {
                   value={seasonDetails[index].days.includes("Thursday")}
                   checked={seasonDetails[index].days.includes("Thursday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days);
-                    let temp2 = Object.assign([], seasonDetails);
-                    if (e.target.checked) {
-                      temp.push("Thursday");
-                      temp2[index] = { ...seasonDetails[index], days: temp };
-                      // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2);
-                    } else {
-                      let i = temp.indexOf("Thursday");
-                      if (i > -1) {
-                        temp.splice(i, 1);
-                        temp2[index] = { ...seasonDetails[index], days: temp };
-                        setSeasonDetails(temp2);
-                      }
-                    }
+                    onHandleDayChange(e, 'Thursday', index)
                   }}
                 />
                 <Form.Check
@@ -415,21 +505,7 @@ const CreateSeason = () => {
                   value={seasonDetails[index].days.includes("Friday")}
                   checked={seasonDetails[index].days.includes("Friday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days);
-                    let temp2 = Object.assign([], seasonDetails);
-                    if (e.target.checked) {
-                      temp.push("Friday");
-                      temp2[index] = { ...seasonDetails[index], days: temp };
-                      // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2);
-                    } else {
-                      let i = temp.indexOf("Friday");
-                      if (i > -1) {
-                        temp.splice(i, 1);
-                        temp2[index] = { ...seasonDetails[index], days: temp };
-                        setSeasonDetails(temp2);
-                      }
-                    }
+                    onHandleDayChange(e, 'Friday', index)
                   }}
                 />
                 <Form.Check
@@ -438,21 +514,7 @@ const CreateSeason = () => {
                   value={seasonDetails[index].days.includes("Saturday")}
                   checked={seasonDetails[index].days.includes("Saturday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days);
-                    let temp2 = Object.assign([], seasonDetails);
-                    if (e.target.checked) {
-                      temp.push("Saturday");
-                      temp2[index] = { ...seasonDetails[index], days: temp };
-                      // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2);
-                    } else {
-                      let i = temp.indexOf("Saturday");
-                      if (i > -1) {
-                        temp.splice(i, 1);
-                        temp2[index] = { ...seasonDetails[index], days: temp };
-                        setSeasonDetails(temp2);
-                      }
-                    }
+                    onHandleDayChange(e, 'Saturday', index)
                   }}
                 />
                 <Form.Check
@@ -461,21 +523,7 @@ const CreateSeason = () => {
                   value={seasonDetails[index].days.includes("Sunday")}
                   checked={seasonDetails[index].days.includes("Sunday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days);
-                    let temp2 = Object.assign([], seasonDetails);
-                    if (e.target.checked) {
-                      temp.push("Sunday");
-                      temp2[index] = { ...seasonDetails[index], days: temp };
-                      // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2);
-                    } else {
-                      let i = temp.indexOf("Sunday");
-                      if (i > -1) {
-                        temp.splice(i, 1);
-                        temp2[index] = { ...seasonDetails[index], days: temp };
-                        setSeasonDetails(temp2);
-                      }
-                    }
+                    onHandleDayChange(e, 'Sunday', index)
                   }}
                 />
               </Col>
@@ -502,21 +550,25 @@ const CreateSeason = () => {
                 </div>
               </Col>
             </Row>
-          ))}
+         ))}
+                     
 
-          <Row className="mt-6">
-            <CalendarSetup
-              dateRange={seasonDetails}
-            />
-          </Row>
-        </Card.Body>
-      </Card>
-      {isEditModal && (
-        <EditSeasonDetail season={season} isModelClose={isModelClose} />
-      )}
-      {isOpenDeletePopUp && (
-        <ConformationPopup smallmodalClose={smallmodalClose} />
-      )}
+                <Row className="mt-6">
+                  <CalendarSetup dateRange={seasonDetails} />
+                </Row>
+              </Card.Body>
+            </Card>
+            </Row>)}
+            
+            
+            </div>
+            {isEditModal && (
+              <EditSeasonDetail season={season} isModelClose={isModelClose} />
+            )}
+            {isOpenDeletePopUp && (
+              <ConformationPopup smallmodalClose={smallmodalClose} />
+            )}
+            
     </React.Fragment>
   );
 };

@@ -1,3 +1,4 @@
+import Select from "react-select";
 import React, { useEffect, useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
@@ -6,8 +7,16 @@ import { CommanDropDownType } from "../../../PropertySetup/AddProperty/types";
 import { getRoomType, useRateData, useRoomTypes } from "../../RateSetupSlice";
 import "./EditRateInfo.scss";
 
-const EditRateInfo = () => {
-  const { rateData } = useRateData();
+const EditRateInfo = ({
+  ratePlanDetails,
+  nightlyName,
+  setRatePlanDetails,
+  handelChange,
+  handleParentRatePlanChange,
+  handelCheckBoxChange,
+  handelRoomChange,
+  isDerived,
+}) => {
   const dispatch = useDispatch<AppDispatch>();
   const { roomTypes } = useRoomTypes();
   const getRoomTypes = async () => {
@@ -17,53 +26,15 @@ const EditRateInfo = () => {
     getRoomTypes();
   }, []);
 
-  const RatePlan: CommanDropDownType[] = [
-    { value: "Active", label: "Active" },
-    { value: "Inactive", label: "Inactive" },
+  const rateThan: CommanDropDownType[] = [
+    { value: "greater than", label: "greater than" },
+    { value: "lesser than", label: "lesser than" },
   ];
 
-  const [ratePlanDetails, setRatePlanDetails] = useState(rateData);
-
-  const handelChange = (key, val) => {
-    setRatePlanDetails({ ...ratePlanDetails, [key]: val });
-  };
-
-  const handelCheckBoxChange = (e) => {
-    if (e.target.checked) {
-      let i = ratePlanDetails.channels.findIndex((x) => x === e.target.name);
-      let array = ratePlanDetails.channels.slice();
-      array.push(e.target.name);
-      const newObj = { ...ratePlanDetails, channels: array };
-      setRatePlanDetails(newObj);
-    } else {
-      let i = ratePlanDetails.channels.findIndex((x) => x === e.target.name);
-      let array = ratePlanDetails.channels.slice();
-      array.splice(i, 1);
-      const newObj = { ...ratePlanDetails, channels: array };
-      setRatePlanDetails(newObj);
-    }
-  };
-
-  const handelRoomChange = (e, id, index) => {
-    if (e.target.checked) {
-      let array = ratePlanDetails.roomTypes.slice();
-      array.push({
-        roomTypeId: roomTypes[index]._id,
-        price: 0,
-        channelPrices: [],
-      });
-      const newObj = { ...ratePlanDetails, roomTypes: array };
-      setRatePlanDetails(newObj);
-    } else {
-      let array = ratePlanDetails.roomTypes.slice();
-      let i = array.findIndex((x) => x.roomTypeId === id);
-      array.splice(i, 1);
-      const newObj = { ...ratePlanDetails, roomTypes: array };
-      setRatePlanDetails(newObj);
-    }
-  };
-  console.log(ratePlanDetails, "ratePlanDetails");
-
+  const inputType: CommanDropDownType[] = [
+    { value: "Percentage", label: "percent" },
+    { value: "Fixed", label: "USD" },
+  ];
   return (
     <React.Fragment>
       <Row className="Edit-RateInfo">
@@ -86,9 +57,9 @@ const EditRateInfo = () => {
               type="text"
               className="form-control required"
               name="displayName"
-              value={ratePlanDetails.displayName}
+              value={ratePlanDetails?.name}
               onChange={(e) => {
-                handelChange("displayName", e.target.value);
+                handelChange("name", e.target.value);
               }}
             />
           </div>
@@ -110,7 +81,7 @@ const EditRateInfo = () => {
             <textarea
               className="form-control required"
               name="description"
-              value={ratePlanDetails.description}
+              value={ratePlanDetails?.description}
               onChange={(e) => {
                 handelChange("description", e.target.value);
               }}
@@ -144,10 +115,97 @@ const EditRateInfo = () => {
             onChange={(e) => {
               handelChange("default", e.target.checked);
             }}
-            checked={ratePlanDetails.default}
+            checked={ratePlanDetails?.default}
           />
         </Col>
       </Row>
+      {isDerived ? (
+        <Row className="Edit-RateInfo">
+          <h2 className="mt-2 mb-3 font-weight-bold">
+            Parent rate plan offset
+          </h2> 
+          <div className="inner-details">
+            <Row className="details align-items-center">
+              <Col lg={2}>Rates for the derived rate plan</Col>
+              <Col lg={2} className="type-input">
+                <input
+                  type="number"
+                  name="amount"
+                  className="form-control required"
+                  value={ratePlanDetails?.offer?.amount}
+                  onChange={(e) => {
+                    setRatePlanDetails({
+                      ...ratePlanDetails,
+                      offer: {
+                        ...ratePlanDetails.offer,
+                        amount: e.target.value,
+                      },
+                    });
+                  }}
+                />
+                {/* {props.derivedRate.calculationType == "Percentage" ? (
+            <i className="icon fe fe-percent" />
+          ) : null} */}
+              </Col>
+              <Col lg={3}>
+                <Select
+                  classNamePrefix="Select"
+                  options={inputType}
+                  placeholder="Select"
+                  name="calculationType"
+                  value={inputType.find(
+                    (option) =>
+                      option.value === ratePlanDetails?.offer?.calculationType
+                  )}
+                  onChange={(e: any) => {
+                    handleParentRatePlanChange("calculationType", e);
+                    // props.valueChange("calculationType", selectedOption?.value);
+                  }}
+                />
+              </Col>
+
+              <Col lg={3}>
+                <Select
+                  classNamePrefix="Select"
+                  options={rateThan}
+                  name="type"
+                  value={rateThan.find(
+                    (option) => option.value === ratePlanDetails?.offer?.type
+                  )}
+                  onChange={(e: any) => {
+                    handleParentRatePlanChange("type", e);
+                    // props.valueChange("type", selectedOption?.value);
+                  }}
+                />
+              </Col>
+              <Col lg={2}>
+                <h6 className="mt-2 mb-3 font-weight-bold">{nightlyName}</h6>
+              </Col>
+
+              {/* <Col lg={1}>{val.displayName}</Col> */}
+            </Row>
+            <div>
+              <label className="custom-control custom-checkbox-md">
+                <input
+                  type="checkbox"
+                  className="custom-control-input"
+                  name="example-promo"
+                />
+                <span className="custom-control-label">
+                  Take rules from parent rate plan
+                </span>
+              </label>
+              <p style={{ paddingLeft: "25px" }}>
+                Rules can always be updated using the bulk update feature on the
+                rates grid, which will supersede any base rules taken from the
+                parent rate plan. Rules updated on the rates grid for the parent
+                rate plan will not update the rules for this derived rate plan.
+              </p>
+            </div>
+          </div>
+        </Row>
+      ) : null}
+
       <Row className="Edit-RateInfo">
         <h2 className="mt-2 mb-3 font-weight-bold">Channel</h2>
         <div className="channel-check-box">
@@ -198,7 +256,7 @@ const EditRateInfo = () => {
                       }}
                       checked={
                         ratePlanDetails?.roomTypes?.findIndex(
-                          (x) => x.roomTypeId == item._id
+                          (x) => x == item._id
                         ) > -1
                       }
                     />

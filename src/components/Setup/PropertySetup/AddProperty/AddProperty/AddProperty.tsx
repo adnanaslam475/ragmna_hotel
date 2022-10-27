@@ -11,7 +11,7 @@ import SystemConfig from "../SystemConfig/SystemConfig";
 import TaxSetup from "../TaxSetup/TaxSetup";
 import "./AddProperty.scss";
 import * as Yup from "yup";
-import { InitialValues } from "../types";
+import { initialTaxValuesInfoTypes, InitialValues } from "../types";
 import { useUser } from "../../../../Authentication/firebaseAuth/firebaseAuthSlice";
 import {
   addPropertyData,
@@ -45,7 +45,7 @@ const AddProperty = (props: AddPropertyProps) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const [isTax, setIsTax] = useState(false);
-  const [isSelectedAmenities, setIsSelectedAmenities] = useState<any>([]);
+  const [isSelectedAmenities, setIsSelectedAmenities] = useState<string[]>([]);
 
   const [tz, setTz] = useState<ITimezoneOption>({
     value: "",
@@ -107,7 +107,7 @@ const AddProperty = (props: AddPropertyProps) => {
     includeRoomMovesOnArrivalAndDepartureList: false,
   };
 
-  const initialTaxValuesInfo: any = {
+  const initialTaxValuesInfo :any = {
     shortCode: "",
     name: "",
     startDate: "",
@@ -181,32 +181,6 @@ const AddProperty = (props: AddPropertyProps) => {
   };
 
   let onSubmit = async (values) => {
-    if (key == "six") {
-      try {
-        let payload = Object.assign({}, taxInfo);
-        payload["propertyId"] = id;
-        payload["surcharge"] = parseInt(payload["surcharge"]);
-        let response: any = await dispatch(
-          addTaxConfigDetails(payload)
-        ).unwrap();
-        if (response) {
-          Success("Tax Config details has been saved");
-          getTaxDetail();
-          setTaxInfo({
-            shortCode: "",
-            name: "",
-            startDate: "",
-            endDate: "",
-            surcharge: 0,
-            type: 0,
-            calculationType: 0,
-            isVatApplicable: false,
-          });
-        }
-      } catch (err: any) {
-        DangerLeft("Something went wrong in tax Config");
-      }
-    }
     try {
       let payload = Object.assign({}, values);
       payload["supplierId"] = user.supplierId;
@@ -319,6 +293,32 @@ const AddProperty = (props: AddPropertyProps) => {
       }
     } catch (err: any) {
       DangerLeft("Something went wrong in Adding Property");
+    }
+    if (key == "six") {
+      try {
+        let payload = Object.assign({}, taxInfo);
+        payload["propertyId"] = id;
+        payload["surcharge"] = parseInt(payload["surcharge"]);
+        let response: any = await dispatch(
+          addTaxConfigDetails(payload)
+        ).unwrap();
+        if (response) {
+          Success("Tax Config details has been saved");
+          getTaxDetail();
+          setTaxInfo({
+            shortCode: "",
+            name: "",
+            startDate: "",
+            endDate: "",
+            surcharge: 0,
+            type: 0,
+            calculationType: 0,
+            isVatApplicable: false,
+          });
+        }
+      } catch (err: any) {
+        DangerLeft("Something went wrong in tax Config");
+      }
     }
   };
 

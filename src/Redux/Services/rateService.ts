@@ -16,6 +16,9 @@ export const addDerivedRate = (payload, id) => {
 export const getRateById = (id) => {
   return apiInstance.get(RATE + `/${id}`, { headers: authHeader() })
 }
+export const getDerivedRateById = (id) => {
+  return apiInstance.get(RATE + `/${id}`, { headers: authHeader() })
+}
 export const createSeason = (id, payload) => {
   return apiInstance.post(RATE + `/${id}/` + SEASON, payload, { headers: authHeader() })
 }

@@ -3,7 +3,7 @@ import { Button, Col, Row } from "react-bootstrap";
 import "./RateType.scss";
 
 const RateType = (props) => {
-  const [type, setType] = useState("nightly");
+  const [type, setType] = useState<string>("nightly");
   const onSubmit = () => {
     props.nextStep();
     props.setType(type);

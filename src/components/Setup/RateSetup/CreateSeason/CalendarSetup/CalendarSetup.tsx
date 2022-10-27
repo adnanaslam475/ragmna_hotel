@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import DayPicker from "react-day-picker";
+import DayPicker, { DateUtils } from "react-day-picker";
 import "./CalendarSetup.scss";
 const CalendarSetup = ({ dateRange }: any) => {
   const [ranges, setRanges] = useState<any[]>([]);
@@ -18,24 +18,58 @@ const CalendarSetup = ({ dateRange }: any) => {
   }, [dateRange]);
 
   const getModifiers = () => {
-    let modifier = {}
-    for (let index = 0; index < ranges.length; index++) {
-      let payload = {
-        from: ranges[index].from,
-        to: ranges[index].to
+    let modifier = {
+    }
+    for (let index = 0; index < dateRange.length; index++) {
+      if (dateRange[index].startDate && dateRange[index].endDate) {
+        let payload = {
+          from: dateRange[index].startDate,
+          to: dateRange[index].endDate
+        }
+        modifier['R' + index] = payload
+
       }
-      modifier['R' + index] = payload
+      if (dateRange[index].startDate && dateRange[index].endDate && (dateRange[index]['days'].length < 7)) {
+        modifier['D' + index] = day => {
+          if (DateUtils.isDayBetween(day, dateRange[index].startDate, dateRange[index].endDate) || DateUtils.isSameDay(day, dateRange[index].startDate) || DateUtils.isSameDay(day, dateRange[index].endDate)) {
+            if (day.getDay() == 1 && !dateRange[index]['days'].includes('Monday')) {
+              return true
+            }
+            if (day.getDay() == 2 && !dateRange[index]['days'].includes('Tuesday')) {
+              return true
+            }
+            if (day.getDay() == 3 && !dateRange[index]['days'].includes('Wednesday')) {
+              return true
+            }
+            if (day.getDay() == 4 && !dateRange[index]['days'].includes('Thursday')) {
+              return true
+            }
+            if (day.getDay() == 5 && !dateRange[index]['days'].includes('Friday')) {
+              return true
+            }
+            if (day.getDay() == 6 && !dateRange[index]['days'].includes('Saturday')) {
+              return true
+            }
+            if (day.getDay() == 0 && !dateRange[index]['days'].includes('Sunday')) {
+              return true
+            }
+
+          }
+        }
+      }
     }
     return modifier
   }
 
   const getModifierStyle = () => {
     let modifierStyle = {}
-    for (let index = 0; index < ranges.length; index++) {
+    for (let index = 0; index < dateRange.length; index++) {
+
       let payload =
         { backgroundColor: dateRange[index].color }
 
       modifierStyle['R' + index] = payload
+      modifierStyle['D' + index] = { backgroundColor: 'lightGray' }
     }
     return modifierStyle
   }

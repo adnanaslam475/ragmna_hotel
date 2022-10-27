@@ -20,9 +20,9 @@ const PropertySetup = () => {
     navigate(path);
   };
   const { propertyList } = usePropertyList();
-  const [isOpenDeletePopUp, SetIsOpenDeletePopUP] = useState(false);
+  const [isOpenDeletePopUp, SetIsOpenDeletePopUP] = useState<boolean>(false);
 
-  const [deleteId, setDeleteId] = useState("");
+  const [deleteId, setDeleteId] = useState<string>("");
   const getAllProperties = async () => {
     try {
       const response: any = await dispatch(getProperties()).unwrap();

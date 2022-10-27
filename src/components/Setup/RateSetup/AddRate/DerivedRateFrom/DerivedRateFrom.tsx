@@ -56,7 +56,7 @@ const DerivedRateFrom = (props) => {
               return (
                 <div key={index}>
                   <label className="custom-control custom-radio-md">
-                    <input
+                      <input
                       type="radio"
                       className="custom-control-input"
                       name="radio"
