@@ -202,11 +202,22 @@ const CreateSeason = () => {
     setSeasonDetails(temp);
   };
 
-  const printRange = (range: any) => {
-    const from = range.from.toLocaleDateString();
-    const to = range.to.toLocaleDateString();
-    return `${from} - ${to}`;
-  };
+  const onHandleDayChange = (e, key, index) => {
+    let array = seasonDetails.slice();
+    let array2 = seasonDetails[index].days.slice()
+    if (e.target.checked) {
+      array2.push(key)
+      const newObj = { ...seasonDetails[index], days: array2 };
+      array.splice(index, 1, newObj)
+      setSeasonDetails(array);
+    } else {
+      let i = array2.indexOf(key);
+      array2.splice(i, 1)
+      const newObj = { ...seasonDetails[index], days: array2 };
+      array.splice(index, 1, newObj)
+      setSeasonDetails(array);
+    }
+  }
 
   return (
     <React.Fragment>
@@ -322,22 +333,7 @@ const CreateSeason = () => {
                   checked={seasonDetails[index].days.includes("Monday")}
                   value={seasonDetails[index].days.includes("Monday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days);
-                    let temp2 = Object.assign([], seasonDetails);
-                    if (e.target.checked) {
-                      temp.push("Monday");
-                      temp2[index] = { ...seasonDetails[index], days: temp };
-                      // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2);
-                    } else {
-                      let i = temp.findIndex((val) => val == "Monday");
-
-                      if (i > -1) {
-                        temp.splice(i, 1);
-                        temp2[index] = { ...seasonDetails[index], days: temp };
-                        setSeasonDetails(temp2);
-                      }
-                    }
+                    onHandleDayChange(e, 'Monday', index)
                   }}
                 />
                 <Form.Check
@@ -346,21 +342,7 @@ const CreateSeason = () => {
                   value={seasonDetails[index].days.includes("Tuesday")}
                   checked={seasonDetails[index].days.includes("Tuesday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days);
-                    let temp2 = Object.assign([], seasonDetails);
-                    if (e.target.checked) {
-                      temp.push("Tuesday");
-                      temp2[index] = { ...seasonDetails[index], days: temp };
-                      // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2);
-                    } else {
-                      let i = temp.indexOf("Tuesday");
-                      if (i > -1) {
-                        temp.splice(i, 1);
-                        temp2[index] = { ...seasonDetails[index], days: temp };
-                        setSeasonDetails(temp2);
-                      }
-                    }
+                    onHandleDayChange(e, 'Tuesday', index)
                   }}
                 />
                 <Form.Check
@@ -369,21 +351,7 @@ const CreateSeason = () => {
                   value={seasonDetails[index].days.includes("Wednesday")}
                   checked={seasonDetails[index].days.includes("Wednesday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days);
-                    let temp2 = Object.assign([], seasonDetails);
-                    if (e.target.checked) {
-                      temp.push("WednesDay");
-                      temp2[index] = { ...seasonDetails[index], days: temp };
-                      // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2);
-                    } else {
-                      let i = temp.indexOf("WednesDay");
-                      if (i > -1) {
-                        temp.splice(i, 1);
-                        temp2[index] = { ...seasonDetails[index], days: temp };
-                        setSeasonDetails(temp2);
-                      }
-                    }
+                    onHandleDayChange(e, 'Wednesday', index)
                   }}
                 />
                 <Form.Check
@@ -392,21 +360,7 @@ const CreateSeason = () => {
                   value={seasonDetails[index].days.includes("Thursday")}
                   checked={seasonDetails[index].days.includes("Thursday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days);
-                    let temp2 = Object.assign([], seasonDetails);
-                    if (e.target.checked) {
-                      temp.push("Thursday");
-                      temp2[index] = { ...seasonDetails[index], days: temp };
-                      // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2);
-                    } else {
-                      let i = temp.indexOf("Thursday");
-                      if (i > -1) {
-                        temp.splice(i, 1);
-                        temp2[index] = { ...seasonDetails[index], days: temp };
-                        setSeasonDetails(temp2);
-                      }
-                    }
+                    onHandleDayChange(e, 'Thursday', index)
                   }}
                 />
                 <Form.Check
@@ -415,21 +369,7 @@ const CreateSeason = () => {
                   value={seasonDetails[index].days.includes("Friday")}
                   checked={seasonDetails[index].days.includes("Friday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days);
-                    let temp2 = Object.assign([], seasonDetails);
-                    if (e.target.checked) {
-                      temp.push("Friday");
-                      temp2[index] = { ...seasonDetails[index], days: temp };
-                      // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2);
-                    } else {
-                      let i = temp.indexOf("Friday");
-                      if (i > -1) {
-                        temp.splice(i, 1);
-                        temp2[index] = { ...seasonDetails[index], days: temp };
-                        setSeasonDetails(temp2);
-                      }
-                    }
+                    onHandleDayChange(e, 'Friday', index)
                   }}
                 />
                 <Form.Check
@@ -438,21 +378,7 @@ const CreateSeason = () => {
                   value={seasonDetails[index].days.includes("Saturday")}
                   checked={seasonDetails[index].days.includes("Saturday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days);
-                    let temp2 = Object.assign([], seasonDetails);
-                    if (e.target.checked) {
-                      temp.push("Saturday");
-                      temp2[index] = { ...seasonDetails[index], days: temp };
-                      // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2);
-                    } else {
-                      let i = temp.indexOf("Saturday");
-                      if (i > -1) {
-                        temp.splice(i, 1);
-                        temp2[index] = { ...seasonDetails[index], days: temp };
-                        setSeasonDetails(temp2);
-                      }
-                    }
+                    onHandleDayChange(e, 'Saturday', index)
                   }}
                 />
                 <Form.Check
@@ -461,21 +387,7 @@ const CreateSeason = () => {
                   value={seasonDetails[index].days.includes("Sunday")}
                   checked={seasonDetails[index].days.includes("Sunday")}
                   onChange={(e) => {
-                    let temp = Object.assign([], seasonDetails[index].days);
-                    let temp2 = Object.assign([], seasonDetails);
-                    if (e.target.checked) {
-                      temp.push("Sunday");
-                      temp2[index] = { ...seasonDetails[index], days: temp };
-                      // temp2.splice(index, 1, { ...seasonDetails[index], days: temp })
-                      setSeasonDetails(temp2);
-                    } else {
-                      let i = temp.indexOf("Sunday");
-                      if (i > -1) {
-                        temp.splice(i, 1);
-                        temp2[index] = { ...seasonDetails[index], days: temp };
-                        setSeasonDetails(temp2);
-                      }
-                    }
+                    onHandleDayChange(e, 'Sunday', index)
                   }}
                 />
               </Col>
