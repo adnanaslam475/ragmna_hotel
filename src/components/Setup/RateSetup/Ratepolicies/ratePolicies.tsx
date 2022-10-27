@@ -1,13 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Accordion, Card, Col, Collapse, Nav, Row, Tab } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import './ratePolicies.scss'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-
+import { getpolicies, deletePolicies } from './ratePolicySlice'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '../../../../Redux/Store'
+import { TableCell } from '@mui/material'
 const RatePolicies = () => {
 	let navigate = useNavigate()
+	const dispatch = useDispatch<AppDispatch>()
+	const [polices, setpolicies] = useState<any[]>([])
 	const [showCancellation, setShow] = useState(false)
 	const [showDeposit, setShowDeposit] = useState(false)
 	const [showCheckin, setShowCheckin] = useState(false)
@@ -40,6 +45,31 @@ const RatePolicies = () => {
 	const noshowRateselect = (e) => {
 		setNoshowRate(e.target.value)
 	}
+	const delPolicies = async (value: any) => {
+		console.log(value)
+
+		try {
+			await dispatch(deletePolicies(value)).unwrap
+			dispatch(getpolicies()).unwrap()
+			// setDeleteId("");
+		} catch (err: any) {}
+	}
+
+	const getAllPolicies = async () => {
+		try {
+			const response: any = await dispatch(getpolicies()).unwrap()
+			console.log('data polices', response.data)
+			setpolicies(response.data)
+			console.log('final policies', polices)
+		} catch (error: any) {
+			console.log(error)
+		}
+	}
+
+	const handlecancelationpolicy = () => {}
+	useEffect(() => {
+		getAllPolicies()
+	}, [])
 	return (
 		<React.Fragment>
 			<Row>
@@ -50,217 +80,194 @@ const RatePolicies = () => {
 						</Card.Header>
 						<Card.Body>
 							<Accordion defaultActiveKey="0" className="demo-accordion accordionjs m-0">
-								<Accordion.Item eventKey="0" className="acc_section ">
-									<Accordion.Header className="acc_head">
-										<div style={{ display: 'flex' }}>Cancellation Policies</div>
-										<div style={{ display: 'flex', marginLeft: 'auto', marginRight: 20 }} onClick={handleShow}>
-											Create New
-										</div>
-									</Accordion.Header>
-									<Accordion.Body>
-										<div className="policy-item">
-											<div style={{ display: 'flex' }}>
-												<div style={{ color: '#333', fontSize: 16, width: 'auto' }}>Room Cancelation Policy</div>
-												<div className="" style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto' }}>
-													<span className="icon-edit" style={{ cursor: 'pointer' }}>
-														Edit
-													</span>
-													<span className="icon-edit" style={{ marginLeft: 15, cursor: 'pointer' }}>
-														Del
-													</span>
-													<span className="icon-edit" style={{ marginLeft: 15, cursor: 'pointer' }}>
-														4 Uses
+								{polices.map((entry) => (
+									<Accordion.Item eventKey="1" className="acc_section ">
+										<Accordion.Header className="acc_head">
+											<div style={{ display: 'flex' }}>{entry.type} Policy</div>
+											{entry.type === 'Deposit' ? (
+												<div
+													style={{ display: 'flex', marginLeft: 'auto', marginRight: 20 }}
+													onClick={showDepositModal}
+												>
+													Create New
+												</div>
+											) : (
+												''
+											)}
+											{entry.type === 'Check-in' ? (
+												<div
+													style={{ display: 'flex', marginLeft: 'auto', marginRight: 20 }}
+													onClick={showcheckinModal}
+												>
+													Create New
+												</div>
+											) : (
+												''
+											)}
+											{entry.type === 'Cancellation' ? (
+												<div style={{ display: 'flex', marginLeft: 'auto', marginRight: 20 }} onClick={handleShow}>
+													Create New
+												</div>
+											) : (
+												''
+											)}
+										</Accordion.Header>
+										{entry.type === 'Deposit' ? (
+											<Accordion.Body>
+												<div className="policy-item">
+													<div style={{ display: 'flex' }}>
+														<div style={{ color: '#333', fontSize: 16, width: 'auto' }}>{entry.name}</div>
+														<div className="" style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto' }}>
+															<span className="icon-edit" style={{ cursor: 'pointer' }}>
+																Edit
+															</span>
+															<span
+																className="icon-edit"
+																style={{ marginLeft: 15, cursor: 'pointer' }}
+																onClick={() => delPolicies(entry._id)}
+															>
+																Del
+															</span>
+															<span className="icon-edit" style={{ marginLeft: 15, cursor: 'pointer' }}>
+																4 Uses
+															</span>
+														</div>
+													</div>
+													<span
+														style={{
+															color: '#666',
+															fontSize: 14,
+															fontWeight: 300,
+															marginLeft: 20,
+															display: 'block',
+															marginBottom: 5,
+															marginTop: 5,
+														}}
+													>
+														{entry.description}
 													</span>
 												</div>
-											</div>
-											<span
-												style={{
-													color: '#666',
-													fontSize: 14,
-													fontWeight: 300,
-													marginLeft: 20,
-													display: 'block',
-													marginBottom: 5,
-													marginTop: 5,
-												}}
-											>
-												Cancellation Policy - Any cancellations made outside 48 hours of arrival are fully refundable.
-												Cancellations made within 48 hours of arrival will be non-refundable
-											</span>
-										</div>
-										<div className="policy-item">
-											<div style={{ display: 'flex' }}>
-												<div style={{ color: '#333', fontSize: 16, width: 'auto' }}>House Cancelation Policy</div>
-												<div className="" style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto' }}>
-													<span className="icon-edit" style={{ cursor: 'pointer' }}>
-														Edit
-													</span>
-													<span className="icon-edit" style={{ marginLeft: 15, cursor: 'pointer' }}>
-														Del
-													</span>
-													<span className="icon-edit" style={{ marginLeft: 15, cursor: 'pointer' }}>
-														4 Uses
-													</span>
-												</div>
-											</div>
-											<span
-												style={{
-													color: '#666',
-													fontSize: 14,
-													fontWeight: 300,
-													marginLeft: 20,
-													display: 'block',
-													marginBottom: 5,
-													marginTop: 5,
-												}}
-											>
-												Cancellation Policy - Any cancellations made outside 48 hours of arrival are fully refundable.
-												Cancellations made within 48 hours of arrival will be non-refundable
-											</span>
-										</div>
-										<div className="policy-item">
-											<div style={{ display: 'flex' }}>
-												<div style={{ color: '#333', fontSize: 16, width: 'auto' }}>Saif Policy</div>
-												<div className="" style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto' }}>
-													<span className="icon-edit" style={{ cursor: 'pointer' }}>
-														Edit
-													</span>
-													<span className="icon-edit" style={{ marginLeft: 15, cursor: 'pointer' }}>
-														Del
-													</span>
-													<span className="icon-edit" style={{ marginLeft: 15, cursor: 'pointer' }}>
-														4 Uses
+											</Accordion.Body>
+										) : (
+											''
+										)}
+										{entry.type === 'Check-in' ? (
+											<Accordion.Body>
+												<div className="policy-item">
+													<div style={{ display: 'flex' }}>
+														<div style={{ color: '#333', fontSize: 16, width: 'auto' }}>{entry.name}</div>
+														<div className="" style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto' }}>
+															<span className="icon-edit" style={{ cursor: 'pointer' }}>
+																Edit
+															</span>
+															<span
+																className="icon-edit"
+																style={{ marginLeft: 15, cursor: 'pointer' }}
+																onClick={() => delPolicies(entry._id)}
+															>
+																Del
+															</span>
+															<span className="icon-edit" style={{ marginLeft: 15, cursor: 'pointer' }}>
+																4 Uses
+															</span>
+														</div>
+													</div>
+													<span
+														style={{
+															color: '#666',
+															fontSize: 14,
+															fontWeight: 300,
+															marginLeft: 20,
+															display: 'block',
+															marginBottom: 5,
+															marginTop: 5,
+														}}
+													>
+														{entry.description}
 													</span>
 												</div>
-											</div>
-											<span
-												style={{
-													color: '#666',
-													fontSize: 14,
-													fontWeight: 300,
-													marginLeft: 20,
-													display: 'block',
-													marginBottom: 5,
-													marginTop: 5,
-												}}
-											>
-												Cancellation Policy - Any cancellations made outside 48 hours of arrival are fully refundable.
-												Cancellations made within 48 hours of arrival will be non-refundable
-											</span>
-										</div>
-									</Accordion.Body>
-								</Accordion.Item>
-								<Accordion.Item eventKey="1" className="acc_section ">
-									<Accordion.Header className="acc_head">
-										<div style={{ display: 'flex' }}>Deposit Policies</div>
-										<div style={{ display: 'flex', marginLeft: 'auto', marginRight: 20 }} onClick={showDepositModal}>
-											Create New
-										</div>
-									</Accordion.Header>
-									<Accordion.Body>
-										<div className="policy-item">
-											<div style={{ display: 'flex' }}>
-												<div style={{ color: '#333', fontSize: 16, width: 'auto' }}>Room Deposit Policy</div>
-												<div className="" style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto' }}>
-													<span className="icon-edit" style={{ cursor: 'pointer' }}>
-														Edit
-													</span>
-													<span className="icon-edit" style={{ marginLeft: 15, cursor: 'pointer' }}>
-														Del
-													</span>
-													<span className="icon-edit" style={{ marginLeft: 15, cursor: 'pointer' }}>
-														4 Uses
-													</span>
-												</div>
-											</div>
-											<span
-												style={{
-													color: '#666',
-													fontSize: 14,
-													fontWeight: 300,
-													marginLeft: 20,
-													display: 'block',
-													marginBottom: 5,
-													marginTop: 5,
-												}}
-											>
-												Cancellation Policy - Any cancellations made outside 48 hours of arrival are fully refundable.
-												Cancellations made within 48 hours of arrival will be non-refundable
-											</span>
-										</div>
-										<div className="policy-item">
-											<div style={{ display: 'flex' }}>
-												<div style={{ color: '#333', fontSize: 16, width: 'auto' }}>House Deposit Policy</div>
-												<div className="" style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto' }}>
-													<span className="icon-edit" style={{ cursor: 'pointer' }}>
-														Edit
-													</span>
-													<span className="icon-edit" style={{ marginLeft: 15, cursor: 'pointer' }}>
-														Del
-													</span>
-													<span className="icon-edit" style={{ marginLeft: 15, cursor: 'pointer' }}>
-														4 Uses
+											</Accordion.Body>
+										) : (
+											''
+										)}
+										{entry.type === 'Cancellation' ? (
+											<Accordion.Body>
+												<div className="policy-item">
+													<div style={{ display: 'flex' }}>
+														<div style={{ color: '#333', fontSize: 16, width: 'auto' }}>{entry.name}</div>
+														<div className="" style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto' }}>
+															<span className="icon-edit" style={{ cursor: 'pointer' }}>
+																Edit
+															</span>
+															<span
+																className="icon-edit"
+																style={{ marginLeft: 15, cursor: 'pointer' }}
+																onClick={() => delPolicies(entry._id)}
+															>
+																Del
+															</span>
+															<span className="icon-edit" style={{ marginLeft: 15, cursor: 'pointer' }}>
+																4 Uses
+															</span>
+														</div>
+													</div>
+													<span
+														style={{
+															color: '#666',
+															fontSize: 14,
+															fontWeight: 300,
+															marginLeft: 20,
+															display: 'block',
+															marginBottom: 5,
+															marginTop: 5,
+														}}
+													>
+														{entry.description}
 													</span>
 												</div>
-											</div>
-											<span
-												style={{
-													color: '#666',
-													fontSize: 14,
-													fontWeight: 300,
-													marginLeft: 20,
-													display: 'block',
-													marginBottom: 5,
-													marginTop: 5,
-												}}
-											>
-												Cancellation Policy - Any cancellations made outside 48 hours of arrival are fully refundable.
-												Cancellations made within 48 hours of arrival will be non-refundable
-											</span>
-										</div>
-									</Accordion.Body>
-								</Accordion.Item>
-								<Accordion.Item eventKey="2" className="acc_section ">
-									<Accordion.Header className="acc_head">
-										<div style={{ display: 'flex' }}>Check-in Policies</div>
-										<div style={{ display: 'flex', marginLeft: 'auto', marginRight: 20 }} onClick={showcheckinModal}>
-											Create New
-										</div>
-									</Accordion.Header>
-									<Accordion.Body>
-										<div className="policy-item">
-											<div style={{ display: 'flex' }}>
-												<div style={{ color: '#333', fontSize: 16, width: 'auto' }}>Check in Policy</div>
-												<div className="" style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto' }}>
-													<span className="icon-edit" style={{ cursor: 'pointer' }}>
-														Edit
-													</span>
-													<span className="icon-edit" style={{ marginLeft: 15, cursor: 'pointer' }}>
-														Del
-													</span>
-													<span className="icon-edit" style={{ marginLeft: 15, cursor: 'pointer' }}>
-														4 Uses
+											</Accordion.Body>
+										) : (
+											''
+										)}
+										{entry.type === 'noshow' ? (
+											<Accordion.Body>
+												<div className="policy-item">
+													<div style={{ display: 'flex' }}>
+														<div style={{ color: '#333', fontSize: 16, width: 'auto' }}>{entry.name}</div>
+														<div className="" style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto' }}>
+															<span className="icon-edit" style={{ cursor: 'pointer' }}>
+																Edit
+															</span>
+															<span className="icon-edit" style={{ marginLeft: 15, cursor: 'pointer' }}>
+																Del
+															</span>
+															<span className="icon-edit" style={{ marginLeft: 15, cursor: 'pointer' }}>
+																4 Uses
+															</span>
+														</div>
+													</div>
+													<span
+														style={{
+															color: '#666',
+															fontSize: 14,
+															fontWeight: 300,
+															marginLeft: 20,
+															display: 'block',
+															marginBottom: 5,
+															marginTop: 5,
+														}}
+													>
+														{entry.description}
 													</span>
 												</div>
-											</div>
-											<span
-												style={{
-													color: '#666',
-													fontSize: 14,
-													fontWeight: 300,
-													marginLeft: 20,
-													display: 'block',
-													marginBottom: 5,
-													marginTop: 5,
-												}}
-											>
-												Cancellation Policy - Any cancellations made outside 48 hours of arrival are fully refundable.
-												Cancellations made within 48 hours of arrival will be non-refundable
-											</span>
-										</div>
-									</Accordion.Body>
-								</Accordion.Item>
-								<Accordion.Item eventKey="3" className="acc_section ">
+											</Accordion.Body>
+										) : (
+											''
+										)}
+									</Accordion.Item>
+								))}
+
+								{/* <Accordion.Item eventKey="3" className="acc_section ">
 									<Accordion.Header className="acc_head">
 										<div style={{ display: 'flex' }}>No Show Policy</div>
 										<div style={{ display: 'flex', marginLeft: 'auto', marginRight: 20 }} onClick={shownoshowModal}>
@@ -299,7 +306,7 @@ const RatePolicies = () => {
 											</span>
 										</div>
 									</Accordion.Body>
-								</Accordion.Item>
+								</Accordion.Item> */}
 							</Accordion>
 							<Collapse className="mt-2">
 								<pre>
@@ -464,7 +471,7 @@ const RatePolicies = () => {
 					)}
 				</Modal.Body>
 				<Modal.Footer className="modal_footer_button_alignment">
-					<Button variant="primary" onClick={handleClose} className="modal_footer_button">
+					<Button variant="primary" onClick={handlecancelationpolicy} className="modal_footer_button">
 						Save Changes
 					</Button>
 				</Modal.Footer>
