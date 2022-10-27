@@ -3,7 +3,7 @@ import { Col, Row } from "react-bootstrap";
 import { useGetAmenitiesQuery } from "../Amenities/amenitiesApi";
 
 export interface AmenitiesSectionProps {
-  isSelectedAmenities:any
+  isSelectedAmenities: string[]
   setIsSelectedAmenities:any
 }
 

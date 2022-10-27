@@ -32,6 +32,7 @@ import {
   Success,
   DangerLeft,
 } from "../../../../../Redux/Services/toaster-service";
+import { seasonBodyTypes } from "../../rateSetupTypes";
 
 export interface EditSeasonDetailProps {
   isModelClose: React.Dispatch<React.SetStateAction<boolean>>;
@@ -52,7 +53,7 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
     }
   }, [id]);
 
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState<boolean>(true);
   let [seasonBody, SetSeasonBody] = useState<any>({
     name: "",
     startDate: "",

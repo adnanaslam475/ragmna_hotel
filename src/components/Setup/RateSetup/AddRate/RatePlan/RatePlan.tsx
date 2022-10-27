@@ -2,9 +2,10 @@ import { useFormik } from "formik";
 import React from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import * as Yup from "yup";
+import { RatePlanTypes } from "../../rateSetupTypes";
 
 const RatePlan = (props) => {
-  const initialValues = {
+  const initialValues: RatePlanTypes = {
     name: "",
     description: "",
     displayName:''

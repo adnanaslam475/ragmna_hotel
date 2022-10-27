@@ -159,3 +159,23 @@ export interface InitialValues {
     autoRefundApplyUponCheckOut: boolean
     includeRoomMovesOnArrivalAndDepartureList: boolean
 }
+
+export interface initialTaxValuesInfoTypes {
+    shortCode: string
+    name: string
+    startDate: string
+    endDate: string
+    surcharge: number
+    type: number
+    calculationType: number
+    isVatApplicable: boolean,
+}
+
+export interface SectionTypes {
+    name: string
+    quantity: number
+    allowedFor: string
+    isNonSmoking: false,
+    isActive: boolean
+    virtualTourLink: string
+}

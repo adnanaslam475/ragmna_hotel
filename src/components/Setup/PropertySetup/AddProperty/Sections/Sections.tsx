@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { CommanDropDownType } from "../types";
+import { CommanDropDownType, SectionTypes } from "../types";
 import Select from "react-select";
 import "./Sections.scss";
 import * as Yup from "yup";
@@ -13,7 +13,7 @@ export interface SectionsProps {
 
 const Sections = (props: SectionsProps) => {
   const { sectionArray, setSectionArray } = props;
-  const [selectValues, setSelectValues] = useState({
+  const [selectValues, setSelectValues] = useState<SectionTypes>({
     name: "",
     quantity: 0,
     allowedFor: "",

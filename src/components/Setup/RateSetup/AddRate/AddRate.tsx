@@ -16,10 +16,15 @@ import DerivedRateFrom from "./DerivedRateFrom/DerivedRateFrom";
 import DerivedDates from "./DerivedDates/DerivedDates";
 import { useNavigate } from "react-router-dom";
 import { Success } from "../../../../Redux/Services/toaster-service";
+import {
+  CustomDateTypes,
+  DerivedRateTypes,
+  RateTypes,
+} from "../rateSetupTypes";
 const AddRate = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [type, setRateType] = useState("nightly");
-  const [rate, setRate] = useState({
+  const [rate, setRate] = useState<RateTypes>({
     name: "",
     description: "",
     displayName: "",
@@ -36,13 +41,13 @@ const AddRate = () => {
     checkInPolicy: undefined,
     noShowPolicy: undefined,
   });
-  const [customDate, setCustomDate] = useState<any>([
+  const [customDate, setCustomDate] = useState<CustomDateTypes[]>([
     {
       startDate: undefined,
       endDate: undefined,
     },
   ]);
-  const [derivedRate, setDerivedRate] = useState({
+  const [derivedRate, setDerivedRate] = useState<DerivedRateTypes>({
     name: "",
     description: "",
     // period: [
@@ -118,7 +123,7 @@ const AddRate = () => {
     }
   };
   const setDates = (key, value, index) => {
-    let temp = Object.assign([], customDate);
+    let temp: any = Object.assign([], customDate);
     temp[index][key] = value;
     setCustomDate(temp);
   };

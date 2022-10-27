@@ -56,7 +56,7 @@ const CreateSeason = () => {
   const [openSelectColor, setOpenSelectColor] = useState([false]);
   const [isEditModal, setIsEditModel] = useState(false);
   const [isOpenDeletePopUp, setIsOpenDeletePopUp] = useState<boolean>(false);
-  const [deleteId, setDeleteId] = useState('')
+  const [deleteId, setDeleteId] = useState<string>('')
   const [seasonDetails, setSeasonDetails] = useState<any>([
     {
       name: "",

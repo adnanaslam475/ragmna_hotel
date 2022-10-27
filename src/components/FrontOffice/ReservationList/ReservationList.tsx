@@ -3,6 +3,7 @@ import React, { useState, useRef, forwardRef, FC } from "react";
 import { DataTabless } from "../../../Data/Pages/TablesData/TableData";
 import {
   ArrivalsDetails,
+  DetailsTabProps,
   ReservationListProps,
   TableData,
 } from "../FrontOfficeTypes";
@@ -19,7 +20,7 @@ const ReservationList = (props: ReservationListProps) => {
   const [showDeparturePopup, setShowDeparturePopup] = useState<boolean>(false);
 
   const { addTab } = props;
-  let ArrivalDetail = [
+  let ArrivalDetail : DetailsTabProps[]= [
     {
       id: 1,
       name: "All Arrivals",
@@ -42,7 +43,7 @@ const ReservationList = (props: ReservationListProps) => {
   const [showArrivalDetails, setShowArrivalDetails] =
     useState<ArrivalsDetails[]>(ArrivalDetail);
 
-  let DepartureDetail = [
+  let DepartureDetail: DetailsTabProps[] = [
     {
       id: 1,
       name: "All Departure",

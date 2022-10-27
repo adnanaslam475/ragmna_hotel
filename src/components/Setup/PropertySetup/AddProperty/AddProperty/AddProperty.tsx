@@ -11,7 +11,7 @@ import SystemConfig from "../SystemConfig/SystemConfig";
 import TaxSetup from "../TaxSetup/TaxSetup";
 import "./AddProperty.scss";
 import * as Yup from "yup";
-import { InitialValues } from "../types";
+import { initialTaxValuesInfoTypes, InitialValues } from "../types";
 import { useUser } from "../../../../Authentication/firebaseAuth/firebaseAuthSlice";
 import {
   addPropertyData,
@@ -45,7 +45,7 @@ const AddProperty = (props: AddPropertyProps) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const [isTax, setIsTax] = useState(false);
-  const [isSelectedAmenities, setIsSelectedAmenities] = useState<any>([]);
+  const [isSelectedAmenities, setIsSelectedAmenities] = useState<string[]>([]);
 
   const [tz, setTz] = useState<ITimezoneOption>({
     value: "",
@@ -107,7 +107,7 @@ const AddProperty = (props: AddPropertyProps) => {
     includeRoomMovesOnArrivalAndDepartureList: false,
   };
 
-  const initialTaxValuesInfo: any = {
+  const initialTaxValuesInfo :any = {
     shortCode: "",
     name: "",
     startDate: "",
