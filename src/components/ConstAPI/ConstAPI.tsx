@@ -12,3 +12,4 @@ export const SEASON = "add-seasonal-rate";
 export const POLICIES = "policies";
 export const UPDATE_SEASON = "update-seasonal-rate";
 export const DELETE_SEASON = "remove-seasonal-rate";
+export const UPDATE_DERIVED_RATE = 'update-derived-rate'

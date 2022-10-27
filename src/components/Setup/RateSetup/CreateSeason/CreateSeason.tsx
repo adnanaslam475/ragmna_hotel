@@ -24,9 +24,9 @@ import {
 } from "../../../../Redux/Services/toaster-service";
 
 const CreateSeason = (props: any) => {
-  const {setRatePlanDetails,ratePlanDetails}=props
+  const { setRatePlanDetails, ratePlanDetails } = props;
   const dispatch = useDispatch<AppDispatch>();
-  let { id, ind, isDerived ,}: any = useParams();
+  let { id, ind, isDerived }: any = useParams();
   const { rateData } = useRateData();
   const getByRateId = () => {
     let response = dispatch(getById(id ? id : "")).unwrap;
@@ -60,7 +60,7 @@ const CreateSeason = (props: any) => {
   const [openSelectColor, setOpenSelectColor] = useState([false]);
   const [isEditModal, setIsEditModel] = useState(false);
   const [isOpenDeletePopUp, setIsOpenDeletePopUp] = useState<boolean>(false);
-  const [deleteId, setDeleteId] = useState<string>('')
+  const [deleteId, setDeleteId] = useState<string>("");
   const [selectedRadio, setSelectedRadio] = useState<any>("");
   const [seasonDetails, setSeasonDetails] = useState<any>([
     {
@@ -134,10 +134,8 @@ const CreateSeason = (props: any) => {
   }, [rateData]);
   useEffect(() => {
     if (rateData && ind) {
-      
     }
   }, [rateData]);
-  console.log(rateData, "rateData");
 
   const AddSeason = () => {
     setSeasonDetails([
@@ -214,28 +212,37 @@ const CreateSeason = (props: any) => {
 
   const onHandleDayChange = (e, key, index) => {
     let array = seasonDetails.slice();
-    let array2 = seasonDetails[index].days.slice()
+    let array2 = seasonDetails[index].days.slice();
     if (e.target.checked) {
-      array2.push(key)
+      array2.push(key);
       const newObj = { ...seasonDetails[index], days: array2 };
-      array.splice(index, 1, newObj)
+      array.splice(index, 1, newObj);
       setSeasonDetails(array);
     } else {
       let i = array2.indexOf(key);
-      array2.splice(i, 1)
+      array2.splice(i, 1);
       const newObj = { ...seasonDetails[index], days: array2 };
-      array.splice(index, 1, newObj)
+      array.splice(index, 1, newObj);
       setSeasonDetails(array);
     }
-  }
- 
-  const onRadioChange = (e) => {
-    if (e.target.checked) {
-      setSelectedRadio(e.target.name);
-    }
   };
-  console.log(ratePlanDetails, "ratePlanDetails");
 
+  const onRadioChange = (e) => {
+      if(e.target.name == 'alwaysAvailable'){
+        let newObj = {...ratePlanDetails,period:[]}
+        setRatePlanDetails(newObj)
+      }
+      setSelectedRadio(e.target.name);
+   
+  };
+
+  useEffect(()=>{
+    if(ratePlanDetails && ratePlanDetails?.period?.length > 0 ){
+      setSelectedRadio('customDateRange') 
+    } else {
+      setSelectedRadio('alwaysAvailable')
+    }
+  },[ratePlanDetails,setSelectedRadio])
   return (
     <React.Fragment>
       <div className="tab-content-container">
@@ -250,7 +257,6 @@ const CreateSeason = (props: any) => {
                   onChange={(e) => {
                     onRadioChange(e);
                   }}
-                  // checked={rateData?.derivedRates[ind]?.period.length <= 0 || selectedRadio === "alwaysAvailable" }
                   checked={selectedRadio === "alwaysAvailable"}
                 />
                 <span className="custom-control-label">
@@ -266,6 +272,7 @@ const CreateSeason = (props: any) => {
                   type="radio"
                   className="custom-control-input"
                   checked={selectedRadio === "customDateRange"}
+
                   onChange={(e) => {
                     onRadioChange(e);
                   }}
@@ -281,63 +288,68 @@ const CreateSeason = (props: any) => {
               </label>
               {selectedRadio === "customDateRange" ? (
                 <div>
-                  {rateData &&
-                    ind &&
-                    ratePlanDetails?.period.map(
-                      (item, index) => (
-                        <Row key={index} className="mt-4 align-items-center">
-                          <Col lg={3} className="date-picker">
-                            <DayPickerInput
-                              dayPickerProps={{
-                                disabledDays: { before: new Date() },
-                              }}
-                              placeholder="From"
-                              value={seasonDetails[index].startDate}
-                              onDayChange={(e) => {
-                                let temp = Object.assign([], seasonDetails);
-                                temp[index]["startDate"] = e;
-                                setSeasonDetails(temp);
-                              }}
-                            />
-                          </Col>
-                          <Col lg={3} className="date-picker">
-                            <DayPickerInput
-                              dayPickerProps={{
-                                disabledDays: { before: new Date() },
-                              }}
-                              placeholder="To"
-                              value={seasonDetails[index].endDate}
-                              onDayChange={(e) => {
-                                let temp = Object.assign([], seasonDetails);
-                                temp[index]["endDate"] = e;
-                                setSeasonDetails(temp);
-                              }}
-                            />
-                          </Col>
-                          <Col lg={2} md={6} sm={12}>
-                            <i
-                              className="icon fe fe-minus-circle"
-                              onClick={() => {
-                                // removeDate(index)
-                              }}
-                            />
-                          </Col>
-                        </Row>
-                      )
-                    )}
+                  {ratePlanDetails &&
+                    ratePlanDetails?.period.map((item, index) => (
+                      <Row key={index} className="mt-4 align-items-center">
+                        <Col lg={3} className="date-picker">
+                          <DayPickerInput
+                            dayPickerProps={{
+                              disabledDays: { before: new Date() },
+                            }}
+                            placeholder="From"
+                            value={ratePlanDetails?.period[index]?.startDate}
+                            onDayChange={(e) => {
+                              let array = ratePlanDetails?.period.slice()
+                              array[index]['startDate'] = e
+                              let newObj = {...ratePlanDetails,period:array}
+                              setRatePlanDetails(newObj)
+                            }}
+                          />
+                        </Col>
+                        <Col lg={3} className="date-picker">
+                          <DayPickerInput
+                            dayPickerProps={{
+                              disabledDays: { before: new Date() },
+                            }}
+                            placeholder="To"
+                            value={ratePlanDetails?.period[index]?.endDate}
+                            onDayChange={(e) => {
+                              let array = ratePlanDetails?.period.slice()
+                              array[index]['endDate'] = e
+                              let newObj = {...ratePlanDetails,period:array}
+                              setRatePlanDetails(newObj)
+                            }}
+                          />
+                        </Col>
+                        <Col lg={2} md={6} sm={12}>
+                          <i
+                            className="icon fe fe-minus-circle"
+                            onClick={() => {
+                              let array = ratePlanDetails?.period.slice()
+                              array.splice(index,1)
+                              let newObj = {...ratePlanDetails,period:array}
+                              setRatePlanDetails(newObj)
+                            }}
+                          />
+                        </Col>
+                      </Row>
+                    ))}
                   <Row>
                     <i
                       className="icon i-plus fe fe-plus-circle mt-2"
                       onClick={() => {
                         let array =
-                        ratePlanDetails?.derivedRates[ind]?.period.slice();
-                        let array2 = ratePlanDetails?.derivedRates.slice()
-                        array = [{ startDate: null, endDate: null }];
-                        let data = {...ratePlanDetails?.derivedRates[ind],period:array}
-                        array2.splice(ind,1,data)
-                        let newObj = {...ratePlanDetails,derivedRates:array2}
+                          ratePlanDetails?.period.slice();
+                        if(array?.length > 0){
+                          array.push({ startDate: null, endDate: null });
+                        } else {
+                          array = [{ startDate: null, endDate: null }]
+                        }
+                        let newObj = {
+                          ...ratePlanDetails,
+                          period:array
+                        };
                         setRatePlanDetails(newObj);
-                        // props.setCustomDate([...props.customDate, { startDate:null, endDate:null}]);
                       }}
                     />
                   </Row>
@@ -345,7 +357,7 @@ const CreateSeason = (props: any) => {
               ) : null}
             </Col>
             <Col className="lg-6">
-              <CalendarSetup dateRange={seasonDetails} />
+              <CalendarSetup dateRange={ratePlanDetails?.period} />
             </Col>
           </Row>
         ) : (
@@ -428,11 +440,11 @@ const CreateSeason = (props: any) => {
                                 [index]: !openSelectColor[index],
                               });
                             }}
-                            >
-                              <i className="icon fa fa-chevron-down"></i>
-                              </span>
-                              </div>
-                                 {openSelectColor[index] ? (
+                          >
+                            <i className="icon fa fa-chevron-down"></i>
+                          </span>
+                        </div>
+                        {openSelectColor[index] ? (
                           <div className="color-seletor">
                             {selectColor.map((coloritem: any, colorindex) => {
                               return (
@@ -459,116 +471,115 @@ const CreateSeason = (props: any) => {
                             })}
                           </div>
                         ) : null}
-                            </div>
-              </Col>
-                 
-              <Col lg={3} className="day-list">
-                <Form.Check
-                  label="M"
-                  type="checkbox"
-                  checked={seasonDetails[index].days.includes("Monday")}
-                  value={seasonDetails[index].days.includes("Monday")}
-                  onChange={(e) => {
-                    onHandleDayChange(e, 'Monday', index)
-                  }}
-                />
-                <Form.Check
-                  label="T"
-                  type="checkbox"
-                  value={seasonDetails[index].days.includes("Tuesday")}
-                  checked={seasonDetails[index].days.includes("Tuesday")}
-                  onChange={(e) => {
-                    onHandleDayChange(e, 'Tuesday', index)
-                  }}
-                />
-                <Form.Check
-                  label="W"
-                  type="checkbox"
-                  value={seasonDetails[index].days.includes("Wednesday")}
-                  checked={seasonDetails[index].days.includes("Wednesday")}
-                  onChange={(e) => {
-                    onHandleDayChange(e, 'Wednesday', index)
-                  }}
-                />
-                <Form.Check
-                  label="T"
-                  type="checkbox"
-                  value={seasonDetails[index].days.includes("Thursday")}
-                  checked={seasonDetails[index].days.includes("Thursday")}
-                  onChange={(e) => {
-                    onHandleDayChange(e, 'Thursday', index)
-                  }}
-                />
-                <Form.Check
-                  label="F"
-                  type="checkbox"
-                  value={seasonDetails[index].days.includes("Friday")}
-                  checked={seasonDetails[index].days.includes("Friday")}
-                  onChange={(e) => {
-                    onHandleDayChange(e, 'Friday', index)
-                  }}
-                />
-                <Form.Check
-                  label="S"
-                  type="checkbox"
-                  value={seasonDetails[index].days.includes("Saturday")}
-                  checked={seasonDetails[index].days.includes("Saturday")}
-                  onChange={(e) => {
-                    onHandleDayChange(e, 'Saturday', index)
-                  }}
-                />
-                <Form.Check
-                  label="S"
-                  type="checkbox"
-                  value={seasonDetails[index].days.includes("Sunday")}
-                  checked={seasonDetails[index].days.includes("Sunday")}
-                  onChange={(e) => {
-                    onHandleDayChange(e, 'Sunday', index)
-                  }}
-                />
-              </Col>
-              <Col lg={1}>
-                <div className="Save-delete-icon">
-                  <button type="submit" className="save-btn">
-                    <i
-                      className="icon fe fe-check-circle"
-                      title="Save"
-                      onClick={() => {
-                        onSubmitSeason(index);
-                      }}
-                    />
-                  </button>
-                  <button className="delete-btn">
-                    <i
-                      className="icon fe fe-x-circle"
-                      title="Delete"
-                      onClick={() => {
-                        deleteSeason(index, item._id);
-                      }}
-                    />
-                  </button>
-                </div>
-              </Col>
-            </Row>
-         ))}
-                     
+                      </div>
+                    </Col>
+
+                    <Col lg={3} className="day-list">
+                      <Form.Check
+                        label="M"
+                        type="checkbox"
+                        checked={seasonDetails[index].days.includes("Monday")}
+                        value={seasonDetails[index].days.includes("Monday")}
+                        onChange={(e) => {
+                          onHandleDayChange(e, "Monday", index);
+                        }}
+                      />
+                      <Form.Check
+                        label="T"
+                        type="checkbox"
+                        value={seasonDetails[index].days.includes("Tuesday")}
+                        checked={seasonDetails[index].days.includes("Tuesday")}
+                        onChange={(e) => {
+                          onHandleDayChange(e, "Tuesday", index);
+                        }}
+                      />
+                      <Form.Check
+                        label="W"
+                        type="checkbox"
+                        value={seasonDetails[index].days.includes("Wednesday")}
+                        checked={seasonDetails[index].days.includes(
+                          "Wednesday"
+                        )}
+                        onChange={(e) => {
+                          onHandleDayChange(e, "Wednesday", index);
+                        }}
+                      />
+                      <Form.Check
+                        label="T"
+                        type="checkbox"
+                        value={seasonDetails[index].days.includes("Thursday")}
+                        checked={seasonDetails[index].days.includes("Thursday")}
+                        onChange={(e) => {
+                          onHandleDayChange(e, "Thursday", index);
+                        }}
+                      />
+                      <Form.Check
+                        label="F"
+                        type="checkbox"
+                        value={seasonDetails[index].days.includes("Friday")}
+                        checked={seasonDetails[index].days.includes("Friday")}
+                        onChange={(e) => {
+                          onHandleDayChange(e, "Friday", index);
+                        }}
+                      />
+                      <Form.Check
+                        label="S"
+                        type="checkbox"
+                        value={seasonDetails[index].days.includes("Saturday")}
+                        checked={seasonDetails[index].days.includes("Saturday")}
+                        onChange={(e) => {
+                          onHandleDayChange(e, "Saturday", index);
+                        }}
+                      />
+                      <Form.Check
+                        label="S"
+                        type="checkbox"
+                        value={seasonDetails[index].days.includes("Sunday")}
+                        checked={seasonDetails[index].days.includes("Sunday")}
+                        onChange={(e) => {
+                          onHandleDayChange(e, "Sunday", index);
+                        }}
+                      />
+                    </Col>
+                    <Col lg={1}>
+                      <div className="Save-delete-icon">
+                        <button type="submit" className="save-btn">
+                          <i
+                            className="icon fe fe-check-circle"
+                            title="Save"
+                            onClick={() => {
+                              onSubmitSeason(index);
+                            }}
+                          />
+                        </button>
+                        <button className="delete-btn">
+                          <i
+                            className="icon fe fe-x-circle"
+                            title="Delete"
+                            onClick={() => {
+                              deleteSeason(index, item._id);
+                            }}
+                          />
+                        </button>
+                      </div>
+                    </Col>
+                  </Row>
+                ))}
 
                 <Row className="mt-6">
                   <CalendarSetup dateRange={seasonDetails} />
                 </Row>
               </Card.Body>
             </Card>
-            </Row>)}
-            
-            
-            </div>
-            {isEditModal && (
-              <EditSeasonDetail season={season} isModelClose={isModelClose} />
-            )}
-            {isOpenDeletePopUp && (
-              <ConformationPopup smallmodalClose={smallmodalClose} />
-            )}
-            
+          </Row>
+        )}
+      </div>
+      {isEditModal && (
+        <EditSeasonDetail season={season} isModelClose={isModelClose} />
+      )}
+      {isOpenDeletePopUp && (
+        <ConformationPopup smallmodalClose={smallmodalClose} />
+      )}
     </React.Fragment>
   );
 };

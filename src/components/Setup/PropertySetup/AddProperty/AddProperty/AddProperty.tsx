@@ -77,7 +77,7 @@ const AddProperty = (props: AddPropertyProps) => {
     Lcity: "",
     state: "",
     Lcountry: "",
-    zipCode: 0,
+    zipCode: null,
     latitude: "",
     longitude: "",
     // country: "",

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, Nav, Tab } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { updateRate } from "../../../../Redux/Services/rateService";
 import {
   DangerLeft,
   Success,
@@ -10,6 +9,7 @@ import {
 import { AppDispatch } from "../../../../Redux/Store";
 import CreateSeason from "../CreateSeason/CreateSeason";
 import {
+  alterDerivedRate,
   getById,
   getRoomType,
   updateNightlyRate,
@@ -28,7 +28,9 @@ const EditRateSetup = () => {
   const getRoomTypes = async () => {
     const response = await dispatch(getRoomType()).unwrap();
   };
-
+  const [ratePlanDetails, setRatePlanDetails] = useState<any>(
+  {}
+  );
   const getByRateId = async () => {
     let response = await dispatch(getById(id ? id : "")).unwrap();
     console.log(response);
@@ -40,14 +42,21 @@ const EditRateSetup = () => {
     }
   }, [id]);
   useEffect(() => {
+    if(isDerived) {
+      setRatePlanDetails(rateData?.derivedRates[ind || 0])
+    } else {
+      setRatePlanDetails(rateData)
+    }
+
+  }, [rateData])
+  
+  useEffect(() => {
     getRoomTypes();
   }, []);
   const [details, setDetails] = useState<any[]>([
     { startDate: null, endDate: null },
   ]);
-  const [ratePlanDetails, setRatePlanDetails] = useState<any>(
-    isDerived && ind ? rateData?.derivedRates[ind] : rateData
-  );
+
 
   const handelChange = (key, val) => {
     setRatePlanDetails({ ...ratePlanDetails, [key]: val });
@@ -189,17 +198,33 @@ const EditRateSetup = () => {
     }
   };
   const updateRates = async () => {
-    try {
-      let payload = Object.assign({}, ratePlanDetails);
-      payload["id"] = id;
-      let response: any = await dispatch(updateNightlyRate(payload)).unwrap();
-      if (response.statusCode === 200) {
-        Success("Rate has been updated");
+    if(isDerived){
+      try{
+        let payload = Object.assign({},ratePlanDetails)
+        payload["id"] = id;
+        payload["dId"] = ratePlanDetails['_id']
+        let response: any = await dispatch(alterDerivedRate(payload)).unwrap();
+        if (response.statusCode === 200) {
+          Success("Derived Rate has been updated");
+        }
+      } catch (err: any) {
+        DangerLeft("Something went wrong!");
+        console.log(err);
       }
-    } catch (err: any) {
-      DangerLeft("Something went wrong!");
-      console.log(err);
+    } else {
+      try {
+        let payload = Object.assign({}, ratePlanDetails);
+        payload["id"] = id;
+        let response: any = await dispatch(updateNightlyRate(payload)).unwrap();
+        if (response.statusCode === 200) {
+          Success("Rate has been updated");
+        }
+      } catch (err: any) {
+        DangerLeft("Something went wrong!");
+        console.log(err);
+      }
     }
+  
   };
   return (
     <React.Fragment>
