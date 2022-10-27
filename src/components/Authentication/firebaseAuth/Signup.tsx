@@ -13,10 +13,18 @@ import { SignupRequestBody } from "./types";
 import "./firebaseAuth.scss";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { CenterDanger } from "../../../Redux/Services/toaster-service";
+import { CenterDanger, Success } from "../../../Redux/Services/toaster-service";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../Redux/Store";
 const SignUp = () => {
+  const [values, setValues] = useState<any>({
+    password: "",
+    showPassword: false,
+  });
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+
   const [err, setError] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const [Loader, setLoader] = useState(false);
@@ -26,8 +34,10 @@ const SignUp = () => {
     name: "",
     phoneNumber: "",
     countryCode: "",
+    sname: "",
   });
-  const { name, email, password, phoneNumber, countryCode } = signUpParams;
+  const { name, email, password, phoneNumber, countryCode, sname } =
+    signUpParams;
   const changeHandler = (e) => {
     setSignUpParams({ ...signUpParams, [e.target.name]: e.target.value });
   };
@@ -69,7 +79,13 @@ const SignUp = () => {
       let payload: any = Object.assign({}, signUpParams);
       payload["phoneNumber"] = parseInt(payload["phoneNumber"].slice(2));
       payload["countryCode"] = parseInt(payload["countryCode"]);
+      payload["supplier"] = {
+        name: payload.sname,
+      };
       const response = await dispatch(authSignup(payload)).unwrap();
+      if (response) {
+        Success("User has been created!");
+      }
       RouteChange();
       setLoader(false);
 
@@ -111,6 +127,21 @@ const SignUp = () => {
                     required
                     className="input100 border-start-0 ms-0 form-control"
                     type="text"
+                    name="sname"
+                    placeholder="Supplier Name"
+                    value={sname}
+                    onChange={changeHandler}
+                  />
+                </div>
+                <div className="wrap-input100 validate-input input-group">
+                  {err && <Alert variant="danger">{err}</Alert>}
+                  <Link to="#" className="input-group-text bg-white text-muted">
+                    <i className="mdi mdi-account" aria-hidden="true"></i>
+                  </Link>
+                  <Form.Control
+                    required
+                    className="input100 border-start-0 ms-0 form-control"
+                    type="text"
                     name="name"
                     placeholder="Name"
                     value={name}
@@ -140,15 +171,24 @@ const SignUp = () => {
                     className="bg-white text-muted"
                   >
                     <Link to="#">
-                      <i
-                        className="zmdi zmdi-eye text-default"
-                        aria-hidden="true"
-                      ></i>
+                      {values.showPassword ? (
+                        <i
+                          className="zmdi zmdi-eye text-default"
+                          aria-hidden="true"
+                          onClick={handleClickShowPassword}
+                        ></i>
+                      ) : (
+                        <i
+                          className="zmdi zmdi-eye-off text-default"
+                          aria-hidden="true"
+                          onClick={handleClickShowPassword}
+                        ></i>
+                      )}
                     </Link>
                   </InputGroup.Text>
                   <Form.Control
+                    type={values.showPassword ? "text" : "password"}
                     className="input100 border-start-0 ms-0"
-                    type="password"
                     name="password"
                     placeholder="Password"
                     value={password}

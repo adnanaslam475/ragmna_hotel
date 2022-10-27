@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { baseUrl } from '../../Api/baseURL'
+import { CenterDanger } from './toaster-service';
 
 export const apiInstance = axios.create({
   baseURL: baseUrl
@@ -15,6 +16,13 @@ apiInstance.interceptors.request.use(function (config) {
 apiInstance.interceptors.response.use(function (response) {
     return response.data;
 }, function (error) {
-    console.log(error);
+  console.log(typeof error.response.data.message);
+  if (typeof error.response.data.message === "string") {
+      CenterDanger(error.response.data.message);
+  } else {
+    for (let i = 0; i < error.response.data.message.length; i++) {
+      CenterDanger(error.response.data.message[i]);
+    }
+  }
     return Promise.reject(error);
   });
