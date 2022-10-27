@@ -126,6 +126,12 @@
         display: flex;
         justify-content: center;
         background-color: orange;
+        span {
+          white-space: nowrap;
+          overflow: hidden !important;
+          text-overflow: ellipsis;
+          width: 100%;
+        }
       }
     }
   }

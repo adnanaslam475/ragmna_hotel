@@ -13,6 +13,7 @@ export interface SignupRequestBody {
     name: string,
     phoneNumber: string | null,
     countryCode: string | number | undefined
+    sname:string
 }
 
 export interface LogInRequestBody{

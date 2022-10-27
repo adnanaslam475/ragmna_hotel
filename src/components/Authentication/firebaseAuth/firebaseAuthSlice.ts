@@ -28,17 +28,7 @@ export const authSignup = createAsyncThunk(
     return signUp(payload);
   }
 );
-const handleError = (error) => {
-    console.log(error);
-    
-  if (typeof error === "string") {
-    CenterDanger(error);
-  } else {
-    for (let i = 0; i < error.length; i++) {
-      CenterDanger(error[i]);
-    }
-  }
-};
+
 const firebaseAuthSlice = createSlice({
   name: "user",
   initialState,
@@ -50,24 +40,13 @@ const firebaseAuthSlice = createSlice({
           state.user = action.payload.data;
       }
     );
-    builder.addCase(authLogin.rejected, (state, action) => {
-      state.user = {};
-      state.error = action.error.message || "Something went wrong";
-      handleError(action.error.message);
-    });
     builder.addCase(
       authSignup.fulfilled,
       (state, action: PayloadAction<any>) => {
         state.signUpResponse = action.payload.data;
       }
     );
-    builder.addCase(authSignup.rejected, (state, action) => {
-      state.signUpResponse = {};
-        // state.error = action.error.message || "Something went wrong";
-        console.log(action);
-        
-      handleError(action.error.message);
-    });
+   
     // builder.addMatcher(
     //     firebaseAuthApi.endpoints.logIn.matchFulfilled, (state, response) => {
     //         state.user = response?.['payload']?.['data'];

@@ -32,24 +32,38 @@ const PropertyInfo = (props: PropertyInfoProps) => {
   const { values, handleChange, errors, touched, setFieldValue } = props;
   const dispatch = useDispatch<AppDispatch>();
   const propertyTypeStyles: StylesConfig<any> = {
-    control: (styles) => ({ ...styles, borderColor: touched.propertyType && errors.propertyType ? 'red' : '#e9edf4' }),
-  }
+    control: (styles) => ({
+      ...styles,
+      borderColor:
+        touched.propertyType && errors.propertyType ? "red" : "#e9edf4",
+    }),
+  };
   const goodForStyles: StylesConfig<any> = {
-    control: (styles) => ({ ...styles, borderColor: touched.goodFor && errors.goodFor ? 'red' : '#e9edf4' }),
-  }
+    control: (styles) => ({
+      ...styles,
+      borderColor: touched.goodFor && errors.goodFor ? "red" : "#e9edf4",
+    }),
+  };
 
   const allowedForStyles: StylesConfig<any> = {
-    control: (styles) => ({ ...styles, borderColor: touched.allowedFor && errors.allowedFor ? 'red' : '#e9edf4' }),
-  }
+    control: (styles) => ({
+      ...styles,
+      borderColor: touched.allowedFor && errors.allowedFor ? "red" : "#e9edf4",
+    }),
+  };
   const countryStyles: StylesConfig<any> = {
-    control: (styles) => ({ ...styles, borderColor: touched.country && errors.country ? 'red' : '#e9edf4' }),
-  }
+    control: (styles) => ({
+      ...styles,
+      borderColor: touched.country && errors.country ? "red" : "#e9edf4",
+    }),
+  };
   const unitStyles: StylesConfig<any> = {
-    control: (styles) => ({ ...styles, borderColor: touched.unit && errors.unit ? 'red' : '#e9edf4' }),
-  }
-  
-  
-  
+    control: (styles) => ({
+      ...styles,
+      borderColor: touched.unit && errors.unit ? "red" : "#e9edf4",
+    }),
+  };
+
   const goodFors: CommanDropDownType[] = [
     { value: "", label: "Select Good For" },
     { value: "Singles", label: "Singles" },
@@ -129,7 +143,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
       default:
         return [];
     }
-  }
+  };
   return (
     <React.Fragment>
       {/* <form onSubmit={handleSubmit}> */}
@@ -160,7 +174,6 @@ const PropertyInfo = (props: PropertyInfoProps) => {
             <Select
               classNamePrefix="Select"
               options={propertyTypes}
-           
               styles={propertyTypeStyles}
               value={propertyTypes.filter(
                 (option) => option.value === values.propertyType
@@ -302,67 +315,6 @@ const PropertyInfo = (props: PropertyInfoProps) => {
             />
           </div>
         </Col>
-        {/* <Col lg={6}>
-            <div className="control-group form-group">
-              <label className="form-label">Country</label>
-              <Select<CommanDropDownType>
-                id="country"
-                classNamePrefix="Select"
-                name="country"
-                options={updatedCountries}
-                value={updatedCountries.filter(
-                  (option) => option.label === values.country
-                )}
-                onChange={(value: any) => {
-                  setFieldValue("country", value.label ? value.label : "");
-                  setFieldValue("district", "");
-                  setFieldValue("city", "");
-                }}
-              />
-            </div>
-          </Col>
-          {values.country ? (
-            <Col lg={6}>
-              <div className="control-group form-group">
-                <label className="form-label">District</label>
-                <Select<CommanDropDownType>
-                  id="district"
-                  name="district"
-                  options={updatedStates(
-                    values.country ? values.country : null
-                  )}
-                  value={updatedStates(
-                    values.country ? values.country : null
-                  ).filter((option) => option.label === values.district)}
-                  onChange={(value: any) => {
-                    setFieldValue("district", value.label ? value.label : "");
-                    setFieldValue("city", "");
-                  }}
-                />
-              </div>
-            </Col>
-          ) : null}
-          {values.district ? (
-            <Col lg={6}>
-              <div className="control-group form-group">
-                <label className="form-label">City</label>
-                <Select<CommanDropDownType>
-                  id="city"
-                  name="city"
-                  options={updatedCities(
-                    values.district ? values.district : null,
-                    "normal"
-                  )}
-                  value={updatedCities(
-                    values.district ? values.district : null,
-                    "normal"
-                  ).filter((option) => option.label === values.city)}
-                  onChange={(value: any) => setFieldValue("city", value.value)}
-                />
-              </div>
-            </Col>
-          ) : null} */}
-
         <Col lg={6}></Col>
         <Col lg={6} className="my-3">
           <Form.Group>

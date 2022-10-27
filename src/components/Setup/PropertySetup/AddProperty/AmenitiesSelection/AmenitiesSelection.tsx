@@ -3,18 +3,15 @@ import { Col, Row } from "react-bootstrap";
 import { useGetAmenitiesQuery } from "../Amenities/amenitiesApi";
 
 export interface AmenitiesSectionProps {
-  isSelectedAmenities: string[]
-  setIsSelectedAmenities:any
+  isSelectedAmenities: string[];
+  setIsSelectedAmenities?: any;
 }
 
-const AmenitiesSelection = (props:AmenitiesSectionProps) => {
-  const {
-    isSelectedAmenities,
-    setIsSelectedAmenities,
-  } = props
+const AmenitiesSelection = (props) => {
+  const { isSelectedAmenities, setIsSelectedAmenities } = props;
   const { data, isError, isSuccess, isLoading } = useGetAmenitiesQuery();
 
-  // const [isSelectedAmenities, setIsSelectedAmenities] = useState<any>([]);  
+  // const [isSelectedAmenities, setIsSelectedAmenities] = useState<any>([]);
 
   const onHandelChnage = (e, index) => {
     let val = e.target.value;
@@ -26,7 +23,6 @@ const AmenitiesSelection = (props:AmenitiesSectionProps) => {
       setIsSelectedAmenities(isSelectedAmenities);
     }
   };
-  
 
   return (
     <React.Fragment>
