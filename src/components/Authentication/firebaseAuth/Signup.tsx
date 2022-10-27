@@ -17,6 +17,14 @@ import { CenterDanger } from "../../../Redux/Services/toaster-service";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../Redux/Store";
 const SignUp = () => {
+  const [values, setValues] = useState<any>({
+    password: "",
+    showPassword: false,
+  });
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+  
   const [err, setError] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const [Loader, setLoader] = useState(false);
@@ -140,15 +148,20 @@ const SignUp = () => {
                     className="bg-white text-muted"
                   >
                     <Link to="#">
-                      <i
-                        className="zmdi zmdi-eye text-default"
-                        aria-hidden="true"
-                      ></i>
+                    {values.showPassword ?  <i
+                          className="zmdi zmdi-eye text-default"
+                          aria-hidden="true"
+                          onClick={handleClickShowPassword}
+                        ></i> :  <i
+                          className="zmdi zmdi-eye-off text-default"
+                          aria-hidden="true"
+                          onClick={handleClickShowPassword}
+                        ></i>}
                     </Link>
                   </InputGroup.Text>
                   <Form.Control
+                    type={values.showPassword ? "text" : "password"}
                     className="input100 border-start-0 ms-0"
-                    type="password"
                     name="password"
                     placeholder="Password"
                     value={password}
