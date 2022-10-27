@@ -11,14 +11,15 @@ import PageHeader from "../../../Layouts/PageHeader/PageHeader";
 import CountUp from "react-countup";
 import "./calender.scss";
 import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
-import $ from "jquery";
 import DatePicker from "react-date-picker";
+import { debounce } from "lodash";
 
 interface DemoAppState {
   weekendsVisible: boolean;
   currentEvents: EventApi[];
   value: Date;
   datepickeropen: boolean;
+  labeladded?: boolean;
 }
 class DefaultCalender extends React.Component<any, DemoAppState> {
   state: DemoAppState = {
@@ -26,10 +27,10 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
     currentEvents: [],
     value: new Date(),
     datepickeropen: false,
+    labeladded: undefined,
   };
+  resources = [{ id: "1", title: "random weekly" }];
 
-  // const [startDate, setStartDate] = useState(new Date());
-  // const [showDatePicker, setShowDatePicker] = useState(false);
   handleDateSelect = (selectInfo: any) => {
     console.log("date clicked");
 
@@ -92,6 +93,18 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
       </>
     );
   };
+  addlabel = debounce(() => {
+    console.log("aSD");
+    document
+      .querySelectorAll('[role="gridcell"] .fc-datagrid-cell-main')
+      .forEach((cell, index) => {
+        const child = document.createElement("span");
+        child.classList.add("labeladd");
+        child.innerHTML = "D";
+        // child.attr('lableadd')
+        cell.appendChild(child);
+      });
+  }, 1000);
   render() {
     return (
       <div>
@@ -200,74 +213,194 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
               </Row>
               <Row className="mt-5">
                 <Col sm={1}>
-                  <div className="lightgreen-code"></div>
+                  <div
+                    style={{
+                      height: "20px",
+                      width: "20px",
+                      backgroundColor: "lightgreen",
+                      borderRadius: "50px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginBottom: 10,
+                    }}
+                  ></div>
                   <p style={{ textAlign: "center", fontSize: "smaller" }}>
                     Reserved
                   </p>
                 </Col>
                 <Col sm={1}>
-                  <div className="green-code"></div>
+                  <div
+                    style={{
+                      height: "20px",
+                      width: "20px",
+                      backgroundColor: "green",
+                      borderRadius: "50px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginBottom: 10,
+                    }}
+                  ></div>
                   <p style={{ textAlign: "center", fontSize: "smaller" }}>
                     Confirmed
                   </p>
                 </Col>
                 <Col sm={1}>
-                  <div className="lightskyblue-code"></div>
+                  <div
+                    style={{
+                      height: "20px",
+                      width: "20px",
+                      backgroundColor: "lightskyblue",
+                      borderRadius: "50px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginBottom: 10,
+                    }}
+                  ></div>
                   <p style={{ textAlign: "center", fontSize: "smaller" }}>
                     Guranteed
                   </p>
                 </Col>
                 <Col sm={1}>
-                  <div className="mediumpurple-code"></div>
+                  <div
+                    style={{
+                      height: "20px",
+                      width: "20px",
+                      backgroundColor: "mediumpurple",
+                      borderRadius: "50px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginBottom: 10,
+                    }}
+                  ></div>
                   <p style={{ textAlign: "center", fontSize: "smaller" }}>
                     In House
                   </p>
                 </Col>
                 <Col sm={1}>
-                  <div className="grey-code"></div>
+                  <div
+                    style={{
+                      height: "20px",
+                      width: "20px",
+                      backgroundColor: "grey",
+                      borderRadius: "50px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginBottom: 10,
+                    }}
+                  ></div>
                   <p style={{ textAlign: "center", fontSize: "smaller" }}>
                     Departed
                   </p>
                 </Col>
                 <Col sm={1}>
-                  <div className="orange-code"></div>
+                  <div
+                    style={{
+                      height: "20px",
+                      width: "20px",
+                      backgroundColor: "orange",
+                      borderRadius: "50px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginBottom: 10,
+                    }}
+                  ></div>
 
                   <p style={{ textAlign: "center", fontSize: "smaller" }}>
                     On Hold
                   </p>
                 </Col>
                 <Col sm={1}>
-                  <div className="coral-code"></div>
+                  <div
+                    style={{
+                      height: "20px",
+                      width: "20px",
+                      backgroundColor: "coral",
+                      borderRadius: "50px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginBottom: 10,
+                    }}
+                  ></div>
                   <p style={{ textAlign: "center", fontSize: "smaller" }}>
                     Reserved
                   </p>
                 </Col>
                 <Col sm={1}>
-                  <div className="e372b1-code"></div>
+                  <div
+                    style={{
+                      height: "20px",
+                      width: "20px",
+                      backgroundColor: "#e372b1",
+                      borderRadius: "50px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginBottom: 10,
+                    }}
+                  ></div>
                   <p style={{ textAlign: "center", fontSize: "smaller" }}>
                     Reserved
                   </p>
                 </Col>
                 <Col sm={1}>
-                  <div className="d95652-code"></div>
+                  <div
+                    style={{
+                      height: "20px",
+                      width: "20px",
+                      backgroundColor: "#d95652",
+                      borderRadius: "50px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginBottom: 10,
+                    }}
+                  ></div>
                   <p style={{ textAlign: "center", fontSize: "smaller" }}>
                     Reserved
                   </p>
                 </Col>
                 <Col sm={1}>
-                  <div className="b415-code"></div>
+                  <div
+                    style={{
+                      height: "20px",
+                      width: "20px",
+                      backgroundColor: "#415b75",
+                      borderRadius: "50px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginBottom: 10,
+                    }}
+                  ></div>
                   <p style={{ textAlign: "center", fontSize: "smaller" }}>
                     Reserved
                   </p>
                 </Col>
                 <Col sm={1}>
-                  <div className="f67779-code"></div>
+                  <div
+                    style={{
+                      height: "20px",
+                      width: "20px",
+                      backgroundColor: "#67779f",
+                      borderRadius: "50px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginBottom: 10,
+                    }}
+                  ></div>
                   <p style={{ textAlign: "center", fontSize: "smaller" }}>
                     Reserved
                   </p>
                 </Col>
                 <Col sm={1}>
-                  <div className="d3ecf3-code"></div>
+                  <div
+                    style={{
+                      height: "20px",
+                      width: "20px",
+                      backgroundColor: "#d3ecf3",
+                      borderRadius: "50px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginBottom: 10,
+                    }}
+                  ></div>
                   <p style={{ textAlign: "center", fontSize: "smaller" }}>
                     Reserved
                   </p>
@@ -284,7 +417,7 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
 
               <Row className="mt-5">
                 <Col sm={12} style={{ paddingLeft: 0 }}>
-                  {/* <div style={{ height: "343px", overflowY: "scroll" }}>
+                  <div style={{ height: "343px", overflowY: "scroll" }}>
                     <FullCalendar
                       plugins={[
                         resourceTimelinePlugin,
@@ -300,7 +433,10 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
                       customButtons={{
                         myCustomButton: {
                           text: (
-                            <i className="fa fa-calendar" />
+                            <i
+                              className="fa fa-calendar"
+                              style={{ color: "white" }}
+                            />
                           ) as unknown as string,
                           click: () =>
                             this.setState({
@@ -366,17 +502,20 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
                       events="https://fullcalendar.io/api/demo-feeds/events.json?single-day&for-resource-timeline"
                       resourceAreaHeaderContent="Rooms (SDTQ)"
                       resources="https://fullcalendar.io/api/demo-feeds/resources.json?with-nesting&with-colors"
+                      resourceLabelDidMount={() => {
+                        this.addlabel();
+                      }}
                       aspectRatio={0.5}
                       editable={true}
                       selectable={true}
                       selectMirror={true}
                       dayMaxEvents={true}
-                      resourceAreaWidth="165px"
+                      resourceAreaWidth="185px"
                       select={this.handleDateSelect}
                       eventContent={this.renderEventContent}
                       eventClick={this.handleEventClick}
                     />
-                  </div> */}
+                  </div>
                 </Col>
               </Row>
               <Row>

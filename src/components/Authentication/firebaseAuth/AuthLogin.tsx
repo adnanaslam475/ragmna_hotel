@@ -6,7 +6,14 @@ import { useLogInMutation } from "./firebaseAuthApi";
 import { authLogin, useUser } from "./firebaseAuthSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../../../Redux/Store";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+
 const SignIn = () => {
+  const [values, setValues] = useState<any>({
+    password: "",
+    showPassword: false,
+  });
   const dispatch = useDispatch<AppDispatch>();
   const [err, setError] = useState("");
   const [loading, setLoader] = useState(false);
@@ -14,6 +21,10 @@ const SignIn = () => {
     email: "",
     password: "",
   });
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+  
   const { email, password } = data;
   const changeHandler = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -27,21 +38,6 @@ const SignIn = () => {
     navigate(path);
   };
 
-  // useEffect(() => {
-  //   if (Result.isError) {
-  //     let errors: any = Result.error;
-  //     setLoader(false);
-  //     if (errors?.data?.message) {
-  //       for (let i = 0; i < errors.data.message.length; i++) {
-  //         CenterDanger(errors.data.message[i]);
-  //       }
-  //     }
-  //     if (Result.isSuccess) {
-  //       setLoader(false);
-  //       RouteChange();
-  //     }
-  //   }
-  // }, [Result.isError, Result.isSuccess]);
   const OnLogin: any = async (e) => {
     setLoader(true);
     try {
@@ -94,7 +90,7 @@ const SignIn = () => {
                       value={email}
                       onChange={changeHandler}
                       required
-                    />{" "}
+                    />
                   </div>
 
                   <InputGroup
@@ -106,24 +102,29 @@ const SignIn = () => {
                       className="bg-white text-muted"
                     >
                       <Link to="#">
-                        <i
+                      {values.showPassword ?  <i
                           className="zmdi zmdi-eye text-default"
                           aria-hidden="true"
-                        ></i>
+                          onClick={handleClickShowPassword}
+                        ></i> :  <i
+                          className="zmdi zmdi-eye-off text-default"
+                          aria-hidden="true"
+                          onClick={handleClickShowPassword}
+                        ></i>}
+                       
                       </Link>
                     </InputGroup.Text>
                     <Form.Control
+                     type={values.showPassword ? "text" : "password"}
                       className="input100 border-start-0 ms-0"
-                      type="password"
                       name="password"
                       placeholder="Password"
                       value={password}
                       onChange={changeHandler}
                       required
-                    />{" "}
+                    />
                   </InputGroup>
                   <div className="container-login100-form-btn">
-                    {/* <Button className='login100-form-btn btn-primary' onClick={OnLogin} type="submit">Login{loading ? <span role="status" aria-hidden="true" className="spinner-border spinner-border-sm ms-2"></span> : ""}</Button> */}
 
                     <Link
                       to="#"

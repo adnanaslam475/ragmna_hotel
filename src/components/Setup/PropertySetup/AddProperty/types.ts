@@ -130,7 +130,7 @@ export interface InitialValues {
     Lcity:string
     state:string
     Lcountry:string
-    zipCode:number | string
+    zipCode:number | string | null
     latitude:string
     longitude:string
     // country:string
@@ -158,4 +158,24 @@ export interface InitialValues {
     allowRefundApplyUponCheckOut: boolean
     autoRefundApplyUponCheckOut: boolean
     includeRoomMovesOnArrivalAndDepartureList: boolean
+}
+
+export interface initialTaxValuesInfoTypes {
+    shortCode: string
+    name: string
+    startDate: string
+    endDate: string
+    surcharge: number
+    type: number
+    calculationType: number
+    isVatApplicable: boolean,
+}
+
+export interface SectionTypes {
+    name: string
+    quantity: number
+    allowedFor: string
+    isNonSmoking: false,
+    isActive: boolean
+    virtualTourLink: string
 }

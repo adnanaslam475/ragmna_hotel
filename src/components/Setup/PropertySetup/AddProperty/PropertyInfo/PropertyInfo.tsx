@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Row, Form } from "react-bootstrap";
 import PhoneInput from "react-phone-input-2";
 import "./PropertyInfo.scss";
-import Select from "react-select";
+import Select, { StylesConfig } from "react-select";
 import { CommanDropDownType, InitialValues } from "./../types";
 import { useFormik, yupToFormErrors } from "formik";
 import * as Yup from "yup";
@@ -31,6 +31,38 @@ export interface PropertyInfoProps {
 const PropertyInfo = (props: PropertyInfoProps) => {
   const { values, handleChange, errors, touched, setFieldValue } = props;
   const dispatch = useDispatch<AppDispatch>();
+  const propertyTypeStyles: StylesConfig<any> = {
+    control: (styles) => ({
+      ...styles,
+      borderColor:
+        touched.propertyType && errors.propertyType ? "red" : "#e9edf4",
+    }),
+  };
+  const goodForStyles: StylesConfig<any> = {
+    control: (styles) => ({
+      ...styles,
+      borderColor: touched.goodFor && errors.goodFor ? "red" : "#e9edf4",
+    }),
+  };
+
+  const allowedForStyles: StylesConfig<any> = {
+    control: (styles) => ({
+      ...styles,
+      borderColor: touched.allowedFor && errors.allowedFor ? "red" : "#e9edf4",
+    }),
+  };
+  const countryStyles: StylesConfig<any> = {
+    control: (styles) => ({
+      ...styles,
+      borderColor: touched.country && errors.country ? "red" : "#e9edf4",
+    }),
+  };
+  const unitStyles: StylesConfig<any> = {
+    control: (styles) => ({
+      ...styles,
+      borderColor: touched.unit && errors.unit ? "red" : "#e9edf4",
+    }),
+  };
 
   const goodFors: CommanDropDownType[] = [
     { value: "", label: "Select Good For" },
@@ -111,251 +143,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
       default:
         return [];
     }
-    //   if (values.Lcountry && state) {
-    //     let s: any = updatedStates(values.Lcountry).findIndex(
-    //       (x) => x.label === state
-    //     );
-    //     let c: any = updatedCountries.findIndex(
-    //       (x) => x.label === values.Lcountry
-    //     );
-
-    //     return City.getCitiesOfState(
-    //       updatedCountries[c]?.value,
-    //       updatedStates(values.Lcountry)[s].value
-    //     ).map((city: ICity) => ({
-    //       label: city.name,
-    //       value: city.name,
-    //     }));
-    //   } else if (values.country && state) {
-    //     let s: any = updatedStates(values.country).findIndex(
-    //       (x) => x.label === state
-    //     );
-    //     let c: any = updatedCountries.findIndex(
-    //       (x) => x.label === values.country
-    //     );
-
-    //     return City.getCitiesOfState(
-    //       updatedCountries[c]?.value,
-    //       updatedStates(values.country)[s].value
-    //     ).map((city: ICity) => ({
-    //       label: city.name,
-    //       value: city.name,
-    //     }));
-    //   } else {
-    //     return [];
-    //   }
   };
-
-  // let initialValuesInfo: InitialValues = {
-  //   name: "",
-  //   email: "",
-  //   propertyType: "",
-  //   goodFor: "",
-  //   allowedFor: "",
-  //   area: 0,
-  //   unit: "",
-  //   children: 0,
-  //   adults: 0,
-  //   space: 0,
-  //   briefDescription: "",
-  //   longDescription: "",
-  //   Cname: "",
-  //   CphoneNumber: "",
-  //   waNumber: "",
-  //   Oname: "",
-  //   OphoneNumber: "",
-  //   address: "",
-  //   Lcity: "",
-  //   state: "",
-  //   Lcountry: "",
-  //   zipCode: "",
-  //   latitude: "",
-  //   longitude: "",
-  //   country: "",
-  //   city: "",
-  //   district: "",
-  //   virtualTourLink: "",
-  //   // sections: [],
-  //   // images: [],
-  //   // amenities: [],
-  //   availableForEntireRental: false,
-  //   strictlyEntireRental: false,
-  //   isPublished: false,
-  // };
-  // const [initialValues, setInitialValues] = useState(initialValuesInfo);
-
-  // const validationSchema = Yup.object({
-  //   name: Yup.string().required("Please Enter Name"),
-  //   email: Yup.string().email("Invalid Email").required("Please Enter Email"),
-  //   propertyType: Yup.string().required("Please Select Propert Type"),
-  //   goodFor: Yup.string().required("Please Select Good For"),
-  //   allowedFor: Yup.string().required(),
-  //   area: Yup.number().required(),
-  //   unit: Yup.string().required(),
-  //   space: Yup.number(),
-  //   briefDescription: Yup.string().required(),
-  //   longDescription: Yup.string().required(),
-  //   Cname: Yup.string().required("Please Enter Name"),
-  //   CphoneNumber: Yup.string(),
-  //   waNumber: Yup.string(),
-  //   Oname: Yup.string().required("Please Enter Name"),
-  //   OphoneNumber: Yup.string(),
-  //   address: Yup.string().required("Please Enter Address"),
-  //   Lcity: Yup.string().required("Please Enter City"),
-  //   state: Yup.string().required("Please Enter State"),
-  //   zipCode: Yup.string().required(),
-  //   Lcountry: Yup.string().required("Please Enter Country"),
-  //   latitude: Yup.string().required("Please Enter Latitude"),
-  //   longitude: Yup.string().required("Please Enter Longitude"),
-  //   city: Yup.string(),
-  //   country: Yup.string(),
-  //   district: Yup.string(),
-  //   virtualTourLink: Yup.string(),
-  //   // sections: Yup.array(),
-  //   // images: Yup.array(),
-  //   // amenities: Yup.array(),
-  //   availableForEntireRental: Yup.boolean(),
-  //   strictlyEntireRental: Yup.boolean(),
-  //   isPublished: Yup.boolean(),
-  // });
-
-  // const { user } = useUser();
-
-  // let navigate = useNavigate();
-
-  // const navigateToId = (id) => {
-  //   let path = `/setup/propertysetup/add-property/${id}`;
-  //   navigate(path);
-  // };
-
-  // const onSubmit = async (values) => {
-  //   try {
-  //     let payload = Object.assign({}, values);
-  //     payload["supplierId"] = user.supplierId;
-  //     payload["contact"] = {
-  //       name: values.Cname,
-  //       phoneNumber: values.CphoneNumber,
-  //       waNumber: values.waNumber,
-  //     };
-  //     payload["location"] = {
-  //       address: values.address,
-  //       city: values.Lcity,
-  //       state: values.state,
-  //       country: values.Lcountry,
-  //       latitude: values.latitude,
-  //       longitude: values.longitude,
-  //       zipCode: values.zipCode,
-  //     };
-  //     payload["owner"] = {
-  //       name: values.Oname,
-  //       phoneNumber: values.OphoneNumber,
-  //     };
-  //     payload["dimensions"] = {
-  //       area: values.area,
-  //       unit: values.unit,
-  //     };
-  //     payload["maxCapacity"] = {
-  //       adults: values.adults,
-  //       children: values.children,
-  //     };
-  //     // payload["images"] = [];
-  //     // payload['availableForEntireRental'] = isChecked
-  //     let deletekeys = [
-  //       "Cname",
-  //       "CphoneNumber",
-  //       "waNumber",
-  //       "address",
-  //       "Lcity",
-  //       "state",
-  //       "zipCode",
-  //       "Lcountry",
-  //       "latitude",
-  //       "longitude",
-  //       "Oname",
-  //       "OphoneNumber",
-  //       "area",
-  //       "unit",
-  //       "adults",
-  //       "children",
-  //     ];
-  //     for (let i = 0; i < deletekeys.length; i++) {
-  //       delete payload[deletekeys[i]];
-  //     }
-  //     if (editPid) {
-  //       payload["id"] = editPid;
-  //       let response: any = await dispatch(
-  //         updatePropertyData(payload)
-  //       ).unwrap();
-  //     } else {
-  //       let response: any = await dispatch(addPropertyData(payload)).unwrap();
-  //       navigateToId(response.data._id);
-  //     }
-  //   } catch (err: any) {
-  //     console.log(err, "err");
-  //   }
-  // };
-  // // const { data, isLoading, isSuccess, isError } = useGetPropertyByIdQuery(
-  // //   editPid,
-  // //   { skip: !!editPid }
-  // // );
-  // const {
-  //   handleChange,
-  //   handleSubmit,
-  //   values,
-  //   errors,
-  //   touched,
-  //   setValues,
-  //   setFieldValue,
-  // } = useFormik({
-  //   initialValues,
-  //   validationSchema,
-  //   onSubmit,
-  // });
-  // const getById = async () => {
-  //   if (editPid) {
-  //     let response: any = await dispatch(getPropertyDataById(editPid)).unwrap();
-  //     console.log(response);
-  //     if (response?.data) {
-  //       setValues({
-  //         ...values,
-  //         name: response.data?.name,
-  //         email: response.data?.email,
-  //         propertyType: response.data?.propertyType,
-  //         goodFor: response.data?.goodFor,
-  //         allowedFor: response.data?.allowedFor,
-  //         space: response.data?.space,
-  //         area: response.data?.dimensions.area,
-  //         unit: response.data?.dimensions.unit,
-  //         adults: response.data?.maxCapacity.adults,
-  //         children: response.data?.maxCapacity.children,
-  //         Cname: response.data?.contact.name,
-  //         CphoneNumber: response.data?.contact.phoneNumber,
-  //         waNumber: response.data?.contact.waNumber,
-  //         Oname: response.data?.owner.name,
-  //         briefDescription: response?.data?.briefDescription,
-  //         longDescription: response?.data?.longDescription,
-  //         OphoneNumber: response.data?.owner.phoneNumber,
-  //         address: response.data?.location.address,
-  //         city: response.data?.city,
-  //         Lcity: response.data?.location.city,
-  //         state: response.data?.location.state,
-  //         zipCode: response.data?.location.zipCode,
-  //         Lcountry: response.data?.location.country,
-  //         district: response.data?.district,
-  //         country: response.data?.country,
-  //         latitude: response.data?.location.latitude,
-  //         longitude: response.data?.longitude,
-  //         availableForEntireRental: response.data?.availableForEntireRental,
-  //         strictlyEntireRental: response.data?.strictlyEntireRental,
-  //       });
-  //     }
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (editPid) getById();
-  // }, [editPid]);
-
   return (
     <React.Fragment>
       {/* <form onSubmit={handleSubmit}> */}
@@ -386,6 +174,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
             <Select
               classNamePrefix="Select"
               options={propertyTypes}
+              styles={propertyTypeStyles}
               value={propertyTypes.filter(
                 (option) => option.value === values.propertyType
               )}
@@ -426,6 +215,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
                 (option) => option.value === values.goodFor
               )}
               placeholder="Select Good For"
+              styles={goodForStyles}
               name="goodFor"
               onChange={(selectedOption: any) => {
                 handleChange("goodFor")(selectedOption?.value);
@@ -442,6 +232,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
               value={allowFors.filter(
                 (option) => option.value === values.allowedFor
               )}
+              styles={allowedForStyles}
               placeholder="Select Allow For"
               name="allowedFor"
               onChange={(selectedOption: any) => {
@@ -524,67 +315,6 @@ const PropertyInfo = (props: PropertyInfoProps) => {
             />
           </div>
         </Col>
-        {/* <Col lg={6}>
-            <div className="control-group form-group">
-              <label className="form-label">Country</label>
-              <Select<CommanDropDownType>
-                id="country"
-                classNamePrefix="Select"
-                name="country"
-                options={updatedCountries}
-                value={updatedCountries.filter(
-                  (option) => option.label === values.country
-                )}
-                onChange={(value: any) => {
-                  setFieldValue("country", value.label ? value.label : "");
-                  setFieldValue("district", "");
-                  setFieldValue("city", "");
-                }}
-              />
-            </div>
-          </Col>
-          {values.country ? (
-            <Col lg={6}>
-              <div className="control-group form-group">
-                <label className="form-label">District</label>
-                <Select<CommanDropDownType>
-                  id="district"
-                  name="district"
-                  options={updatedStates(
-                    values.country ? values.country : null
-                  )}
-                  value={updatedStates(
-                    values.country ? values.country : null
-                  ).filter((option) => option.label === values.district)}
-                  onChange={(value: any) => {
-                    setFieldValue("district", value.label ? value.label : "");
-                    setFieldValue("city", "");
-                  }}
-                />
-              </div>
-            </Col>
-          ) : null}
-          {values.district ? (
-            <Col lg={6}>
-              <div className="control-group form-group">
-                <label className="form-label">City</label>
-                <Select<CommanDropDownType>
-                  id="city"
-                  name="city"
-                  options={updatedCities(
-                    values.district ? values.district : null,
-                    "normal"
-                  )}
-                  value={updatedCities(
-                    values.district ? values.district : null,
-                    "normal"
-                  ).filter((option) => option.label === values.city)}
-                  onChange={(value: any) => setFieldValue("city", value.value)}
-                />
-              </div>
-            </Col>
-          ) : null} */}
-
         <Col lg={6}></Col>
         <Col lg={6} className="my-3">
           <Form.Group>
@@ -659,6 +389,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
               id="Lcountry"
               classNamePrefix="Select"
               name="Lcountry"
+              styles={countryStyles}
               options={updatedCountries}
               value={updatedCountries.filter(
                 (option) => option.label === values.Lcountry
@@ -801,6 +532,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
               value={units.filter((option) => option.value === values.unit)}
               placeholder="Select Good For"
               name="unit"
+              styles={unitStyles}
               onChange={(selectedOption: any) => {
                 handleChange("unit")(selectedOption?.value);
               }}

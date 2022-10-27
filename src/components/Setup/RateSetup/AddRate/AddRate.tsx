@@ -16,10 +16,15 @@ import DerivedRateFrom from "./DerivedRateFrom/DerivedRateFrom";
 import DerivedDates from "./DerivedDates/DerivedDates";
 import { useNavigate } from "react-router-dom";
 import { Success } from "../../../../Redux/Services/toaster-service";
+import {
+  CustomDateTypes,
+  DerivedRateTypes,
+  RateTypes,
+} from "../rateSetupTypes";
 const AddRate = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [type, setRateType] = useState("nightly");
-  const [rate, setRate] = useState({
+  const [rate, setRate] = useState<RateTypes>({
     name: "",
     description: "",
     displayName: "",
@@ -36,21 +41,21 @@ const AddRate = () => {
     checkInPolicy: undefined,
     noShowPolicy: undefined,
   });
-  const [customDate, setCustomDate] = useState<any>([
+  const [customDate, setCustomDate] = useState<CustomDateTypes[]>([
     {
       startDate: undefined,
       endDate: undefined,
     },
   ]);
-  const [derivedRate, setDerivedRate] = useState({
+  const [derivedRate, setDerivedRate] = useState<DerivedRateTypes>({
     name: "",
     description: "",
-    period: [
-      {
-        startDate: "",
-        endDate: "",
-      },
-    ],
+    // period: [
+    //   {
+    //     startDate: "",
+    //     endDate: "",
+    //   },
+    // ],
     channels: [],
     offer: {
       type: "",
@@ -118,7 +123,7 @@ const AddRate = () => {
     }
   };
   const setDates = (key, value, index) => {
-    let temp = Object.assign([], customDate);
+    let temp: any = Object.assign([], customDate);
     temp[index][key] = value;
     setCustomDate(temp);
   };
@@ -155,12 +160,15 @@ const AddRate = () => {
           temp.push(derivedRate.roomTypes[i].roomTypeId);
         }
         let payload = Object.assign({}, derivedRate);
-        payload["period"] = [...customDate];
         payload["rateId"] = rateId;
         payload["roomTypes"] = temp;
+        if (customDate[0].startDate) {
+          payload["period"] = [...customDate];
+        }
         let response: any = await dispatch(addDerived(payload)).unwrap();
         if (response) {
-          RouteChange(response.data._id);
+          let path = `/setup/ratesetup`;
+          navigate(path);
           Success("Derived rate has been added");
         }
       } catch (err: any) {
@@ -170,74 +178,74 @@ const AddRate = () => {
   };
   const onRadioChange = (e, ind, val, types) => {
     if (type == "nightly") {
-    switch (types) {
-      case "cancellation":
-        if (e.target.checked) {
-          setRate({ ...rate, cancellationPolicy: val._id });
-        } else {
-          setRate({ ...rate, cancellationPolicy: undefined });
-        }
-        break;
-      case "deposit":
-        if (e.target.checked) {
-          setRate({ ...rate, depositPolicy: val._id });
-        } else {
-          setRate({ ...rate, depositPolicy: undefined });
-        }
-        break;
-      case "check-In":
-        if (e.target.checked) {
-          setRate({ ...rate, checkInPolicy: val._id });
-        } else {
-          setRate({ ...rate, checkInPolicy: undefined });
-        }
-        break;
-      case "No-Show":
-        if (e.target.checked) {
-          setRate({ ...rate, noShowPolicy: val._id });
-        } else {
-          setRate({ ...rate, noShowPolicy: undefined });
-        }
-        break;
+      switch (types) {
+        case "cancellation":
+          if (e.target.checked) {
+            setRate({ ...rate, cancellationPolicy: val._id });
+          } else {
+            setRate({ ...rate, cancellationPolicy: undefined });
+          }
+          break;
+        case "deposit":
+          if (e.target.checked) {
+            setRate({ ...rate, depositPolicy: val._id });
+          } else {
+            setRate({ ...rate, depositPolicy: undefined });
+          }
+          break;
+        case "check-In":
+          if (e.target.checked) {
+            setRate({ ...rate, checkInPolicy: val._id });
+          } else {
+            setRate({ ...rate, checkInPolicy: undefined });
+          }
+          break;
+        case "No-Show":
+          if (e.target.checked) {
+            setRate({ ...rate, noShowPolicy: val._id });
+          } else {
+            setRate({ ...rate, noShowPolicy: undefined });
+          }
+          break;
 
-      default:
-        break;
-    }
-  }else{
-    switch (types) {
-      case "cancellation":
-        if (e.target.checked) {
-          setDerivedRate({ ...derivedRate, cancellationPolicy: val._id });
-        } else {
-          setDerivedRate({ ...derivedRate, cancellationPolicy: undefined });
-        }
-        break;
-      case "deposit":
-        if (e.target.checked) {
-          setDerivedRate({ ...derivedRate, depositPolicy: val._id });
-        } else {
-          setDerivedRate({ ...derivedRate, depositPolicy: undefined });
-        }
-        break;
-      case "check-In":
-        if (e.target.checked) {
-          setDerivedRate({ ...derivedRate, checkInPolicy: val._id });
-        } else {
-          setDerivedRate({ ...derivedRate, checkInPolicy: undefined });
-        }
-        break;
-      case "No-Show":
-        if (e.target.checked) {
-          setDerivedRate({ ...derivedRate, noShowPolicy: val._id });
-        } else {
-          setDerivedRate({ ...derivedRate, noShowPolicy: undefined });
-        }
-        break;
+        default:
+          break;
+      }
+    } else {
+      switch (types) {
+        case "cancellation":
+          if (e.target.checked) {
+            setDerivedRate({ ...derivedRate, cancellationPolicy: val._id });
+          } else {
+            setDerivedRate({ ...derivedRate, cancellationPolicy: undefined });
+          }
+          break;
+        case "deposit":
+          if (e.target.checked) {
+            setDerivedRate({ ...derivedRate, depositPolicy: val._id });
+          } else {
+            setDerivedRate({ ...derivedRate, depositPolicy: undefined });
+          }
+          break;
+        case "check-In":
+          if (e.target.checked) {
+            setDerivedRate({ ...derivedRate, checkInPolicy: val._id });
+          } else {
+            setDerivedRate({ ...derivedRate, checkInPolicy: undefined });
+          }
+          break;
+        case "No-Show":
+          if (e.target.checked) {
+            setDerivedRate({ ...derivedRate, noShowPolicy: val._id });
+          } else {
+            setDerivedRate({ ...derivedRate, noShowPolicy: undefined });
+          }
+          break;
 
-      default:
-        break;
+        default:
+          break;
+      }
     }
-  }
   };
 
   const clearPolicy = (e, types) => {
@@ -258,7 +266,7 @@ const AddRate = () => {
         default:
           break;
       }
-    }else{
+    } else {
       switch (types) {
         case "cancellation":
           setDerivedRate({ ...derivedRate, cancellationPolicy: undefined });
@@ -312,7 +320,6 @@ const AddRate = () => {
                 customDate={customDate}
                 setDates={setDates}
                 setCustomDate={setCustomDate}
-                derivedDate={derivedRate.period}
               />
               <RateChannelDistribut saveChannel={saveChannel} />
               <DefaultRatePlan setRoomTypes={setRoomTypes} />
@@ -320,7 +327,7 @@ const AddRate = () => {
                 rate={derivedRate.restrictions}
                 restrictionsChange={restrictionsChange}
               />
-             <PoliciesRatePlan
+              <PoliciesRatePlan
                 rate={derivedRate}
                 clearPolicy={clearPolicy}
                 onRadioChange={onRadioChange}

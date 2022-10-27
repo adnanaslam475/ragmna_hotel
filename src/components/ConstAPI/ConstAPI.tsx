@@ -22,3 +22,5 @@ export const GET_LEDGER_ACCOUNT_TYPES = "ledger-account-types";
 export const CREATE_LEDGER_ACCOUNT_TYPES = "ledger-account-types";
 export const UPDATE_LEDGER_ACCOUNT_TYPES = "ledger-account-types";
 export const DELETE_LEDGER_ACCOUNT_TYPES = "ledger-account-types"; // ledger-account-types/{ledgerAccountTypeId}
+export const UPDATE_DERIVED_RATE = "update-derived-rate";
+export const ROOM_TYPE = "roomType";

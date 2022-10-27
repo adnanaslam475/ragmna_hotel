@@ -1,15 +1,19 @@
-.card-bg{
+.card-bg {
     background-color: transparent !important;
     box-shadow: none !important;
 }
 
-.panel-secondary{
-    .tab-name{
+.panel-secondary {
+    .tab-name {
         background-color: white;
         margin-bottom: 20px;
     }
 
-    .tab-content{
+    .tab-content {
         background-color: white;
     }
 }
+
+.FormWizard {}
+
+.FormValidation {}

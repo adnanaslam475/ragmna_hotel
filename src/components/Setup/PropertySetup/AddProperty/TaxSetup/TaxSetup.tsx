@@ -28,19 +28,19 @@ const TaxSetup = (props: TaxSetupProps) => {
 
   const { initialTaxValuesInfo, setTaxInfo } = props;
 
-  const TypeList: any = [
+  const TypeList: CommanDropDownType[] = [
     { value: "", label: "Select Types" },
     { value: "Tax", label: "Tax" },
     { value: "Fee", label: "Fee" },
   ];
 
-  const CalculationTypes: any = [
+  const CalculationTypes: CommanDropDownType[] = [
     { value: "", label: "Select Types" },
     { value: "Percentage", label: "Percentage per charge" },
     { value: "Fixed", label: "USD per charge" },
   ];
 
-  const ledgerAccoutTypes: any = [
+  const ledgerAccoutTypes: CommanDropDownType[] = [
     { value: "", label: "Select Ledger Account" },
     { value: "Sales Tax", label: "Sales Tax" },
     { value: "Occupancy Tax", label: "Occupancy Tax" },
@@ -162,7 +162,7 @@ const TaxSetup = (props: TaxSetupProps) => {
           <div className="control-group form-group">
             <label className="form-label">Surcharge</label>
             <input
-              type="number"
+              type="text"
               className="form-control required"
               placeholder="Surcharge"
               name="surcharge"

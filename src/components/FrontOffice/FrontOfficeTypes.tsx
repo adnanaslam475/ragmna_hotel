@@ -60,3 +60,18 @@ export interface ReservationListProps {
     // addTab?:(row:any) => void;
     addTab?: (row: any) => void;
 }
+
+export interface GuestTableDataItemsProps {
+    ACCOUNT_NUMBER: number
+    ACCOUNT_NAME: string
+    ACCOUNT_SINCE: string
+    RESERVATION: number
+    STATUS: string
+}
+
+export interface DetailsTabProps {
+    id: number
+    name: string
+    counts: number
+    isActive: boolean
+}
