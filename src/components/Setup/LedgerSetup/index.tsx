@@ -272,7 +272,15 @@ function LedgerSetup() {
       </Row>
 
       {/* create ledger acocunt modal */}
-      <Modal size="lg" show={openModal} onHide={() => setOpenModal(false)}>
+      <Modal
+        size="lg"
+        show={openModal}
+        onHide={() => {
+          setValues({ ...initialValues });
+          resetForm();
+          setOpenModal(false);
+        }}
+      >
         <ModalHeader>
           <ModalTitle>{isEditMode ? "Edit" : "Add"} Ledger account</ModalTitle>
           <span
