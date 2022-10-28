@@ -256,7 +256,7 @@ const EditRateInfo = ({
                       }}
                       checked={
                         ratePlanDetails?.roomTypes?.findIndex(
-                          (x) => x == item._id
+                          (x) => x.roomTypeId == item._id
                         ) > -1
                       }
                     />

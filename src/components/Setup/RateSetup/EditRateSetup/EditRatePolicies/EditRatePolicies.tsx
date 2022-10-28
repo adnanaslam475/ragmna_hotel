@@ -46,13 +46,13 @@ const EditRatePolicies = ({
     if (editPolicies?.restrictions?.maximumNights) {
       setMaxNights(true)
     }
-  }, [editPolicies?.restrictions])
+  }, [editPolicies])
 
   useEffect(() => {
     if (editPolicies?.cancellationPolicy) {
       setCancellation(true)
     }
-  }, [editPolicies?.cancellationPolicy])
+  }, [editPolicies])
 
   return (
     <React.Fragment>
@@ -67,12 +67,13 @@ const EditRatePolicies = ({
                 name="Length"
                 defaultValue="Length of stay"
                 checked={
-                  editPolicies?.restrictions?.minimumNights ||
-                    editPolicies?.restrictions?.maximumNights
+                  minNights || maxNights
                     ? true
                     : false
                 }
                 onChange={(e) => {
+                    setMinNights(false)
+                    setMaxNights(false)
                   handelCheckChange(e, "minimumNights");
                   handelCheckChange(e, "maximumNights");
                 }}
@@ -80,8 +81,7 @@ const EditRatePolicies = ({
               <span className="custom-control-label">Length of stay</span>
             </label>
           </div>
-          {editPolicies?.restrictions?.minimumNights ||
-            editPolicies?.restrictions?.maximumNights ? (
+          {minNights || maxNights ? (
             <div className="inner-class">
               <h6>Guests Must Stay</h6>
               <label className="custom-control custom-checkbox-md">
@@ -105,7 +105,6 @@ const EditRatePolicies = ({
                     name="minimumNights"
                     value={editPolicies?.restrictions?.minimumNights}
                     onChange={(e) => {
-
                       handelChangeRestrictions("minimumNights", e.target.value);
                     }}
                   />

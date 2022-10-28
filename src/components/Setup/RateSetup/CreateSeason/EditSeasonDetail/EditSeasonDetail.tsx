@@ -193,6 +193,7 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
         payload["sId"] = season._id;
         let response: any = await dispatch(alterSeason(payload)).unwrap();
         if (response) {
+          isModelClose(false);
           Success("Season has been Updated");
         }
       } catch (err: any) {
@@ -204,6 +205,7 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
         payload["id"] = rateData["_id"];
         let response: any = await dispatch(addSeason(payload)).unwrap();
         if (response) {
+          isModelClose(false);
           Success("Season has been saved");
         }
       } catch (err: any) {
@@ -211,6 +213,29 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
       }
     }
   };
+  const onRateCheckBoxChange = (e, index) => {
+    if (!e.target.checked) {
+      let array = seasonBody.roomTypes.slice();
+        array[index] = {
+          roomTypeId: array[index].roomTypeId,
+          channelPrices: array[index].channelPrices,
+          price: 0,
+        };
+      const newObj = { ...seasonBody, roomTypes: array };
+      SetSeasonBody(newObj);
+    } else {
+      if (e.target.checked) {
+        let array = seasonBody.roomTypes.slice();
+          array[index] = {
+            roomTypeId: array[index].roomTypeId,
+            channelPrices: array[index].channelPrices,
+            price: undefined,
+          };
+        const newObj = { ...seasonBody, roomTypes: array };
+        SetSeasonBody(newObj);
+      }
+    }
+  }
   return (
     <React.Fragment>
       <Modal
@@ -251,7 +276,6 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
                   <Button
                     variant="primary"
                     onClick={() => {
-                      isModelClose(false);
                       handleSubmitClick();
                     }}
                   >
@@ -263,6 +287,7 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
                 <Tab.Content>
                   <Tab.Pane eventKey="first">
                     <Rates
+                      onRateCheckBoxChange={onRateCheckBoxChange}
                       seasonBody={seasonBody}
                       setbasePrice={setbasePrice}
                       setChannelPrice={setChannelPrice}

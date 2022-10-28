@@ -8,8 +8,8 @@ import {
   useRoomTypes,
 } from "../../../RateSetupSlice";
 import "./Rates.scss";
-const Rates = ({ seasonBody, setbasePrice, setChannelPrice }) => {
-  const [standardRoom, setStandardRoom] = useState(false);
+const Rates = ({ seasonBody, setbasePrice, setChannelPrice ,onRateCheckBoxChange}) => {
+  const [rateCheck, setRateCheck] = useState<any>([]);
   const [masterBedroom, setMasterBedroom] = useState(false);
   const [southernHospitality, setSouthernHospitality] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
@@ -29,7 +29,6 @@ const Rates = ({ seasonBody, setbasePrice, setChannelPrice }) => {
       }
     }
   };
-
   return (
     <React.Fragment>
       <div className="rate">
@@ -59,9 +58,12 @@ const Rates = ({ seasonBody, setbasePrice, setChannelPrice }) => {
                         type="checkbox"
                         className="custom-control-input"
                         name={item.roomTypeId}
-                        checked={item.price ? true : false}
-                        onChange={() => {
-                          setStandardRoom(!standardRoom)
+                        checked={item.price > 0 || item.price === undefined ? true : false}
+                        onChange={(e:any) => {
+                          onRateCheckBoxChange(e,index)
+                          // if(e.target.checked){
+                          //   setRateCheck([...rateCheck,e.target.name])
+                          // }
                         }}
                       />
                       <span className="custom-control-label">
