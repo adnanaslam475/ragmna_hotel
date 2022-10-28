@@ -24,6 +24,7 @@ import {
 } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
+
 import {
   createLedgerAccountsType,
   deleteLedgerAccountTypeById,
@@ -32,6 +33,7 @@ import {
 import { AppDispatch } from "../../Redux/Store";
 
 import { CircularProgress } from "@mui/material";
+
 const validationSchema = Yup.object({
   name: Yup.string().required().required("Name is required"),
   description: Yup.string().required("Description is required"),
@@ -179,7 +181,6 @@ export const LedgerAccountTypesList = ({
     values,
     setValues,
     isSubmitting,
-    setErrors,
     handleBlur,
     setSubmitting,
     errors,
@@ -194,7 +195,7 @@ export const LedgerAccountTypesList = ({
   const deleteHandler = async () => {
     setIsLoading(true);
     try {
-      const res = await dispatch(deleteLedgerAccountTypeById(deleteModalId));
+      await dispatch(deleteLedgerAccountTypeById(deleteModalId));
       onSetAccountTypeFetched();
       setDeleteModalId("");
     } catch (error: any) {
