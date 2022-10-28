@@ -60,7 +60,9 @@ const Rates = ({ seasonBody, setbasePrice, setChannelPrice }) => {
                         className="custom-control-input"
                         name={item.roomTypeId}
                         checked={item.price ? true : false}
-                        onChange={() => setStandardRoom(!standardRoom)}
+                        onChange={() => {
+                          setStandardRoom(!standardRoom)
+                        }}
                       />
                       <span className="custom-control-label">
                         {getRoomTypeByID(item.roomTypeId)}

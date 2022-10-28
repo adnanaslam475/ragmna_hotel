@@ -21,6 +21,9 @@ const EditRatePolicies = ({
   const [deposit, setDeposit] = useState<boolean>(false);
   const [checkIn, setCheckIn] = useState<boolean>(false);
   const [noShow, setNoShow] = useState<boolean>(false);
+  const [minNights, setMinNights] = useState<boolean>(false);
+  const [maxNights, setMaxNights] = useState<boolean>(false);
+
 
   const { rateData } = useRateData();
   // let [editPolicies, setEditPolicies] = useState<any>(rateData);
@@ -34,6 +37,22 @@ const EditRatePolicies = ({
   useEffect(() => {
     getPolicies();
   }, []);
+
+
+  useEffect(() => {
+    if (editPolicies?.restrictions?.minimumNights) {
+      setMinNights(true)
+    }
+    if (editPolicies?.restrictions?.maximumNights) {
+      setMaxNights(true)
+    }
+  }, [editPolicies?.restrictions])
+
+  useEffect(() => {
+    if (editPolicies?.cancellationPolicy) {
+      setCancellation(true)
+    }
+  }, [editPolicies?.cancellationPolicy])
 
   return (
     <React.Fragment>
@@ -49,7 +68,7 @@ const EditRatePolicies = ({
                 defaultValue="Length of stay"
                 checked={
                   editPolicies?.restrictions?.minimumNights ||
-                  editPolicies?.restrictions?.maximumNights
+                    editPolicies?.restrictions?.maximumNights
                     ? true
                     : false
                 }
@@ -62,7 +81,7 @@ const EditRatePolicies = ({
             </label>
           </div>
           {editPolicies?.restrictions?.minimumNights ||
-          editPolicies?.restrictions?.maximumNights ? (
+            editPolicies?.restrictions?.maximumNights ? (
             <div className="inner-class">
               <h6>Guests Must Stay</h6>
               <label className="custom-control custom-checkbox-md">
@@ -70,8 +89,10 @@ const EditRatePolicies = ({
                   type="checkbox"
                   className="custom-control-input"
                   name="minimumNights"
-                  checked={editPolicies?.restrictions?.minimumNights}
+                  checked={minNights ? true : false}
                   onChange={(e) => {
+                    if (e.target.checked) setMinNights(true)
+                    else setMinNights(false)
                     handelCheckChange(e, "minimumNights");
                   }}
                 />
@@ -84,6 +105,7 @@ const EditRatePolicies = ({
                     name="minimumNights"
                     value={editPolicies?.restrictions?.minimumNights}
                     onChange={(e) => {
+
                       handelChangeRestrictions("minimumNights", e.target.value);
                     }}
                   />
@@ -96,8 +118,10 @@ const EditRatePolicies = ({
                   type="checkbox"
                   className="custom-control-input"
                   name="maximumNights"
-                  checked={editPolicies?.restrictions?.maximumNights}
+                  checked={maxNights ? true : false}
                   onChange={(e) => {
+                    if (e.target.checked) setMaxNights(true)
+                    else setMaxNights(false)
                     handelCheckChange(e, "maximumNights");
                   }}
                 />
@@ -160,9 +184,11 @@ const EditRatePolicies = ({
               name="example-checkbox5"
               defaultValue="option5"
               checked={
-                editPolicies?.cancellationPolicy || cancellation ? true : false
+                cancellation ? true : false
               }
               onChange={(e) => {
+                if (e.target.checked) setCancellation(true)
+                else setCancellation(false)
                 clearPolicy(e, "cancellation");
                 setCancellation(!cancellation);
               }}
@@ -172,28 +198,28 @@ const EditRatePolicies = ({
         </div>
         {editPolicies?.cancellationPolicy || cancellation
           ? policies &&
-            policies.map((item, ind) => {
-              if (item.type === "Cancellation") {
-                return (
-                  <div key={ind} className="inner-class">
-                    <label className="custom-control custom-radio-md">
-                      <input
-                        type="radio"
-                        className="custom-control-input"
-                        name="cancellation"
-                        defaultValue="option5"
-                        checked={item._id === editPolicies?.cancellationPolicy}
-                        onChange={(e) => {
-                          onRadioChange(e, ind, item, "cancellation");
-                        }}
-                      />
-                      <span className="custom-control-label">{item.name}</span>
-                      <p>{item.description}</p>
-                    </label>
-                  </div>
-                );
-              }
-            })
+          policies.map((item, ind) => {
+            if (item.type === "Cancellation") {
+              return (
+                <div key={ind} className="inner-class">
+                  <label className="custom-control custom-radio-md">
+                    <input
+                      type="radio"
+                      className="custom-control-input"
+                      name="cancellation"
+                      defaultValue="option5"
+                      checked={item._id === editPolicies?.cancellationPolicy}
+                      onChange={(e) => {
+                        onRadioChange(e, ind, item, "cancellation");
+                      }}
+                    />
+                    <span className="custom-control-label">{item.name}</span>
+                    <p>{item.description}</p>
+                  </label>
+                </div>
+              );
+            }
+          })
           : null}
 
         <div className="d-flex">
@@ -213,27 +239,27 @@ const EditRatePolicies = ({
         </div>
         {editPolicies?.depositPolicy || deposit
           ? policies &&
-            policies.map((item, ind) => {
-              if (item.type === "Deposit") {
-                return (
-                  <div key={ind} className="inner-class">
-                    <label className="custom-control custom-radio-md">
-                      <input
-                        type="radio"
-                        className="custom-control-input"
-                        name="Deposit"
-                        checked={item._id === editPolicies?.depositPolicy}
-                        onChange={(e) => {
-                          onRadioChange(e, ind, item, "deposit");
-                        }}
-                      />
-                      <span className="custom-control-label">{item.name}</span>
-                      <p>{item.description}</p>
-                    </label>
-                  </div>
-                );
-              }
-            })
+          policies.map((item, ind) => {
+            if (item.type === "Deposit") {
+              return (
+                <div key={ind} className="inner-class">
+                  <label className="custom-control custom-radio-md">
+                    <input
+                      type="radio"
+                      className="custom-control-input"
+                      name="Deposit"
+                      checked={item._id === editPolicies?.depositPolicy}
+                      onChange={(e) => {
+                        onRadioChange(e, ind, item, "deposit");
+                      }}
+                    />
+                    <span className="custom-control-label">{item.name}</span>
+                    <p>{item.description}</p>
+                  </label>
+                </div>
+              );
+            }
+          })
           : null}
 
         <div className="d-flex">
@@ -254,28 +280,28 @@ const EditRatePolicies = ({
         </div>
         {editPolicies?.checkInPolicy || checkIn
           ? policies &&
-            policies.map((item, ind) => {
-              if (item.type === "Check-in") {
-                return (
-                  <div key={ind} className="inner-class">
-                    <label className="custom-control custom-radio-md">
-                      <input
-                        type="radio"
-                        className="custom-control-input"
-                        name="Check-in"
-                        defaultValue="option5"
-                        checked={item._id === editPolicies?.checkInPolicy}
-                        onChange={(e) => {
-                          onRadioChange(e, ind, item, "check-In");
-                        }}
-                      />
-                      <span className="custom-control-label">{item.name}</span>
-                      <p>{item.description}</p>
-                    </label>
-                  </div>
-                );
-              }
-            })
+          policies.map((item, ind) => {
+            if (item.type === "Check-in") {
+              return (
+                <div key={ind} className="inner-class">
+                  <label className="custom-control custom-radio-md">
+                    <input
+                      type="radio"
+                      className="custom-control-input"
+                      name="Check-in"
+                      defaultValue="option5"
+                      checked={item._id === editPolicies?.checkInPolicy}
+                      onChange={(e) => {
+                        onRadioChange(e, ind, item, "check-In");
+                      }}
+                    />
+                    <span className="custom-control-label">{item.name}</span>
+                    <p>{item.description}</p>
+                  </label>
+                </div>
+              );
+            }
+          })
           : null}
 
         <div className="d-flex">
@@ -296,28 +322,28 @@ const EditRatePolicies = ({
         </div>
         {editPolicies?.noShowPolicy || noShow
           ? policies &&
-            policies.map((item, ind) => {
-              if (item.type === "No-Show") {
-                return (
-                  <div className="inner-class">
-                    <label className="custom-control custom-radio-md">
-                      <input
-                        type="radio"
-                        className="custom-control-input"
-                        name="No-Show"
-                        defaultValue="option5"
-                        checked={item._id === editPolicies?.noShowPolicy}
-                        onChange={(e) => {
-                          onRadioChange(e, ind, item, "No-Show");
-                        }}
-                      />
-                      <span className="custom-control-label">{item.name}</span>
-                      <p>{item.description}</p>
-                    </label>
-                  </div>
-                );
-              }
-            })
+          policies.map((item, ind) => {
+            if (item.type === "No-Show") {
+              return (
+                <div className="inner-class">
+                  <label className="custom-control custom-radio-md">
+                    <input
+                      type="radio"
+                      className="custom-control-input"
+                      name="No-Show"
+                      defaultValue="option5"
+                      checked={item._id === editPolicies?.noShowPolicy}
+                      onChange={(e) => {
+                        onRadioChange(e, ind, item, "No-Show");
+                      }}
+                    />
+                    <span className="custom-control-label">{item.name}</span>
+                    <p>{item.description}</p>
+                  </label>
+                </div>
+              );
+            }
+          })
           : null}
       </Row>
     </React.Fragment>
