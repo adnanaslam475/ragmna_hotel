@@ -25,23 +25,11 @@ export const getPropertyDataById = createAsyncThunk('property/get', async (id: s
 	return await getPropertySpaceById(id)
 })
 
-// export const updatePropertyData = createAsyncThunk('property/update', async (payload: any) => {
-// 	// const { id, ...rest } = payload
-// 	return await updateProperty(payload)
-// })
-
 const roomTypeSlice = createSlice({
 	name: 'roomType',
 	initialState,
 	reducers: {},
-	extraReducers: (builder) => {
-		// builder.addMatcher(
-		//     propertyInfoApi.endpoints.addProperty.matchFulfilled, (state, response) => {
-		//         state.property = response?.['payload']?.['data'];
-		//         return state;
-		//     }
-		// );
-	},
+	extraReducers: (builder) => {},
 })
 
 export default roomTypeSlice.reducer
