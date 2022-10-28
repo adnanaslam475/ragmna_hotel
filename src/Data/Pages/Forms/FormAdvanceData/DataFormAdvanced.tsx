@@ -251,7 +251,7 @@ export function Userslist() {
 					components={animatedComponents}
 					defaultValue={2}
 					isMulti
-					options={option}
+					options={option as any}
 					classNamePrefix="Select"
 				/>
 			</div>

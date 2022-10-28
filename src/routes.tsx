@@ -100,6 +100,8 @@ const OwnerAddOn = lazy(() => import('./components/Setup/OwnerAddOn/OwnerAddOn')
 const SPNAddOn = lazy(() => import('./components/Setup/SPNAddOn/SPNAddOn'))
 const HKMaintenance = lazy(() => import('./components/Setup/HKMaintenance/HKMaintenance'))
 const ChannelMgt = lazy(() => import('./components/Setup/ChannelMgt/ChannelMgt'))
+const LedgerSetup = lazy(() => import('./components/Setup/LedgerSetup'))
+
 const Accounts = lazy(() => import('./components/Accounts/Accounts'))
 const Rates = lazy(() => import('./components/Rates/Rates'))
 const Marketing = lazy(() => import('./components/Marketing/Marketing'))
@@ -145,6 +147,7 @@ const RoutesMain = () => {
 									<Route path={`/setup/spnaddon`} element={<SPNAddOn />}></Route>
 									<Route path={`/setup/hkmaintenance`} element={<HKMaintenance />} />
 									<Route path={`/setup/channelmgt`} element={<ChannelMgt />} />
+									<Route path={`/setup/ledgerSetup`} element={<LedgerSetup />} />
 									<Route path={`/apps/defaultcalender`} element={<DefaultCalender />} />
 									<Route path={`/apps/footer`} element={<Footers />} />,
 									<Route path={`/apps/fullcalender`} element={<FullCalender />} />
