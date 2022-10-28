@@ -228,7 +228,7 @@ const Header = () => {
                 <div className="card search-result p-absolute w-100 card border mt-1">
                   <div className="card-header">
                     <h4 className="card-title me-2 text-break">
-                      Search result of "{InputValue}"{" "}
+                      Search result of "{InputValue}"
                     </h4>
                   </div>
                   <ul className="card-body list-group">
@@ -617,7 +617,7 @@ const Header = () => {
                           alt="profile-user"
                           className="avatar  profile-user brround cover-image"
                         /> */}
-                        <i className="profile-user-header  icon fe fe-user"/>
+                        <i className="profile-user-header  icon fe fe-user" />
                       </Dropdown.Toggle>
                       <Dropdown.Menu className="dropdown-menu-end dropdown-menu-arrow">
                         <div className="drop-heading">
@@ -633,8 +633,8 @@ const Header = () => {
                           className="dropdown-item"
                           // href={`/Pages/profile`}
                         >
-                          <Link to={'/pages/profile'} >
-                          <i className="dropdown-icon fe fe-user"></i> Profile
+                          <Link to={"/pages/profile"} className='p-0'>
+                            <i className="dropdown-icon fe fe-user"></i> Profile
                           </Link>
                         </Dropdown.Item>
                         <Dropdown.Item
@@ -650,7 +650,7 @@ const Header = () => {
                           className="dropdown-item"
                           href={`/Authentication/lockscreen`}
                         >
-                          <i className="dropdown-icon fe fe-lock"></i>{" "}
+                          <i className="dropdown-icon fe fe-lock"></i>
                           Lockscreen
                         </Dropdown.Item>
 
@@ -661,7 +661,7 @@ const Header = () => {
                             localStorage.clear();
                           }}
                         >
-                          <i className="dropdown-icon fe fe-alert-circle"></i>{" "}
+                          <i className="dropdown-icon fe fe-alert-circle"></i>
                           Sign out
                         </Dropdown.Item>
                       </Dropdown.Menu>
