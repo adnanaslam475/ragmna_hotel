@@ -40,6 +40,7 @@ const LeafletMaps = lazy(() => import('./components/Maps/LeafletMaps/LeafletMaps
 const SimpleMaps = lazy(() => import('./components/Maps/SimpleMaps/SimpleMaps'))
 
 const Editprofile = lazy(() => import('./components/pages/Editprofile/Editprofile'))
+const Profile = lazy(() => import('./components/pages/Profile/Profile'))
 const AboutCompany = lazy(() => import('./components/pages/Extension/AboutCompany/AboutCompany'))
 const Invoice = lazy(() => import('./components/pages/Extension/Invoice/Invoice'))
 const Pricing = lazy(() => import('./components/pages/Extension/Pricing/Pricing'))
@@ -139,8 +140,9 @@ const RoutesMain = () => {
 									<Route path={`/setup/ratesetup`} element={<RateSetup />} />
 									<Route path={`/setup/ratesetup/addrate`} element={<AddRate />} />
 									<Route path={`/setup/ratesetup/editrate`} element={<EditRate />} />
+									<Route path={`/setup/ratesetup/editrate/:id/:isDerived/:ind`} element={<EditRate />} />
 									<Route path={`/setup/ratesetup/editrate/:id`} element={<EditRate />} />
-									<Route path={`/setup/ratesetup/createseason`} element={<CreateSeason />} />
+									<Route path={`/setup/ratesetup/createseason/:id`} element={<CreateSeason />} />
 									<Route path={`/setup/owneraddon`} element={<OwnerAddOn />} />
 									<Route path={`/setup/spnaddon`} element={<SPNAddOn />}></Route>
 									<Route path={`/setup/hkmaintenance`} element={<HKMaintenance />} />
@@ -223,6 +225,8 @@ const RoutesMain = () => {
 								{/* Pages */}
 								<Route>
 									<Route path={`/pages/editprofile`} element={<Editprofile />} />
+									,
+									<Route path={`/pages/profile`} element={<Profile />} />
 									,
 									<Route path={`/pages/extension/aboutcompany`} element={<AboutCompany />} />
 									,
