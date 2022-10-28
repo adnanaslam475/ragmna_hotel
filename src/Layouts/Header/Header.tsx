@@ -630,9 +630,11 @@ const Header = () => {
                         <div className="dropdown-divider m-0"></div>
                         <Dropdown.Item
                           className="dropdown-item"
-                          href={`/Pages/profile`}
+                          // href={`/Pages/profile`}
                         >
+                          <Link to={'/pages/profile'} >
                           <i className="dropdown-icon fe fe-user"></i> Profile
+                          </Link>
                         </Dropdown.Item>
                         <Dropdown.Item
                           className="dropdown-item"
