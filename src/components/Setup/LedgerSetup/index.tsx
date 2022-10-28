@@ -31,6 +31,8 @@ import {
   updateLedgerAccountById,
 } from "./ledgerAccountSetupSlice";
 import "./LedgerSetup.scss";
+import ConformationPopup from "../../../Modals/ConformationPopup/ConformationPopup";
+import CreateLedgerAccountOrAccountTypeModal from "./CreateModal";
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Name is required"),
@@ -186,12 +188,6 @@ function LedgerSetup() {
       setLedgerAccountsFetched(!ledgerAccountsFetched);
       setDeleteModalId("");
     } catch (error: any) {
-      Swal.fire({
-        title: "ERROR!!!",
-        text: error?.message || "Something Went wrong",
-        allowOutsideClick: false,
-        icon: "error",
-      });
     } finally {
       setIsLoading(false);
     }
@@ -210,6 +206,11 @@ function LedgerSetup() {
     setValues({ ...row, type: row.type });
   };
 
+  const onHideModal = () => {
+    setValues({ ...initialValues });
+    resetForm();
+    setOpenModal(false);
+  };
   return (
     <>
       <Row>
@@ -272,136 +273,65 @@ function LedgerSetup() {
       </Row>
 
       {/* create ledger acocunt modal */}
-      <Modal
-        size="lg"
-        show={openModal}
-        onHide={() => {
-          setValues({ ...initialValues });
-          resetForm();
-          setOpenModal(false);
-        }}
-      >
-        <ModalHeader>
-          <ModalTitle>{isEditMode ? "Edit" : "Add"} Ledger account</ModalTitle>
-          <span
-            className="d-flex ms-auto"
-            onClick={() => {
-              setOpenModal(false);
-            }}
-          >
-            <i className="fe fe-x ms-auto"></i>
-          </span>
-        </ModalHeader>
-        <form onSubmit={handleSubmit}>
-          <ModalBody>
-            <Row className="section p-4 mb-4">
-              {createLedgerInputs.map((v) => (
-                <Col key={v.label} lg={6}>
-                  <div className="control-group form-group">
-                    {v.inputType === "input" && (
-                      <>
-                        <label className="form-label">{v.label}</label>
-                        <input
-                          type="text"
-                          className={"form-control required"}
-                          placeholder={v.placeholder}
-                          name={v.name}
-                          id={v.name}
-                          onKeyUp={handleBlur}
-                          value={values[v.name]}
-                          onChange={handleChange}
-                        />
-                        <p style={{ color: "red" }}>
-                          {touched[v.name] && (errors[v.name] as any)}
-                        </p>
-                      </>
-                    )}
-                    {v.inputType === "select" && (
-                      <>
-                        <label className="form-label">{v.label}</label>
-                        <Select
-                          classNamePrefix="Select"
-                          options={updateLedgerAccountTypes}
-                          id={v.name}
-                          value={updateLedgerAccountTypes.find(
-                            (option) => option.value == String(values.type)
-                          )}
-                          placeholder={v.placeholder}
-                          name={v.name}
-                          onChange={(selectedOption: any) => {
-                            handleChange("type")(selectedOption?.value);
-                          }}
-                        />
-                        <p style={{ color: "red" }}>
-                          {touched[v.name] && (errors[v.name] as any)}
-                        </p>
-                      </>
-                    )}
-                  </div>
-                </Col>
-              ))}
-            </Row>
-          </ModalBody>
-          <ModalFooter>
-            <Button variant="secondary" onClick={() => setOpenModal(false)}>
-              Cancel
-            </Button>
-            <Button
-              variant="primary"
-              type="submit"
-              disabled={isSubmitting}
-              onClick={() => ""}
-              className="d-flex"
-            >
-              {isSubmitting ? (
-                <CircularProgress
-                  style={{ color: "white", margin: "2px" }}
-                  size={20}
-                />
-              ) : (
-                <>{isEditMode ? "Update" : "Add"}</>
-              )}
-            </Button>
-          </ModalFooter>
-        </form>
-      </Modal>
 
-      {/* // delete account type modal */}
-      <Modal
-        size="sm"
-        show={!!deleteModalId}
-        onHide={() => {
-          setDeleteModalId("");
-        }}
+      <CreateLedgerAccountOrAccountTypeModal
+        openModal={openModal}
+        isEditMode={isEditMode}
+        modalClose={() => setOpenModal(false)}
+        handleSubmit={handleSubmit}
+        title={`${isEditMode ? "Edit Ledger account" : "Add Ledger account"}`}
+        onHide={onHideModal}
+        isSubmitting={isSubmitting}
       >
-        <ModalHeader>
-          <ModalTitle>Delete</ModalTitle>
-          <span
-            className="d-flex ms-auto"
-            onClick={() => {
-              setDeleteModalId("");
-            }}
-          >
-            <i className="fe fe-x ms-auto"></i>
-          </span>
-        </ModalHeader>
-        <ModalBody>Are you sure you want to delete it?</ModalBody>
-        <ModalFooter>
-          <Button variant="secondary" onClick={() => setDeleteModalId("")}>
-            Close
-          </Button>
-          <Button variant="primary" className="d-flex" onClick={deleteHandler}>
-            {isLoading ? (
-              <CircularProgress
-                style={{ color: "white", margin: "2px" }}
-                size={20}
-              />
-            ) : (
-              "Delete"
-            )}
-          </Button>
-        </ModalFooter>
-      </Modal>
+        <>
+          {createLedgerInputs.map((v) => (
+            <Col key={v.label} lg={6}>
+              <div className="control-group form-group">
+                {v.inputType === "input" && (
+                  <>
+                    <label className="form-label">{v.label}</label>
+                    <input
+                      type="text"
+                      className={"form-control required"}
+                      placeholder={v.placeholder}
+                      name={v.name}
+                      id={v.name}
+                      onKeyUp={handleBlur}
+                      value={values[v.name]}
+                      onChange={handleChange}
+                    />
+                    <p style={{ color: "red" }}>
+                      {touched[v.name] && (errors[v.name] as any)}
+                    </p>
+                  </>
+                )}
+                {v.inputType === "select" && (
+                  <>
+                    <label className="form-label">{v.label}</label>
+                    <Select
+                      classNamePrefix="Select"
+                      options={updateLedgerAccountTypes}
+                      id={v.name}
+                      value={updateLedgerAccountTypes.find(
+                        (option) => option.value == String(values.type)
+                      )}
+                      placeholder={v.placeholder}
+                      name={v.name}
+                      onChange={(selectedOption: any) => {
+                        handleChange("type")(selectedOption?.value);
+                      }}
+                    />
+                    <p style={{ color: "red" }}>
+                      {touched[v.name] && (errors[v.name] as any)}
+                    </p>
+                  </>
+                )}
+              </div>
+            </Col>
+          ))}
+        </>
+      </CreateLedgerAccountOrAccountTypeModal>
+      {!!deleteModalId && <ConformationPopup smallmodalClose={deleteHandler} />}
     </>
   );
 }

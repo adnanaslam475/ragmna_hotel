@@ -7,7 +7,7 @@ import propertyInfoSlice from "../components/Setup/PropertySetup/AddProperty/Pro
 import reservationSlice from "../components/Setup/PropertySetup/AddProperty/Reservation/reservationSlice";
 import propertySetupSlice from "../components/Setup/PropertySetup/propertySetupSlice";
 import ledgerAccountSlice from "../components/Setup/LedgerSetup/ledgerAccountSetupSlice";
-import ratePolicySlice from '../components/Setup/RateSetup/Ratepolicies/ratePolicySlice'
+import ratePolicySlice from "../components/Setup/RateSetup/Ratepolicies/ratePolicySlice";
 
 import { api } from "./Services/api";
 import globalSlice from "./globalReducer";

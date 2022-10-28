@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-// import moment from "moment";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import Swal from "sweetalert2";
 import ledgerAccountActions from "../../../Redux/Services/ledgerAccountsServices";
 
 const initialState = {
@@ -13,32 +11,14 @@ const initialState = {
 export const getLedgerAccounts = createAsyncThunk(
   "ledger-accounts/get",
   async () => {
-    try {
-      return await ledgerAccountActions.getLedgerAccountsApi();
-    } catch (error: any) {
-      Swal.fire({
-        title: "ERROR!",
-        text: error?.response.data?.message || "Something Went wrong",
-        allowOutsideClick: false,
-        icon: "error",
-      });
-    }
+    return await ledgerAccountActions.getLedgerAccountsApi();
   }
 );
 
 export const createLedgerAccounts = createAsyncThunk(
   "ledger-accounts/create",
   async (payload: any) => {
-    try {
-      return await ledgerAccountActions.createLedgerAccountApi(payload);
-    } catch (error: any) {
-      Swal.fire({
-        title: "ERROR!",
-        text: error?.response.data?.message || "Something Went wrong",
-        allowOutsideClick: false,
-        icon: "error",
-      });
-    }
+    return await ledgerAccountActions.createLedgerAccountApi(payload);
   }
 );
 
@@ -87,16 +67,7 @@ export const updateLedgerAccountsTypeById = createAsyncThunk(
 export const deleteLedgerAccountTypeById = createAsyncThunk(
   "ledger-accounts-types/delete",
   async (id: string) => {
-    try {
-      return await ledgerAccountActions.deleteLedgerAccountTypeByIdApi(id);
-    } catch (error: any) {
-      Swal.fire({
-        title: "ERROR!!!",
-        text: error?.response.data?.message || "Something Went wrong",
-        allowOutsideClick: false,
-        icon: "error",
-      });
-    }
+    return await ledgerAccountActions.deleteLedgerAccountTypeByIdApi(id);
   }
 );
 

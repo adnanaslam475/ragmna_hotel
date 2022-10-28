@@ -24,15 +24,16 @@ import {
 } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
-
+import { CircularProgress } from "@mui/material";
 import {
   createLedgerAccountsType,
   deleteLedgerAccountTypeById,
   updateLedgerAccountsTypeById,
 } from "../../components/Setup/LedgerSetup/ledgerAccountSetupSlice";
-import { AppDispatch } from "../../Redux/Store";
 
-import { CircularProgress } from "@mui/material";
+import { AppDispatch } from "../../Redux/Store";
+import CreateLedgerAccountOrAccountTypeModal from "../../components/Setup/LedgerSetup/CreateModal";
+import ConformationPopup from "../../Modals/ConformationPopup/ConformationPopup";
 
 const validationSchema = Yup.object({
   name: Yup.string().required().required("Name is required"),
@@ -106,6 +107,8 @@ export const LedgerAccountTypesList = ({
   onSetAccountTypeFetched,
 }: LedgerAccountsTypesListProps) => {
   const dispatch = useDispatch<AppDispatch>();
+  // const [isOpenDeletePopUp, SetIsOpenDeletePopUP] = useState<boolean>(false);
+
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -164,12 +167,12 @@ export const LedgerAccountTypesList = ({
       setIsEditMode(false);
       resetForm();
     } catch (error: any) {
-      Swal.fire({
-        title: "ERROR!!!",
-        text: error?.message || "Something Went wrong",
-        allowOutsideClick: false,
-        icon: "error",
-      });
+      // Swal.fire({
+      //   title: "ERROR!!!",
+      //   text: error?.message || "Something Went wrong",
+      //   allowOutsideClick: false,
+      //   icon: "error",
+      // });
     } finally {
       setSubmitting(false);
     }
@@ -191,7 +194,7 @@ export const LedgerAccountTypesList = ({
     validationSchema,
     onSubmit,
   });
-  console.log("errorserrors", errors);
+
   const deleteHandler = async () => {
     setIsLoading(true);
     try {
@@ -202,6 +205,12 @@ export const LedgerAccountTypesList = ({
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const onhidemodal = () => {
+    setValues({ ...initialValues });
+    resetForm();
+    setOpenModal(false);
   };
 
   return (
@@ -261,114 +270,43 @@ export const LedgerAccountTypesList = ({
         </Card>
       </Col>
       {/* create ledgger account type modal */}
-      <Modal
-        size="lg"
-        show={openModal}
-        onHide={() => {
-          setValues({ ...initialValues });
-          resetForm();
-          setOpenModal(false);
-        }}
+      <CreateLedgerAccountOrAccountTypeModal
+        openModal={openModal}
+        isEditMode={isEditMode}
+        modalClose={() => setOpenModal(false)}
+        handleSubmit={handleSubmit}
+        title={`${isEditMode ? "Edit Ledger account Type" : "Add Ledger account Type"}`}
+        onHide={onhidemodal}
+        isSubmitting={isSubmitting}
       >
-        <ModalHeader>
-          <ModalTitle>{isEditMode ? "Edit" : "Add"} Ledger account</ModalTitle>
-          <span
-            className="d-flex ms-auto"
-            onClick={() => {
-              setOpenModal(false);
-            }}
-          >
-            <i className="fe fe-x ms-auto"></i>
-          </span>
-        </ModalHeader>
-        <form onSubmit={handleSubmit}>
-          <ModalBody>
-            <Row className="section p-4 mb-4">
-              {createLedgerTypeInputs.map((v) => (
-                <Col key={v.label} lg={6}>
-                  <div className="control-group form-group">
-                    {v.inputType === "input" && (
-                      <>
-                        <label className="form-label">{v.label}</label>
-                        <input
-                          type="text"
-                          className={"form-control required"}
-                          placeholder={v.placeholder}
-                          name={v.name}
-                          id={v.name}
-                          onKeyUp={handleBlur}
-                          value={values[v.name]}
-                          onChange={handleChange}
-                        />
-                        <p style={{ color: "red" }}>
-                          {touched[v.name] && (errors[v.name] as any)}
-                        </p>
-                      </>
-                    )}
-                  </div>
-                </Col>
-              ))}
-            </Row>
-          </ModalBody>
-          <ModalFooter>
-            <Button variant="secondary" onClick={() => setOpenModal(false)}>
-              Cancel
-            </Button>
-            <Button
-              variant="primary"
-              type="submit"
-              disabled={isSubmitting}
-              className="d-flex"
-              onClick={() => ""}
-            >
-              {isSubmitting ? (
-                <CircularProgress
-                  style={{ color: "white", margin: "2px" }}
-                  size={20}
-                />
-              ) : (
-                <>{isEditMode ? "Update" : "Add"}</>
-              )}
-            </Button>
-          </ModalFooter>
-        </form>
-      </Modal>
-      {/* // delete account type modal */}
-      <Modal
-        size="sm"
-        show={!!deleteModalId}
-        onHide={() => {
-          setDeleteModalId("");
-        }}
-      >
-        <ModalHeader>
-          <ModalTitle>Delete</ModalTitle>
-          <span className="d-flex ms-auto" onClick={() => setDeleteModalId("")}>
-            <i className="fe fe-x ms-auto"></i>
-          </span>
-        </ModalHeader>
-        <ModalBody>Are you sure you want to delete it?</ModalBody>
-        <ModalFooter>
-          <Button variant="secondary" onClick={() => setDeleteModalId("")}>
-            Close
-          </Button>
-          <Button
-            variant="primary"
-            onClick={deleteHandler}
-            disabled={isLoading}
-            className="d-flex"
-          >
-            {isLoading ? (
-              <CircularProgress
-                style={{ color: "white", margin: "2px" }}
-                size={20}
-              />
-            ) : (
-              "Delete"
-            )}
-          </Button>
-        </ModalFooter>
-      </Modal>
+        <>
+          {createLedgerTypeInputs.map((v) => (
+            <Col key={v.label} lg={6}>
+              <div className="control-group form-group">
+                {v.inputType === "input" && (
+                  <>
+                    <label className="form-label">{v.label}</label>
+                    <input
+                      type="text"
+                      className={"form-control required"}
+                      placeholder={v.placeholder}
+                      name={v.name}
+                      id={v.name}
+                      onKeyUp={handleBlur}
+                      value={values[v.name]}
+                      onChange={handleChange}
+                    />
+                    <p className="clr-red">
+                      {touched[v.name] && (errors[v.name] as any)}
+                    </p>
+                  </>
+                )}
+              </div>
+            </Col>
+          ))}
+        </>
+      </CreateLedgerAccountOrAccountTypeModal>
+      {!!deleteModalId && <ConformationPopup smallmodalClose={deleteHandler} />}
     </>
   );
 };
