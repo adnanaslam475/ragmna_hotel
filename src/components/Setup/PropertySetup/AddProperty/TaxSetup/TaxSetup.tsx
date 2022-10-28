@@ -162,7 +162,7 @@ const TaxSetup = (props: TaxSetupProps) => {
           <div className="control-group form-group">
             <label className="form-label">Surcharge</label>
             <input
-              type="text"
+              type="number"
               className="form-control required"
               placeholder="Surcharge"
               name="surcharge"

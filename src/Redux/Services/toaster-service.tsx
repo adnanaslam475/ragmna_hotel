@@ -7,8 +7,6 @@ import { Button } from "react-bootstrap";
 
 export function Success(msg: string) {
   // const Toastslidewarn = () =>
-  console.log(msg, "msg");
-
   toast.success(
     <p className="text-white tx-16 mb-0">
       Success: {msg}

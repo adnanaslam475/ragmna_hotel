@@ -1,29 +1,17 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 import { useGetAmenitiesQuery } from "../Amenities/amenitiesApi";
 
 export interface AmenitiesSectionProps {
-  isSelectedAmenities: string[];
-  setIsSelectedAmenities?: any;
+  onSelectedAmenitiesChange?: any;
+  isSelectedAmenities?: string[];
 }
 
-const AmenitiesSelection = (props) => {
-  const { isSelectedAmenities, setIsSelectedAmenities } = props;
-  const { data, isError, isSuccess, isLoading } = useGetAmenitiesQuery();
-
-  // const [isSelectedAmenities, setIsSelectedAmenities] = useState<any>([]);
-
-  const onHandelChnage = (e, index) => {
-    let val = e.target.value;
-    if (e.target.checked) {
-      setIsSelectedAmenities([...isSelectedAmenities, val]);
-    } else {
-      let i = isSelectedAmenities.indexOf(val);
-      isSelectedAmenities.splice(i, 1);
-      setIsSelectedAmenities(isSelectedAmenities);
-    }
-  };
-
+const AmenitiesSelection = (props: AmenitiesSectionProps) => {
+  const { onSelectedAmenitiesChange, isSelectedAmenities } = props;
+  const { data } = useGetAmenitiesQuery();
+  
   return (
     <React.Fragment>
       <Row className="Amenities-form p-4 mb-4">
@@ -38,8 +26,9 @@ const AmenitiesSelection = (props) => {
                   name={item.name}
                   value={item._id}
                   onChange={(e) => {
-                    onHandelChnage(e, index);
+                    onSelectedAmenitiesChange(e, index);
                   }}
+                  checked={isSelectedAmenities?.includes(item._id)}
                 />
                 <span className="custom-control-label">{item.name}</span>
               </label>

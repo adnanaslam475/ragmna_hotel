@@ -418,7 +418,7 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
               <Row className="mt-5">
                 <Col sm={12} style={{ paddingLeft: 0 }}>
                   <div style={{ height: "343px", overflowY: "scroll" }}>
-                    <FullCalendar
+                    {/* <FullCalendar
                       plugins={[
                         resourceTimelinePlugin,
                         interactionPlugin,
@@ -514,7 +514,7 @@ class DefaultCalender extends React.Component<any, DemoAppState> {
                       select={this.handleDateSelect}
                       eventContent={this.renderEventContent}
                       eventClick={this.handleEventClick}
-                    />
+                    /> */}
                   </div>
                 </Col>
               </Row>
