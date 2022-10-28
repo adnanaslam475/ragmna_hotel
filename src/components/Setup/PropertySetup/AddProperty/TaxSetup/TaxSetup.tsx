@@ -19,6 +19,7 @@ import { Success } from "../../../../../Redux/Services/toaster-service";
 export interface TaxSetupProps {
   initialTaxValuesInfo: any;
   setTaxInfo: any;
+  editTaxDetail: any;
 }
 
 const TaxSetup = (props: TaxSetupProps) => {
@@ -26,7 +27,7 @@ const TaxSetup = (props: TaxSetupProps) => {
 
   const { taxData } = useTaxData();
 
-  const { initialTaxValuesInfo, setTaxInfo } = props;
+  const { initialTaxValuesInfo, setTaxInfo, editTaxDetail } = props;
 
   const TypeList: CommanDropDownType[] = [
     { value: "", label: "Select Types" },
@@ -53,18 +54,18 @@ const TaxSetup = (props: TaxSetupProps) => {
   const { id } = useParams<string>();
 
   const deleteTaxDetail = async (taxId) => {
-    try {
-      let payload = {
-        id,
-        taxId: taxId,
-      };
-      await dispatch(deleteTaxData(payload)).unwrap;
-      Success('Tax Detail has been Deleted')
-      if(id){
+    if (id) {
+      try {
+        let payload = {
+          id,
+          taxId: taxId,
+        };
+        await dispatch(deleteTaxData(payload)).unwrap;
         dispatch(getTaxConfigDetails(id)).unwrap();
+        Success("Tax Detail has been Deleted");
+      } catch (err: any) {
+        console.log("err");
       }
-    } catch (err: any) {
-      console.log("err");
     }
   };
 
@@ -250,7 +251,11 @@ const TaxSetup = (props: TaxSetupProps) => {
                     <td>{val.isVatApplicable.toString()}</td>
                     <td>{val.isActive.toString()}</td>
                     <td className="action-icon">
-                      <i className="icon fe fe-edit" 
+                      <i
+                        className="icon fe fe-edit"
+                        onClick={() => {
+                          editTaxDetail(index, val._id);
+                        }}
                       />
                       <i
                         className="icon fe fe-trash-2"

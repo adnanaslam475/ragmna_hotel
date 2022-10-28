@@ -54,7 +54,7 @@ const AddProperty = (props: AddPropertyProps) => {
       setIsSelectedAmenities([...isSelectedAmenities, val]);
     } else {
       let i = isSelectedAmenities.indexOf(val);
-      let temp = Object.assign([],isSelectedAmenities)
+      let temp = Object.assign([], isSelectedAmenities);
       temp.splice(i, 1);
       setIsSelectedAmenities(temp);
     }
@@ -132,6 +132,8 @@ const AddProperty = (props: AddPropertyProps) => {
   };
 
   const [taxInfo, setTaxInfo] = useState(initialTaxValuesInfo);
+
+  const [taxId, setTaxId] = useState("");
 
   const [initialValues, setInitialValues] = useState(initialValuesInfo);
 
@@ -317,46 +319,66 @@ const AddProperty = (props: AddPropertyProps) => {
         let payload = Object.assign({}, taxInfo);
         payload["propertyId"] = id;
         payload["surcharge"] = parseInt(payload["surcharge"]);
-        let response: any = await dispatch(
-          addTaxConfigDetails(payload)
-        ).unwrap();
-        if (response) {
-          Success("Tax Config details has been saved");
-          getTaxDetail();
-          setTaxInfo({
-            shortCode: "",
-            name: "",
-            startDate: "",
-            endDate: "",
-            surcharge: 0,
-            type: 0,
-            calculationType: 0,
-            isVatApplicable: false,
-          });
+        if (taxId) {
+          payload["taxId"] = taxId;
+          let response: any = await dispatch(updateTaxData(payload)).unwrap();
+          if (response) {
+            Success("Tax Config details has been updated");
+            getTaxDetail();
+            setTaxInfo({
+              shortCode: "",
+              name: "",
+              startDate: "",
+              endDate: "",
+              surcharge: 0,
+              type: 0,
+              calculationType: 0,
+              isVatApplicable: false,
+            });
+          }
+        } else {
+          let response: any = await dispatch(
+            addTaxConfigDetails(payload)
+          ).unwrap();
+          if (response) {
+            Success("Tax Config details has been saved");
+            getTaxDetail();
+            setTaxInfo({
+              shortCode: "",
+              name: "",
+              startDate: "",
+              endDate: "",
+              surcharge: 0,
+              type: 0,
+              calculationType: 0,
+              isVatApplicable: false,
+            });
+          }
         }
       } catch (err: any) {}
     }
   };
 
-  // const setTaxData = () => {
-  //   if (taxData[0] && id) {
-  //     setTaxInfo({
-  //       ...taxInfo,
-  //       name: taxData[0].name ? taxData[0].name : "",
-  //       shortCode: taxData[0].shortCode ? taxData[0].shortCode : "",
-  //       startDate: taxData[0].startDate ? taxData[0].startDate : "",
-  //       endDate: taxData[0].endDate ? taxData[0].endDate : "",
-  //       surcharge: taxData[0].surcharge ? taxData[0].surcharge.toString() : 0,
-  //       type: taxData[0].type ? taxData[0].type : 0,
-  //       calculationType: taxData[0].calculationType
-  //         ? taxData[0].calculationType
-  //         : 0,
-  //       isVatApplicable: taxData[0].isVatApplicable
-  //         ? taxData[0].isVatApplicable
-  //         : false,
-  //     });
-  //   }
-  // };
+  const editTaxDetail = (index, TaxId) => {
+    setTaxId(TaxId);
+    setTaxInfo({
+      ...taxInfo,
+      name: taxData[index].name ? taxData[index].name : "",
+      shortCode: taxData[index].shortCode ? taxData[index].shortCode : "",
+      startDate: taxData[index].startDate ? taxData[index].startDate : "",
+      endDate: taxData[index].endDate ? taxData[index].endDate : "",
+      surcharge: taxData[index].surcharge
+        ? taxData[index].surcharge.toString()
+        : 0,
+      type: taxData[index].type ? taxData[index].type : index,
+      calculationType: taxData[index].calculationType
+        ? taxData[index].calculationType
+        : 0,
+      isVatApplicable: taxData[index].isVatApplicable
+        ? taxData[index].isVatApplicable
+        : false,
+    });
+  };
 
   const setKeyValue = (key) => {
     setKey(key);
@@ -536,8 +558,8 @@ const AddProperty = (props: AddPropertyProps) => {
     if (id) {
       getById();
       getTaxDetail();
-    }else{
-      dispatch(removeTaxData([]))
+    } else {
+      dispatch(removeTaxData([]));
     }
   }, [id]);
 
@@ -657,6 +679,7 @@ const AddProperty = (props: AddPropertyProps) => {
                       <TaxSetup
                         initialTaxValuesInfo={taxInfo}
                         setTaxInfo={setTaxInfoValue}
+                        editTaxDetail={editTaxDetail}
                       />
                     </Tab.Pane>
                     <Tab.Pane eventKey="seven">
