@@ -116,9 +116,9 @@ export interface InitialValues {
     goodFor:string
     allowedFor:string
     unit:string
-    area:number
-    adults:number
-    children:number
+    area:number | null
+    adults:number | null
+    children:number | null
     briefDescription:string
     longDescription:string
     Cname:string

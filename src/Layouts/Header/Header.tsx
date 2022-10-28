@@ -612,11 +612,12 @@ const Header = () => {
                         variant=""
                         className="nav-link leading-none d-flex no-caret"
                       >
-                        <img
+                        {/* <img
                           src={require("../../assets/images/users/21.jpg")}
                           alt="profile-user"
                           className="avatar  profile-user brround cover-image"
-                        />
+                        /> */}
+                        <i className="profile-user-header  icon fe fe-user"/>
                       </Dropdown.Toggle>
                       <Dropdown.Menu className="dropdown-menu-end dropdown-menu-arrow">
                         <div className="drop-heading">
@@ -630,9 +631,11 @@ const Header = () => {
                         <div className="dropdown-divider m-0"></div>
                         <Dropdown.Item
                           className="dropdown-item"
-                          href={`/Pages/profile`}
+                          // href={`/Pages/profile`}
                         >
+                          <Link to={'/pages/profile'} >
                           <i className="dropdown-icon fe fe-user"></i> Profile
+                          </Link>
                         </Dropdown.Item>
                         <Dropdown.Item
                           className="dropdown-item"

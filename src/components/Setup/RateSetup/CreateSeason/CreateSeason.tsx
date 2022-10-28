@@ -26,7 +26,7 @@ import {
 const CreateSeason = (props: any) => {
   const { setRatePlanDetails, ratePlanDetails } = props;
   const dispatch = useDispatch<AppDispatch>();
-  let { id, ind, isDerived }: any = useParams();
+  let { id, ind, isDerived } = useParams();
   const { rateData } = useRateData();
   const getByRateId = () => {
     let response = dispatch(getById(id ? id : "")).unwrap;
@@ -36,6 +36,7 @@ const CreateSeason = (props: any) => {
       getByRateId();
     }
   }, [id]);
+console.log(isDerived,'isDerived');
 
   let colorTypes: CommanDropDownType[] = [
     { value: "#f0642a", label: "#f6881c" },
@@ -297,7 +298,7 @@ const CreateSeason = (props: any) => {
                               disabledDays: { before: new Date() },
                             }}
                             placeholder="From"
-                            value={ratePlanDetails?.period[index]?.startDate}
+                            value={ratePlanDetails?.period[index]?.startDate ? new Date(ratePlanDetails?.period[index]?.startDate): ''}
                             onDayChange={(e) => {
                               let array = ratePlanDetails?.period.slice()
                               array[index]['startDate'] = e
@@ -312,7 +313,7 @@ const CreateSeason = (props: any) => {
                               disabledDays: { before: new Date() },
                             }}
                             placeholder="To"
-                            value={ratePlanDetails?.period[index]?.endDate}
+                            value={ratePlanDetails?.period[index]?.endDate ? new Date(ratePlanDetails?.period[index]?.endDate): ''}
                             onDayChange={(e) => {
                               let array = ratePlanDetails?.period.slice()
                               array[index]['endDate'] = e

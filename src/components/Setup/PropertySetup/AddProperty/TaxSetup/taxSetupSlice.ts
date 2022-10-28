@@ -42,7 +42,9 @@ export const deleteTaxData = createAsyncThunk(
 const taxSetupSlice = createSlice({
   name: "taxCongfig",
   initialState,
-  reducers: {},
+  reducers: { removeTaxData: (state, action) => {
+    state.taxData = [];
+  }},
   extraReducers: (builder) => {
     builder.addCase(
       getTaxConfigDetails.fulfilled,
@@ -54,6 +56,7 @@ const taxSetupSlice = createSlice({
 });
 
 export default taxSetupSlice.reducer;
+export const {removeTaxData} = taxSetupSlice.actions
 
 export const selectTaxList = (state) => {
   return state.taxCongfig.taxData;

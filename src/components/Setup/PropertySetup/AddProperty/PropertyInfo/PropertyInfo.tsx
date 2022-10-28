@@ -54,7 +54,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
   const countryStyles: StylesConfig<any> = {
     control: (styles) => ({
       ...styles,
-      borderColor: touched.country && errors.country ? "red" : "#e9edf4",
+      borderColor: touched.Lcountry && errors.Lcountry ? "red" : "#e9edf4",
     }),
   };
   const unitStyles: StylesConfig<any> = {
@@ -612,7 +612,8 @@ const PropertyInfo = (props: PropertyInfoProps) => {
               <PhoneInput
                 country={"us"}
                 value={values.CphoneNumber}
-                inputProps={{ name: "CphoneNumber" }}
+                inputStyle={touched.CphoneNumber && errors.CphoneNumber ? {borderColor:"red"} : {borderColor:"#e9edf4"}}
+                inputProps={{ name: "CphoneNumber"  }}
                 onChange={(e) => {
                   setFieldValue("CphoneNumber", e);
                 }}
@@ -630,6 +631,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
               <PhoneInput
                 country={"us"}
                 value={values.waNumber}
+                inputStyle={touched.waNumber && errors.waNumber ? {borderColor:"red"} : {borderColor:"#e9edf4"}}
                 inputProps={{ name: "waNumber" }}
                 onChange={(e) => {
                   setFieldValue("waNumber", e);
@@ -670,6 +672,7 @@ const PropertyInfo = (props: PropertyInfoProps) => {
               <PhoneInput
                 country={"us"}
                 inputProps={{ name: "OphoneNumber" }}
+                inputStyle={touched.OphoneNumber && errors.OphoneNumber ? {borderColor:"red"} : {borderColor:"#e9edf4"}}
                 value={values.OphoneNumber}
                 onChange={(e) => {
                   setFieldValue("OphoneNumber", e);
