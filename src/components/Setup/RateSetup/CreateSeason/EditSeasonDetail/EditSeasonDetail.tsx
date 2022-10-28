@@ -130,7 +130,7 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
         array[index] = {
           roomTypeId: array[index].roomTypeId,
           channelPrices: array[index].channelPrices,
-          price: value,
+          price: parseInt(value),
         };
       }
       const newObj = { ...seasonBody, roomTypes: array };
@@ -157,7 +157,7 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
     array[index] = {
       roomTypeId: array[index].roomTypeId,
       channelPrices: channelArray,
-      price: array[index].price,
+      price: parseInt(array[index].price),
     };
     const newObj = { ...seasonBody, roomTypes: array };
     SetSeasonBody(newObj);
@@ -168,12 +168,12 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
     if (e.target.name == "minimumNights") {
       obj = {
         ...obj,
-        minimumNights: e.target.value,
+        minimumNights: parseInt(e.target.value),
       };
     } else if (e.target.name == "maximumNights") {
       obj = {
         ...obj,
-        maximumNights: e.target.value,
+        maximumNights: parseInt(e.target.value),
       };
     } else if (e.target.name == "promoCode") {
       obj = {
@@ -193,6 +193,7 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
         payload["sId"] = season._id;
         let response: any = await dispatch(alterSeason(payload)).unwrap();
         if (response) {
+          isModelClose(false);
           Success("Season has been Updated");
         }
       } catch (err: any) {
@@ -204,6 +205,7 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
         payload["id"] = rateData["_id"];
         let response: any = await dispatch(addSeason(payload)).unwrap();
         if (response) {
+          isModelClose(false);
           Success("Season has been saved");
         }
       } catch (err: any) {
@@ -211,6 +213,29 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
       }
     }
   };
+  const onRateCheckBoxChange = (e, index) => {
+    if (!e.target.checked) {
+      let array = seasonBody.roomTypes.slice();
+        array[index] = {
+          roomTypeId: array[index].roomTypeId,
+          channelPrices: array[index].channelPrices,
+          price: 0,
+        };
+      const newObj = { ...seasonBody, roomTypes: array };
+      SetSeasonBody(newObj);
+    } else {
+      if (e.target.checked) {
+        let array = seasonBody.roomTypes.slice();
+          array[index] = {
+            roomTypeId: array[index].roomTypeId,
+            channelPrices: array[index].channelPrices,
+            price: undefined,
+          };
+        const newObj = { ...seasonBody, roomTypes: array };
+        SetSeasonBody(newObj);
+      }
+    }
+  }
   return (
     <React.Fragment>
       <Modal
@@ -229,27 +254,28 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
                 style={{ backgroundColor: hexToRGB(season.color, 0.5) }}
                 className="sidebar-main"
               >
-                <div className="main-header">
-                  <h1>{season.name}</h1>
-                </div>
-                <div className="edit-tab-container">
-                  <Nav>
-                    <Nav.Item>
-                      <Nav.Link eventKey="first">Rates</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="second">Rules/Restrictions</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="third">Policies</Nav.Link>
-                    </Nav.Item>
-                  </Nav>
+                <div>
+                  <div className="main-header">
+                    <h1>{season.name}</h1>
+                  </div>
+                  <div className="edit-tab-container">
+                    <Nav>
+                      <Nav.Item>
+                        <Nav.Link eventKey="first">Rates</Nav.Link>
+                      </Nav.Item>
+                      <Nav.Item>
+                        <Nav.Link eventKey="second">Rules/Restrictions</Nav.Link>
+                      </Nav.Item>
+                      <Nav.Item>
+                        <Nav.Link eventKey="third">Policies</Nav.Link>
+                      </Nav.Item>
+                    </Nav>
+                  </div>
                 </div>
                 <div className="side-button">
                   <Button
                     variant="primary"
                     onClick={() => {
-                      isModelClose(false);
                       handleSubmitClick();
                     }}
                   >
@@ -261,6 +287,7 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
                 <Tab.Content>
                   <Tab.Pane eventKey="first">
                     <Rates
+                      onRateCheckBoxChange={onRateCheckBoxChange}
                       seasonBody={seasonBody}
                       setbasePrice={setbasePrice}
                       setChannelPrice={setChannelPrice}

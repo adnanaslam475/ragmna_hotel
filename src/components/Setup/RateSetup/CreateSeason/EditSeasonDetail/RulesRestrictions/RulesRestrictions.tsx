@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import "./RulesRestrictions.scss";
 import Select from "react-select";
@@ -22,6 +22,15 @@ const RulesRestrictions = (props: any) => {
   const assignRules = (e) => {
     setAddAssignRules(e.target.checked);
   };
+
+  useEffect(() => {
+    if (seasonBody['restrictions']['minimumNights']) {
+      setMinNight(true)
+    }
+    if (seasonBody['restrictions']['maximumNights']) {
+      setMaxNights(true)
+    }
+  }, [seasonBody])
 
   const handleCheckCHange = (e) => {
     let obj = seasonBody['restrictions']
@@ -73,59 +82,62 @@ const RulesRestrictions = (props: any) => {
               />
             </div>
           ) : null}
-        <Row>
+          <Row>
             <Col lg={3}>
-            <label className="custom-control custom-checkbox-md">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                name="minimumNights-check"
-                checked={seasonBody['restrictions']['minimumNights'] || minNights ? true : false}
-                onChange={(e) => {
-                  setMinNight(!minNights)
-                  handleCheckCHange(e)
-                }}
-              />
-              <span className="custom-control-label">Min nights</span>
-                 </label>
-              </Col>
-              <Col lg={3}>
+              <label className="custom-control custom-checkbox-md">
+                <input
+                  type="checkbox"
+                  className="custom-control-input"
+                  name="minimumNights-check"
+                  checked={minNights ? true : false}
+                  onChange={(e) => {
+                    if (e.target.checked) setMinNight(true)
+                    else setMinNight(false)
+                    handleCheckCHange(e)
+                  }}
+                />
+                <span className="custom-control-label">Min nights</span>
+              </label>
+            </Col>
+            <Col lg={3}>
               <span className="d-flex align-items-center">
-                 <i className="fe fe-minus-circle" />
+                <i className="fe fe-minus-circle" />
                 <input
                   disabled={!minNights}
                   className="check-input"
                   name='minimumNights'
                   value={seasonBody['restrictions']['minimumNights']}
                   onChange={(e) => {
+                    if (e.target.checked) setMaxNights(true)
+                    else setMaxNights(false)
                     onHandleRestrictionInputChange(e)
                   }}
                   type="number"
                 />
                 <i className="fe fe-plus-circle" />
               </span>
-              </Col>
+            </Col>
           </Row>
           <Row>
             <Col lg={3}>
-            <label className="custom-control custom-checkbox-md">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                name="maximumNights-check"
-                checked={seasonBody['restrictions']['maximumNights'] || maxNights ? true : false}
-                onChange={(e) => {
-                  setMaxNights(!maxNights)
-                  handleCheckCHange(e)
-                }}
+              <label className="custom-control custom-checkbox-md">
+                <input
+                  type="checkbox"
+                  className="custom-control-input"
+                  name="maximumNights-check"
+                  checked={seasonBody['restrictions']['maximumNights'] || maxNights ? true : false}
+                  onChange={(e) => {
+                    setMaxNights(!maxNights)
+                    handleCheckCHange(e)
+                  }}
 
-              />
-              <span className="custom-control-label">Max nights</span>
+                />
+                <span className="custom-control-label">Max nights</span>
               </label>
-              </Col>
-              <Col lg={3}>
+            </Col>
+            <Col lg={3}>
               <span className="d-flex align-items-center">
-                 <i className="fe fe-minus-circle" />
+                <i className="fe fe-minus-circle" />
                 <input
                   disabled={!maxNights}
                   className="check-input"
@@ -138,26 +150,26 @@ const RulesRestrictions = (props: any) => {
                 />
                 <i className="fe fe-plus-circle" />
               </span>
-              </Col>
-            
+            </Col>
+
           </Row>
           <Row>
             <Col lg={3}>
-            <label className="custom-control custom-checkbox-md">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                name="promoCode-check"
-                checked={seasonBody['restrictions']['promoCode'] || promoCode  ? true : false}
-                onChange={(e) => {
-                  setPromoCode(!promoCode)
-                  handleCheckCHange(e)
-                }}
-              />
-              <span className="custom-control-label">
-                Promo Code
-              </span>
-            </label>
+              <label className="custom-control custom-checkbox-md">
+                <input
+                  type="checkbox"
+                  className="custom-control-input"
+                  name="promoCode-check"
+                  checked={seasonBody['restrictions']['promoCode'] || promoCode ? true : false}
+                  onChange={(e) => {
+                    setPromoCode(!promoCode)
+                    handleCheckCHange(e)
+                  }}
+                />
+                <span className="custom-control-label">
+                  Promo Code
+                </span>
+              </label>
             </Col>
             <Col lg={3}>
               <input
@@ -171,7 +183,7 @@ const RulesRestrictions = (props: any) => {
                 }}
                 placeholder="$"
               />
-              </Col>
+            </Col>
           </Row>
           {/* <div className="d-flex">
             <label className="custom-control custom-checkbox-md">

@@ -15,6 +15,7 @@
 
 .inner-details {
   padding-left: 25px;
+
   .details {
     display: flex;
     align-items: center;
@@ -24,10 +25,21 @@
       align-items: center;
       padding: 3px 8px 3px 8px;
       border: 1px solid #707070;
+
       input {
         max-width: 70px;
         border: none;
       }
+
+      // input[type=number]::-webkit-inner-spin-button,
+      // input[type=number]::-webkit-outer-spin-button {
+      //   -webkit-appearance: none;
+      // }
+
+      // input[type=number] {
+      //   -moz-appearance: textfield;
+      // }
+
       input:focus {
         outline: none !important;
       }

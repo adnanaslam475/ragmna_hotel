@@ -45,6 +45,11 @@ const Policies = (props: any) => {
       SetSeasonBody(temp)
     }
   }
+  useEffect(()=>{
+    if(seasonBody['cancellationPolicy']){
+      setCancellation(true)
+    }
+  },[seasonBody])
   return (
     <React.Fragment>
       <div className="policies">
@@ -78,9 +83,10 @@ const Policies = (props: any) => {
                 type="checkbox"
                 className="custom-control-input"
                 name="cancellationPolicy-check"
-                checked={seasonBody['cancellationPolicy'] || cancellation ? true : false}
+                checked={ cancellation ? true : false}
                 onChange={(e) => {
-                  setCancellation(!cancellation)
+                  if(e.target.checked) setCancellation(true)
+                  else setCancellation(false)
                   onHandleCheckCHange(e,'cancellationPolicy')
                 }
                 }

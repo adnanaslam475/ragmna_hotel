@@ -47,67 +47,107 @@ const PropertySetup = () => {
 
   return (
     <React.Fragment>
-      <Card className="mt-6">
-        <Card.Body>
-          <div>
-            <Row className="my-3">
-              <div className="d-flex justify-content-end">
-                <Button
-                  onClick={() => {
-                    RouteChange();
-                  }}
-                >
-                  Add Property
-                </Button>
-              </div>
-            </Row>
-            <Row>
-              {propertyList &&
-                propertyList.map((item, index) => {
-                  return (
-                    <Col key={index} lg={6} xl={4}>
-                      <Card>
-                        <Card.Header className="d-flex justify-content-between">
-                          <Card.Title as="h3">{item.name}</Card.Title>
-                          <div className="action-icons">
-                            <span className="mx-3">
-                              <i
-                                className="fe fe-edit"
-                                onClick={() => {
-                                  navigate(
-                                    `/setup/propertysetup/add-property/${item._id}`
-                                  );
-                                }}
-                              ></i>
-                            </span>
-                            <span>
-                              <i
-                                className="fe fe-trash-2"
-                                onClick={() => {
-                                  SetIsOpenDeletePopUP(true);
-                                  setDeleteId(item._id);
-                                }}
-                              ></i>
-                            </span>
-                          </div>
-                        </Card.Header>
-                        <Card.Body className="h-100">
-                          <div
-                            id="carousel-indicators2"
-                            className="carousel slide"
-                            data-bs-ride="carousel"
-                          >
-                            <CarouselwithTopRightIndicator />
-                          </div>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  );
-                })}
-            </Row>
-          </div>
-        </Card.Body>
-      </Card>
+      <Row className="mt-4">
+        <Card id="Tooltip">
+          <span className="ribbone-success-left ">
+            <span>
+              <i className="fe fe-zap"></i>
+            </span>
+          </span>
+          <Card.Header className="d-flex justify-content-between">
+            <Card.Title className="mt-4">Property List</Card.Title>
+            <div className="d-flex justify-content-end">
+              <Button
+                onClick={() => {
+                  RouteChange();
+                }}
+              >
+                Add Property
+              </Button>
+            </div>
+          </Card.Header>
+        </Card>
+      </Row>
+
+      <Row className="mt-2.">
+        {propertyList &&
+          propertyList.map((item, index) => {
+            return (
+              <Col xs={4} key={index}>
+                <Card>
+                  <div className="arrow-ribbone-left bg-warning">Property</div>
+
+                  <Card.Header
+                    style={{ padding: "2.2rem 1.5rem" }}
+                    className="d-flex justify-content-between mt-3"
+                  >
+                    <Card.Title>{item.name}</Card.Title>
+                    <div className="action-icons">
+                      <span className="mx-3">
+                        <i
+                          className="fe fe-edit i-e"
+                          onClick={() => {
+                            navigate(
+                              `/setup/propertysetup/add-property/${item._id}`
+                            );
+                          }}
+                        ></i>
+                      </span>
+                      <span>
+                        <i
+                          className="fe fe-trash-2 i-d"
+                          onClick={() => {
+                            SetIsOpenDeletePopUP(true);
+                            setDeleteId(item._id);
+                          }}
+                        ></i>
+                      </span>
+                    </div>
+                  </Card.Header>
+                  <Card.Body style={{ padding: 10 }}>
+                    <div className="d-flex justify-content-between">
+                      <i className="icon fe fe-map-pin" />
+                      <span>
+                        {item.location ? item.location.city : ""},
+                        {item.location ? item.location.state : ""},
+                        {item.location ? item.location.country : ""}
+                      </span>
+                    </div>
+                    {/* {item.checkInCheckOutConfig.checkInTime ||
+                    item.checkInCheckOutConfig.checkOutTimes ? (
+                      <Row className="d-flex justify-content-between">
+                        <Col lg={6} md={12}>
+                          <i
+                            className="icon fe fe-clock"
+                            style={{ marginRight: "5px" }}
+                          />
+                          <span>
+                            Check-In :
+                            {item.checkInCheckOutConfig
+                              ? item.checkInCheckOutConfig.checkInTime
+                              : ""}
+                          </span>
+                        </Col>
+                        <Col lg={6} md={12}>
+                          <i
+                            className="icon fe fe-clock"
+                            style={{ marginRight: "5px" }}
+                          />
+                          <span>
+                            Check-Out :
+                            {item.checkInCheckOutConfig
+                              ? item.checkInCheckOutConfig.checkOutTime
+                              : ""}
+                          </span>
+                        </Col>
+                      </Row>
+                    ) : null} */}
+                  </Card.Body>
+                </Card>
+              </Col>
+            );
+          })}
+      </Row>
       {isOpenDeletePopUp && (
         <ConformationPopup smallmodalClose={smallmodalClose} />
       )}

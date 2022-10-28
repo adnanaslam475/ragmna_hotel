@@ -38,15 +38,16 @@ const BaseRate = (props) => {
           </div>
         </Col>
         <Col lg={6} md={12} className="form-part p-4">
+          <div>
           {props.roomTypes.map((item, index) => {
             return (
-              <Row key={index}>
+              <Row className="align-items-center" key={index}>
                 <Col lg={6}>
                   <label className="custom-control custom-checkbox-md">
                     {getRoomTypeByID(item.roomTypeId)}
                   </label>
                 </Col>
-                <Col lg={6}>
+                <Col lg={6} className="price-input">
                   <div className="control-group form-group base-input">
                     <i className="icon fe fe-dollar-sign" />
                     <input
@@ -64,6 +65,7 @@ const BaseRate = (props) => {
               </Row>
             );
           })}
+          </div>
           <div className="Previous-button">
             <Button onClick={props.previousStep}>Previous</Button>
           </div>
