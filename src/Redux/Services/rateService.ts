@@ -1,4 +1,4 @@
-import { ADD_DERIVED_RATE, ALL_ROOM_TYPE, DELETE_SEASON, POLICIES, RATE, SEASON, UPDATE_DERIVED_RATE, UPDATE_SEASON } from "../../components/ConstAPI/ConstAPI";
+import { ADD_DERIVED_RATE, ALL_ROOM_TYPE, DELETE_SEASON, POLICIES, RATE, REMOVE_DERIVED_RATE, SEASON, UPDATE_DERIVED_RATE, UPDATE_SEASON } from "../../components/ConstAPI/ConstAPI";
 import { apiInstance } from "./AxiosApi";
 import authHeader from "./authHeader";
 export const getRateProperty = () => {
@@ -39,4 +39,7 @@ export const deleteRate = (id) => {
 }
 export const updateDerivedRate = (payload,id,dID) => {
   return apiInstance.post(RATE + `/${id}/` + UPDATE_DERIVED_RATE + `/${dID}` , payload, { headers: authHeader() })
+}
+export const deleteDerivedRate = (dId,rId) => {
+  return apiInstance.delete(RATE+`/${rId}/${REMOVE_DERIVED_RATE}/${dId}`,{headers:authHeader()})
 }

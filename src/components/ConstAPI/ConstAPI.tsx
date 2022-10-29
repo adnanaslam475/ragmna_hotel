@@ -7,6 +7,7 @@ export const AMENITIES = "amenities";
 export const TAX_CONFIG = "tax-config";
 export const RATE = "rate";
 export const ADD_DERIVED_RATE = "add-derived-rate";
+export const REMOVE_DERIVED_RATE = "remove-derived-rate";
 export const ALL_ROOM_TYPE = "room-types/fetch-all";
 export const SEASON = "add-seasonal-rate";
 export const POLICIES = "policies";

@@ -7,6 +7,7 @@ import "./RateList.scss";
 import {
   getRate,
   getRoomType,
+  removeDerivedRate,
   removeRate,
   useRateList,
   useRoomTypes,
@@ -20,6 +21,7 @@ const RateList = () => {
   let navigate = useNavigate();
   const [isOpenDeletePopUp, setIsOpenDeletePopUp] = useState<boolean>(false);
   const [deleteId, setDeleteId] = useState("");
+  const [derivedId, setDerivedId] = useState("");
   const RouteChange = () => {
     let path = `/setup/ratesetup/addrate`;
     navigate(path);
@@ -45,20 +47,47 @@ const RateList = () => {
     setIsOpenDeletePopUp(true);
     setDeleteId(id);
   };
+  const deleteDerivedRate = (dId, rId) => {
+    setIsOpenDeletePopUp(true);
+    setDerivedId(dId);
+    setDeleteId(rId);
+  };
   const smallmodalClose = async (value) => {
-    if (value) {
-      try {
-        await dispatch(removeRate(deleteId)).unwrap();
-        await dispatch(getRate()).unwrap();
+    if (derivedId) {
+      if (value) {
+        try {
+          let payload = {
+            dId: derivedId,
+            rId: deleteId,
+          };
+          await dispatch(removeDerivedRate(payload)).unwrap();
+          await dispatch(getRate()).unwrap();
+          setIsOpenDeletePopUp(false);
+          setDeleteId("");
+          setDerivedId("");
+          Success("Derived Rate has been deleted");
+        } catch (err: any) {
+          setIsOpenDeletePopUp(false);
+          DangerLeft("Something went Wrong");
+        }
+      } else {
         setIsOpenDeletePopUp(false);
-        setDeleteId("");
-        Success("Rate has been deleted");
-      } catch (err: any) {
-        setIsOpenDeletePopUp(false);
-        DangerLeft("Something went Wrong");
       }
     } else {
-      setIsOpenDeletePopUp(false);
+      if (value) {
+        try {
+          await dispatch(removeRate(deleteId)).unwrap();
+          await dispatch(getRate()).unwrap();
+          setIsOpenDeletePopUp(false);
+          setDeleteId("");
+          Success("Rate has been deleted");
+        } catch (err: any) {
+          setIsOpenDeletePopUp(false);
+          DangerLeft("Something went Wrong");
+        }
+      } else {
+        setIsOpenDeletePopUp(false);
+      }
     }
   };
   const getRoomTypeByID = (id) => {
@@ -150,6 +179,15 @@ const RateList = () => {
                                             );
                                           }}
                                         ></i>
+                                        <i
+                                          onClick={() =>
+                                            deleteDerivedRate(
+                                              derived._id,
+                                              item._id
+                                            )
+                                          }
+                                          className="fe fe-trash-2 i-d mx-1"
+                                        ></i>
                                       </span>
                                     </div>
                                   );
@@ -165,7 +203,10 @@ const RateList = () => {
                             {item?.roomTypes
                               ? item.roomTypes.map((roomType, rindex) => {
                                   return (
-                                    <div key={rindex} className="d-flex justify-content-between">
+                                    <div
+                                      key={rindex}
+                                      className="d-flex justify-content-between"
+                                    >
                                       <span>
                                         {getRoomTypeByID(roomType.roomTypeId)}
                                       </span>
