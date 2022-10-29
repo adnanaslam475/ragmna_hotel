@@ -24,6 +24,41 @@ const Rates = ({ seasonBody, setbasePrice, setChannelPrice ,onRateCheckBoxChange
       }
     }
   };
+
+  // useEffect(()=>{
+  //   let array:any = []
+  //   for (let index = 0; index < seasonBody.roomTypes.length; index++) {
+  //     console.log(seasonBody?.roomTypes[index]?.price,'seasonBody?.roomTypes?.price');
+  //     if(seasonBody?.roomTypes[index]?.price > 0){
+
+  //       // setRateCheck([...rateCheck,seasonBody.roomTypes[index].roomTypeId])
+  //       array.push(seasonBody.roomTypes[index].roomTypeId)
+  //     }
+  //   }
+  //   setRateCheck(array)
+  //   console.log(array,'array');
+
+  //   // console.log(array,'array');
+
+  //   // if(seasonBody?.roomTypes){
+  //   //   let array = seasonBody.roomTypes.map((val,i)=>{
+  //   //     if(val?.price > 0){
+  //   //       return val.roomTypeId
+  //   //     }
+  //   //   })
+  //   //   setRateCheck([...array])
+  //   // }
+
+  // },[seasonBody])
+
+  const getCheckValue = (item, index) => {
+    if (item.price > 0 || item.price === null || item?.channelPrices?.find((val) => val.price > 0 || val.price === null)) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   return (
     <React.Fragment>
       <div className="rate">
@@ -45,6 +80,7 @@ const Rates = ({ seasonBody, setbasePrice, setChannelPrice ,onRateCheckBoxChange
           </Row>
           {seasonBody &&
             seasonBody.roomTypes.map((item, index) => {
+
               return (
                 <Row key={index}>
                   <Col lg={3} md={6} sm={12}>
@@ -53,12 +89,12 @@ const Rates = ({ seasonBody, setbasePrice, setChannelPrice ,onRateCheckBoxChange
                         type="checkbox"
                         className="custom-control-input"
                         name={item.roomTypeId}
-                        checked={item.price > 0 || item.price === undefined ? true : false}
-                        onChange={(e:any) => {
-                          onRateCheckBoxChange(e,index)
-                          // if(e.target.checked){
-                          //   setRateCheck([...rateCheck,e.target.name])
-                          // }
+                        // checked={item.price > 0 || item.price === null || item.channelPrices.findIndex((val,i)=> val.price > 0 || val.price === null) ? true : false}
+                        checked={getCheckValue(item, index)}
+
+                        onChange={(e: any) => {
+                          onRateCheckBoxChange(e, index)
+
                         }}
                       />
                       <span className="custom-control-label">

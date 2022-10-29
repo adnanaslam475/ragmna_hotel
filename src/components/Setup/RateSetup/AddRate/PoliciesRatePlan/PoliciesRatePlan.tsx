@@ -121,7 +121,6 @@ const PoliciesRatePlan = (props) => {
                             type="radio"
                             className="custom-control-input"
                             name="Deposit"
-                            defaultValue="option5"
                             checked={item._id === props.rate.depositPolicy}
                             onChange={(e) => {
                               props.onRadioChange(e, ind, item, "deposit");
@@ -142,7 +141,6 @@ const PoliciesRatePlan = (props) => {
                   type="checkbox"
                   className="custom-control-input"
                   name="example-checkbox5"
-                  defaultValue="option5"
                   checked={props.rate.checkInPolicy || checkIn ? true : false}
                   onChange={(e) => {
                     props.clearPolicy(e, "check-In");
@@ -167,7 +165,6 @@ const PoliciesRatePlan = (props) => {
                             type="radio"
                             className="custom-control-input"
                             name="Check-in"
-                            defaultValue="option5"
                             checked={item._id === props.rate.checkInPolicy}
                             onChange={(e) => {
                               props.onRadioChange(e, ind, item, "check-In");
@@ -189,7 +186,6 @@ const PoliciesRatePlan = (props) => {
                   type="checkbox"
                   className="custom-control-input"
                   name="example-checkbox5"
-                  defaultValue="option5"
                   checked={props.rate.noShowPolicy || noShow ? true : false}
                   onChange={(e) => {
                     props.clearPolicy(e, "No-Show");
@@ -211,7 +207,6 @@ const PoliciesRatePlan = (props) => {
                             type="radio"
                             className="custom-control-input"
                             name="No-Show"
-                            defaultValue="option5"
                             checked={item._id === props.rate.noShowPolicy}
                             onChange={(e) => {
                               props.onRadioChange(e, ind, item, "No-Show");

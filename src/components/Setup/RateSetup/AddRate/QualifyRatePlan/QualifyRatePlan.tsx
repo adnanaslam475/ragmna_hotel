@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { Col, Row, Button } from "react-bootstrap";
 import "./QualifyRatePlan.scss";
 
-const QualifyRatePlan = (props) => {
+const QualifyRatePlan = (props: any) => {
+  const { onQulifyRateCheckChange, restrictionsChange, rate, previousStep, nextStep } = props;
   const [length, setLength] = useState<boolean>(false);
   const [min, setMin] = useState<boolean>(false);
   const [max, setMax] = useState<boolean>(false);
   const [promo, setPromo] = useState<boolean>(false);
-
+  
   return (
     <React.Fragment>
       <Row>
@@ -26,9 +27,16 @@ const QualifyRatePlan = (props) => {
                 <input
                   type="checkbox"
                   className="custom-control-input"
-                  name="example-checkbox5"
+                  name="lengthOfStay"
                   checked={length}
-                  onClick={() => setLength(!length)}
+                  onChange={(e) => {
+                    if(!e.target.checked){
+                      setMin(false)
+                      setMax(false)
+                    }
+                    setLength(!length)
+                    onQulifyRateCheckChange('lengthOfStay', e)
+                  }}
                 />
                 <span className="custom-control-label">Length of stay</span>
               </label>
@@ -40,9 +48,14 @@ const QualifyRatePlan = (props) => {
                   <input
                     type="checkbox"
                     className="custom-control-input"
-                    name="example-min"
+                    name="minimumNights"
                     checked={min}
-                    onChange={() => setMin(!min)}
+                    onChange={(e) => {
+                      if(e.target.checked) setMin(true)
+                      else setMin(false)
+                      setMin(!min)
+                      onQulifyRateCheckChange('minimumNights', e)
+                    }}
                   />
                   <span className="custom-control-label">
                     Min <i className="fe fe-minus-circle" />
@@ -50,11 +63,11 @@ const QualifyRatePlan = (props) => {
                       className="check-input"
                       disabled={!min}
                       onChange={(e) => {
-                        props.restrictionsChange("minimumNights", e);
+                        restrictionsChange("minimumNights", e);
                       }}
-                      value={props.rate.minimumNights}
+                      value={rate.minimumNights}
                       type="number"
-                    />{" "}
+                    />
                     <i className="fe fe-plus-circle" />
                     Nights
                   </span>
@@ -65,19 +78,22 @@ const QualifyRatePlan = (props) => {
                     className="custom-control-input"
                     name="example-max"
                     checked={max}
-                    onChange={() => setMax(!max)}
+                    onChange={(e) => {
+                      setMax(!max)
+                      onQulifyRateCheckChange('maximumNights', e)
+                    }}
                   />
                   <span className="custom-control-label">
                     Max <i className="fe fe-minus-circle" />
                     <input
                       className="check-input"
                       disabled={!max}
-                      value={props.rate.maximumNights}
+                      value={rate.maximumNights}
                       onChange={(e) => {
-                        props.restrictionsChange("maximumNights", e);
+                        restrictionsChange("maximumNights", e);
                       }}
                       type="number"
-                    />{" "}
+                    />
                     <i className="fe fe-plus-circle" />
                     Nights
                   </span>
@@ -92,7 +108,10 @@ const QualifyRatePlan = (props) => {
                   className="custom-control-input"
                   name="example-promo"
                   checked={promo}
-                  onClick={() => setPromo(!promo)}
+                  onChange={(e) => {
+                    setPromo(!promo)
+                    onQulifyRateCheckChange('promoCode', e)
+                  }}
                 />
                 <span className="custom-control-label">Promo code</span>
               </label>
@@ -102,10 +121,10 @@ const QualifyRatePlan = (props) => {
                 <input
                   required
                   type="text"
-                  value={props.rate.promoCode}
+                  value={rate.promoCode}
                   disabled={!promo}
                   onChange={(e) => {
-                    props.restrictionsChange("promoCode", e);
+                    restrictionsChange("promoCode", e);
                   }}
                   className="form-control required"
                   name="promocode"
@@ -114,10 +133,10 @@ const QualifyRatePlan = (props) => {
             ) : null}
           </div>
           <div className="Previous-button">
-            <Button onClick={props.previousStep}>Previous</Button>
+            <Button onClick={previousStep}>Previous</Button>
           </div>
           <div className="next-button">
-            <Button onClick={props.nextStep}>Next</Button>
+            <Button onClick={nextStep}>Next</Button>
           </div>
         </Col>
       </Row>

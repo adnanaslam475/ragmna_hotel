@@ -3,10 +3,12 @@ import { Button, Col, Row } from "react-bootstrap";
 import { useRoomTypes } from "../../RateSetupSlice";
 import "./BaseRate.scss";
 
-const BaseRate = (props) => {
+const BaseRate = (props:any) => {
+  const {previousStep,changeInput} = props
   const { roomTypes } = useRoomTypes();
 
   const onSubmit = () => {
+    
     props.nextStep();
   };
 
@@ -47,7 +49,7 @@ const BaseRate = (props) => {
                       name="price"
                       value={item.price}
                       onChange={(e) => {
-                        props.changeInput("price", e.target.value ,index);
+                        changeInput("price", e.target.value ,index);
                       }}
                     />
                   </div>
@@ -57,7 +59,7 @@ const BaseRate = (props) => {
           })}
           </div>
           <div className="Previous-button">
-            <Button onClick={props.previousStep}>Previous</Button>
+            <Button onClick={previousStep}>Previous</Button>
           </div>
           <div className="next-button">
             <Button onClick={() => onSubmit()}>Next</Button>

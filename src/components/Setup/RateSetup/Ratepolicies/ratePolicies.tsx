@@ -76,8 +76,8 @@ const RatePolicies = () => {
 						</Card.Header>
 						<Card.Body>
 							<Accordion defaultActiveKey="0" className="demo-accordion accordionjs m-0">
-								{polices.map((entry) => (
-									<Accordion.Item eventKey="1" className="acc_section ">
+								{polices.map((entry,index) => (
+									<Accordion.Item key={index} eventKey="1" className="acc_section ">
 										<Accordion.Header className="acc_head">
 											<div style={{ display: 'flex' }}>{entry.type} Policy</div>
 											{entry.type === 'Deposit' ? (

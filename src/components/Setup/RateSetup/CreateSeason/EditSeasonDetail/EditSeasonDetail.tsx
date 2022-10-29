@@ -69,6 +69,8 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
       promoCode: "",
     },
   });
+  console.log(season, 'season');
+
   useEffect(() => {
     if (season && season._id) {
       let clonedObject = { ...seasonBody };
@@ -90,9 +92,28 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
       SetSeasonBody(clonedObject);
     }
   }, [season]);
+  console.log(rateData, 'rateData');
+
   useEffect(() => {
     if (!season._id) {
       if (season && rateData) {
+
+        let array: any = []
+        for (let i = 0; i < rateData?.channels.length; i++) {
+          array.push({
+            channel: rateData?.channels[i],
+            price: 0
+          })
+        }
+
+        let array2: any = []
+        for (let j = 0; j < rateData?.roomTypes.length; j++) {
+          array2.push({
+            ...rateData.roomTypes[j],
+            channelPrices: array
+          })
+        }
+
         let clonedObject = { ...seasonBody };
         clonedObject = {
           ...clonedObject,
@@ -102,7 +123,7 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
           endDate: season.endDate,
           days: season.days,
           restrictions: rateData.restrictions,
-          roomTypes: rateData.roomTypes,
+          roomTypes: array2,
           channels: rateData.channels,
           depositPolicy: rateData.depositPolicy,
           cancellationPolicy: rateData.cancellationPolicy,
@@ -117,17 +138,25 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
   const setbasePrice = (index, value) => {
     if (seasonBody.roomTypes.length) {
       let array = seasonBody.roomTypes.slice();
-      if (array[index]?.price) {
+      // if (value) {
         array[index] = {
           roomTypeId: array[index].roomTypeId,
           channelPrices: array[index].channelPrices,
-          price: parseInt(value),
-        };
-      }
+          price: value ? parseInt(value) : 0,
+        }
+      // } else {
+      //   array[index] = {
+      //     roomTypeId: array[index].roomTypeId,
+      //     channelPrices: array[index].channelPrices,
+      //     price: 0,
+      //   }
+      // }
       const newObj = { ...seasonBody, roomTypes: array };
       SetSeasonBody(newObj);
-    }
+    } 
+
   };
+
   const hexToRGB = (hex: string, alpha: number | undefined = 1) => {
     hex = hex.toUpperCase();
 
@@ -141,17 +170,26 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
   const setChannelPrice = (index, value, channel, cIndex) => {
     let array = seasonBody.roomTypes.slice();
     let channelArray = seasonBody.roomTypes[index].channelPrices.slice();
-    channelArray[cIndex] = {
-      price: parseInt(value),
-      channel: channel,
-    };
+    if (value) {
+      channelArray[cIndex] = {
+        price: parseInt(value),
+        channel: channel,
+      };
+    }
+    else {
+      channelArray[cIndex] = {
+        price: 0,
+        channel: channel,
+      };
+    }
     array[index] = {
       roomTypeId: array[index].roomTypeId,
       channelPrices: channelArray,
-      price: parseInt(array[index].price),
+      price: array[index].price,
     };
     const newObj = { ...seasonBody, roomTypes: array };
     SetSeasonBody(newObj);
+
   };
 
   const onHandleRestrictionInputChange = (e) => {
@@ -204,29 +242,48 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
       }
     }
   };
+
   const onRateCheckBoxChange = (e, index) => {
-    if (!e.target.checked) {
-      let array = seasonBody.roomTypes.slice();
-        array[index] = {
-          roomTypeId: array[index].roomTypeId,
-          channelPrices: array[index].channelPrices,
-          price: 0,
-        };
+    let array: any = seasonBody.roomTypes.slice();
+    let array2: any = seasonBody.roomTypes[index].channelPrices.slice()
+    if (e.target.checked) {
+      for (let j = 0; j < array2.length; j++) {
+        array2[j] = {
+          ...array2[j],
+          price: null
+        }
+      }
+      array[index] = {
+        roomTypeId: array[index].roomTypeId,
+        channelPrices: array2,
+        price: null,
+      };
       const newObj = { ...seasonBody, roomTypes: array };
       SetSeasonBody(newObj);
+      // console.log(array2,'array2');
+
     } else {
-      if (e.target.checked) {
-        let array = seasonBody.roomTypes.slice();
-          array[index] = {
-            roomTypeId: array[index].roomTypeId,
-            channelPrices: array[index].channelPrices,
-            price: undefined,
-          };
-        const newObj = { ...seasonBody, roomTypes: array };
-        SetSeasonBody(newObj);
+
+      for (let j = 0; j < array2.length; j++) {
+        array2[j] = {
+          ...array2[j],
+          price: 0
+        }
       }
+      console.log(array2, 'array2');
+
+      array[index] = {
+        roomTypeId: array[index].roomTypeId,
+        // channelPrices: array[index].channelPrices,
+        channelPrices: array2,
+        price: 0,
+      };
+      const newObj = { ...seasonBody, roomTypes: array };
+      SetSeasonBody(newObj);
     }
   }
+  console.log(seasonBody, 'seasonBody');
+
   return (
     <React.Fragment>
       <Modal

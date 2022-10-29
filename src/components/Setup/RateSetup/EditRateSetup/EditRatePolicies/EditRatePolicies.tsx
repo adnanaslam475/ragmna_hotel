@@ -20,6 +20,9 @@ const EditRatePolicies = ({
   const [noShow, setNoShow] = useState<boolean>(false);
   const [minNights, setMinNights] = useState<boolean>(false);
   const [maxNights, setMaxNights] = useState<boolean>(false);
+  const [length, setLength] = useState<boolean>(false);
+  const [promoCode, setPromoCode] = useState<boolean>(false);
+
 
   // let [editPolicies, setEditPolicies] = useState<any>(rateData);
 
@@ -33,11 +36,16 @@ const EditRatePolicies = ({
   }, []);
 
   useEffect(() => {
-    if (editPolicies?.restrictions?.minimumNights) {
+    if (editPolicies?.restrictions?.minimumNights || editPolicies?.restrictions?.minimumNights === null) {
       setMinNights(true);
+      setLength(true)
     }
-    if (editPolicies?.restrictions?.maximumNights) {
+    if (editPolicies?.restrictions?.maximumNights || editPolicies?.restrictions?.maximumNights === null) {
       setMaxNights(true);
+      setLength(true)
+    }
+    if (editPolicies?.restrictions?.promoCode || editPolicies?.restrictions?.promoCode === '') {
+      setPromoCode(true)
     }
   }, [editPolicies]);
 
@@ -59,18 +67,20 @@ const EditRatePolicies = ({
                 className="custom-control-input"
                 name="Length"
                 defaultValue="Length of stay"
-                checked={minNights || maxNights ? true : false}
+                checked={length ? true : false}
                 onChange={(e) => {
+                  if(e.target.checked) setLength(true)
+                  else setLength(false)
                   setMinNights(false);
                   setMaxNights(false);
-                  handelCheckChange(e, "minimumNights");
-                  handelCheckChange(e, "maximumNights");
+                  handelCheckChange(e, "LengthOfStay");
+                  // handelCheckChange(e, "maximumNights");
                 }}
               />
               <span className="custom-control-label">Length of stay</span>
             </label>
           </div>
-          {minNights || maxNights ? (
+          {length ? (
             <div className="inner-class">
               <h6>Guests Must Stay</h6>
               <label className="custom-control custom-checkbox-md">
@@ -88,7 +98,7 @@ const EditRatePolicies = ({
                 <span className="custom-control-label">
                   Min <i className="fe fe-minus-circle" />
                   <input
-                    disabled={!editPolicies?.restrictions?.minimumNights}
+                    disabled={!minNights}
                     className="check-input"
                     type="number"
                     name="minimumNights"
@@ -116,7 +126,7 @@ const EditRatePolicies = ({
                 <span className="custom-control-label">
                   Max <i className="fe fe-minus-circle" />
                   <input
-                    disabled={!editPolicies?.restrictions?.maximumNights}
+                    disabled={!maxNights}
                     className="check-input"
                     type="number"
                     name="maximumNights"
@@ -139,15 +149,17 @@ const EditRatePolicies = ({
                 className="custom-control-input"
                 name="promo"
                 defaultValue="option5"
-                checked={editPolicies?.restrictions?.promoCode ? true : false}
+                checked={promoCode ? true : false}
                 onChange={(e) => {
+                  if(e.target.checked) setPromoCode(true)
+                  else setPromoCode(false)
                   handelCheckChange(e, "promoCode");
                 }}
               />
               <span className="custom-control-label">Promo code</span>
             </label>
           </div>
-          {editPolicies?.restrictions?.promoCode ? (
+          {promoCode ? (
             <div className="control-group form-group w-30 inner-class">
               <input
                 type="text"

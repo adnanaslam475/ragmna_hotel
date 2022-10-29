@@ -9,6 +9,7 @@ import "./DefaultRatePlan.scss";
 const DefaultRatePlan = (props) => {
   const dispatch = useDispatch<AppDispatch>();
   const { roomTypes } = useRoomTypes();
+  
   const getRoomTypes = async () => {
      await dispatch(getRoomType()).unwrap();
   };

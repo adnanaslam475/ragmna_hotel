@@ -106,22 +106,6 @@ const AddRate = () => {
       },
     });
   };
-  const restrictionsChange = (key, value) => {
-    if (type === "nightly") {
-      setRate({
-        ...rate,
-        restrictions: { ...rate.restrictions, [key]: value.target.value },
-      });
-    } else {
-      setDerivedRate({
-        ...derivedRate,
-        restrictions: {
-          ...derivedRate.restrictions,
-          [key]: value.target.value,
-        },
-      });
-    }
-  };
   const setDates = (key, value, index) => {
     let temp: any = Object.assign([], customDate);
     temp[index][key] = value;
@@ -285,6 +269,93 @@ const AddRate = () => {
       }
     }
   };
+  const restrictionsChange = (key, value) => {
+    if (type == "nightly") {
+      if (key == 'promoCode') {
+        setRate({
+          ...rate,
+          restrictions: { ...rate.restrictions, [key]: value ? value.target.value : '' },
+        });
+      } else {
+        setRate({
+          ...rate,
+          restrictions: { ...rate.restrictions, [key]: value ? parseInt(value.target.value) : 0 },
+        });
+      }
+    } else {
+      if (key == 'promoCode') {
+        setDerivedRate({
+          ...derivedRate,
+          restrictions: {
+            ...derivedRate.restrictions,
+            [key]: value ? value.target.value : '',
+          },
+        });
+      } else {
+        setDerivedRate({
+          ...derivedRate,
+          restrictions: {
+            ...derivedRate.restrictions,
+            [key]: value ? parseInt(value.target.value) : 0,
+          },
+        });
+      }
+    }
+  };
+console.log(derivedRate,'<----   derivedRate');
+
+  const onQulifyRateCheckChange = (key, e) => {
+    if (!e.target.checked) {
+      if (type == "nightly") {
+        if (key === 'lengthOfStay') {
+          setRate({
+            ...rate,
+            restrictions: { ...rate.restrictions, minimumNights: 0, maximumNights: 0 },
+          });
+        } else if (key === 'promoCode') {
+          setRate({
+            ...rate,
+            restrictions: { ...rate.restrictions, [key]: '' },
+          });
+        } else {
+          setRate({
+            ...rate,
+            restrictions: { ...rate.restrictions, [key]: 0 },
+          });
+        }
+      } else {
+        if (key === 'lengthOfStay') {
+          console.log('key ----> ',key);
+          
+          setDerivedRate({
+            ...derivedRate,
+            restrictions: {
+              ...derivedRate.restrictions,
+              minimumNights: 0,
+              maximumNights: 0,
+            },
+          });
+        }
+        else if (key == 'promoCode') {
+          setDerivedRate({
+            ...derivedRate,
+            restrictions: {
+              ...derivedRate.restrictions,
+              [key]: '',
+            },
+          });
+        } else {
+          setDerivedRate({
+            ...derivedRate,
+            restrictions: {
+              ...derivedRate.restrictions,
+              [key]: 0,
+            },
+          });
+        }
+      }
+    }
+  }
   return (
     <React.Fragment>
       <Card>
@@ -297,6 +368,7 @@ const AddRate = () => {
               <DefaultRatePlan setRoomTypes={setRoomTypes} />
               <BaseRate changeInput={changeInput} roomTypes={rate.roomTypes} />
               <QualifyRatePlan
+                onQulifyRateCheckChange={onQulifyRateCheckChange}
                 rate={rate.restrictions}
                 restrictionsChange={restrictionsChange}
               />
@@ -324,6 +396,7 @@ const AddRate = () => {
               <RateChannelDistribut saveChannel={saveChannel} />
               <DefaultRatePlan setRoomTypes={setRoomTypes} />
               <QualifyRatePlan
+                onQulifyRateCheckChange={onQulifyRateCheckChange}
                 rate={derivedRate.restrictions}
                 restrictionsChange={restrictionsChange}
               />

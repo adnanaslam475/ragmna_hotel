@@ -165,7 +165,7 @@ const RateList = () => {
                             {item?.roomTypes
                               ? item.roomTypes.map((roomType, rindex) => {
                                   return (
-                                    <div className="d-flex justify-content-between">
+                                    <div key={rindex} className="d-flex justify-content-between">
                                       <span>
                                         {getRoomTypeByID(roomType.roomTypeId)}
                                       </span>

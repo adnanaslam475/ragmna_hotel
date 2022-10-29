@@ -83,7 +83,7 @@ const CreateSeason = (props: any) => {
   const isModelClose = () => {
     setIsEditModel(false);
   };
-
+  
   useEffect(() => {
     if (rateData && rateData.seasons) {
       let seasons: any = [];

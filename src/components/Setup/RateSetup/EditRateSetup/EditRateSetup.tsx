@@ -114,26 +114,33 @@ const EditRateSetup = () => {
     let clonedObject = { ...ratePlanDetails };
     clonedObject = {
       ...clonedObject,
-      restrictions: { ...clonedObject.restrictions, [key]: val },
+      restrictions: { ...clonedObject.restrictions, [key]: val ? key === 'promoCode' ? val : parseInt(val) : key === 'promoCode' ? '' : 0 },
     };
     setRatePlanDetails(clonedObject);
   };
 
   const handelCheckChange = (e, key) => {
+    let clonedObject = { ...ratePlanDetails };
     if (e.target.checked) {
-      let clonedObject = { ...ratePlanDetails };
-      clonedObject = {
-        ...clonedObject,
-        restrictions: { ...clonedObject.restrictions, [key]: 1 },
-      };
-      setRatePlanDetails(clonedObject);
+        clonedObject = {
+          ...clonedObject,
+          restrictions: { ...clonedObject.restrictions, [key]: key == 'promoCode'? '': null },
+        };
+        setRatePlanDetails(clonedObject);
     } else {
-      let clonedObject = { ...ratePlanDetails };
+      if(key == 'LengthOfStay'){
+        clonedObject = {
+          ...clonedObject,
+          restrictions: { ...clonedObject.restrictions, minimumNights: 0,maximumNights:0 },
+        };
+        setRatePlanDetails(clonedObject);
+      } else {
       clonedObject = {
         ...clonedObject,
-        restrictions: { ...clonedObject.restrictions, [key]: null },
+        restrictions: { ...clonedObject.restrictions, [key]: 0 },
       };
       setRatePlanDetails(clonedObject);
+    }
     }
   };
   const onRadioChange = (e, ind, val, key) => {
