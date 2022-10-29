@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React from "react";
 import { Form, Col, Row, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
@@ -86,10 +86,7 @@ const BusinessSetup = () => {
     handleChange,
     handleSubmit,
     values,
-    errors,
-    touched,
-    setValues,
-    setFieldValue,
+    setValues
   } = useFormik({
     initialValues,
     validationSchema,

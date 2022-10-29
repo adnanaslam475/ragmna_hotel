@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Header.module.scss";
 import "./Header.scss";
 import { Link } from "react-router-dom";
@@ -9,25 +9,10 @@ import {
   Row,
   Col,
   Dropdown,
-  Badge,
   Navbar,
   InputGroup,
-  Form,
-  Card,
 } from "react-bootstrap";
-import PerfectScrollbar from "react-perfect-scrollbar";
-import { MENUITEMS } from "../Sidebar/Sidemenu";
-import Select from "react-select";
-import {
-  getProperties,
-  usePropertyList,
-} from "../../components/Setup/PropertySetup/propertySetupSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../../Redux/Store";
-import {
-  saveGlobalProperty,
-  useGlobalProperty,
-} from "../../Redux/globalReducer";
+import { useGlobalProperty } from "../../Redux/globalReducer";
 
 const SideMenuIcon: any = () => {
   //leftsidemenu
@@ -39,151 +24,25 @@ const DarkMode: any = () => {
   document.querySelector(".app")?.classList.toggle("dark-mode");
 };
 
-// FullScreen
-var elem: any = document.documentElement;
-var i = true;
-const Fullscreen: any = (vale: any) => {
-  switch (vale) {
-    case true:
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) {
-        /* Safari */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) {
-        /* IE11 */
-        elem.msRequestFullscreen();
-      }
-      i = false;
-      break;
-    case false:
-      document.exitFullscreen();
-      i = true;
-      break;
-  }
-};
-
-// SwitcherMenu
-
-const SidSwitcherIcon: any = () => {
-  //leftsidemenu
-  document.querySelector(".demo_changer")?.classList.toggle("active");
-  let Rightside: any = document.querySelector(".demo_changer");
-  Rightside.style.right = "0px";
-};
-
 const RightSideBar: any = () => {
-  //leftsidemenu
-
-  //rightsidebar
   document.querySelector(".sidebar-right")?.classList.toggle("sidebar-open");
-  //swichermainright
 };
 const Header = () => {
   const { property } = useGlobalProperty();
-  const { propertyList } = usePropertyList();
-  const dispatch = useDispatch<AppDispatch>();
 
-  const getAllProperties = async () => {
-    try {
-      const response: any = await dispatch(getProperties()).unwrap();
-    } catch (error: any) {
-      console.log(error);
-    }
-  };
-  // useEffect(() => {
-  //   if (selectedProperty.value) {
-  //     const response: any = dispatch(saveGlobalProperty(selectedProperty));
-  //   }
-  // }, [selectedProperty]);
-  // useEffect(() => {
-  //   getAllProperties();
-  // }, []);
   useEffect(() => {
     if (property) {
       console.log(property);
     }
   }, [property]);
-  const getPropertyName = () => {
-    if (!propertyList) {
-      return [];
-    }
-    const data = propertyList.map((item: any, index: any) => ({
-      value: `${item["_id"]}`,
-      label: `${item["name"]}`,
-    }));
-    return [...data];
-  };
 
   document.querySelector(".main-content")?.addEventListener("click", () => {
     document.querySelector(".search-result")?.classList.add("d-none");
   });
 
-  // For CountrySelector Modal
   const [show, setShow] = useState(false);
-  const [show1, setShow1] = useState(false);
-  const [show2, setShow2] = useState(false);
-  const [InputValue, setInputValue] = useState("");
-  const [searchval, setsearchval] = useState("Type something");
-  const [searchcolor, setsearchcolor] = useState("text-dark");
-  const [NavData, setNavData] = useState<any>([]);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  useEffect(() => {});
-  let myfunction = (inputvalue: any) => {
-    document.querySelector(".search-result")?.classList.remove("d-none");
-
-    let i: any = [];
-    let allElement2: any[] = [];
-
-    MENUITEMS.map((mainlevel) => {
-      if (mainlevel.Items) {
-        mainlevel.Items.map((sublevel) => {
-          // console.log("sublevel --- ", sublevel)
-          if (sublevel.children) {
-            sublevel.children.map((sublevel1: any) => {
-              // console.log("sublevel1 --- ", sublevel1)
-              i.push(sublevel1);
-              if (sublevel1.children) {
-                sublevel1.children.map((sublevel2) => {
-                  // console.log("sublevel2 --- ", sublevel2)
-                  i.push(sublevel2);
-                  return sublevel2;
-                });
-              }
-              return sublevel1;
-            });
-          }
-          return sublevel;
-        });
-      }
-      return mainlevel;
-    });
-    for (let allElement of i) {
-      if (allElement.title.toLowerCase().includes(inputvalue.toLowerCase())) {
-        if (
-          allElement.title.toLowerCase().startsWith(inputvalue.toLowerCase())
-        ) {
-          setShow2(true);
-          allElement2.push(allElement);
-        }
-      }
-    }
-    if (!allElement2.length || inputvalue === "") {
-      if (inputvalue === "") {
-        setShow2(false);
-        setsearchval("Type something");
-        setsearchcolor("text-dark");
-      }
-      if (!allElement2.length) {
-        setShow2(false);
-        setsearchcolor("text-danger");
-        setsearchval("There is no component with this name");
-      }
-    }
-    setNavData(allElement2);
-  };
 
   return (
     <div className={styles.Header}>
@@ -209,49 +68,6 @@ const Header = () => {
                 alt="logo"
               />
             </Link>
-            {/* <div className="main-header-center ms-3 d-none d-lg-block">
-              <FormControl
-                onChange={(ele) => {
-                  myfunction(ele.target.value);
-                  setInputValue(ele.target.value);
-                }}
-                onClick={() => {
-                  setShow1(true);
-                }}
-                placeholder="Search for results..."
-                type="search"
-              />
-              <button className="btn px-0 pt-2">
-                <i className="fe fe-search" aria-hidden="false"></i>
-              </button>
-              {show1 ? (
-                <div className="card search-result p-absolute w-100 card border mt-1">
-                  <div className="card-header">
-                    <h4 className="card-title me-2 text-break">
-                      Search result of "{InputValue}"
-                    </h4>
-                  </div>
-                  <ul className="card-body list-group">
-                    {show2 ? (
-                      NavData.map((e) => (
-                        <li key={Math.random()}>
-                          <Link className="list-group-item" to={`${e.path}/`}>
-                            {e.title}
-                          </Link>
-                        </li>
-                      ))
-                    ) : (
-                      <b className={`${searchcolor} list-group-item`}>
-                        {searchval}
-                      </b>
-                    )}
-                  </ul>
-                </div>
-              ) : (
-                ""
-              )}
-            </div> */}
-
             <Navbar className="d-flex order-lg-2 ms-auto header-right-icons">
               <Dropdown className="dropdown d-none">
                 <Link to="#" className="nav-link icon ">
@@ -289,13 +105,6 @@ const Header = () => {
                         </InputGroup>
                       </Dropdown.Menu>
                     </Dropdown>
-
-                    {/* Country Select Modal */}
-
-                    {/* <Form.Group>
-                      <Select classNamePrefix="Select" options={getPropertyName()} onChange={setSelectedProperty} />
-                    </Form.Group> */}
-
                     <div className="d-flex country">
                       <Link
                         to="#"
@@ -633,7 +442,7 @@ const Header = () => {
                           className="dropdown-item"
                           // href={`/Pages/profile`}
                         >
-                          <Link to={"/pages/profile"} className='p-0'>
+                          <Link to={"/pages/profile"} className="p-0">
                             <i className="dropdown-icon fe fe-user"></i> Profile
                           </Link>
                         </Dropdown.Item>
@@ -669,15 +478,6 @@ const Header = () => {
                   </div>
                 </Navbar.Collapse>
               </div>
-
-              {/* Switcher  */}
-
-              {/* <div
-                className="demo-icon nav-link icon"
-                onClick={() => SidSwitcherIcon()}
-              >
-                <i className="fe fe-settings fa-spin  text_primary"></i>
-              </div> */}
             </Navbar>
           </div>
         </div>

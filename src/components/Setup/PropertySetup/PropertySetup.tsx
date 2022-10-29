@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
-import { CarouselwithTopRightIndicator } from "../../../Data/bootstrap/DataCarousels";
 import "./PropertySetup.scss";
 import { useNavigate } from "react-router-dom";
 import ConformationPopup from "../../../Modals/ConformationPopup/ConformationPopup";
@@ -25,7 +24,7 @@ const PropertySetup = () => {
   const [deleteId, setDeleteId] = useState<string>("");
   const getAllProperties = async () => {
     try {
-      const response: any = await dispatch(getProperties()).unwrap();
+      await dispatch(getProperties()).unwrap();
     } catch (error: any) {
       console.log(error);
     }

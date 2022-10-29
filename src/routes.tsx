@@ -1,4 +1,3 @@
-import { element } from 'prop-types'
 import React, { Fragment, lazy } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { useUser } from './components/Authentication/firebaseAuth/firebaseAuthSlice'
@@ -7,8 +6,6 @@ import { AddRoomType } from './components/Setup/PropertySpace/layout'
 import Loader from './Layouts/Loader/Loader'
 const Auth = lazy(() => import('./components/Authentication/firebaseAuth/auth'))
 const App = lazy(() => import('./components/app'))
-
-const Counters = lazy(() => import('./components/apps/Counters/Counters'))
 
 const DefaultCalender = lazy(() => import('./components/apps/DefaultCalender/DefaultCalender'))
 const Footers = lazy(() => import('./components/apps/Footers/Footers'))

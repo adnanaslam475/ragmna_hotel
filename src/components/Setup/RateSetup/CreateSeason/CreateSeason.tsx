@@ -1,22 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Row, Card, Form } from "react-bootstrap";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers";
-import TextField from "@mui/material/TextField";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import "./CreateSeason.scss";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import EditSeasonDetail from "./EditSeasonDetail/EditSeasonDetail";
 import CalendarSetup from "./CalendarSetup/CalendarSetup";
 import { CommanDropDownType } from "../../PropertySetup/AddProperty/types";
 import DayPickerInput from "react-day-picker/DayPickerInput";
-import { Formik, Form as FormikForm, Field, FieldArray } from "formik";
 import { useParams } from "react-router-dom";
 import { getById, removeSeason, useRateData } from "../RateSetupSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../Redux/Store";
-import { daysInWeek } from "date-fns";
 import ConformationPopup from "../../../../Modals/ConformationPopup/ConformationPopup";
 import {
   DangerLeft,
@@ -25,18 +17,18 @@ import {
 
 const CreateSeason = (props: any) => {
   const { setRatePlanDetails, ratePlanDetails } = props;
+  console.log(ratePlanDetails, "ratePlanDetails");
   const dispatch = useDispatch<AppDispatch>();
   let { id, ind, isDerived } = useParams();
   const { rateData } = useRateData();
-  const getByRateId = () => {
-    let response = dispatch(getById(id ? id : "")).unwrap;
+  const getByRateId = async () => {
+    await dispatch(getById(id ? id : "")).unwrap;
   };
   useEffect(() => {
     if (id) {
       getByRateId();
     }
   }, [id]);
-console.log(isDerived,'isDerived');
 
   let colorTypes: CommanDropDownType[] = [
     { value: "#f0642a", label: "#f6881c" },
@@ -57,7 +49,6 @@ console.log(isDerived,'isDerived');
   ];
 
   const [selectColor] = useState<CommanDropDownType[]>(colorTypes);
-
   const [openSelectColor, setOpenSelectColor] = useState([false]);
   const [isEditModal, setIsEditModel] = useState(false);
   const [isOpenDeletePopUp, setIsOpenDeletePopUp] = useState<boolean>(false);
@@ -95,7 +86,6 @@ console.log(isDerived,'isDerived');
 
   useEffect(() => {
     if (rateData && rateData.seasons) {
-      let temp = Object.assign([], seasonDetails);
       let seasons: any = [];
       for (let index = 0; index < rateData.seasons.length; index++) {
         let payload: any = Object.assign({}, rateData.seasons[index]);
@@ -229,21 +219,20 @@ console.log(isDerived,'isDerived');
   };
 
   const onRadioChange = (e) => {
-      if(e.target.name == 'alwaysAvailable'){
-        let newObj = {...ratePlanDetails,period:[]}
-        setRatePlanDetails(newObj)
-      }
-      setSelectedRadio(e.target.name);
-   
+    if (e.target.name === "alwaysAvailable") {
+      let newObj = { ...ratePlanDetails, period: [] };
+      setRatePlanDetails(newObj);
+    }
+    setSelectedRadio(e.target.name);
   };
 
-  useEffect(()=>{
-    if(ratePlanDetails && ratePlanDetails?.period?.length > 0 ){
-      setSelectedRadio('customDateRange') 
+  useEffect(() => {
+    if (ratePlanDetails && ratePlanDetails?.period?.length > 0) {
+      setSelectedRadio("customDateRange");
     } else {
-      setSelectedRadio('alwaysAvailable')
+      setSelectedRadio("alwaysAvailable");
     }
-  },[ratePlanDetails,setSelectedRadio])
+  }, [ratePlanDetails, setSelectedRadio]);
   return (
     <React.Fragment>
       <div className="tab-content-container">
@@ -273,7 +262,6 @@ console.log(isDerived,'isDerived');
                   type="radio"
                   className="custom-control-input"
                   checked={selectedRadio === "customDateRange"}
-
                   onChange={(e) => {
                     onRadioChange(e);
                   }}
@@ -291,45 +279,70 @@ console.log(isDerived,'isDerived');
                 <div>
                   {ratePlanDetails &&
                     ratePlanDetails?.period.map((item, index) => (
-                      <Row key={index} className="mt-4 align-items-center">
-                        <Col lg={3} className="date-picker">
+                      <Row
+                        key={index}
+                        className="mt-4 align-items-center"
+                        style={{ marginLeft: "15px" }}
+                      >
+                        <Col lg={5} className="date-picker">
                           <DayPickerInput
                             dayPickerProps={{
                               disabledDays: { before: new Date() },
                             }}
                             placeholder="From"
-                            value={ratePlanDetails?.period[index]?.startDate ? new Date(ratePlanDetails?.period[index]?.startDate): ''}
+                            value={
+                              ratePlanDetails?.period[index]?.startDate
+                                ? new Date(
+                                    ratePlanDetails?.period[index]?.startDate
+                                  )
+                                : ""
+                            }
                             onDayChange={(e) => {
-                              let array = ratePlanDetails?.period.slice()
-                              array[index]['startDate'] = e
-                              let newObj = {...ratePlanDetails,period:array}
-                              setRatePlanDetails(newObj)
+                              let array = ratePlanDetails?.period.slice();
+                              array[index]["startDate"] = e;
+                              let newObj = {
+                                ...ratePlanDetails,
+                                period: array,
+                              };
+                              setRatePlanDetails(newObj);
                             }}
                           />
                         </Col>
-                        <Col lg={3} className="date-picker">
+                        <Col lg={5} className="date-picker">
                           <DayPickerInput
                             dayPickerProps={{
                               disabledDays: { before: new Date() },
                             }}
                             placeholder="To"
-                            value={ratePlanDetails?.period[index]?.endDate ? new Date(ratePlanDetails?.period[index]?.endDate): ''}
+                            value={
+                              ratePlanDetails?.period[index]?.endDate
+                                ? new Date(
+                                    ratePlanDetails?.period[index]?.endDate
+                                  )
+                                : ""
+                            }
                             onDayChange={(e) => {
-                              let array = ratePlanDetails?.period.slice()
-                              array[index]['endDate'] = e
-                              let newObj = {...ratePlanDetails,period:array}
-                              setRatePlanDetails(newObj)
+                              let array = ratePlanDetails?.period.slice();
+                              array[index]["endDate"] = e;
+                              let newObj = {
+                                ...ratePlanDetails,
+                                period: array,
+                              };
+                              setRatePlanDetails(newObj);
                             }}
                           />
                         </Col>
                         <Col lg={2} md={6} sm={12}>
                           <i
-                            className="icon fe fe-minus-circle"
+                            className="icon fe fe-minus-circle fs-20"
                             onClick={() => {
-                              let array = ratePlanDetails?.period.slice()
-                              array.splice(index,1)
-                              let newObj = {...ratePlanDetails,period:array}
-                              setRatePlanDetails(newObj)
+                              let array = ratePlanDetails?.period.slice();
+                              array.splice(index, 1);
+                              let newObj = {
+                                ...ratePlanDetails,
+                                period: array,
+                              };
+                              setRatePlanDetails(newObj);
                             }}
                           />
                         </Col>
@@ -337,18 +350,17 @@ console.log(isDerived,'isDerived');
                     ))}
                   <Row>
                     <i
-                      className="icon i-plus fe fe-plus-circle mt-2"
+                      className="icon i-plus fe fe-plus-circle mt-2 fs-20"
                       onClick={() => {
-                        let array =
-                          ratePlanDetails?.period.slice();
-                        if(array?.length > 0){
+                        let array = ratePlanDetails?.period.slice();
+                        if (array?.length > 0) {
                           array.push({ startDate: null, endDate: null });
                         } else {
-                          array = [{ startDate: null, endDate: null }]
+                          array = [{ startDate: null, endDate: null }];
                         }
                         let newObj = {
                           ...ratePlanDetails,
-                          period:array
+                          period: array,
                         };
                         setRatePlanDetails(newObj);
                       }}
@@ -358,16 +370,22 @@ console.log(isDerived,'isDerived');
               ) : null}
             </Col>
             <Col className="lg-6">
-              <CalendarSetup dateRange={ratePlanDetails?.period} />
+              <CalendarSetup
+                dateRange={
+                  selectedRadio === "alwaysAvailable"
+                    ? rateData?.seasons
+                    : ratePlanDetails?.period
+                }
+              />
             </Col>
           </Row>
         ) : (
           <Row>
-            <Card>
+            <Card className="card-bg">
               <Card.Body>
-                <Row>
+                <Row className="align-items-center">
                   <Col lg={6}>
-                    <h4>{rateData.name}</h4>
+                    <h4 className="m-0">{rateData.name}</h4>
                   </Col>
                   <Col lg={6}>
                     <div className="d-flex justify-content-end">
@@ -382,8 +400,11 @@ console.log(isDerived,'isDerived');
                   </Col>
                 </Row>
                 {seasonDetails.map((item, index) => (
-                  <Row key={index} className="mt-4 align-items-center">
-                    <Col lg={3}>
+                  <Row
+                    key={index}
+                    className="mt-4 align-items-center justify-content-around"
+                  >
+                    <Col lg={2} className="input-col">
                       <div className="control-group form-group season-input m-0">
                         <input
                           type="text"
@@ -397,35 +418,39 @@ console.log(isDerived,'isDerived');
                         />
                       </div>
                     </Col>
-                    <Col lg={2} className="date-picker">
-                      <DayPickerInput
-                        dayPickerProps={{
-                          disabledDays: { before: new Date() },
-                        }}
-                        placeholder="From"
-                        value={seasonDetails[index].startDate}
-                        onDayChange={(e) => {
-                          let temp = Object.assign([], seasonDetails);
-                          temp[index]["startDate"] = e;
-                          setSeasonDetails(temp);
-                        }}
-                      />
+                    <Col lg={2} className="input-col">
+                      <div className="date-picker">
+                        <DayPickerInput
+                          dayPickerProps={{
+                            disabledDays: { before: new Date() },
+                          }}
+                          placeholder="From"
+                          value={seasonDetails[index].startDate}
+                          onDayChange={(e) => {
+                            let temp = Object.assign([], seasonDetails);
+                            temp[index]["startDate"] = e;
+                            setSeasonDetails(temp);
+                          }}
+                        />
+                      </div>
                     </Col>
-                    <Col lg={2} className="date-picker">
-                      <DayPickerInput
-                        dayPickerProps={{
-                          disabledDays: { before: new Date() },
-                        }}
-                        placeholder="To"
-                        value={seasonDetails[index].endDate}
-                        onDayChange={(e) => {
-                          let temp = Object.assign([], seasonDetails);
-                          temp[index]["endDate"] = e;
-                          setSeasonDetails(temp);
-                        }}
-                      />
+                    <Col lg={2} className="input-col">
+                      <div className="date-picker">
+                        <DayPickerInput
+                          dayPickerProps={{
+                            disabledDays: { before: new Date() },
+                          }}
+                          placeholder="To"
+                          value={seasonDetails[index].endDate}
+                          onDayChange={(e) => {
+                            let temp = Object.assign([], seasonDetails);
+                            temp[index]["endDate"] = e;
+                            setSeasonDetails(temp);
+                          }}
+                        />
+                      </div>
                     </Col>
-                    <Col lg={1}>
+                    <Col lg={1} className="input-col">
                       <div className="position-relative">
                         <div className="selection">
                           <div
@@ -475,74 +500,84 @@ console.log(isDerived,'isDerived');
                       </div>
                     </Col>
 
-                    <Col lg={3} className="day-list">
-                      <Form.Check
-                        label="M"
-                        type="checkbox"
-                        checked={seasonDetails[index].days.includes("Monday")}
-                        value={seasonDetails[index].days.includes("Monday")}
-                        onChange={(e) => {
-                          onHandleDayChange(e, "Monday", index);
-                        }}
-                      />
-                      <Form.Check
-                        label="T"
-                        type="checkbox"
-                        value={seasonDetails[index].days.includes("Tuesday")}
-                        checked={seasonDetails[index].days.includes("Tuesday")}
-                        onChange={(e) => {
-                          onHandleDayChange(e, "Tuesday", index);
-                        }}
-                      />
-                      <Form.Check
-                        label="W"
-                        type="checkbox"
-                        value={seasonDetails[index].days.includes("Wednesday")}
-                        checked={seasonDetails[index].days.includes(
-                          "Wednesday"
-                        )}
-                        onChange={(e) => {
-                          onHandleDayChange(e, "Wednesday", index);
-                        }}
-                      />
-                      <Form.Check
-                        label="T"
-                        type="checkbox"
-                        value={seasonDetails[index].days.includes("Thursday")}
-                        checked={seasonDetails[index].days.includes("Thursday")}
-                        onChange={(e) => {
-                          onHandleDayChange(e, "Thursday", index);
-                        }}
-                      />
-                      <Form.Check
-                        label="F"
-                        type="checkbox"
-                        value={seasonDetails[index].days.includes("Friday")}
-                        checked={seasonDetails[index].days.includes("Friday")}
-                        onChange={(e) => {
-                          onHandleDayChange(e, "Friday", index);
-                        }}
-                      />
-                      <Form.Check
-                        label="S"
-                        type="checkbox"
-                        value={seasonDetails[index].days.includes("Saturday")}
-                        checked={seasonDetails[index].days.includes("Saturday")}
-                        onChange={(e) => {
-                          onHandleDayChange(e, "Saturday", index);
-                        }}
-                      />
-                      <Form.Check
-                        label="S"
-                        type="checkbox"
-                        value={seasonDetails[index].days.includes("Sunday")}
-                        checked={seasonDetails[index].days.includes("Sunday")}
-                        onChange={(e) => {
-                          onHandleDayChange(e, "Sunday", index);
-                        }}
-                      />
+                    <Col lg={2} className="input-col">
+                      <div className="day-list">
+                        <Form.Check
+                          label="M"
+                          type="checkbox"
+                          checked={seasonDetails[index].days.includes("Monday")}
+                          value={seasonDetails[index].days.includes("Monday")}
+                          onChange={(e) => {
+                            onHandleDayChange(e, "Monday", index);
+                          }}
+                        />
+                        <Form.Check
+                          label="T"
+                          type="checkbox"
+                          value={seasonDetails[index].days.includes("Tuesday")}
+                          checked={seasonDetails[index].days.includes(
+                            "Tuesday"
+                          )}
+                          onChange={(e) => {
+                            onHandleDayChange(e, "Tuesday", index);
+                          }}
+                        />
+                        <Form.Check
+                          label="W"
+                          type="checkbox"
+                          value={seasonDetails[index].days.includes(
+                            "Wednesday"
+                          )}
+                          checked={seasonDetails[index].days.includes(
+                            "Wednesday"
+                          )}
+                          onChange={(e) => {
+                            onHandleDayChange(e, "Wednesday", index);
+                          }}
+                        />
+                        <Form.Check
+                          label="T"
+                          type="checkbox"
+                          value={seasonDetails[index].days.includes("Thursday")}
+                          checked={seasonDetails[index].days.includes(
+                            "Thursday"
+                          )}
+                          onChange={(e) => {
+                            onHandleDayChange(e, "Thursday", index);
+                          }}
+                        />
+                        <Form.Check
+                          label="F"
+                          type="checkbox"
+                          value={seasonDetails[index].days.includes("Friday")}
+                          checked={seasonDetails[index].days.includes("Friday")}
+                          onChange={(e) => {
+                            onHandleDayChange(e, "Friday", index);
+                          }}
+                        />
+                        <Form.Check
+                          label="S"
+                          type="checkbox"
+                          value={seasonDetails[index].days.includes("Saturday")}
+                          checked={seasonDetails[index].days.includes(
+                            "Saturday"
+                          )}
+                          onChange={(e) => {
+                            onHandleDayChange(e, "Saturday", index);
+                          }}
+                        />
+                        <Form.Check
+                          label="S"
+                          type="checkbox"
+                          value={seasonDetails[index].days.includes("Sunday")}
+                          checked={seasonDetails[index].days.includes("Sunday")}
+                          onChange={(e) => {
+                            onHandleDayChange(e, "Sunday", index);
+                          }}
+                        />
+                      </div>
                     </Col>
-                    <Col lg={1}>
+                    <Col lg={1} className="input-col">
                       <div className="Save-delete-icon">
                         <button type="submit" className="save-btn">
                           <i

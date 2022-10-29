@@ -16,9 +16,6 @@ const RulesRestrictions = (props: any) => {
   const [maxNights, setMaxNights] = useState<boolean>(false);
   const [promoCode, setPromoCode] = useState<boolean>(false);
 
-  const [noCheckIn, setNoCheckIn] = useState<boolean>(false);
-  const [noCheckOut, setNoCheckOut] = useState<boolean>(false);
-
   const assignRules = (e) => {
     setAddAssignRules(e.target.checked);
   };
@@ -35,17 +32,17 @@ const RulesRestrictions = (props: any) => {
   const handleCheckCHange = (e) => {
     let obj = seasonBody['restrictions']
     if (!e.target.checked) {
-      if (e.target.name == 'minimumNights-check') {
+      if (e.target.name === 'minimumNights-check') {
         obj = {
           ...obj,
           minimumNights: 0
         }
-      } else if (e.target.name == 'maximumNights-check') {
+      } else if (e.target.name === 'maximumNights-check') {
         obj = {
           ...obj,
           maximumNights: 0
         }
-      } else if (e.target.name == 'promoCode-check') {
+      } else if (e.target.name === 'promoCode-check') {
         obj = {
           ...obj,
           promoCode: ''
@@ -104,7 +101,7 @@ const RulesRestrictions = (props: any) => {
                 <i className="fe fe-minus-circle" />
                 <input
                   disabled={!minNights}
-                  className="check-input"
+                  className="check-input rules-input"
                   name='minimumNights'
                   value={seasonBody['restrictions']['minimumNights']}
                   onChange={(e) => {
@@ -140,7 +137,7 @@ const RulesRestrictions = (props: any) => {
                 <i className="fe fe-minus-circle" />
                 <input
                   disabled={!maxNights}
-                  className="check-input"
+                  className="check-input rules-input"
                   name='maximumNights'
                   value={seasonBody['restrictions']['maximumNights']}
                   onChange={(e) => {

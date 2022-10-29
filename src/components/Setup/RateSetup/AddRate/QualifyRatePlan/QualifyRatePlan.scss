@@ -7,7 +7,9 @@
     border-right: none;
     border-top: none;
     width: 50px;
-
+}
+.check-input:focus{
+    outline: none;
 }
 
 .custom-control-label{

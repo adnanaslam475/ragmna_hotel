@@ -57,8 +57,8 @@
 }
 
 .date-picker {
+  margin: 0 !important;
   .DayPickerInput {
-    display: grid;
     input {
       height: 40px;
       padding-left: 15px;
@@ -96,4 +96,8 @@
       color: red;
     }
   }
+}
+
+.input-col{
+  display: contents !important;
 }

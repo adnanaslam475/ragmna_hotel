@@ -3,6 +3,8 @@ import DayPicker, { DateUtils } from "react-day-picker";
 import "./CalendarSetup.scss";
 const CalendarSetup = ({ dateRange }: any) => {
   const [ranges, setRanges] = useState<any[]>([]);
+  console.log(dateRange,"dateRangedateRangedateRange");
+  
   useEffect(() => {
     let temp: any = [];
 
@@ -44,43 +46,43 @@ const CalendarSetup = ({ dateRange }: any) => {
               DateUtils.isSameDay(day, new Date(dateRange[index].endDate))
             ) {
               if (
-                day.getDay() == 1 &&
+                day.getDay() === 1 &&
                 !dateRange[index]["days"].includes("Monday")
               ) {
                 return true;
               }
               if (
-                day.getDay() == 2 &&
+                day.getDay() === 2 &&
                 !dateRange[index]["days"].includes("Tuesday")
               ) {
                 return true;
               }
               if (
-                day.getDay() == 3 &&
+                day.getDay() === 3 &&
                 !dateRange[index]["days"].includes("Wednesday")
               ) {
                 return true;
               }
               if (
-                day.getDay() == 4 &&
+                day.getDay() === 4 &&
                 !dateRange[index]["days"].includes("Thursday")
               ) {
                 return true;
               }
               if (
-                day.getDay() == 5 &&
+                day.getDay() === 5 &&
                 !dateRange[index]["days"].includes("Friday")
               ) {
                 return true;
               }
               if (
-                day.getDay() == 6 &&
+                day.getDay() === 6 &&
                 !dateRange[index]["days"].includes("Saturday")
               ) {
                 return true;
               }
               if (
-                day.getDay() == 0 &&
+                day.getDay() === 0 &&
                 !dateRange[index]["days"].includes("Sunday")
               ) {
                 return true;

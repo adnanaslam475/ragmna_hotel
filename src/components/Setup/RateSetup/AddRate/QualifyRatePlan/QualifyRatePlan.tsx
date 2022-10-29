@@ -1,13 +1,11 @@
-import { max } from "lodash";
 import React, { useState } from "react";
-import { Col, Row, Form, Button } from "react-bootstrap";
+import { Col, Row, Button } from "react-bootstrap";
 import "./QualifyRatePlan.scss";
 
 const QualifyRatePlan = (props) => {
   const [length, setLength] = useState<boolean>(false);
   const [min, setMin] = useState<boolean>(false);
   const [max, setMax] = useState<boolean>(false);
-  const [booking, setBooking] = useState<boolean>(false);
   const [promo, setPromo] = useState<boolean>(false);
 
   return (
