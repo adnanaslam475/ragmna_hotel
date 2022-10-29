@@ -57,25 +57,19 @@ const rateSetupSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(getRate.fulfilled, (state, action: PayloadAction<any>) => {
+      state.rateList = action.payload.data;
+    });
     builder.addCase(
-      getRate.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        state.rateList = action.payload.data;
-      }
-    );
-        builder.addCase(
       getRoomType.fulfilled,
       (state, action: PayloadAction<any>) => {
         state.roomTypes = action.payload.data;
       }
-        );
-      builder.addCase(
-      getById.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        state.rateData = action.payload.data;
-      }
-      );
-     builder.addCase(
+    );
+    builder.addCase(getById.fulfilled, (state, action: PayloadAction<any>) => {
+      state.rateData = action.payload.data;
+    });
+    builder.addCase(
       fetchPolicies.fulfilled,
       (state, action: PayloadAction<any>) => {
         state.policies = action.payload.data;

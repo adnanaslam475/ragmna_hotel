@@ -40,6 +40,7 @@ const LeafletMaps = lazy(() => import('./components/Maps/LeafletMaps/LeafletMaps
 const SimpleMaps = lazy(() => import('./components/Maps/SimpleMaps/SimpleMaps'))
 
 const Editprofile = lazy(() => import('./components/pages/Editprofile/Editprofile'))
+const Profile = lazy(() => import('./components/pages/Profile/Profile'))
 const AboutCompany = lazy(() => import('./components/pages/Extension/AboutCompany/AboutCompany'))
 const Invoice = lazy(() => import('./components/pages/Extension/Invoice/Invoice'))
 const Pricing = lazy(() => import('./components/pages/Extension/Pricing/Pricing'))
@@ -99,6 +100,8 @@ const OwnerAddOn = lazy(() => import('./components/Setup/OwnerAddOn/OwnerAddOn')
 const SPNAddOn = lazy(() => import('./components/Setup/SPNAddOn/SPNAddOn'))
 const HKMaintenance = lazy(() => import('./components/Setup/HKMaintenance/HKMaintenance'))
 const ChannelMgt = lazy(() => import('./components/Setup/ChannelMgt/ChannelMgt'))
+const LedgerSetup = lazy(() => import('./components/Setup/LedgerSetup'))
+
 const Accounts = lazy(() => import('./components/Accounts/Accounts'))
 const Rates = lazy(() => import('./components/Rates/Rates'))
 const Marketing = lazy(() => import('./components/Marketing/Marketing'))
@@ -137,12 +140,14 @@ const RoutesMain = () => {
 									<Route path={`/setup/ratesetup`} element={<RateSetup />} />
 									<Route path={`/setup/ratesetup/addrate`} element={<AddRate />} />
 									<Route path={`/setup/ratesetup/editrate`} element={<EditRate />} />
+									<Route path={`/setup/ratesetup/editrate/:id/:isDerived/:ind`} element={<EditRate />} />
 									<Route path={`/setup/ratesetup/editrate/:id`} element={<EditRate />} />
-									<Route path={`/setup/ratesetup/createseason`} element={<CreateSeason />} />
+									<Route path={`/setup/ratesetup/createseason/:id`} element={<CreateSeason />} />
 									<Route path={`/setup/owneraddon`} element={<OwnerAddOn />} />
 									<Route path={`/setup/spnaddon`} element={<SPNAddOn />}></Route>
 									<Route path={`/setup/hkmaintenance`} element={<HKMaintenance />} />
 									<Route path={`/setup/channelmgt`} element={<ChannelMgt />} />
+									<Route path={`/setup/ledgerSetup`} element={<LedgerSetup />} />
 									<Route path={`/apps/defaultcalender`} element={<DefaultCalender />} />
 									<Route path={`/apps/footer`} element={<Footers />} />,
 									<Route path={`/apps/fullcalender`} element={<FullCalender />} />
@@ -220,6 +225,8 @@ const RoutesMain = () => {
 								{/* Pages */}
 								<Route>
 									<Route path={`/pages/editprofile`} element={<Editprofile />} />
+									,
+									<Route path={`/pages/profile`} element={<Profile />} />
 									,
 									<Route path={`/pages/extension/aboutcompany`} element={<AboutCompany />} />
 									,

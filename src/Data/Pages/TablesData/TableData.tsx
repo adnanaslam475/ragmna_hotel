@@ -1,11 +1,19 @@
-import React from 'react';
-import { useTable, useSortBy, useGlobalFilter, usePagination, } from "react-table";
-import { Button, Table } from 'react-bootstrap';
+import React from "react";
+import {
+  useTable,
+  useSortBy,
+  useGlobalFilter,
+  usePagination,
+} from "react-table";
+import { Button, Table } from "react-bootstrap";
 import differenceBy from "lodash/differenceBy";
-import DataTableExtensions from 'react-data-table-component-extensions';
-import DataTable from 'react-data-table-component';
+import DataTableExtensions from "react-data-table-component-extensions";
+import DataTable from "react-data-table-component";
 import "react-data-table-component-extensions/dist/index.css";
-import { Column, TableData } from '../../../components/FrontOffice/FrontOfficeTypes';
+import {
+  Column,
+  TableData,
+} from "../../../components/FrontOffice/FrontOfficeTypes";
 
 // Basic Table Data START******
 
@@ -19,7 +27,6 @@ export const COLUMNS = [
     Header: "LAST NAME",
     accessor: "LNAME",
     className: "text-center wd-15p border-bottom-0 ",
-
   },
   {
     Header: "POSITION",
@@ -40,73 +47,73 @@ export const COLUMNS = [
     Header: "E-MAIL",
     accessor: "MAIL",
     className: "text-center wd-15p border-bottom-0 ",
-  }
+  },
 ];
 
 export const DATATABLE = [
   {
-    FNAME: 'Bella',
-    LNAME: 'Chloe',
-    POSITION: 'System Developer',
-    START: '2018/03/12',
-    SALARY: '$654,765',
-    MAIL: 'b.Chloe@datatables.net',
+    FNAME: "Bella",
+    LNAME: "Chloe",
+    POSITION: "System Developer",
+    START: "2018/03/12",
+    SALARY: "$654,765",
+    MAIL: "b.Chloe@datatables.net",
   },
   {
-    FNAME: 'Donna',
-    LNAME: 'Bond',
-    POSITION: 'Account Manager',
-    START: '2012/02/21',
-    SALARY: '$543,654',
-    MAIL: 'd.bond@datatables.net',
+    FNAME: "Donna",
+    LNAME: "Bond",
+    POSITION: "Account Manager",
+    START: "2012/02/21",
+    SALARY: "$543,654",
+    MAIL: "d.bond@datatables.net",
   },
   {
-    FNAME: 'Harry',
-    LNAME: 'Carr',
-    POSITION: 'Technical Manager',
-    START: '20011/02/87',
-    SALARY: '$86,000',
-    MAIL: 'h.carr@datatables.net',
+    FNAME: "Harry",
+    LNAME: "Carr",
+    POSITION: "Technical Manager",
+    START: "20011/02/87",
+    SALARY: "$86,000",
+    MAIL: "h.carr@datatables.net",
   },
   {
-    FNAME: 'Lucas',
-    LNAME: 'Dyer',
-    POSITION: 'Javascript Developer',
-    START: '2014/08/23',
-    SALARY: '$456,123',
-    MAIL: 'l.dyer@datatables.net',
+    FNAME: "Lucas",
+    LNAME: "Dyer",
+    POSITION: "Javascript Developer",
+    START: "2014/08/23",
+    SALARY: "$456,123",
+    MAIL: "l.dyer@datatables.net",
   },
   {
-    FNAME: 'Karen',
-    LNAME: 'Hill',
-    POSITION: 'Sales Manager',
-    START: '2010/7/14',
-    SALARY: '$432,230',
-    MAIL: 'k.hill@datatables.net',
+    FNAME: "Karen",
+    LNAME: "Hill",
+    POSITION: "Sales Manager",
+    START: "2010/7/14",
+    SALARY: "$432,230",
+    MAIL: "k.hill@datatables.net",
   },
   {
-    FNAME: 'Dominic',
-    LNAME: 'Hudson',
-    POSITION: 'Sales Assistant',
-    START: '2015/10/16',
-    SALARY: '$654,300',
-    MAIL: 'd.hudson@datatables.net',
+    FNAME: "Dominic",
+    LNAME: "Hudson",
+    POSITION: "Sales Assistant",
+    START: "2015/10/16",
+    SALARY: "$654,300",
+    MAIL: "d.hudson@datatables.net",
   },
   {
-    FNAME: 'Herrod',
-    LNAME: 'Chandler',
-    POSITION: 'Integration Specialist',
-    START: '2012/08/06',
-    SALARY: '$137,500',
-    MAIL: 'h.chandler@datatables.net',
+    FNAME: "Herrod",
+    LNAME: "Chandler",
+    POSITION: "Integration Specialist",
+    START: "2012/08/06",
+    SALARY: "$137,500",
+    MAIL: "h.chandler@datatables.net",
   },
   {
-    FNAME: 'Jonathan',
-    LNAME: 'Ince',
-    POSITION: 'junior Manager',
-    START: '2012/11/23',
-    SALARY: '$345,789',
-    MAIL: 'j.ince@datatables.net',
+    FNAME: "Jonathan",
+    LNAME: "Ince",
+    POSITION: "junior Manager",
+    START: "2012/11/23",
+    SALARY: "$345,789",
+    MAIL: "j.ince@datatables.net",
   },
   {
     FNAME: "Leonard",
@@ -443,10 +450,9 @@ export const DATATABLE = [
     START: "2017/02/01",
     SALARY: "$75,650",
     MAIL: "j.acosta@datatables.net",
-  }
+  },
 ];
 export const BasicDataTable = () => {
-
   const tableInstance = useTable(
     {
       columns: COLUMNS,
@@ -479,7 +485,6 @@ export const BasicDataTable = () => {
 
   return (
     <>
-
       <div className="e-table px-5 pb-5 table-responsive">
         <div className="d-block">
           <select
@@ -508,7 +513,9 @@ export const BasicDataTable = () => {
                     {...column.getHeaderProps(column.getSortByToggleProps())}
                     className={column.className}
                   >
-                    <span className="tabletitle">{column.render("Header")}</span>
+                    <span className="tabletitle">
+                      {column.render("Header")}
+                    </span>
                     <span>
                       {column.isSorted ? (
                         column.isSortedDesc ? (
@@ -607,9 +614,6 @@ export const BasicDataTable = () => {
           </span>
         </div>
       </div>
-
-
-
     </>
   );
 };
@@ -628,7 +632,6 @@ export const BasicDataTable = () => {
 
 // Basic Table Data END******
 
-
 // Responsive Table Data START******
 
 export const COLUMN = [
@@ -641,7 +644,6 @@ export const COLUMN = [
     Header: "LAST NAME",
     accessor: "LNAME",
     className: "text-center wd-15p border-bottom-0 ",
-
   },
   {
     Header: "POSITION",
@@ -662,7 +664,7 @@ export const COLUMN = [
     Header: "E-MAIL",
     accessor: "MAIL",
     className: "text-center wd-15p border-bottom-0 ",
-  }
+  },
 ];
 
 export const RESDATATABLE = [
@@ -1066,11 +1068,9 @@ export const RESDATATABLE = [
     SALARY: "$75,650",
     MAIL: "j.acosta@datatables.net",
   },
-
 ];
 
 export const ResponsiveDataTable = () => {
-
   const tableInstance = useTable(
     {
       columns: COLUMN,
@@ -1131,7 +1131,9 @@ export const ResponsiveDataTable = () => {
                     {...column.getHeaderProps(column.getSortByToggleProps())}
                     className={column.className}
                   >
-                    <span className="tabletitle">{column.render("Header")}</span>
+                    <span className="tabletitle">
+                      {column.render("Header")}
+                    </span>
                     <span>
                       {column.isSorted ? (
                         column.isSortedDesc ? (
@@ -1230,7 +1232,6 @@ export const ResponsiveDataTable = () => {
           </span>
         </div>
       </div>
-
     </>
   );
 };
@@ -1244,7 +1245,6 @@ const GlobalResFilter = ({ filter, setFilter }) => {
         placeholder="Search..."
       />
     </span>
-
   );
 };
 // Responsive Table Data END******
@@ -1754,16 +1754,18 @@ const GlobalResFilter = ({ filter, setFilter }) => {
 //   }
 // ];
 export interface DataTablessProps {
-  resTableDataItems?: TableData[] | [] | undefined
-  columns?: Column[] | []
+  resTableDataItems?: TableData[] | [] | undefined;
+  columns?: Column[] | [];
   onRowClick?: (row: any, e: React.MouseEvent) => void;
-  isSelectable?:Boolean
+  isSelectable?: Boolean;
 }
 export const DataTabless = (props: DataTablessProps) => {
-  const { resTableDataItems, columns, isSelectable,onRowClick} = props
+  const { resTableDataItems, columns, isSelectable, onRowClick } = props;
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [toggleCleared, setToggleCleared] = React.useState(false);
-  const [data, setData] = React.useState<TableData[] | [] | undefined>(resTableDataItems);
+  const [data, setData] = React.useState<TableData[] | [] | undefined>(
+    resTableDataItems
+  );
 
   const handleRowSelected = React.useCallback((state) => {
     setSelectedRows(state.selectedRows);
@@ -1807,14 +1809,17 @@ export const DataTabless = (props: DataTablessProps) => {
   // ];
   const contextActions = React.useMemo(() => {
     const handleDelete = () => {
-
       setToggleCleared(!toggleCleared);
       setData(differenceBy(data, selectedRows));
-
     };
 
     return (
-      <Button variant="" className="btn btn-primary mt-2" key="delete" onClick={handleDelete}>
+      <Button
+        variant=""
+        className="btn btn-primary mt-2"
+        key="delete"
+        onClick={handleDelete}
+      >
         Delete
       </Button>
     );
@@ -1826,35 +1831,31 @@ export const DataTabless = (props: DataTablessProps) => {
   return (
     <span className="datatable">
       <DataTableExtensions {...tableDatas}>
-        {isSelectable ?
-           <DataTable
-          title
-          columns={columns ? columns : []}
-          data={data ? data : []}
-          selectableRows
-          contextActions={contextActions}
-          onSelectedRowsChange={handleRowSelected}
-          clearSelectedRows={toggleCleared}
-          pagination
+        {isSelectable ? (
+          <DataTable
+            title
+            columns={columns ? columns : []}
+            data={data ? data : []}
+            selectableRows
+            contextActions={contextActions}
+            onSelectedRowsChange={handleRowSelected}
+            clearSelectedRows={toggleCleared}
+            pagination
           />
-          :
-           <DataTable
-          title
-          columns={columns ? columns : []}
-          data={data ? data : []}
-          contextActions={contextActions}
-          onSelectedRowsChange={handleRowSelected}
-          clearSelectedRows={toggleCleared}
-          pagination
-        />
-        }
-       
+        ) : (
+          <DataTable
+            title
+            columns={columns ? columns : []}
+            data={data ? data : []}
+            contextActions={contextActions}
+            onSelectedRowsChange={handleRowSelected}
+            clearSelectedRows={toggleCleared}
+            pagination
+          />
+        )}
       </DataTableExtensions>
     </span>
   );
 };
 
 // Deleted Row Table Data END******
-
-
-
