@@ -1,6 +1,9 @@
 import React from "react";
 import { Card, Row, Col, Table } from "react-bootstrap";
-import { EventApi } from "@fullcalendar/react";
+import FullCalendar, { EventApi } from "@fullcalendar/react";
+import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
+import interactionPlugin from "@fullcalendar/interaction";
+import customViewPlugin from "./custom-view-file";
 import "@fullcalendar/common/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
