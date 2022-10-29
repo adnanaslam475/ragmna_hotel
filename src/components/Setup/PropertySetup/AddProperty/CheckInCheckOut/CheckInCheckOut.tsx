@@ -1,19 +1,8 @@
-import React, { useEffect } from "react";
-import { Button, Card, Col, Row, Form } from "react-bootstrap";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import React from "react";
+import { Col, Row, Form } from "react-bootstrap";
 import "./CheckInCheckOut.scss";
 import TextField from "@mui/material/TextField";
-import { useParams } from "react-router-dom";
-import { useReservationDetailsMutation } from "../Reservation/reservationApi";
-import { PropertySetuptypes } from "../types";
-import { DangerLeft, Success } from "../../../../../Redux/Services/toaster-service";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../../../Redux/Store";
-import {
-  getSettingByTypeId,
-  saveSettingByTypeId,
-} from "../Reservation/reservationSlice";
+
 
 export interface CheckInCheckOutProps {
   values: any;
@@ -27,8 +16,6 @@ const CheckInCheckOut = (props:CheckInCheckOutProps) => {
     handleChange,
     setFieldValue,
   } = props;
-  const dispatch = useDispatch<AppDispatch>();
-  let { id } = useParams();
 
   // const getConfig = async () => {
   //   try {

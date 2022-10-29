@@ -1,10 +1,10 @@
 import Select from "react-select";
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../../Redux/Store";
 import { CommanDropDownType } from "../../../PropertySetup/AddProperty/types";
-import { getRoomType, useRateData, useRoomTypes } from "../../RateSetupSlice";
+import { getRoomType, useRoomTypes } from "../../RateSetupSlice";
 import "./EditRateInfo.scss";
 
 const EditRateInfo = ({
@@ -20,8 +20,12 @@ const EditRateInfo = ({
   const dispatch = useDispatch<AppDispatch>();
   const { roomTypes } = useRoomTypes();
   const getRoomTypes = async () => {
-    const response = await dispatch(getRoomType()).unwrap();
+      await dispatch(getRoomType()).unwrap();
   };
+  console.log(roomTypes,"roomTypes");
+  console.log(ratePlanDetails, "ratePlanDetails");
+
+  
   useEffect(() => {
     getRoomTypes();
   }, []);
@@ -35,6 +39,17 @@ const EditRateInfo = ({
     { value: "Percentage", label: "percent" },
     { value: "Fixed", label: "USD" },
   ];
+
+  const getRoomTypesCheck = (id) => {
+    if (isDerived) {
+      let val = ratePlanDetails?.roomTypes?.findIndex((x) => x === id) > -1;
+      return val;
+    } else {
+      let val =
+        ratePlanDetails?.roomTypes?.findIndex((x) => x.roomTypeId === id) > -1;
+      return val;
+    }
+  };
   return (
     <React.Fragment>
       <Row className="Edit-RateInfo">
@@ -123,7 +138,7 @@ const EditRateInfo = ({
         <Row className="Edit-RateInfo">
           <h2 className="mt-2 mb-3 font-weight-bold">
             Parent rate plan offset
-          </h2> 
+          </h2>
           <div className="inner-details">
             <Row className="details align-items-center">
               <Col lg={2}>Rates for the derived rate plan</Col>
@@ -254,11 +269,7 @@ const EditRateInfo = ({
                       onChange={(e) => {
                         handelRoomChange(e, item._id, index);
                       }}
-                      checked={
-                        ratePlanDetails?.roomTypes?.findIndex(
-                          (x) => x.roomTypeId == item._id
-                        ) > -1
-                      }
+                      checked={getRoomTypesCheck(item._id)}
                     />
                     <span className="custom-control-label">{item.name}</span>
                   </label>

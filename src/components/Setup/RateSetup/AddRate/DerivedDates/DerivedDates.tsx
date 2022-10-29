@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import DayPickerInput from "react-day-picker/DayPickerInput";
-import { date } from "yup/lib/locale";
 import "./DerivedDates.scss";
 
 const DerivedDates = (props) => {
@@ -25,7 +24,7 @@ const DerivedDates = (props) => {
       <Row>
         <Col lg={6} md={0} className="question-part p-4">
           <div>
-            <h1>Which rate plan will you be deriving rates from?</h1>
+            <h1>Which dates will be included in the derived rate plan?</h1>
           </div>
         </Col>
         <Col lg={6} md={12} className="DerivedDate-part p-4">
@@ -36,7 +35,7 @@ const DerivedDates = (props) => {
                 className="custom-control-input"
                 name="derivedDate"
                 value="Always available"
-                checked={selectedPlan == "Always available"}
+                checked={selectedPlan === "Always available"}
                 onChange={(e) => {
                   handelChange(e);
                 }}
@@ -53,7 +52,7 @@ const DerivedDates = (props) => {
                 className="custom-control-input"
                 name="derivedDate"
                 value="Custom date range"
-                checked={selectedPlan == "Custom date range"}
+                checked={selectedPlan === "Custom date range"}
                 onChange={(e) => {
                   handelChange(e);
                 }}
@@ -64,7 +63,7 @@ const DerivedDates = (props) => {
                 available
               </p>
             </label>
-            {selectedPlan == "Custom date range" ? (
+            {selectedPlan === "Custom date range" ? (
               <div>
                 {props.customDate.map((val, index) => {
                   return (

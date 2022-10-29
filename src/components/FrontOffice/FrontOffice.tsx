@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,} from "react";
 import "./FrontOffice.scss";
 import { Tab, Row, Col, Nav, Card } from "react-bootstrap";
 import ReservationList from "./ReservationList/ReservationList";
@@ -6,7 +6,6 @@ import GuestHistory from "./GuestHistory/GuestHistory";
 import DefaultCalender from "../apps/DefaultCalender/DefaultCalender";
 import { tabArraies } from "./FrontOfficeTypes";
 import ReserveUser from "./ReserveUser/ReserveUser";
-import GuestDetailHead from "./Components/GuestDetailHead";
 
 const FrontOffice = () => {
   // let tabArray: tabArraies[] =

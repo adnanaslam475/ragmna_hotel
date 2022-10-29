@@ -1,24 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Button, Col, Row, Form } from "react-bootstrap";
+import React from "react";
+import { Col, Row, Form } from "react-bootstrap";
 import PhoneInput from "react-phone-input-2";
 import "./PropertyInfo.scss";
 import Select, { StylesConfig } from "react-select";
-import { CommanDropDownType, InitialValues } from "./../types";
-import { useFormik, yupToFormErrors } from "formik";
-import * as Yup from "yup";
-import { useUser } from "../../../../Authentication/firebaseAuth/firebaseAuthSlice";
+import { CommanDropDownType } from "./../types";
 import { Country, State, City } from "country-state-city";
 import { ICountry, ICity } from "country-state-city";
-import { useGetPropertyByIdQuery } from "./propertyInfoApi";
-import { useNavigate, useParams } from "react-router-dom";
-import { skipToken } from "@reduxjs/toolkit/query/react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../../../Redux/Store";
-import {
-  addPropertyData,
-  getPropertyDataById,
-  updatePropertyData,
-} from "./propertyInfoSlice";
 
 export interface PropertyInfoProps {
   values: any;
@@ -30,7 +17,6 @@ export interface PropertyInfoProps {
 
 const PropertyInfo = (props: PropertyInfoProps) => {
   const { values, handleChange, errors, touched, setFieldValue } = props;
-  const dispatch = useDispatch<AppDispatch>();
   const propertyTypeStyles: StylesConfig<any> = {
     control: (styles) => ({
       ...styles,

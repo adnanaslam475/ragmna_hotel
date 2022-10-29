@@ -9,13 +9,9 @@ import { CommanDropDownType } from "../../../PropertySetup/AddProperty/types";
 
 const DerivedRateFrom = (props) => {
   const [selectedRate, SetSelectedRate] = useState("");
-  const [selectRateType, selSelectRateType] = useState<
-    "Percentage" | "Fixed"
-  >();
-
   const dispatch = useDispatch<AppDispatch>();
   const getRateDetails = async () => {
-    let response: any = await dispatch(getRate()).unwrap();
+     await dispatch(getRate()).unwrap();
   };
   useEffect(() => {
     getRateDetails();
@@ -56,13 +52,13 @@ const DerivedRateFrom = (props) => {
               return (
                 <div key={index}>
                   <label className="custom-control custom-radio-md">
-                      <input
+                    <input
                       type="radio"
                       className="custom-control-input"
                       name="radio"
                       value={val._id}
-                      checked={selectedRate == val._id}
-                      onChange={(e) => {
+                      checked={selectedRate === val._id}
+                      onClick={(e) => {
                         handelChange(e);
                       }}
                     />
@@ -70,14 +66,14 @@ const DerivedRateFrom = (props) => {
                       {val.displayName}
                     </span>
                   </label>
-                  {selectedRate == val._id ? (
+                  {selectedRate === val._id ? (
                     <div className="inner-details">
                       <Row className="details">
-                        <Col lg={3}>
+                        <Col lg={2}>
                           Rates for the derived rate plan are the
                         </Col>
                         <Col lg={2} className="type-input">
-                          {props.derivedRate.calculationType == "Fixed" ? (
+                          {props.derivedRate.calculationType === "Fixed" ? (
                             <i className="icon fe fe-dollar-sign" />
                           ) : null}
                           <input
@@ -88,7 +84,7 @@ const DerivedRateFrom = (props) => {
                               props.valueChange("amount", e.target.value);
                             }}
                           />
-                          {props.derivedRate.calculationType == "Percentage" ? (
+                          {props.derivedRate.calculationType === "Percentage" ? (
                             <i className="icon fe fe-percent" />
                           ) : null}
                         </Col>
@@ -126,7 +122,7 @@ const DerivedRateFrom = (props) => {
                             }}
                           />
                         </Col>
-                        <Col lg={1}>{val.displayName}</Col>
+                        <Col lg={2}>{val.displayName}</Col>
                       </Row>
                       <div>
                         <label className="custom-control custom-checkbox-md">

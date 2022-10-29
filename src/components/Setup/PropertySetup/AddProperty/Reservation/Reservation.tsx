@@ -1,14 +1,6 @@
-import React, { useEffect } from "react";
-import { useFormik } from "formik";
-import { Button, Col, Form, Row } from "react-bootstrap";
-import * as Yup from "yup";
+import React from "react";
+import { Col, Form, Row } from "react-bootstrap";
 import "./Reservation.scss";
-import { PropertySetuptypes } from "../types";
-import { useParams } from "react-router-dom";
-import { DangerLeft, Success } from "../../../../../Redux/Services/toaster-service";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../../../Redux/Store";
-import { getSettingByTypeId, saveSettingByTypeId } from "./reservationSlice";
 
 export interface ReservationProps {
   values: any;
@@ -18,16 +10,9 @@ export interface ReservationProps {
   setFieldValue: any;
 }
 
-const Reservation = (props:ReservationProps) => {
-  const {
-    values,
-    handleChange,
-    errors,
-    touched,
-    setFieldValue,
-  } = props;
+const Reservation = (props: ReservationProps) => {
+  const { values, handleChange, errors, touched, setFieldValue } = props;
   // const dispatch = useDispatch<AppDispatch>();
-  let { id } = useParams();
   // const getConfig = async () => {
   //   try {
   //     let payload = {
@@ -111,108 +96,108 @@ const Reservation = (props:ReservationProps) => {
   return (
     <React.Fragment>
       {/* <form onSubmit={handleSubmit}> */}
-        <Row className="Reservation-details p-4 mb-4">
-          <Col lg={6} md={12}>
-            <div className="control-group form-group">
-              <label className="form-label">Email Display Name</label>
-              <input
-                type="text"
-                className={
-                  touched.emailDisplayName && errors.emailDisplayName
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Email Display Name"
-                name="emailDisplayName"
-                value={values.emailDisplayName}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-              />
-            </div>
-          </Col>
-          <Col lg={6} md={12}>
-            <div className="control-group form-group">
-              <label className="form-label">Replay TO Email Address</label>
-              <input
-                type="text"
-                className={
-                  touched.replyToEmailAddress && errors.replyToEmailAddress
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Replay TO Email Address"
-                name="replyToEmailAddress"
-                value={values.replyToEmailAddress}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-              />
-            </div>
-          </Col>
-          <Col lg={6} md={12}>
-            <div className="control-group form-group">
-              <label className="form-label">Send CCOn All Emails</label>
-              <input
-                type="text"
-                className={
-                  touched.sendCCOnAllEmails && errors.sendCCOnAllEmails
-                    ? "form-control required error-border"
-                    : "form-control required"
-                }
-                placeholder="Send CCOn All Emails"
-                name="sendCCOnAllEmails"
-                value={values.sendCCOnAllEmails}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-              />
-            </div>
-          </Col>
-          <Col lg={6} md={12} className="d-flex align-items-center">
-            <Form.Group>
-              <Form.Check
-                className="ps-6 switch-style d-flex align-items-center my-2"
-                type="switch"
-                id="setOccupiedRoomToDirty"
-                label="Set Occupied Room To Dirty"
-                onChange={(e) => {
-                  setFieldValue("setOccupiedRoomToDirty", e.target.checked);
-                }}
-                checked={values.setOccupiedRoomToDirty}
-              />
-            </Form.Group>
-          </Col>
-          <Col lg={6} md={12} className="d-flex align-items-center">
-            <Form.Group>
-              <Form.Check
-                className="ps-6 switch-style d-flex align-items-center my-2"
-                type="switch"
-                id="automaticRoomAssignment"
-                label="Automatic Room Assignment"
-                onChange={(e) => {
-                  setFieldValue("automaticRoomAssignment", e.target.checked);
-                }}
-                checked={values.automaticRoomAssignment}
-              />
-            </Form.Group>
-          </Col>
-          <Col lg={6} md={12} className="d-flex align-items-center">
-            <Form.Group>
-              <Form.Check
-                className="ps-6 switch-style d-flex align-items-center my-2"
-                type="switch"
-                id="allowOverBookingManually"
-                label="Allow Over Booking Manually"
-                onChange={(e) => {
-                  setFieldValue("allowOverBookingManually", e.target.checked);
-                }}
-                checked={values.allowOverBookingManually}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-        {/* <div className="d-flex justify-content-end mt-4 me-3">
+      <Row className="Reservation-details p-4 mb-4">
+        <Col lg={6} md={12}>
+          <div className="control-group form-group">
+            <label className="form-label">Email Display Name</label>
+            <input
+              type="text"
+              className={
+                touched.emailDisplayName && errors.emailDisplayName
+                  ? "form-control required error-border"
+                  : "form-control required"
+              }
+              placeholder="Email Display Name"
+              name="emailDisplayName"
+              value={values.emailDisplayName}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+        </Col>
+        <Col lg={6} md={12}>
+          <div className="control-group form-group">
+            <label className="form-label">Replay TO Email Address</label>
+            <input
+              type="text"
+              className={
+                touched.replyToEmailAddress && errors.replyToEmailAddress
+                  ? "form-control required error-border"
+                  : "form-control required"
+              }
+              placeholder="Replay TO Email Address"
+              name="replyToEmailAddress"
+              value={values.replyToEmailAddress}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+        </Col>
+        <Col lg={6} md={12}>
+          <div className="control-group form-group">
+            <label className="form-label">Send CCOn All Emails</label>
+            <input
+              type="text"
+              className={
+                touched.sendCCOnAllEmails && errors.sendCCOnAllEmails
+                  ? "form-control required error-border"
+                  : "form-control required"
+              }
+              placeholder="Send CCOn All Emails"
+              name="sendCCOnAllEmails"
+              value={values.sendCCOnAllEmails}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+        </Col>
+        <Col lg={6} md={12} className="d-flex align-items-center">
+          <Form.Group>
+            <Form.Check
+              className="ps-6 switch-style d-flex align-items-center my-2"
+              type="switch"
+              id="setOccupiedRoomToDirty"
+              label="Set Occupied Room To Dirty"
+              onChange={(e) => {
+                setFieldValue("setOccupiedRoomToDirty", e.target.checked);
+              }}
+              checked={values.setOccupiedRoomToDirty}
+            />
+          </Form.Group>
+        </Col>
+        <Col lg={6} md={12} className="d-flex align-items-center">
+          <Form.Group>
+            <Form.Check
+              className="ps-6 switch-style d-flex align-items-center my-2"
+              type="switch"
+              id="automaticRoomAssignment"
+              label="Automatic Room Assignment"
+              onChange={(e) => {
+                setFieldValue("automaticRoomAssignment", e.target.checked);
+              }}
+              checked={values.automaticRoomAssignment}
+            />
+          </Form.Group>
+        </Col>
+        <Col lg={6} md={12} className="d-flex align-items-center">
+          <Form.Group>
+            <Form.Check
+              className="ps-6 switch-style d-flex align-items-center my-2"
+              type="switch"
+              id="allowOverBookingManually"
+              label="Allow Over Booking Manually"
+              onChange={(e) => {
+                setFieldValue("allowOverBookingManually", e.target.checked);
+              }}
+              checked={values.allowOverBookingManually}
+            />
+          </Form.Group>
+        </Col>
+      </Row>
+      {/* <div className="d-flex justify-content-end mt-4 me-3">
           <Button disabled={!id} type="submit">
             Save & Next
           </Button>

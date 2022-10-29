@@ -1,16 +1,13 @@
 import React from "react";
 import { Card, Row, Col, Table } from "react-bootstrap";
-import FullCalendar, { EventApi } from "@fullcalendar/react";
-import interactionPlugin from "@fullcalendar/interaction";
+import { EventApi } from "@fullcalendar/react";
 import "@fullcalendar/common/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
-import customViewPlugin from "./custom-view-file.js";
 import { createEventId } from "./event-utils";
 import PageHeader from "../../../Layouts/PageHeader/PageHeader";
 import CountUp from "react-countup";
 import "./calender.scss";
-import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
 import DatePicker from "react-date-picker";
 import { debounce } from "lodash";
 

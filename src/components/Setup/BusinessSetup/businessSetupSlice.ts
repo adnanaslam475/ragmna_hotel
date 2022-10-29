@@ -6,8 +6,6 @@ import {
   updateSupplier,
 } from "../../../Redux/Services/supplierService";
 import { RootState } from "../../../Redux/Store";
-import { businessSetupApi } from "./businessSetupApi";
-import { BusinessInfo, UpdateSupplierById } from "./types";
 
 const initialState = {
   supplier: {},

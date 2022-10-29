@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../../../../Redux/Store";
 import { fetchPolicies, usePolicies } from "../../RateSetupSlice";
 import "./PoliciesRatePlan.scss";
@@ -16,19 +15,14 @@ const PoliciesRatePlan = (props) => {
   const { policies } = usePolicies();
   console.log(policies, "policies");
 
-  const getPolicies = () => {
-    let response = dispatch(fetchPolicies()).unwrap;
+  const getPolicies = async () => {
+    await dispatch(fetchPolicies()).unwrap;
   };
 
   useEffect(() => {
     getPolicies();
   }, []);
 
-  let navigate = useNavigate();
-  const RouteChange = () => {
-    let path = `/setup/ratesetup/createseason`;
-    navigate(path);
-  };
   const submitWizard = () => {
     props.onSubmit();
   };
@@ -75,8 +69,9 @@ const PoliciesRatePlan = (props) => {
             </div>
             {props.rate.cancellationPolicy || cancellation
               ? policies &&
-                policies.map((item, ind) => {
-                  if (item.type === "Cancellation") {
+                policies
+                  .filter((item) => item.type === "Cancellation")
+                  .map((item, ind) => {
                     return (
                       <div key={ind} className="inner-class">
                         <label className="custom-control custom-radio-md">
@@ -96,8 +91,7 @@ const PoliciesRatePlan = (props) => {
                         </label>
                       </div>
                     );
-                  }
-                })
+                  })
               : null}
             <div className="d-flex">
               <label className="custom-control custom-checkbox-md">
@@ -117,8 +111,9 @@ const PoliciesRatePlan = (props) => {
             </div>
             {deposit || props.rate.depositPolicy
               ? policies &&
-                policies.map((item, ind) => {
-                  if (item.type === "Deposit") {
+                policies
+                  .filter((item) => item.type === "Deposit")
+                  .map((item, ind) => {
                     return (
                       <div key={ind} className="inner-class">
                         <label className="custom-control custom-radio-md">
@@ -126,7 +121,6 @@ const PoliciesRatePlan = (props) => {
                             type="radio"
                             className="custom-control-input"
                             name="Deposit"
-                            defaultValue="option5"
                             checked={item._id === props.rate.depositPolicy}
                             onChange={(e) => {
                               props.onRadioChange(e, ind, item, "deposit");
@@ -139,8 +133,7 @@ const PoliciesRatePlan = (props) => {
                         </label>
                       </div>
                     );
-                  }
-                })
+                  })
               : null}
             <div className="d-flex">
               <label className="custom-control custom-checkbox-md">
@@ -148,7 +141,6 @@ const PoliciesRatePlan = (props) => {
                   type="checkbox"
                   className="custom-control-input"
                   name="example-checkbox5"
-                  defaultValue="option5"
                   checked={props.rate.checkInPolicy || checkIn ? true : false}
                   onChange={(e) => {
                     props.clearPolicy(e, "check-In");
@@ -161,8 +153,9 @@ const PoliciesRatePlan = (props) => {
             <div className="inner-class">
               {checkIn || props.rate.checkInPolicy
                 ? policies &&
-                  policies.map((item, ind) => {
-                    if (item.type === "Check-in") {
+                  policies
+                    .filter((item) => item.type === "Check-in")
+                    .map((item, ind) => {
                       return (
                         <label
                           key={ind}
@@ -172,7 +165,6 @@ const PoliciesRatePlan = (props) => {
                             type="radio"
                             className="custom-control-input"
                             name="Check-in"
-                            defaultValue="option5"
                             checked={item._id === props.rate.checkInPolicy}
                             onChange={(e) => {
                               props.onRadioChange(e, ind, item, "check-In");
@@ -184,8 +176,7 @@ const PoliciesRatePlan = (props) => {
                           <p>{item.description}</p>
                         </label>
                       );
-                    }
-                  })
+                    })
                 : null}
             </div>
 
@@ -195,7 +186,6 @@ const PoliciesRatePlan = (props) => {
                   type="checkbox"
                   className="custom-control-input"
                   name="example-checkbox5"
-                  defaultValue="option5"
                   checked={props.rate.noShowPolicy || noShow ? true : false}
                   onChange={(e) => {
                     props.clearPolicy(e, "No-Show");
@@ -207,8 +197,9 @@ const PoliciesRatePlan = (props) => {
             </div>
             {noShow || props.rate.noShowPolicy
               ? policies &&
-                policies.map((item, ind) => {
-                  if (item.type === "No-Show") {
+                policies
+                  .filter((item) => item.type === "No-Show")
+                  .map((item, ind) => {
                     return (
                       <div key={ind} className="inner-class">
                         <label className="custom-control custom-radio-md">
@@ -216,7 +207,6 @@ const PoliciesRatePlan = (props) => {
                             type="radio"
                             className="custom-control-input"
                             name="No-Show"
-                            defaultValue="option5"
                             checked={item._id === props.rate.noShowPolicy}
                             onChange={(e) => {
                               props.onRadioChange(e, ind, item, "No-Show");
@@ -229,8 +219,7 @@ const PoliciesRatePlan = (props) => {
                         </label>
                       </div>
                     );
-                  }
-                })
+                  })
               : null}
           </div>
           <div className="Previous-button">

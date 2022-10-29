@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Form, Button } from "react-bootstrap";
+import { Col, Row, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { array } from "yup/lib/locale";
 import { AppDispatch } from "../../../../../Redux/Store";
 import { getRoomType, useRoomTypes } from "../../RateSetupSlice";
 
@@ -10,8 +9,9 @@ import "./DefaultRatePlan.scss";
 const DefaultRatePlan = (props) => {
   const dispatch = useDispatch<AppDispatch>();
   const { roomTypes } = useRoomTypes();
+  
   const getRoomTypes = async () => {
-    const response = await dispatch(getRoomType()).unwrap();
+     await dispatch(getRoomType()).unwrap();
   };
   useEffect(() => {
     getRoomTypes();
@@ -34,11 +34,7 @@ const DefaultRatePlan = (props) => {
   const setSelectAll = (e) => {
     if (e.target.checked) {
       let temp: any = Object.assign([], roomType);
-      roomTypes.map((item) => {
-        {
-          temp.push({ roomTypeId: item._id, price: 0 });
-        }
-      });
+      roomTypes.map((item) => temp.push({ roomTypeId: item._id, price: 0 }));
       setRoomType(temp);
     } else {
       let temp: any = Object.assign([], roomType);
@@ -82,7 +78,7 @@ const DefaultRatePlan = (props) => {
                         name={`checkbox${index}`}
                         checked={
                           roomType.findIndex(
-                            (x) => x["roomTypeId"] == item._id
+                            (x) => x["roomTypeId"] === item._id
                           ) > -1
                         }
                         onChange={(e) => setRoomTypes(e, index)}

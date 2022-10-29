@@ -3,7 +3,6 @@ import { Button, Card, Nav, Tab } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
-  DangerLeft,
   Success,
 } from "../../../../Redux/Services/toaster-service";
 import { AppDispatch } from "../../../../Redux/Store";
@@ -26,14 +25,11 @@ const EditRateSetup = () => {
   const { rateData } = useRateData();
   const { roomTypes } = useRoomTypes();
   const getRoomTypes = async () => {
-    const response = await dispatch(getRoomType()).unwrap();
+    await dispatch(getRoomType()).unwrap();
   };
-  const [ratePlanDetails, setRatePlanDetails] = useState<any>(
-  {}
-  );
+  const [ratePlanDetails, setRatePlanDetails] = useState<any>({});
   const getByRateId = async () => {
     let response = await dispatch(getById(id ? id : "")).unwrap();
-    console.log(response);
     setNightlyName(response?.data?.name);
   };
   useEffect(() => {
@@ -42,21 +38,19 @@ const EditRateSetup = () => {
     }
   }, [id]);
   useEffect(() => {
-    if(isDerived) {
-      setRatePlanDetails(rateData?.derivedRates[ind || 0])
+    if (isDerived) {
+      setRatePlanDetails(rateData?.derivedRates[ind || 0]);
     } else {
-      setRatePlanDetails(rateData)
+      setRatePlanDetails(rateData);
     }
+  }, [rateData]);
 
-  }, [rateData])
-  
   useEffect(() => {
     getRoomTypes();
   }, []);
   const [details, setDetails] = useState<any[]>([
     { startDate: null, endDate: null },
   ]);
-
 
   const handelChange = (key, val) => {
     setRatePlanDetails({ ...ratePlanDetails, [key]: val });
@@ -68,11 +62,9 @@ const EditRateSetup = () => {
       offer: { ...ratePlanDetails.offer, [key]: val.value },
     });
   };
-  console.log(ratePlanDetails, "ratePlanDetails");
 
   const handelCheckBoxChange = (e) => {
     if (e.target.checked) {
-      let i = ratePlanDetails.channels.findIndex((x) => x === e.target.name);
       let array = ratePlanDetails.channels.slice();
       array.push(e.target.name);
       const newObj = { ...ratePlanDetails, channels: array };
@@ -86,47 +78,69 @@ const EditRateSetup = () => {
     }
   };
   const handelRoomChange = (e, id, index) => {
-    if (e.target.checked) {
-      let array = ratePlanDetails.roomTypes.slice();
-      array.push({
-        roomTypeId: roomTypes[index]._id,
-        price: 0,
-        channelPrices: [],
-      });
-      const newObj = { ...ratePlanDetails, roomTypes: array };
-      setRatePlanDetails(newObj);
+    if (isDerived) {
+      if (e.target.checked) {
+        let array = ratePlanDetails.roomTypes.slice();
+        array.push(roomTypes[index]._id);
+        const newObj = { ...ratePlanDetails, roomTypes: array };
+        setRatePlanDetails(newObj);
+      } else {
+        let array = ratePlanDetails.roomTypes.slice();
+        let i = array.findIndex((x) => x === id);
+        array.splice(i, 1);
+        const newObj = { ...ratePlanDetails, roomTypes: array };
+        setRatePlanDetails(newObj);
+      }
     } else {
-      let array = ratePlanDetails.roomTypes.slice();
-      let i = array.findIndex((x) => x.roomTypeId === id);
-      array.splice(i, 1);
-      const newObj = { ...ratePlanDetails, roomTypes: array };
-      setRatePlanDetails(newObj);
+      if (e.target.checked) {
+        let array = ratePlanDetails.roomTypes.slice();
+        array.push({
+          roomTypeId: roomTypes[index]._id,
+          price: 0,
+          channelPrices: [],
+        });
+        const newObj = { ...ratePlanDetails, roomTypes: array };
+        setRatePlanDetails(newObj);
+      } else {
+        let array = ratePlanDetails.roomTypes.slice();
+        let i = array.findIndex((x) => x.roomTypeId === id);
+        array.splice(i, 1);
+        const newObj = { ...ratePlanDetails, roomTypes: array };
+        setRatePlanDetails(newObj);
+      }
     }
   };
   const handelChangeRestrictions = (key, val) => {
     let clonedObject = { ...ratePlanDetails };
     clonedObject = {
       ...clonedObject,
-      restrictions: { ...clonedObject.restrictions, [key]: val },
+      restrictions: { ...clonedObject.restrictions, [key]: val ? key === 'promoCode' ? val : parseInt(val) : key === 'promoCode' ? '' : 0 },
     };
     setRatePlanDetails(clonedObject);
   };
 
   const handelCheckChange = (e, key) => {
+    let clonedObject = { ...ratePlanDetails };
     if (e.target.checked) {
-      let clonedObject = { ...ratePlanDetails };
-      clonedObject = {
-        ...clonedObject,
-        restrictions: { ...clonedObject.restrictions, [key]: 1 },
-      };
-      setRatePlanDetails(clonedObject);
+        clonedObject = {
+          ...clonedObject,
+          restrictions: { ...clonedObject.restrictions, [key]: key == 'promoCode'? '': null },
+        };
+        setRatePlanDetails(clonedObject);
     } else {
-      let clonedObject = { ...ratePlanDetails };
+      if(key == 'LengthOfStay'){
+        clonedObject = {
+          ...clonedObject,
+          restrictions: { ...clonedObject.restrictions, minimumNights: 0,maximumNights:0 },
+        };
+        setRatePlanDetails(clonedObject);
+      } else {
       clonedObject = {
         ...clonedObject,
-        restrictions: { ...clonedObject.restrictions, [key]: null },
+        restrictions: { ...clonedObject.restrictions, [key]: 0 },
       };
       setRatePlanDetails(clonedObject);
+    }
     }
   };
   const onRadioChange = (e, ind, val, key) => {
@@ -198,19 +212,16 @@ const EditRateSetup = () => {
     }
   };
   const updateRates = async () => {
-    if(isDerived){
-      try{
-        let payload = Object.assign({},ratePlanDetails)
+    if (isDerived) {
+      try {
+        let payload = Object.assign({}, ratePlanDetails);
         payload["id"] = id;
-        payload["dId"] = ratePlanDetails['_id']
+        payload["dId"] = ratePlanDetails["_id"];
         let response: any = await dispatch(alterDerivedRate(payload)).unwrap();
         if (response.statusCode === 200) {
           Success("Derived Rate has been updated");
         }
-      } catch (err: any) {
-        DangerLeft("Something went wrong!");
-        console.log(err);
-      }
+      } catch (err: any) {}
     } else {
       try {
         let payload = Object.assign({}, ratePlanDetails);
@@ -219,12 +230,8 @@ const EditRateSetup = () => {
         if (response.statusCode === 200) {
           Success("Rate has been updated");
         }
-      } catch (err: any) {
-        DangerLeft("Something went wrong!");
-        console.log(err);
-      }
+      } catch (err: any) {}
     }
-  
   };
   return (
     <React.Fragment>

@@ -2,11 +2,8 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Redux/Store";
-import { firebaseAuthApi } from "./firebaseAuthApi";
 import { login, signUp } from "./../../../Redux/Services/authService";
 import { LogInRequestBody } from "./types";
-import { CenterDanger } from "../../../Redux/Services/toaster-service";
-import { apiInstance } from "../../../Redux/Services/AxiosApi";
 const getDefaultUser = () => {
   return JSON.parse(localStorage.getItem("user") || "{}");
 };

@@ -40,18 +40,7 @@ const RateChannelDistribut = (props) => {
       SetChannel(temp);
     }
   };
-  const isAllChecked = () => {
-    let isAll: boolean = false;
-    let temp = channel.findIndex((x) => (x.isChecked = false));
-    if (temp > -1) {
-      isAll = true;
-    } else {
-      isAll = false;
-    }
-    console.log(isAll);
-
-    return isAll;
-  };
+  
   const onNext = () => {
     let cArray:any = []
     for (let index = 0; index < channel.length; index++) {

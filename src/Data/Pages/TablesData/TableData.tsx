@@ -469,7 +469,7 @@ export const BasicDataTable = () => {
     getTableBodyProps, // table body props from react-table
     prepareRow, // Prepare the row (this function needs to be called for each row before getting the row props)
     state,
-    setGlobalFilter,
+    // setGlobalFilter,
     page, // use, page or rows
     nextPage,
     previousPage,
@@ -481,7 +481,7 @@ export const BasicDataTable = () => {
     setPageSize,
   } = tableInstance;
 
-  const { globalFilter, pageIndex, pageSize } = state;
+  const {pageIndex, pageSize } = state;
 
   return (
     <>
@@ -1087,7 +1087,7 @@ export const ResponsiveDataTable = () => {
     getTableBodyProps, // table body props from react-table
     prepareRow, // Prepare the row (this function needs to be called for each row before getting the row props)
     state,
-    setGlobalFilter,
+    // setGlobalFilter,
     page, // use, page or rows
     nextPage,
     previousPage,
@@ -1099,7 +1099,9 @@ export const ResponsiveDataTable = () => {
     setPageSize,
   } = tableInstance;
 
-  const { globalFilter, pageIndex, pageSize } = state;
+  const { 
+    // globalFilter,
+     pageIndex, pageSize } = state;
 
   return (
     <>
@@ -1235,18 +1237,18 @@ export const ResponsiveDataTable = () => {
     </>
   );
 };
-const GlobalResFilter = ({ filter, setFilter }) => {
-  return (
-    <span className="d-flex ms-auto">
-      <input
-        value={filter || ""}
-        onChange={(e) => setFilter(e.target.value)}
-        className="form-control mb-4"
-        placeholder="Search..."
-      />
-    </span>
-  );
-};
+// const GlobalResFilter = ({ filter, setFilter }) => {
+//   return (
+//     <span className="d-flex ms-auto">
+//       <input
+//         value={filter || ""}
+//         onChange={(e) => setFilter(e.target.value)}
+//         className="form-control mb-4"
+//         placeholder="Search..."
+//       />
+//     </span>
+//   );
+// };
 // Responsive Table Data END******
 
 // Deleted Row Table Data START******
@@ -1760,7 +1762,7 @@ export interface DataTablessProps {
   isSelectable?: Boolean;
 }
 export const DataTabless = (props: DataTablessProps) => {
-  const { resTableDataItems, columns, isSelectable, onRowClick } = props;
+  const { resTableDataItems, columns, isSelectable} = props;
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [toggleCleared, setToggleCleared] = React.useState(false);
   const [data, setData] = React.useState<TableData[] | [] | undefined>(

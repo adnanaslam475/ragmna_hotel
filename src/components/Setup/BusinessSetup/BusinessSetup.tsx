@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React from "react";
 import { Form, Col, Row, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
@@ -86,10 +86,7 @@ const BusinessSetup = () => {
     handleChange,
     handleSubmit,
     values,
-    errors,
-    touched,
-    setValues,
-    setFieldValue,
+    setValues
   } = useFormik({
     initialValues,
     validationSchema,
@@ -147,7 +144,7 @@ const BusinessSetup = () => {
       <h2>Business Information</h2>
       <form onSubmit={handleSubmit}>
         <Row>
-          <Col>
+          <Col lg={6} md={8}>
             <div className="control-group form-group">
               <label className="form-label">Business Name</label>
               <input
@@ -161,6 +158,8 @@ const BusinessSetup = () => {
                 }}
               />
             </div>
+          </Col>
+          <Col lg={6} md={8}>
             <div className="control-group form-group">
               <label className="form-label">CR Number</label>
               <input
@@ -174,6 +173,8 @@ const BusinessSetup = () => {
                 }}
               />
             </div>
+          </Col>
+          <Col lg={6} md={8}>
             <div className="control-group form-group">
               <label className="form-label">VAT Number</label>
               <input
@@ -187,6 +188,8 @@ const BusinessSetup = () => {
                 }}
               />
             </div>
+          </Col>
+          <Col lg={6} md={8}>
             <div className="control-group form-group">
               <label className="form-label">Business Contact Person</label>
               <input
@@ -201,7 +204,7 @@ const BusinessSetup = () => {
               />
             </div>
           </Col>
-          <Col>
+          <Col lg={6} md={8}>
             <div className="control-group form-group">
               <label className="form-label">Business Contact Number</label>
               <input
@@ -215,6 +218,8 @@ const BusinessSetup = () => {
                 }}
               />
             </div>
+          </Col>
+          <Col lg={6} md={8}>
             <div className="control-group form-group mb-0">
               <label className="form-label">Logo</label>
               <Form.Control
@@ -226,6 +231,8 @@ const BusinessSetup = () => {
                 }}
               />
             </div>
+          </Col>
+          <Col lg={6} md={8}>
             <div className="control-group form-group">
               <label className="form-label">Currency </label>
               <Select
@@ -235,6 +242,8 @@ const BusinessSetup = () => {
                 name="currency"
               />
             </div>
+          </Col>
+          <Col lg={6} md={8}>
             <div className="control-group form-group">
               <label className="form-label">Time Zone</label>
               <Select

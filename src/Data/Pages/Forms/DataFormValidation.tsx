@@ -4,7 +4,6 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 import Select from 'react-select'
 import { DropzoneArea } from 'material-ui-dropzone'
-import { Title } from 'chart.js'
 
 // Basic Form validation
 interface IfirstChildProps {

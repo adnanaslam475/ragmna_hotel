@@ -1,16 +1,11 @@
 import {
-  Tabs,
   Tab,
   Row,
   Col,
   Nav,
   Card,
-  Form,
-  Collapse,
   ListGroup,
   ListGroupItem,
-  Container,
-  Badge,
 } from "react-bootstrap";
 import { VerticalOrientationWizard } from "../../Data/Pages/Forms/DataFormWizard";
 import "./GuestServices.scss";

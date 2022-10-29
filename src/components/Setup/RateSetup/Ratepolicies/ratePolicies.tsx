@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Accordion, Card, Col, Collapse, Nav, Row, Tab } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
+import { Accordion, Card, Col, Collapse, Row} from 'react-bootstrap'
 import './ratePolicies.scss'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
@@ -8,9 +7,7 @@ import Form from 'react-bootstrap/Form'
 import { getpolicies, deletePolicies } from './ratePolicySlice'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../../../../Redux/Store'
-import { TableCell } from '@mui/material'
 const RatePolicies = () => {
-	let navigate = useNavigate()
 	const dispatch = useDispatch<AppDispatch>()
 	const [polices, setpolicies] = useState<any[]>([])
 	const [showCancellation, setShow] = useState(false)
@@ -31,7 +28,6 @@ const RatePolicies = () => {
 	const showcheckinModal = () => setShowCheckin(true)
 	const handlecheckinClose = () => setShowCheckin(false)
 	const handlenoshowClose = () => setShowNoShow(false)
-	const shownoshowModal = () => setShowNoShow(true)
 
 	const handleselect = (e) => {
 		setRate(e.target.value)
@@ -80,8 +76,8 @@ const RatePolicies = () => {
 						</Card.Header>
 						<Card.Body>
 							<Accordion defaultActiveKey="0" className="demo-accordion accordionjs m-0">
-								{polices.map((entry) => (
-									<Accordion.Item eventKey="1" className="acc_section ">
+								{polices.map((entry,index) => (
+									<Accordion.Item key={index} eventKey="1" className="acc_section ">
 										<Accordion.Header className="acc_head">
 											<div style={{ display: 'flex' }}>{entry.type} Policy</div>
 											{entry.type === 'Deposit' ? (
