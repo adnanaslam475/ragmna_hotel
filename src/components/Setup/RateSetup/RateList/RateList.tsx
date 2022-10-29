@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Row } from "react-bootstrap";
+import { Accordion, Button, Card, Col, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../../../Redux/Store";
-import { usePropertyList } from "../../PropertySetup/propertySetupSlice";
 import "./RateList.scss";
 import {
   getRate,
   getRoomType,
+  removeDerivedRate,
   removeRate,
   useRateList,
   useRoomTypes,
@@ -21,21 +21,23 @@ const RateList = () => {
   let navigate = useNavigate();
   const [isOpenDeletePopUp, setIsOpenDeletePopUp] = useState<boolean>(false);
   const [deleteId, setDeleteId] = useState("");
+  const [derivedId, setDerivedId] = useState("");
   const RouteChange = () => {
     let path = `/setup/ratesetup/addrate`;
     navigate(path);
   };
   const { roomTypes } = useRoomTypes();
   const getRoomTypes = async () => {
-    const response = await dispatch(getRoomType()).unwrap();
+    await dispatch(getRoomType()).unwrap();
   };
   useEffect(() => {
     getRoomTypes();
   }, []);
   const { rateList } = useRateList();
+  console.log(rateList, "rateList");
   const dispatch = useDispatch<AppDispatch>();
   const getRateDetails = async () => {
-    let response: any = await dispatch(getRate()).unwrap();
+    await dispatch(getRate()).unwrap();
   };
 
   useEffect(() => {
@@ -45,25 +47,52 @@ const RateList = () => {
     setIsOpenDeletePopUp(true);
     setDeleteId(id);
   };
+  const deleteDerivedRate = (dId, rId) => {
+    setIsOpenDeletePopUp(true);
+    setDerivedId(dId);
+    setDeleteId(rId);
+  };
   const smallmodalClose = async (value) => {
-    if (value) {
-      try {
-        await dispatch(removeRate(deleteId)).unwrap();
-        let response: any = await dispatch(getRate()).unwrap();
+    if (derivedId) {
+      if (value) {
+        try {
+          let payload = {
+            dId: derivedId,
+            rId: deleteId,
+          };
+          await dispatch(removeDerivedRate(payload)).unwrap();
+          await dispatch(getRate()).unwrap();
+          setIsOpenDeletePopUp(false);
+          setDeleteId("");
+          setDerivedId("");
+          Success("Derived Rate has been deleted");
+        } catch (err: any) {
+          setIsOpenDeletePopUp(false);
+          DangerLeft("Something went Wrong");
+        }
+      } else {
         setIsOpenDeletePopUp(false);
-        setDeleteId("");
-        Success("Rate has been deleted");
-      } catch (err: any) {
-        setIsOpenDeletePopUp(false);
-        DangerLeft("Something went Wrong");
       }
     } else {
-      setIsOpenDeletePopUp(false);
+      if (value) {
+        try {
+          await dispatch(removeRate(deleteId)).unwrap();
+          await dispatch(getRate()).unwrap();
+          setIsOpenDeletePopUp(false);
+          setDeleteId("");
+          Success("Rate has been deleted");
+        } catch (err: any) {
+          setIsOpenDeletePopUp(false);
+          DangerLeft("Something went Wrong");
+        }
+      } else {
+        setIsOpenDeletePopUp(false);
+      }
     }
   };
   const getRoomTypeByID = (id) => {
     if (roomTypes) {
-      let i = roomTypes.findIndex((x) => x._id == id);
+      let i = roomTypes.findIndex((x) => x._id === id);
       if (i > -1) {
         return roomTypes[i].name;
       }
@@ -71,124 +100,129 @@ const RateList = () => {
   };
   return (
     <React.Fragment>
-      <Row>
-        <div className="d-flex justify-content-end">
-          <Button
-            className="m-2"
-            onClick={() => {
-              RouteChange();
-            }}
-          >
-            Add Rate
-          </Button>
-        </div>
+      <Row className="mt-4">
+        <Card id="Tooltip">
+          <span className="ribbone-success-left ">
+            <span>
+              <i className="fe fe-zap"></i>
+            </span>
+          </span>
+          <Card.Header className="d-flex justify-content-between">
+            <Card.Title className="mt-4">Rate List</Card.Title>
+            <div className="d-flex justify-content-end">
+              <Button
+                className="m-2"
+                onClick={() => {
+                  RouteChange();
+                }}
+              >
+                Add Rate
+              </Button>
+            </div>
+          </Card.Header>
+        </Card>
       </Row>
-      <Row className="d-flex">
+      <Row className="mt-2. rateList">
         {rateList &&
           rateList.map((item, index) => {
             return (
-              <Col key={index} lg={4} md={6} sm={12} className="main-box">
-                <Card className="rate-card">
-                  <Card.Header className="d-flex justify-content-between">
-                    <Card.Title as="h3">{item.name}</Card.Title>
-                    <div className="action-icons">
+              <Col xs={4} key={index}>
+                <Card>
+                  <div className="arrow-ribbone-left bg-warning">Rate</div>
+                  <Card.Header
+                    style={{ padding: "2.2rem 1.5rem" }}
+                    className="d-flex justify-content-between mt-3"
+                  >
+                    <Card.Title className="title-name">{item.name}</Card.Title>
+                    <div className="rateAction-icons">
                       <span className="mx-3">
                         <i
-                          className="fe fe-edit"
+                          className="fe fe-edit i-e"
                           onClick={() => {
                             navigate(`/setup/ratesetup/editrate/${item._id}`);
                           }}
                         ></i>
                       </span>
                       <span onClick={() => deleteRate(index, item._id)}>
-                        <i className="fe fe-trash-2"></i>
+                        <i className="fe fe-trash-2 i-d"></i>
                       </span>
                     </div>
                   </Card.Header>
-                  <Card.Body className="h-100">
-                    <div className="inner-box">
-                      {item?.derivedRates
-                        ? item?.derivedRates.map((derived, ind) => {
-                            return (
-                              <div key={ind} className="inner-box-size">
-                                <div className="derived-icons">
-                                  <span className="mx-3">
-                                    <i
-                                      className="fe fe-edit"
-                                      onClick={() => {
-                                        navigate(
-                                          `/setup/ratesetup/editrate/${item._id}/true/${ind}`
-                                        );
-                                      }}
-                                    ></i>
-                                  </span>
-                                </div>
-                                <span>{derived?.name}</span>
-                                <span>
-                                  {derived?.offer?.amount}
-                                  {derived?.offer?.calculationType ===
-                                  "Percentage"
-                                    ? "%"
-                                    : "$"}
-                                </span>
-                              </div>
-                            );
-                          })
-                        : null}
-                    </div>
-                    <div className="inner-box-row-2">
-                      {item?.roomTypes
-                        ? item.roomTypes.map((roomType, rindex) => {
-                            return (
-                              <div className="inner-box-size-2">
-                                <span>
-                                  {getRoomTypeByID(roomType.roomTypeId)}
-                                </span>
-                                <span>${roomType.price}</span>
-                              </div>
-                            );
-                          })
-                        : null}
-                    </div>
+                  <Card.Body style={{ padding: 0 }}>
+                    <Accordion className="red">
+                      {item?.derivedRates.length !== 0 && (
+                        <Accordion.Item eventKey="0">
+                          <Accordion.Header>Derived Rate List</Accordion.Header>
+                          <Accordion.Body>
+                            {item?.derivedRates
+                              ? item?.derivedRates.map((derived, ind) => {
+                                  return (
+                                    <div
+                                      key={ind}
+                                      className="d-flex justify-content-between"
+                                    >
+                                      <span>{derived?.name}</span>
+                                      <span className="fw-bolder">
+                                        {derived?.offer?.amount}
+                                        {derived?.offer?.calculationType ===
+                                        "Percentage"
+                                          ? "%"
+                                          : "$"}
+                                      </span>
+
+                                      <span>
+                                        <i
+                                          className="fe fe-edit"
+                                          onClick={() => {
+                                            navigate(
+                                              `/setup/ratesetup/editrate/${item._id}/true/${ind}`
+                                            );
+                                          }}
+                                        ></i>
+                                        <i
+                                          onClick={() =>
+                                            deleteDerivedRate(
+                                              derived._id,
+                                              item._id
+                                            )
+                                          }
+                                          className="fe fe-trash-2 i-d mx-1"
+                                        ></i>
+                                      </span>
+                                    </div>
+                                  );
+                                })
+                              : null}
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      )}
+                      {item.roomTypes.length !== 0 && (
+                        <Accordion.Item eventKey="1">
+                          <Accordion.Header>Room Types List</Accordion.Header>
+                          <Accordion.Body>
+                            {item?.roomTypes
+                              ? item.roomTypes.map((roomType, rindex) => {
+                                  return (
+                                    <div
+                                      key={rindex}
+                                      className="d-flex justify-content-between"
+                                    >
+                                      <span>
+                                        {getRoomTypeByID(roomType.roomTypeId)}
+                                      </span>
+                                      <span className="fw-bolder">
+                                        ${roomType.price}
+                                      </span>
+                                    </div>
+                                  );
+                                })
+                              : null}
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      )}
+                    </Accordion>
                   </Card.Body>
                 </Card>
-                {/* <div className="icons">
-                  <i
-                    className="icon i-e fe fe-edit"
-                    onClick={() => {
-                      navigate(`/setup/ratesetup/editrate/`);
-                    }}
-                  />
-                  <i className="icon i-t fe fe-trash-2" />
-                </div> */}
-                {/* <div className="inner-box">
-                  <div className="inner-box-size">
-                    <span>5%</span>
-                  </div>
-                  <div className="inner-box-size">
-                    <span>D</span>
-                    <span>10%</span>
-                  </div>
-                </div> */}
-                {/* <div className="inner-header py-2">
-                  <h5>
-                    {item.name} - <span> $100</span>
-                  </h5>
-                </div> */}
-                {/* <div className="inner-box-row-2">
-                  <div className="inner-box-size-2">
-                    <span>Reg</span>
-                    <span>$90</span>
-                  </div>
-                  <div className="inner-box-size-2">
-                    <span>WKD</span>
-                    <span>$120</span>
-                  </div>
-                  <div className="inner-box-size-2">
-                    <span>Xmas</span>
-                    <span>$210</span>
-                  </div>
-                </div> */}
               </Col>
             );
           })}

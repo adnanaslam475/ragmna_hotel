@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Col, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { DataTabless } from "../../../../Data/Pages/TablesData/TableData";
 import { TableData } from "../../FrontOfficeTypes";
 import "./UserHistory.scss";

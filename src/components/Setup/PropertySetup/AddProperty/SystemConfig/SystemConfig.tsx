@@ -1,19 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Card, Row, Col, Button } from "react-bootstrap";
+import React from "react";
+import { Row, Col } from "react-bootstrap";
 import TimezoneSelect, {
   allTimezones,
-  ITimezoneOption,
 } from "react-timezone-select";
-import { PropertySetuptypes } from "../types";
-import { useParams } from "react-router-dom";
 import "./SystemConfig.scss";
-import { DangerLeft, Success } from "../../../../../Redux/Services/toaster-service";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../../../Redux/Store";
-import {
-  getSettingByTypeId,
-  saveSettingByTypeId,
-} from "../Reservation/reservationSlice";
 
 export interface SystemConfigProps {
   tz: any;

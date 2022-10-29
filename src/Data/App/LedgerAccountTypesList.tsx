@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Swal from "sweetalert2";
 import moment from "moment";
 import * as Yup from "yup";
 import {
@@ -15,16 +14,9 @@ import {
   Tooltip,
   OverlayTrigger,
   ButtonGroup,
-  Modal,
-  ModalHeader,
-  ModalTitle,
-  ModalBody,
-  Row,
-  ModalFooter,
 } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
-import { CircularProgress } from "@mui/material";
 import {
   createLedgerAccountsType,
   deleteLedgerAccountTypeById,
@@ -137,7 +129,7 @@ export const LedgerAccountTypesList = ({
     headerGroups, // headerGroups, if your table has groupings
     getTableBodyProps, // table body props from react-table
     prepareRow, // Prepare the row (this function needs to be called for each row before getting the row props)
-    state,
+    // state,
     page, // use, page or rows
   } = tableInstance;
 

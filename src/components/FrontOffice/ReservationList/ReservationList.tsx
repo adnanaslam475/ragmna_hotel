@@ -1,5 +1,5 @@
 import { Card, FormControl, InputGroup, Row, Col } from "react-bootstrap";
-import React, { useState, useRef, forwardRef, FC } from "react";
+import React, { useState, useRef, forwardRef} from "react";
 import { DataTabless } from "../../../Data/Pages/TablesData/TableData";
 import {
   ArrivalsDetails,
@@ -211,14 +211,14 @@ const ReservationList = (props: ReservationListProps) => {
     switch (name) {
       case "showArrivalDetails":
         ArrivalDetail.forEach((val) => {
-          val.id == id ? (val.isActive = true) : (val.isActive = false);
+          val.id === id ? (val.isActive = true) : (val.isActive = false);
         });
         setShowArrivalDetails(ArrivalDetail);
         break;
 
       case "DepartureDetails":
         DepartureDetail.forEach((val) => {
-          val.id == id ? (val.isActive = true) : (val.isActive = false);
+          val.id === id ? (val.isActive = true) : (val.isActive = false);
         });
         setShowDepartureDetails(DepartureDetail);
         break;

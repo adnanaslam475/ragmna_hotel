@@ -141,4 +141,25 @@
       }
     }
   }
-  
+
+  .rateList{
+
+    .title-name{
+      font-weight: 500;
+      font-size: 18px;
+    }
+
+    .rateAction-icons{
+      .i-e{
+        color: #6c5ffc;
+        font-size: 16px;
+      }
+      .i-d{
+        color: red;
+        font-size: 16px;
+      }
+    }
+    .accordion-button, .accordion-item{
+      border-radius: 0 !important;
+    }
+  }

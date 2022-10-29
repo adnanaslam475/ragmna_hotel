@@ -1,0 +1,28 @@
+.card-bg {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.rate-name-container {
+    background-color: white;
+    margin-bottom: 20px;
+    border-radius: 20px;
+
+    .panel-tabs.panel-secondary.nav .nav-item .nav-link.active {
+        border-radius: 20px !important;
+    }
+}
+
+.rate-content-container {
+    border-radius: 10px;
+
+    .content-container {
+        .rate-list {
+            background-color: transparent;
+        }
+
+        .rate-policies {
+            background-color: white;
+        }
+    }
+}

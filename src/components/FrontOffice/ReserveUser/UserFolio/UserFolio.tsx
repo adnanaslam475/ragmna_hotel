@@ -1,7 +1,6 @@
-import React, { useState, useRef, forwardRef, FC } from "react";
+import React from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import { DataTabless } from "../../../../Data/Pages/TablesData/TableData";
 import { TableData } from "../../../FrontOffice/FrontOfficeTypes"
 
 import "./UserFolio.scss"

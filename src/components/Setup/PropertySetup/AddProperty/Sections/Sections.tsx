@@ -3,8 +3,6 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import { CommanDropDownType, SectionTypes } from "../types";
 import Select from "react-select";
 import "./Sections.scss";
-import * as Yup from "yup";
-import { useFormik } from "formik";
 
 export interface SectionsProps {
   sectionArray: any;
@@ -54,13 +52,13 @@ const Sections = (props: SectionsProps) => {
 
   const deleteDetail = (index) => {
     let sectionData = sectionArray.filter((val, i) => {
-      return i != index;
+      return i !== index;
     });
     setSectionArray([...sectionData]);
   };
 
   const editDetail = (index) => {
-    let editdata = sectionArray.find((val, i) => i == index);
+    let editdata = sectionArray.find((val, i) => i === index);
     setSelectValues({ ...editdata });
   };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Button,
   Modal,
@@ -14,13 +14,12 @@ export interface ConformationPopupProps {
 }
 const ConformationPopup = (props: ConformationPopupProps) => {
   const { smallmodalClose } = props;
-  const [show, setShow] = useState(true);
 
   return (
     <React.Fragment>
       <Modal
         size="sm"
-        show={show}
+        show={true}
         onHide={() => {
           smallmodalClose(false);
         }}

@@ -1,28 +1,20 @@
-import { useFormik } from "formik";
 import React from "react";
 import { Button, Col, Row } from "react-bootstrap";
-import * as Yup from "yup";
 import { useRoomTypes } from "../../RateSetupSlice";
 import "./BaseRate.scss";
 
-const BaseRate = (props) => {
+const BaseRate = (props:any) => {
+  const {previousStep,changeInput} = props
   const { roomTypes } = useRoomTypes();
 
-  const initialValues = {
-    basePrice: "",
-  };
-
-  const validationSchema = Yup.object({
-    basePrice: Yup.string().required(),
-  });
-
   const onSubmit = () => {
+    
     props.nextStep();
   };
 
   const getRoomTypeByID = (id) => {
     if (roomTypes) {
-      let i = roomTypes.findIndex((x) => x._id == id);
+      let i = roomTypes.findIndex((x) => x._id === id);
       if (i > -1) {
         return roomTypes[i].name;
       }
@@ -57,7 +49,7 @@ const BaseRate = (props) => {
                       name="price"
                       value={item.price}
                       onChange={(e) => {
-                        props.changeInput("price", e.target.value ,index);
+                        changeInput("price", e.target.value ,index);
                       }}
                     />
                   </div>
@@ -67,7 +59,7 @@ const BaseRate = (props) => {
           })}
           </div>
           <div className="Previous-button">
-            <Button onClick={props.previousStep}>Previous</Button>
+            <Button onClick={previousStep}>Previous</Button>
           </div>
           <div className="next-button">
             <Button onClick={() => onSubmit()}>Next</Button>

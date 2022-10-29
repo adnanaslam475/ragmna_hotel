@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import styles from './FormValidation.module.scss'
 import PageHeader from '../../../../Layouts/PageHeader/PageHeader'
 import { Row, Col, Card, Form, Button, InputGroup } from 'react-bootstrap'
-import { CutomValidation, FormvalidationWithTooltip } from '../../../../Data/Pages/Forms/DataFormValidation'
+import { FormvalidationWithTooltip } from '../../../../Data/Pages/Forms/DataFormValidation'
 import Select from 'react-select'
 
 interface FormValidationProps {}
