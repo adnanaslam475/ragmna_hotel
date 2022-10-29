@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { addDerivedRate, addNightlyRate, createSeason, deleteRate, deleteSeason, getPolicies, getRateById, getRateProperty, getRoomTypes, updateDerivedRate, updateRate, updateSeason } from "../../../Redux/Services/rateService";
+import { addDerivedRate, addNightlyRate, createSeason, deleteDerivedRate, deleteRate, deleteSeason, getPolicies, getRateById, getRateProperty, getRoomTypes, updateDerivedRate, updateRate, updateSeason } from "../../../Redux/Services/rateService";
 const initialState = {
   rateList: [],
   roomTypes: [],
@@ -51,6 +51,9 @@ export const updateNightlyRate = createAsyncThunk('rate/update', async (payload:
 })
 export const removeRate = createAsyncThunk('rate/remove', async (id: string) => {
   return await deleteRate(id)
+})
+export const removeDerivedRate = createAsyncThunk('derived/rate/remove', async (payload:any) => {
+  return await deleteDerivedRate(payload.dId,payload.rId)
 })
 const rateSetupSlice = createSlice({
   name: "rateSetup",
