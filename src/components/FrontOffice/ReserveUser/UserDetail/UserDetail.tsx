@@ -1,5 +1,5 @@
-import React, { useState, useRef, forwardRef, FC } from "react";
-import { Button, Card, Col, Row, Form } from "react-bootstrap";
+import React from "react";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { TableData } from "../../../FrontOffice/FrontOfficeTypes";
 import "./UserDetail.scss";

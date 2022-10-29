@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState } from "react";
 import { Card } from "react-bootstrap";
 import StepWizard from "react-step-wizard";
 import RateType from "./RateType/RateType";
@@ -77,21 +77,21 @@ const AddRate = () => {
     setRateType(type);
   };
   const setValues = (key, details) => {
-    if (type == "nightly") {
+    if (type === "nightly") {
       setRate({ ...rate, [key]: details });
     } else {
       setDerivedRate({ ...derivedRate, [key]: details });
     }
   };
   const setRoomTypes = (roomTypes) => {
-    if (type == "nightly") {
+    if (type === "nightly") {
       setRate({ ...rate, roomTypes: roomTypes });
     } else {
       setDerivedRate({ ...derivedRate, roomTypes: roomTypes });
     }
   };
   const saveChannel = (channels) => {
-    if (type == "nightly") {
+    if (type === "nightly") {
       setRate({ ...rate, channels: channels });
     } else {
       setDerivedRate({ ...derivedRate, channels: channels });
@@ -107,7 +107,7 @@ const AddRate = () => {
     });
   };
   const restrictionsChange = (key, value) => {
-    if (type == "nightly") {
+    if (type === "nightly") {
       setRate({
         ...rate,
         restrictions: { ...rate.restrictions, [key]: value.target.value },
@@ -142,7 +142,7 @@ const AddRate = () => {
     navigate(path);
   };
   const onSubmit = async () => {
-    if (type == "nightly") {
+    if (type === "nightly") {
       try {
         let payload = Object.assign({}, rate);
         let response: any = await dispatch(addNightly(payload)).unwrap();
@@ -177,7 +177,7 @@ const AddRate = () => {
     }
   };
   const onRadioChange = (e, ind, val, types) => {
-    if (type == "nightly") {
+    if (type === "nightly") {
       switch (types) {
         case "cancellation":
           if (e.target.checked) {
@@ -249,7 +249,7 @@ const AddRate = () => {
   };
 
   const clearPolicy = (e, types) => {
-    if (type == "nightly") {
+    if (type === "nightly") {
       switch (types) {
         case "cancellation":
           setRate({ ...rate, cancellationPolicy: undefined });
@@ -289,7 +289,7 @@ const AddRate = () => {
     <React.Fragment>
       <Card>
         <Card.Body className="wizard-setup">
-          {type == "nightly" ? (
+          {type === "nightly" ? (
             <StepWizard>
               <RateType setType={setType} />
               <RatePlan changeInput={setValues} />

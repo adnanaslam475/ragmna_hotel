@@ -1,29 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { Col, Form, Row } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Col, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../../../Redux/Store";
 import {
   getRoomType,
-  useRateData,
   useRoomTypes,
 } from "../../../RateSetupSlice";
 import "./Rates.scss";
 const Rates = ({ seasonBody, setbasePrice, setChannelPrice ,onRateCheckBoxChange}) => {
-  const [rateCheck, setRateCheck] = useState<any>([]);
-  const [masterBedroom, setMasterBedroom] = useState(false);
-  const [southernHospitality, setSouthernHospitality] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const { roomTypes } = useRoomTypes();
   const getRoomTypes = async () => {
-    const response = await dispatch(getRoomType()).unwrap();
+     await dispatch(getRoomType()).unwrap();
   };
   useEffect(() => {
     getRoomTypes();
   }, []);
-  const { rateData } = useRateData();
   const getRoomTypeByID = (id) => {
     if (roomTypes) {
-      let i = roomTypes.findIndex((x) => x._id == id);
+      let i = roomTypes.findIndex((x) => x._id === id);
       if (i > -1) {
         return roomTypes[i].name;
       }

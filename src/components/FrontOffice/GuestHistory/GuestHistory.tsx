@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Card, Col, Form, Row } from "react-bootstrap";
 import { DataTabless } from "../../../Data/Pages/TablesData/TableData";
 import "./GuestHistory.scss";
@@ -7,7 +7,6 @@ import Select from "react-select";
 import { GuestTableDataItemsProps } from "../FrontOfficeTypes";
 
 const GuestHistory = () => {
-  const [user, setUser] = useState(null);
 
   const AccountType: Currency[] = [
     { value: "Guest Profile", label: "Guest Profile" },

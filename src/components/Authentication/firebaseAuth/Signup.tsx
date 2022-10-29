@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth } from "../../../Firebase/firebase";
-import { Alert, Button, Card, Form, InputGroup } from "react-bootstrap";
-import { useAppSelector } from "../../../Redux/hooks";
+import { Alert, Form, InputGroup } from "react-bootstrap";
 import {
   authSignup,
-  selectFirebaseAuthList,
-  useSignupResponse,
 } from "./firebaseAuthSlice";
-import { useSignUpMutation } from "./firebaseAuthApi";
 import { SignupRequestBody } from "./types";
 import "./firebaseAuth.scss";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { CenterDanger, Success } from "../../../Redux/Services/toaster-service";
+import { Success } from "../../../Redux/Services/toaster-service";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../Redux/Store";
 const SignUp = () => {

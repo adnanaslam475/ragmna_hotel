@@ -1,6 +1,5 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React from "react";
 import { Col, Row } from "react-bootstrap";
-import { useParams } from "react-router-dom";
 import { useGetAmenitiesQuery } from "../Amenities/amenitiesApi";
 
 export interface AmenitiesSectionProps {

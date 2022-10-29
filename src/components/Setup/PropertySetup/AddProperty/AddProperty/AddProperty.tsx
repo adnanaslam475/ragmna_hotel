@@ -2,7 +2,6 @@ import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Nav, Tab } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import Amenities from "../Amenities/Amenities";
 import AmenitiesSelection from "../AmenitiesSelection/AmenitiesSelection";
 import CheckInCheckOut from "../CheckInCheckOut/CheckInCheckOut";
 import PropertyInfo from "../PropertyInfo/PropertyInfo";
@@ -30,7 +29,6 @@ import {
 } from "../TaxSetup/taxSetupSlice";
 import Sections from "../Sections/Sections";
 import {
-  DangerLeft,
   Success,
 } from "../../../../../Redux/Services/toaster-service";
 
@@ -69,7 +67,7 @@ const AddProperty = (props: AddPropertyProps) => {
   });
   const [sectionArray, setSectionArray] = useState<any>([]);
 
-  let initialValuesInfo: InitialValues = {
+  let initialValues: InitialValues = {
     name: "",
     email: "",
     propertyType: "",
@@ -134,8 +132,6 @@ const AddProperty = (props: AddPropertyProps) => {
   const [taxInfo, setTaxInfo] = useState(initialTaxValuesInfo);
 
   const [taxId, setTaxId] = useState("");
-
-  const [initialValues, setInitialValues] = useState(initialValuesInfo);
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Please Enter Name"),
@@ -314,7 +310,7 @@ const AddProperty = (props: AddPropertyProps) => {
     } catch (err: any) {
       console.log(err, "err");
     }
-    if (key == "six" && id) {
+    if (key === "six" && id) {
       try {
         let payload = Object.assign({}, taxInfo);
         payload["propertyId"] = id;
@@ -382,7 +378,7 @@ const AddProperty = (props: AddPropertyProps) => {
 
   const setKeyValue = (key) => {
     setKey(key);
-    if (key == "six") {
+    if (key === "six") {
       setIsTax(true);
     } else {
       setIsTax(false);
@@ -550,7 +546,7 @@ const AddProperty = (props: AddPropertyProps) => {
 
   const getTaxDetail = async () => {
     if (id) {
-      let response: any = await dispatch(getTaxConfigDetails(id)).unwrap();
+      await dispatch(getTaxConfigDetails(id)).unwrap();
     }
   };
 

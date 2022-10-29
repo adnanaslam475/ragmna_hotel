@@ -28,7 +28,7 @@ const RateType = (props) => {
               name="rate"
               value="nightly"
               id="nightyRate"
-              checked={type == "nightly" ? true : false}
+              checked={type === "nightly" ? true : false}
               onChange={(e: any) => {
                 setType(e.target.checked && "nightly");
               }}
@@ -39,7 +39,7 @@ const RateType = (props) => {
               name="rate"
               value="derived"
               id="derivedRate"
-              checked={type == "nightly" ? false : true}
+              checked={type === "nightly" ? false : true}
               onChange={(e: any) => {
                 setType(e.target.checked && "derived");
               }}

@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { deletePropertyById, getProperty } from '../../../Redux/Services/propertyService'
-import { propertySetupApi } from './propertySetupApi'
 
 const initialState = {
 	propertyList: [],

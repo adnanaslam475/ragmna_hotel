@@ -1,7 +1,6 @@
-import React, { useState, useRef, forwardRef, FC } from "react";
-import { Button, Card, Col, Row } from "react-bootstrap";
+import React  from "react";
+import { Button, Col, Row } from "react-bootstrap";
 import { DataTabless } from "../../../../Data/Pages/TablesData/TableData";
-import { TableData } from "../../FrontOfficeTypes";
 import "./UserDocument.scss"
 const UserDocument = () => {
 

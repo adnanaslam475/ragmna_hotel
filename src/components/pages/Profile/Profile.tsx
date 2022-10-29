@@ -1,14 +1,11 @@
 import React, { FC } from "react";
 import "./Profile.scss";
-import PageHeader from "../../../Layouts/PageHeader/PageHeader";
 import {
   Button,
   Card,
   Col,
   Row,
   Form,
-  OverlayTrigger,
-  Tooltip,
 } from "react-bootstrap";
 import PhoneInput from "react-phone-input-2";
 
@@ -28,14 +25,7 @@ const Profile: FC<ProfileProps> = () => (
                 <Col lg={12} md={12}>
                   <Row>
                     <div className="panel profile-cover">
-                      {/* <div className="profile-cover__action bg-img"></div> */}
-                      {/* <div className="profile-cover__img"> */}
                       <div>
-                        {/* <img
-                          className="profile-img"
-                          src={require("../../../assets/images/users/21.jpg")}
-                          alt="user21"
-                        /> */}
                         <i className="profile-img icon fe fe-user" />
                       </div>
                       <div className="profile-img-content text-dark text-start mt-2">

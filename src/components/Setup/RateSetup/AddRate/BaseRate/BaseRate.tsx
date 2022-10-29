@@ -1,20 +1,10 @@
-import { useFormik } from "formik";
 import React from "react";
 import { Button, Col, Row } from "react-bootstrap";
-import * as Yup from "yup";
 import { useRoomTypes } from "../../RateSetupSlice";
 import "./BaseRate.scss";
 
 const BaseRate = (props) => {
   const { roomTypes } = useRoomTypes();
-
-  const initialValues = {
-    basePrice: "",
-  };
-
-  const validationSchema = Yup.object({
-    basePrice: Yup.string().required(),
-  });
 
   const onSubmit = () => {
     props.nextStep();
@@ -22,7 +12,7 @@ const BaseRate = (props) => {
 
   const getRoomTypeByID = (id) => {
     if (roomTypes) {
-      let i = roomTypes.findIndex((x) => x._id == id);
+      let i = roomTypes.findIndex((x) => x._id === id);
       if (i > -1) {
         return roomTypes[i].name;
       }

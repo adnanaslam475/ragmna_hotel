@@ -2,19 +2,13 @@ import React, { useEffect, useState } from "react";
 import {
   Button,
   Col,
-  Form,
   Modal,
   ModalBody,
-  ModalFooter,
-  ModalHeader,
-  ModalTitle,
   Nav,
   Row,
   Tab,
 } from "react-bootstrap";
 import "./EditSeasonDetail.scss";
-import Select from "react-select";
-import { CommanDropDownType } from "../../../PropertySetup/AddProperty/types";
 import Rates from "./Rates/Rates";
 import RulesRestrictions from "./RulesRestrictions/RulesRestrictions";
 import Policies from "./Policies/Policies";
@@ -27,12 +21,10 @@ import {
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { AppDispatch } from "../../../../../Redux/Store";
-import { AnyArray } from "immer/dist/internal";
 import {
   Success,
   DangerLeft,
 } from "../../../../../Redux/Services/toaster-service";
-import { seasonBodyTypes } from "../../rateSetupTypes";
 
 export interface EditSeasonDetailProps {
   isModelClose: React.Dispatch<React.SetStateAction<boolean>>;
@@ -44,8 +36,8 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
   const { rateData } = useRateData();
   const dispatch = useDispatch<AppDispatch>();
   let { id } = useParams();
-  const getByRateId = () => {
-    let response = dispatch(getById(id ? id : "")).unwrap;
+  const getByRateId = async () => {
+    await dispatch(getById(id ? id : "")).unwrap;
   };
   useEffect(() => {
     if (id) {
@@ -53,7 +45,6 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
     }
   }, [id]);
 
-  const [show, setShow] = useState<boolean>(true);
   let [seasonBody, SetSeasonBody] = useState<any>({
     name: "",
     startDate: "",
@@ -165,17 +156,17 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
 
   const onHandleRestrictionInputChange = (e) => {
     let obj = seasonBody["restrictions"];
-    if (e.target.name == "minimumNights") {
+    if (e.target.name === "minimumNights") {
       obj = {
         ...obj,
         minimumNights: parseInt(e.target.value),
       };
-    } else if (e.target.name == "maximumNights") {
+    } else if (e.target.name === "maximumNights") {
       obj = {
         ...obj,
         maximumNights: parseInt(e.target.value),
       };
-    } else if (e.target.name == "promoCode") {
+    } else if (e.target.name === "promoCode") {
       obj = {
         ...obj,
         promoCode: e.target.value,
@@ -240,7 +231,7 @@ const EditSeasonDetail = (props: EditSeasonDetailProps) => {
     <React.Fragment>
       <Modal
         size="xl"
-        show={show}
+        show={true}
         onHide={() => {
           isModelClose(false);
         }}

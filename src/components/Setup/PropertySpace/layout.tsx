@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Button, Card, Col, Form } from 'react-bootstrap'
 import Select from 'react-select'
 
@@ -30,7 +30,6 @@ export const AddRoomType = () => {
 
 	console.log(data)
 
-	const [validated, setValidated] = useState(false)
 	const state = [{ value: 'both', label: 'Both' }]
 
 	const allowFors: CommanDropDownType[] = [
@@ -214,7 +213,7 @@ export const AddRoomType = () => {
 		<Card>
 			<Card.Body>
 				{/* <Formik initialValues={{ name: '', email: '', phone: '', blog: '' }}> */}
-				<Form noValidate validated={validated} onSubmit={handleSubmit}>
+				<Form noValidate validated={false} onSubmit={handleSubmit}>
 					<Card.Title>Room Information</Card.Title>
 					<div className="form-row">
 						<Col xl={6} className="mb-3">

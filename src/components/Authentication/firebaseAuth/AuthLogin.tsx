@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Form, Alert, InputGroup, Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Form, Alert, InputGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { CenterDanger } from "../../../Redux/Services/toaster-service";
-import { useLogInMutation } from "./firebaseAuthApi";
-import { authLogin, useUser } from "./firebaseAuthSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { authLogin } from "./firebaseAuthSlice";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../Redux/Store";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 const SignIn = () => {
   const [values, setValues] = useState<any>({
@@ -24,14 +20,13 @@ const SignIn = () => {
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
   };
-  
+
   const { email, password } = data;
   const changeHandler = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
     setError("");
   };
   // const [logIn, Result] = useLogInMutation();
-  const { user } = useUser();
   let navigate = useNavigate();
   const RouteChange = () => {
     let path = `/dashboard`;
@@ -102,20 +97,23 @@ const SignIn = () => {
                       className="bg-white text-muted"
                     >
                       <Link to="#">
-                      {values.showPassword ?  <i
-                          className="zmdi zmdi-eye text-default"
-                          aria-hidden="true"
-                          onClick={handleClickShowPassword}
-                        ></i> :  <i
-                          className="zmdi zmdi-eye-off text-default"
-                          aria-hidden="true"
-                          onClick={handleClickShowPassword}
-                        ></i>}
-                       
+                        {values.showPassword ? (
+                          <i
+                            className="zmdi zmdi-eye text-default"
+                            aria-hidden="true"
+                            onClick={handleClickShowPassword}
+                          ></i>
+                        ) : (
+                          <i
+                            className="zmdi zmdi-eye-off text-default"
+                            aria-hidden="true"
+                            onClick={handleClickShowPassword}
+                          ></i>
+                        )}
                       </Link>
                     </InputGroup.Text>
                     <Form.Control
-                     type={values.showPassword ? "text" : "password"}
+                      type={values.showPassword ? "text" : "password"}
                       className="input100 border-start-0 ms-0"
                       name="password"
                       placeholder="Password"
@@ -125,7 +123,6 @@ const SignIn = () => {
                     />
                   </InputGroup>
                   <div className="container-login100-form-btn">
-
                     <Link
                       to="#"
                       onClick={OnLogin}
