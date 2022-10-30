@@ -21,3 +21,9 @@ export const INITIAL_EVENTS: EventInput[] = [
 export function createEventId() {
 	return String(eventGuid++)
 }
+
+export const handlePreventInput = (event, notAllowedCharacters) => {
+	if (notAllowedCharacters.includes(event.key)) {
+		return event.preventDefault();
+	}
+}
