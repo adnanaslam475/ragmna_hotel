@@ -301,7 +301,6 @@ function LedgerSetup() {
                       className={"form-control required"}
                       placeholder={v.placeholder}
                       name={v.name}
-                      onKeyDown={(e) => handlePreventInput(e, '-')}
                       id={v.name}
                       onKeyUp={handleBlur}
                       value={values[v.name]}
