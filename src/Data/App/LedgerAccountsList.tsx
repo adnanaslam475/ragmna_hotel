@@ -91,7 +91,8 @@ export const LedgerAccountsList = ({
     getTableBodyProps, // table body props from react-table
     prepareRow, // Prepare the row (this function needs to be called for each row before getting the row props)
     state,
-    page, // use, page or rows
+    // page, // use, page or rows
+    rows,
     nextPage,
     previousPage,
     canNextPage,
@@ -153,7 +154,7 @@ export const LedgerAccountsList = ({
                   ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                  {page.map((row) => {
+                  {rows.map((row) => {
                     prepareRow(row);
                     return (
                       <tr className="text-center" {...row.getRowProps()}>

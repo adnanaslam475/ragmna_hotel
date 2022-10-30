@@ -23,9 +23,9 @@ import {
   updateLedgerAccountsTypeById,
 } from "../../components/Setup/LedgerSetup/ledgerAccountSetupSlice";
 
-import { AppDispatch } from "../../Redux/Store";
 import CreateLedgerAccountOrAccountTypeModal from "../../components/Setup/LedgerSetup/CreateModal";
 import ConformationPopup from "../../Modals/ConformationPopup/ConformationPopup";
+import { AppDispatch } from "../../Redux/Store";
 
 const validationSchema = Yup.object({
   name: Yup.string().required().required("Name is required"),
@@ -122,7 +122,6 @@ export const LedgerAccountTypesList = ({
     },
     useGlobalFilter,
     useSortBy,
-    // usePagination
   );
 
   const {

@@ -209,7 +209,6 @@ const tableData = [
 ];
 
 const HKMaintenance = () => {
-  console.log('HKMaintenance', tableData.length);
   return (
     <div>
       <Row>
