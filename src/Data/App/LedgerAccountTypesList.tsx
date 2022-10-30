@@ -5,7 +5,7 @@ import {
   useTable,
   useSortBy,
   useGlobalFilter,
-  usePagination,
+  // usePagination,
 } from "react-table";
 import {
   Card,
@@ -114,6 +114,7 @@ export const LedgerAccountTypesList = ({
 
   const tableInstance = useTable(
     {
+      // pagi
       columns: COLUMNS,
       data: ledgerAccountTypes,
       setDeleteModalId,
@@ -121,16 +122,16 @@ export const LedgerAccountTypesList = ({
     },
     useGlobalFilter,
     useSortBy,
-    usePagination
+    // usePagination
   );
 
   const {
-    getTableProps, // table props from react-table
-    headerGroups, // headerGroups, if your table has groupings
-    getTableBodyProps, // table body props from react-table
-    prepareRow, // Prepare the row (this function needs to be called for each row before getting the row props)
-    // state,
-    page, // use, page or rows
+    getTableProps,
+    headerGroups,
+    getTableBodyProps,
+    prepareRow,
+    rows
+    // page, // use, page or rows
   } = tableInstance;
 
   const initialValues: any = {
@@ -241,7 +242,7 @@ export const LedgerAccountTypesList = ({
                   ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                  {page.map((row) => {
+                  {rows.map((row) => {
                     prepareRow(row);
                     return (
                       <tr className="text-center" {...row.getRowProps()}>

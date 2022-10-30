@@ -26,7 +26,6 @@ import {
 import "./LedgerSetup.scss";
 import ConformationPopup from "../../../Modals/ConformationPopup/ConformationPopup";
 import CreateLedgerAccountOrAccountTypeModal from "./CreateModal";
-import { handlePreventInput } from "../../apps/DefaultCalender/event-utils";
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Name is required"),
