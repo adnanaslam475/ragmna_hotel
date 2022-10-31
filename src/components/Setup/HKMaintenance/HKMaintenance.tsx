@@ -224,7 +224,7 @@ const HKMaintenance = () => {
                     >
                       <Nav.Item>
                         <Nav.Link eventKey="first">
-                          <i className="fe fe-user me-1"></i>HK Listx
+                          <i className="fe fe-user me-1"></i>HK List
                         </Nav.Link>
                       </Nav.Item>
                       <Nav.Item>

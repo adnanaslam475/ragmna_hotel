@@ -31,7 +31,11 @@ const validationSchema = Yup.object({
   name: Yup.string().required("Name is required"),
   description: Yup.string().required("Description is required"),
   type: Yup.string().required("Type is required"),
-  defaultAmount: Yup.string().min(0).required("Default Amount is required"),
+  defaultAmount: Yup.number().min(1, '').required("Default Amount is required").test(
+    'Is positive?',
+    'Amount must be greater than 0',
+    (value: any) => value > 0
+  ),
 });
 
 const createLedgerInputs = [
@@ -39,31 +43,37 @@ const createLedgerInputs = [
     name: "name",
     label: "Name",
     inputType: "input",
+    type: 'text',
     placeholder: "Type name...",
   },
   {
     name: "description",
     label: "Description",
     inputType: "input",
+    type: 'text',
+
     placeholder: "Type Description...",
   },
   {
     name: "type",
     label: "Type",
     inputType: "select",
+    type: 'text',
+
     placeholder: "Type account type...",
   },
   {
     name: "defaultAmount",
     label: "Default Amount",
     inputType: "input",
+    type: 'number',
     placeholder: "Type Default Amount...",
   },
 ];
 
 function LedgerSetup() {
   const dispatch = useDispatch<AppDispatch>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { ledgerAccountsList } = useLedgerAccountList();
   const { ledgerAccountTypes } = useLedgerAccountTypeList();
   const [ledgerAccountsFetched, setLedgerAccountsFetched] =
@@ -77,7 +87,7 @@ function LedgerSetup() {
     name: "",
     description: "",
     type: "",
-    defaultAmount: "",
+    defaultAmount: 0,
   };
 
   const getAllLedgers = async () => {
@@ -138,7 +148,7 @@ function LedgerSetup() {
       await dispatch(
         createLedgerAccounts({
           ...payload,
-          defaultAmount: +payload.defaultAmount,
+          defaultAmount: +payload.defaultAmount || 0,
         } as any)
       );
       resetForm();
@@ -204,6 +214,7 @@ function LedgerSetup() {
     resetForm();
     setOpenModal(false);
   };
+
   return (
     <>
       <Row>
@@ -245,6 +256,7 @@ function LedgerSetup() {
                           ledgerAccountsList={ledgerAccountsList}
                           onClick={() => setOpenModal(true)}
                           onEdit={onEditRow}
+                          isLoading={isLoading}
                           onDelete={(id) => setDeleteModalId(id)}
                         />
                       </Tab.Pane>
@@ -284,7 +296,7 @@ function LedgerSetup() {
                   <>
                     <label className="form-label">{v.label}</label>
                     <input
-                      type="text"
+                      type={v.type}
                       className={"form-control required"}
                       placeholder={v.placeholder}
                       name={v.name}

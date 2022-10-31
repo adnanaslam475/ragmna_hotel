@@ -14,6 +14,7 @@ import {
   OverlayTrigger,
   ButtonGroup,
 } from "react-bootstrap";
+import { CircularProgress } from "@mui/material";
 
 const COLUMNS = [
   {
@@ -62,6 +63,7 @@ interface LedgerAccountsListProps {
   onClick: () => void;
   onEdit: (id) => void;
   onDelete: (id) => void;
+  isLoading: boolean;
 }
 
 export const LedgerAccountsList = ({
@@ -69,6 +71,7 @@ export const LedgerAccountsList = ({
   onClick,
   onEdit,
   onDelete,
+  isLoading,
 }: LedgerAccountsListProps) => {
   const tableInstance = useTable(
     {
@@ -88,7 +91,8 @@ export const LedgerAccountsList = ({
     getTableBodyProps, // table body props from react-table
     prepareRow, // Prepare the row (this function needs to be called for each row before getting the row props)
     state,
-    page, // use, page or rows
+    // page, // use, page or rows
+    rows,
     nextPage,
     previousPage,
     canNextPage,
@@ -113,7 +117,9 @@ export const LedgerAccountsList = ({
             </div>
           </Card.Header>
           <div className="e-table px-5 pb-5">
-            <div className="table-responsive ">
+            {/* {!isLoading ? 
+            <CircularProgress size={30} color='primary' /> : */}
+            <div className="table-responsive " >
               <table
                 {...getTableProps()}
                 className="table table-bordered text-nowrap mb-0"
@@ -148,7 +154,7 @@ export const LedgerAccountsList = ({
                   ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                  {page.map((row) => {
+                  {rows.map((row) => {
                     prepareRow(row);
                     return (
                       <tr className="text-center" {...row.getRowProps()}>
@@ -231,6 +237,7 @@ export const LedgerAccountsList = ({
                 </span>
               </div>
             </div>
+            {/* } */}
           </div>
         </Card>
       </Col>
