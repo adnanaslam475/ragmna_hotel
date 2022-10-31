@@ -15,7 +15,7 @@ const initialState = {
 export const addRoomTypeData = createAsyncThunk(
   "room-type/add",
   async (payload: any) => {
-    return await addRoomType("6350e5b0f851ef8676fbd105", payload);
+    return await addRoomType(payload.propertyId, payload);
   }
 );
 export const getRoomType = createAsyncThunk("rooms/get", async () => {
