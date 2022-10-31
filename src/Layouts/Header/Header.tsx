@@ -442,7 +442,7 @@ const Header = () => {
                           className="dropdown-item"
                           // href={`/Pages/profile`}
                         >
-                          <Link to={"/pages/profile"} className="p-0">
+                          <Link to={"/profile"} className="p-0">
                             <i className="dropdown-icon fe fe-user"></i> Profile
                           </Link>
                         </Dropdown.Item>

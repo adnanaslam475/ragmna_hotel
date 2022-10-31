@@ -10,7 +10,7 @@ const SwitcherIcons: any = () => {
     //leftsidemenu
     document.querySelector(".demo_changer")?.classList.add("active");
     let Rightside: any = document.querySelector(".demo_changer")
-    Rightside.style.right = "0px";
+    Rightside.styles.right = "0px";
 }
 
 const RemoveSwitcherIcon: any = () => {
@@ -18,7 +18,7 @@ const RemoveSwitcherIcon: any = () => {
     //leftsidemenu
     document.querySelector(".demo_changer")?.classList.remove("active");
     let Rightside: any = document.querySelector(".demo_changer")
-    Rightside.style.right = "-270px";
+    Rightside.styles.right = "-270px";
 }
 
 const Error500: FC<Error500Props> = () => (

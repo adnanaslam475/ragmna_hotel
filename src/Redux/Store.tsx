@@ -13,9 +13,11 @@ import { api } from "./Services/api";
 import globalSlice from "./globalReducer";
 import taxSetupSlice from "../components/Setup/PropertySetup/AddProperty/TaxSetup/taxSetupSlice";
 import RateSetupSlice from "../components/Setup/RateSetup/RateSetupSlice";
+import profileSlice from "../components/Profile/profileSlice";
 
 const CombineReducer = combineReducers({
   [api.reducerPath]: api.reducer,
+  profile:profileSlice,
   auth: firebaseAuthSlice,
   supplier: businessSetupSlice,
   proprtySetup: propertySetupSlice,
