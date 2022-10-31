@@ -298,7 +298,6 @@ export const AddRoomType = () => {
                 required
                 type="text"
                 placeholder="Name"
-                defaultValue="Data"
                 name="roomname"
                 value={values.roomname}
                 onChange={handleChange}
@@ -495,7 +494,6 @@ export const AddRoomType = () => {
                     name="sectionQuantity"
                     onChange={handleChange}
                     value={values.sectionQuantity}
-                    // defaultValue="12"
                   />
                   <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Col>
