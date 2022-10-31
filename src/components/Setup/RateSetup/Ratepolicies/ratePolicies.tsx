@@ -46,6 +46,8 @@ const RatePolicies = () => {
       cancelationDay: "",
       cancelationType: "",
       isChecked: "",
+      hours: 0,
+      chargeCollectionType: "",
     },
   });
 
@@ -88,6 +90,8 @@ const RatePolicies = () => {
         cancelationDay: "",
         cancelationType: "",
         isChecked: "",
+        hours: 0,
+        chargeCollectionType: "",
       },
     });
   };
@@ -102,7 +106,7 @@ const RatePolicies = () => {
           {
             type: policyDetail.rules.type
               ? policyDetail.rules.type
-              : "CheckInDate",
+              : "CheckIn Date",
             amountType: policyDetail.rules.amountType
               ? policyDetail.rules.amountType
               : "Percentage",
@@ -111,7 +115,7 @@ const RatePolicies = () => {
               : 0,
             chargeType: policyDetail.rules.chargeType
               ? policyDetail.rules.chargeType
-              : "TotalCharge",
+              : "Total Charge",
             cancelationDay: policyDetail.rules.cancelationDay
               ? policyDetail.rules.cancelationDay
               : "",
@@ -121,6 +125,12 @@ const RatePolicies = () => {
             isChecked: policyDetail.rules.isChecked
               ? policyDetail.rules.isChecked
               : "",
+            hours: policyDetail.rules.hours
+              ? parseInt(policyDetail.rules.hours.toString())
+              : 0,
+            chargeCollectionType: policyDetail.rules.chargeCollectionType
+              ? policyDetail.rules.chargeCollectionType
+              : "Captured",
           },
         ],
       };
@@ -155,7 +165,7 @@ const RatePolicies = () => {
           {
             type: policyDetail.rules.type
               ? policyDetail.rules.type
-              : "CheckInDate",
+              : "CheckIn Date",
             amountType: policyDetail.rules.amountType
               ? policyDetail.rules.amountType
               : "Percentage",
@@ -164,7 +174,7 @@ const RatePolicies = () => {
               : 0,
             chargeType: policyDetail.rules.chargeType
               ? policyDetail.rules.chargeType
-              : "TotalCharge",
+              : "Total Charge",
             cancelationDay: policyDetail.rules.cancelationDay
               ? policyDetail.rules.cancelationDay
               : "",
@@ -174,6 +184,12 @@ const RatePolicies = () => {
             isChecked: policyDetail.rules.isChecked
               ? policyDetail.rules.isChecked
               : "",
+            hours: policyDetail.rules.hours
+              ? parseInt(policyDetail.rules.hours.toString())
+              : 0,
+            chargeCollectionType: policyDetail.rules.chargeCollectionType
+              ? policyDetail.rules.chargeCollectionType
+              : "Captured",
           },
         ],
       };
@@ -234,6 +250,9 @@ const RatePolicies = () => {
           isChecked: policyDetail.data.rules[0].isChecked
             ? policyDetail.data.rules[0].isChecked
             : "",
+          hours: policyDetail.data.rules[0].hours
+            ? policyDetail.data.rules[0].hours
+            : 0,
         },
       });
       setPolicesModal({
@@ -306,7 +325,11 @@ const RatePolicies = () => {
                                     color: "#333",
                                     fontSize: 16,
                                     width: "auto",
+                                    cursor: "pointer",
                                   }}
+                                  onClick={() =>
+                                    getSinglePolicy(type.modal, entry)
+                                  }
                                 >
                                   {entry.name}
                                 </div>
@@ -349,7 +372,7 @@ const RatePolicies = () => {
                                       cursor: "pointer",
                                     }}
                                   >
-                                    4 Uses
+                                    {entry.uses} Uses
                                   </span>
                                 </div>
                               </div>

@@ -12,9 +12,9 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../Redux/Store";
 import { DangerLeft, Success } from "../../Redux/Services/toaster-service";
 
-interface ProfileProps { }
+interface ProfileProps {}
 const Profile: FC<ProfileProps> = () => {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
   let initialValues = {
     name: "",
     // businessname: "",
@@ -66,31 +66,31 @@ const Profile: FC<ProfileProps> = () => {
   };
 
   const onSubmit = async (values) => {
-    try{
-      let payload = Object.assign({},values)
+    try {
+      let payload = Object.assign({}, values);
       // payload['role']=''
-      payload['whatsappNumber'] = parseInt(payload['whatsappNumber'])
-      payload['phoneNumber'] = parseInt(payload['phoneNumber'])
-      payload['address'] = {
-        addressLine1:values.address,
-        city:values.city,
-        state:values.state,
-        country:values.country,
-        postalCode:values.postalCode.toString(),
+      payload["whatsappNumber"] = parseInt(payload["whatsappNumber"]);
+      payload["phoneNumber"] = parseInt(payload["phoneNumber"]);
+      payload["address"] = {
+        addressLine1: values.address,
+        city: values.city,
+        state: values.state,
+        country: values.country,
+        postalCode: values.postalCode.toString(),
+      };
+      delete payload["city"];
+      delete payload["state"];
+      delete payload["country"];
+      delete payload["postalCode"];
+      let res = await dispatch(alterProfile(payload));
+      if (res) {
+        Success("Profile has been Updated");
       }
-      delete payload['city']
-      delete payload['state']
-      delete payload['country']
-      delete payload['postalCode']
-     let res = await dispatch(alterProfile(payload))
-     if (res) {
-      Success("Profile has been Updated");
-    }
-    } catch(err){
+    } catch (err) {
       DangerLeft("Something went Wrong");
     }
   };
-  
+
   const {
     handleChange,
     handleSubmit,
@@ -116,30 +116,39 @@ const Profile: FC<ProfileProps> = () => {
 
   const getProfile = async () => {
     try {
-      let response = await dispatch(getProfiles()).unwrap()
-    
+      let response = await dispatch(getProfiles()).unwrap();
+
       setValues({
-        ...values, 
-          name:response?.data?.name ? response.data.name : '',
-          email: response?.data.email ? response.data.email : '',
-          phoneNumber: response?.data.phoneNumber ? response.data.phoneNumber.toString() : '',
-          whatsappNumber: response?.data.whatsappNumber ? response.data.whatsappNumber.toString() : '',
-          address: response?.data?.address?.addressLine1 ? response.data.address.addressLine1: '',
-          state: response?.data.address?.state ? response.data.address.state  : '',
-          postalCode: response?.data?.address?.postalCode ? response?.data?.address?.postalCode : '',
-          city: response?.data?.address.city ? response.data.address.city  : '',
-          country: response?.data?.address?.country ? response.data.address.country: '',
-      })
+        ...values,
+        name: response?.data?.name ? response.data.name : "",
+        email: response?.data.email ? response.data.email : "",
+        phoneNumber: response?.data.phoneNumber
+          ? response.data.phoneNumber.toString()
+          : "",
+        whatsappNumber: response?.data.whatsappNumber
+          ? response.data.whatsappNumber.toString()
+          : "",
+        address: response?.data?.address?.addressLine1
+          ? response.data.address.addressLine1
+          : "",
+        state: response?.data.address?.state ? response.data.address.state : "",
+        postalCode: response?.data?.address?.postalCode
+          ? response?.data?.address?.postalCode
+          : "",
+        city: response?.data?.address.city ? response.data.address.city : "",
+        country: response?.data?.address?.country
+          ? response.data.address.country
+          : "",
+      });
     } catch (err) {}
-  }
-  const { profileInfo } = useProfileInfo()
-  
+  };
+  const { profileInfo } = useProfileInfo();
 
   useEffect(() => {
-    getProfile()
-  }, [])
+    getProfile();
+  }, []);
 
-  const updatedStates = (country:any) => {
+  const updatedStates = (country: any) => {
     let c: any = updatedCountries.findIndex((x) => x.label === country);
     return State.getStatesOfCountry(updatedCountries[c]?.value).map(
       (state) => ({
@@ -180,7 +189,7 @@ const Profile: FC<ProfileProps> = () => {
                         </div>
                         <div className="profile-img-content text-dark text-start mt-2">
                           <div className="text-dark">
-                            <h3 className="h3 mb-2">{profileInfo.name}</h3>
+                            <h3 className="h3 mb-2">{values.name}</h3>
                           </div>
                         </div>
                       </div>
@@ -200,7 +209,7 @@ const Profile: FC<ProfileProps> = () => {
                       type="text"
                       placeholder="Name"
                       name="name"
-                      value={values.name} 
+                      value={values.name}
                       className={
                         touched.name && errors.name
                           ? "form-control required error-border"
@@ -314,9 +323,11 @@ const Profile: FC<ProfileProps> = () => {
                       value={updatedCountries.filter(
                         (option) => option.label === values.country
                       )}
-
                       onChange={(value: any) => {
-                        setFieldValue("country", value.label ? value.label : "");
+                        setFieldValue(
+                          "country",
+                          value.label ? value.label : ""
+                        );
                         setFieldValue("state", "");
                         setFieldValue("city", "");
                       }}
@@ -338,7 +349,10 @@ const Profile: FC<ProfileProps> = () => {
                           values.country ? values.country : null
                         ).filter((option) => option.label === values.state)}
                         onChange={(value: any) => {
-                          setFieldValue("state", value.label ? value.label : "");
+                          setFieldValue(
+                            "state",
+                            value.label ? value.label : ""
+                          );
                           setFieldValue("city", "");
                         }}
                       />

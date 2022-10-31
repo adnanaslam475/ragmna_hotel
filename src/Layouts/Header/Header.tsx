@@ -13,6 +13,7 @@ import {
   InputGroup,
 } from "react-bootstrap";
 import { useGlobalProperty } from "../../Redux/globalReducer";
+import { useUser } from "../../components/Authentication/firebaseAuth/firebaseAuthSlice";
 
 const SideMenuIcon: any = () => {
   //leftsidemenu
@@ -28,13 +29,13 @@ const RightSideBar: any = () => {
   document.querySelector(".sidebar-right")?.classList.toggle("sidebar-open");
 };
 const Header = () => {
-  const { property } = useGlobalProperty();
-
-  useEffect(() => {
-    if (property) {
-      console.log(property);
-    }
-  }, [property]);
+  // const { property } = useGlobalProperty();
+  const { user } = useUser();
+  // useEffect(() => {
+  //   if (property) {
+  //     console.log(property);
+  //   }
+  // }, [property]);
 
   document.querySelector(".main-content")?.addEventListener("click", () => {
     document.querySelector(".search-result")?.classList.add("d-none");
@@ -432,9 +433,9 @@ const Header = () => {
                         <div className="drop-heading">
                           <div className="text-center">
                             <h5 className="text-dark mb-0 fs-14 fw-semibold">
-                              Percy Kewshun
+                              {user.name}
                             </h5>
-                            <small className="text-muted">Senior Admin</small>
+                            {/* <small className="text-muted">Senior Admin</small> */}
                           </div>
                         </div>
                         <div className="dropdown-divider m-0"></div>
@@ -455,13 +456,13 @@ const Header = () => {
                             5
                           </span>
                         </Dropdown.Item>
-                        <Dropdown.Item
+                        {/* <Dropdown.Item
                           className="dropdown-item"
                           href={`/Authentication/lockscreen`}
                         >
                           <i className="dropdown-icon fe fe-lock"></i>
                           Lockscreen
-                        </Dropdown.Item>
+                        </Dropdown.Item> */}
 
                         <Dropdown.Item
                           className="dropdown-item"
