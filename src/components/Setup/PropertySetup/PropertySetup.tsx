@@ -68,7 +68,7 @@ const PropertySetup = () => {
         </Card>
       </Row>
 
-      <Row className="mt-2.">
+      <Row className="mt-2">
         {propertyList &&
           propertyList.map((item, index) => {
             return (
