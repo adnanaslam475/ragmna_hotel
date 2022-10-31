@@ -1,16 +1,17 @@
-.Reservation-table{
-    .rdt_TableCol{
-        padding: 5px 10px!important;
+.Reservation-table {
+    .rdt_TableCol {
+        padding: 5px 10px !important;
         justify-content: center !important;
     }
-    .rdt_TableCell{
-        padding: 5px 10px!important;
+
+    .rdt_TableCell {
+        padding: 5px 10px !important;
         justify-content: center !important;
     }
 }
 
-.Filter-column{
-    .col-lg-2{
+.Filter-column {
+    .col-lg-2 {
         border: 1px solid #05c3fb;
         max-width: 16% !important;
         padding: 5px;
@@ -19,69 +20,75 @@
         margin-right: 2px;
         cursor: pointer;
 
-        &:hover{
+        &:hover {
             background-color: #f2f2f2;
         }
     }
-    
+
 }
-.counter-res{
+
+.counter-res {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    .h1{
+
+    .h1 {
         font-weight: 900;
-        color:  var(--primary-bg-color);
+        color: var(--primary-bg-color);
         margin-bottom: 10px;
         margin-top: 7px;
     }
-    p{
+
+    p {
         color: gray;
         margin-bottom: 0;
         font-size: 12px;
     }
-    
+
 }
-.res-button{
+
+.res-button {
     background: #05c3fb !important;
     color: white !important;
 }
-    
-.res-card{
+
+.res-card {
     box-shadow: none !important;
 }
 
-.date-box{
+.date-box {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
 
-    h1{
+    h1 {
         font-weight: 900;
-        color:  var(--primary-bg-color);
+        color: var(--primary-bg-color);
         margin-bottom: 5px;
         text-align: left;
     }
-    h4{
+
+    h4 {
         margin-bottom: 0;
         color: gray;
         text-transform: uppercase;
     }
-    .main-date{
+
+    .main-date {
         display: flex;
         align-items: center;
         padding-left: 18px;
 
-        i{
+        i {
             margin-left: 2px;
             font-size: 15px;
         }
     }
 }
 
-.icon-details{
+.icon-details {
     border: 1px solid gray;
     border-radius: 50px;
     height: 18px;
@@ -92,11 +99,11 @@
     margin-left: 5px;
 }
 
-.arrival{
+.arrival {
     position: relative;
 }
 
-.arrival-popup{
+.arrival-popup {
     position: absolute;
     z-index: 1;
     width: 100%;
@@ -104,11 +111,16 @@
     top: 100px;
     font-size: 13px;
 
-    .counter-res{
+    .counter-res {
         border: 1px solid #05c3fb;
         background-color: white;
         border-radius: 10px;
         margin-top: 2px;
         padding: 5px;
     }
+}
+
+.reservation-newReservation {
+    background-color: #8cc63f !important;
+    border: #8cc63f !important
 }
