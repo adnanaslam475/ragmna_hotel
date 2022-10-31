@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { boolean } from "yup";
 
 interface policesModalInterface {
   showCancellation: boolean;
@@ -26,6 +25,8 @@ interface policyDetailInterface {
     cancelationDay: string;
     cancelationType: string;
     isChecked: string;
+    hours: number;
+    chargeCollectionType: string;
   };
 }
 
@@ -163,8 +164,8 @@ const CreatePolicyPopup = ({
                         })
                       }
                     >
-                      <option value="TotalCharge">total charges</option>
-                      <option value="RoomCharge">room charges</option>
+                      <option value="Total Charge">total charges</option>
+                      <option value="Room Charge">room charges</option>
                     </select>
                   </span>
                 </>
@@ -186,8 +187,18 @@ const CreatePolicyPopup = ({
                   textAlign: "center",
                   color: "#3ea8f4",
                 }}
+                value={policyDetail.rules.hours}
+                onChange={(event) =>
+                  setPolicyDetail({
+                    ...policyDetail,
+                    rules: {
+                      ...policyDetail.rules,
+                      hours: event.target.value,
+                    },
+                  })
+                }
               />{" "}
-              <span style={{ fontSize: "large", marginLeft: "2%" }}>days</span>{" "}
+              <span style={{ fontSize: "large", marginLeft: "2%" }}>hours</span>{" "}
               <span
                 style={{
                   fontSize: "initial",
@@ -210,8 +221,8 @@ const CreatePolicyPopup = ({
                     })
                   }
                 >
-                  <option value="CheckInDate">within checkin date</option>
-                  <option value="BookingDate">
+                  <option value="CheckIn Date">within checkin date</option>
+                  <option value="Booking Date">
                     after the reservation was made
                   </option>
                 </select>
@@ -401,6 +412,15 @@ const CreatePolicyPopup = ({
                   width: "15%",
                   color: "#3ea8f4",
                 }}
+                onChange={(event) =>
+                  setPolicyDetail({
+                    ...policyDetail,
+                    rules: {
+                      ...policyDetail.rules,
+                      amount: event.target.value,
+                    },
+                  })
+                }
               />{" "}
             </div>
           ) : policyDetail.rules.amountType === "Nights" ? (
@@ -556,7 +576,16 @@ const CreatePolicyPopup = ({
                     textAlign: "center",
                     color: "#3ea8f4",
                   }}
-                />{" "}
+                  onChange={(event) =>
+                    setPolicyDetail({
+                      ...policyDetail,
+                      rules: {
+                        ...policyDetail.rules,
+                        amount: event.target.value,
+                      },
+                    })
+                  }
+                />
                 <span style={{ fontSize: "larger", marginLeft: "1%" }}>
                   of the balance will be
                 </span>
@@ -572,6 +601,16 @@ const CreatePolicyPopup = ({
                       borderBottom: "1px solid #3ea8f4",
                       color: "#3ea8f4",
                     }}
+                    value={policyDetail.rules.chargeCollectionType}
+                    onChange={(event) =>
+                      setPolicyDetail({
+                        ...policyDetail,
+                        rules: {
+                          ...policyDetail.rules,
+                          chargeCollectionType: event.target.value,
+                        },
+                      })
+                    }
                   >
                     <option>captured</option>
                     <option>authorized</option>
@@ -882,7 +921,7 @@ const CreatePolicyPopup = ({
               fontFamily: "serif",
             }}
           >
-            {deletePolicyDetail.isDelete ? "Edit" : "New"} Insurance Policy
+            {policesModal.isEdit ? "Edit" : "New"} Insurance Policy
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

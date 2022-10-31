@@ -1,5 +1,12 @@
-import { Card, FormControl, InputGroup, Row, Col } from "react-bootstrap";
-import React, { useState, useRef, forwardRef} from "react";
+import {
+  Card,
+  FormControl,
+  InputGroup,
+  Row,
+  Col,
+  Button,
+} from "react-bootstrap";
+import React, { useState, useRef, forwardRef } from "react";
 import { DataTabless } from "../../../Data/Pages/TablesData/TableData";
 import {
   ArrivalsDetails,
@@ -20,7 +27,7 @@ const ReservationList = (props: ReservationListProps) => {
   const [showDeparturePopup, setShowDeparturePopup] = useState<boolean>(false);
 
   const { addTab } = props;
-  let ArrivalDetail : DetailsTabProps[]= [
+  let ArrivalDetail: DetailsTabProps[] = [
     {
       id: 1,
       name: "All Arrivals",
@@ -412,6 +419,16 @@ const ReservationList = (props: ReservationListProps) => {
                 ) : (
                   <AdvanceResForm setIsAdvance={setIsAdvance} />
                 )}
+                <Row>
+                  <Col lg={4}>
+                    <Button
+                      variant="primary"
+                      className="reservation-newReservation"
+                    >
+                      New Reservation
+                    </Button>
+                  </Col>
+                </Row>
                 <DataTabless
                   resTableDataItems={resTableDataItems}
                   columns={columns}
