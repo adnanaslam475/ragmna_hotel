@@ -46,7 +46,6 @@ export const AddRoomType = () => {
   const state = [{ value: "both", label: "Both" }];
   const [addSection, setAddSection] = useState<boolean>(false);
   const [addRental, setAddRental] = useState<boolean>(false);
-  const [useDefault, setUseDeafult] = useState<boolean>(false);
   const [sectionDetails, setSectionDetails] = useState<any>([]);
   const [selectRentalDetails, setSelectRentalDetails] = useState<any>([]);
 
@@ -63,12 +62,30 @@ export const AddRoomType = () => {
   ];
   const sectionsType: CommanDropDownType[] = [
     { value: "", label: "Select section For" },
-    { value: "Kitchen", label: "Kitchen" },
-    { value: "SwimmingPool", label: "SwimmingPool" },
-    { value: "FootballField", label: "FootballField" },
-    { value: "BasketballField", label: "BasketballField" },
     { value: "Bedroom", label: "Bedroom" },
     { value: "Ballroom", label: "Ballroom" },
+    { value: "Kitchen", label: "Kitchen" },
+    { value: "Swimming Pool", label: "SwimmingPool" },
+    { value: "Football Field", label: "FootballField" },
+    { value: "Basketball Field", label: "BasketballField" },
+  ];
+
+  const badTypes: CommanDropDownType[] = [
+    { value: "", label: "Select Bad Types" },
+    { value: "King", label: "King" },
+    { value: "Queen", label: "Queen" },
+    { value: "Twin", label: "Twin" },
+    { value: "Double", label: "Double" },
+    { value: "Single", label: "Single" },
+    { value: "Sofa", label: "Sofa" },
+    { value: "Couch", label: "Couch" },
+    { value: "Air Mattress", label: "Air Mattress" },
+    { value: "Bund", label: "Bund" },
+    { value: "Floor Mattress", label: "Floor Mattress" },
+    { value: "Toddler", label: "Toddler" },
+    { value: "Crib", label: "Crib" },
+    { value: "Water", label: "Water" },
+    { value: "Hammock", label: "Hammock" },
   ];
 
   let onSubmit = async (values: any) => {
@@ -105,7 +122,7 @@ export const AddRoomType = () => {
       // } else {
       // 	alert('error')
       // }
-    } catch (error: any) {}
+    } catch (error: any) { }
   };
   const initialValues = {
     propertyId: "",
@@ -138,8 +155,14 @@ export const AddRoomType = () => {
     rentalSectionAmenities: [],
     rentalSectionArea: 0,
     rentalSectionUnit: "",
-    rentalSectionadults: 0,
+    rentalSectionAdults: 0,
     rentalSectionChildren: 0,
+    rentalRoomNumber: "",
+    rentalBedType: "",
+    rentalBedCount: 0,
+    roomNumber: "",
+    bedType: "",
+    bedCount: 0,
     section: [],
     rentalUnits: [],
   };
@@ -168,9 +191,11 @@ export const AddRoomType = () => {
           roomchilderen: response?.data?.maxCapacity.children
             ? response?.data?.maxCapacity.children
             : "",
-          section: response?.data?.sections,
-          rentalUnits: response?.data?.rentalUnits,
+          // section: response?.data?.sections,
+          // rentalUnits: response?.data?.rentalUnits,
         });
+        setSectionDetails(response?.data?.sections);
+        setSelectRentalDetails(response?.data?.rentalUnits);
         // if (response?.data?.sections) setSectionArray(response.data.sections)
       }
     }
@@ -205,6 +230,15 @@ export const AddRoomType = () => {
         area: values.sectionArea,
         unit: values.sectionUnit,
       },
+      options: {
+        bedConfig: [
+          {
+            roomNumber: values.roomNumber,
+            bedType: values.bedType,
+            bedCount: values.bedCount,
+          },
+        ],
+      },
     };
     setSectionDetails([...sectionDetails, details]);
     setValues({
@@ -219,10 +253,25 @@ export const AddRoomType = () => {
       sectionAmenities: [],
       sectionArea: 0,
       sectionUnit: "",
+      roomNumber: "",
+      bedType: "",
+      bedCount: 0,
     });
   };
 
   const saveSelectRentalDetails = () => {
+    if(values.defaultSection){
+      let data = {
+        rentalUnitNumber: values.rentalUnitNo,
+        stationId: values.stationID,
+        useDefaultSections: values.defaultSection,
+        sections:[
+          ...sectionDetails
+        ]
+      }
+      console.log(data);
+      setSelectRentalDetails([...selectRentalDetails,{...data}])
+    }else{
     let rentalDetails = {
       rentalUnitNumber: values.rentalUnitNo,
       stationId: values.stationID,
@@ -240,13 +289,23 @@ export const AddRoomType = () => {
             unit: values.rentalSectionUnit,
           },
           maxCapacity: {
-            adults: values.rentalSectionadults,
+            adults: values.rentalSectionAdults,
             children: values.rentalSectionChildren,
+          },
+          options: {
+            bedConfig: [
+              {
+                roomNumber: values.rentalRoomNumber,
+                bedType: values.rentalBedType,
+                bedCount: values.rentalBedCount,
+              },
+            ],
           },
         },
       ],
     };
     setSelectRentalDetails([...selectRentalDetails, rentalDetails]);
+  }
     setValues({
       ...values,
       rentalUnitNo: 0,
@@ -260,10 +319,31 @@ export const AddRoomType = () => {
       rentalSectionAmenities: [],
       rentalSectionArea: 0,
       rentalSectionUnit: "",
-      rentalSectionadults: 0,
+      rentalSectionAdults: 0,
       rentalSectionChildren: 0,
+      rentalRoomNumber: "",
+      rentalBedType: "",
+      rentalBedCount: 0,
     });
   };
+
+
+  const onSetRentalSelectionData = (e) => {
+    // if(e.target.checked){
+    //   let data = {
+    //     rentalUnitNumber: values.rentalUnitNo,
+    //     stationId: values.stationID,
+    //     useDefaultSections: values.defaultSection,
+    //     sections:[
+    //       ...sectionDetails
+    //     ]
+    //   }
+    //   console.log(data);
+    //   setSelectRentalDetails([...selectRentalDetails,{...data}])
+    // }else{
+
+    // }
+  }
 
   return (
     <Card>
@@ -390,7 +470,7 @@ export const AddRoomType = () => {
                     })
                   }
 
-                  // value={allowFors.filter((option) => option.value === values.allowedFor)}
+                // value={allowFors.filter((option) => option.value === values.allowedFor)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a valid state.
@@ -439,7 +519,7 @@ export const AddRoomType = () => {
             <Card.Title style={{ fontWeight: "bold", fontSize: "24px" }}>
               Section
             </Card.Title>
-            {values.section.length !== 0 ? (
+            {sectionDetails.length !== 0 ? (
               <Row>
                 <div className="d-flex justify-content-end mt-5">
                   <Button onClick={() => setAddSection(!addSection)}>
@@ -448,7 +528,7 @@ export const AddRoomType = () => {
                 </div>
               </Row>
             ) : null}
-            {addSection || values.section.length === 0 ? (
+            {addSection || sectionDetails.length === 0 ? (
               <Row>
                 <Col xl={4} className="mb-3">
                   <Form.Label>Section Type</Form.Label>
@@ -632,17 +712,28 @@ export const AddRoomType = () => {
                         placeholder="Room Number"
                         required
                         name="roomNumber"
+                        value={values.roomNumber}
                         onChange={handleChange}
                       />
                     </Col>
                     <Col xl={4}>
                       <Form.Label>Bed Type</Form.Label>
-                      <Form.Control
-                        type="text"
+                      <Select
+                        classNamePrefix="Select"
+                        options={badTypes}
                         placeholder="Bed Type"
-                        required
                         name="bedType"
-                        onChange={handleChange}
+                        value={badTypes.filter(
+                          (option) => option.value === values.bedType
+                        )}
+                        onChange={(v) =>
+                          handleChange({
+                            target: {
+                              name: "bedType",
+                              value: v?.value || "",
+                            },
+                          })
+                        }
                       />
                     </Col>
                     <Col xl={4}>
@@ -650,6 +741,7 @@ export const AddRoomType = () => {
                       <Form.Control
                         type="text"
                         placeholder="Bed Count"
+                        value={values.bedCount}
                         required
                         name="bedCount"
                         onChange={handleChange}
@@ -724,7 +816,7 @@ export const AddRoomType = () => {
             <Card.Title style={{ fontWeight: "bold", fontSize: "24px" }}>
               Rental
             </Card.Title>
-            {values.rentalUnits.length !== 0 ? (
+            {selectRentalDetails.length !== 0 ? (
               <Row>
                 <div className="d-flex justify-content-end mt-5">
                   <Button onClick={() => setAddRental(!addRental)}>
@@ -733,16 +825,16 @@ export const AddRoomType = () => {
                 </div>
               </Row>
             ) : null}
-            {addRental || values.rentalUnits.length === 0 ? (
+            {addRental || selectRentalDetails.length === 0 ? (
               <Row>
                 <Col xl={4} className="mb-3">
                   <Form.Label>Rental Unit No</Form.Label>
                   <Form.Control
                     required
                     type="number"
-                    placeholder="Name"
-                    name="rentalUnit"
-                    value={values.rentalUnits}
+                    placeholder="Rental Unit No"
+                    name="rentalUnitNo"
+                    value={values.rentalUnitNo}
                     onChange={handleChange}
                   />
                   <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -769,13 +861,13 @@ export const AddRoomType = () => {
                       label="Use Default Section"
                       onChange={(e) => {
                         handleChange(e);
-                        setUseDeafult(!useDefault);
+                        onSetRentalSelectionData(e)
                       }}
                       checked={values.defaultSection}
                     />
                   </Form.Group>
                 </Col>
-                {!useDefault ? (
+                {!values.defaultSection ? (
                   <React.Fragment>
                     <Col xl={12} className="mb-3>">
                       Sections
@@ -836,7 +928,7 @@ export const AddRoomType = () => {
                         name="rentalSectionAdults"
                         placeholder="Adults"
                         required
-                        value={values.rentalSectionadults}
+                        value={values.rentalSectionAdults}
                         onChange={handleChange}
                       />
                       <Form.Control.Feedback type="invalid">
@@ -957,6 +1049,52 @@ export const AddRoomType = () => {
                         Please provide a valid unit.
                       </Form.Control.Feedback>
                     </Col>
+                    {values.sectionType === "Bedroom" ? (
+                      <React.Fragment>
+                        <Col xl={4}>
+                          <Form.Label>Room Number</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Room Number"
+                            required
+                            name="rentalRoomNumber"
+                            value={values.rentalRoomNumber}
+                            onChange={handleChange}
+                          />
+                        </Col>
+                        <Col xl={4}>
+                          <Form.Label>Bed Type</Form.Label>
+                          <Select
+                            classNamePrefix="Select"
+                            options={badTypes}
+                            placeholder="Bed Type"
+                            name="rentalBedType"
+                            value={badTypes.filter(
+                              (option) => option.value === values.rentalBedType
+                            )}
+                            onChange={(v) =>
+                              handleChange({
+                                target: {
+                                  name: "rentalBedType",
+                                  value: v?.value || "",
+                                },
+                              })
+                            }
+                          />
+                        </Col>
+                        <Col xl={4}>
+                          <Form.Label>Bed Count</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Bed Count"
+                            required
+                            name="rentalBedCount"
+                            value={values.rentalBedCount}
+                            onChange={handleChange}
+                          />
+                        </Col>
+                      </React.Fragment>
+                    ) : null}
                     <Col xl={12} className="mb-3 mt-4">
                       <DropzoneArea
                         acceptedFiles={["image/*"]}
@@ -994,7 +1132,7 @@ export const AddRoomType = () => {
                         <tr>
                           <td>{val.rentalUnitNumber}</td>
                           <td>{val.stationId}</td>
-                          <td>{val.useDefaultSections.toString()}</td>
+                          {/* <td>{val.useDefaultSections.toString()}</td> */}
                         </tr>
                       </Fragment>
                     ))}
