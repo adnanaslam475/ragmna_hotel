@@ -17,7 +17,7 @@ import profileSlice from "../components/Profile/profileSlice";
 
 const CombineReducer = combineReducers({
   [api.reducerPath]: api.reducer,
-  profile:profileSlice,
+  profile: profileSlice,
   auth: firebaseAuthSlice,
   supplier: businessSetupSlice,
   proprtySetup: propertySetupSlice,

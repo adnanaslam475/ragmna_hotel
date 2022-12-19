@@ -7,6 +7,7 @@ import {
   ListGroup,
   ListGroupItem,
 } from "react-bootstrap";
+import RoomStatusTab from "./RoomStatusTab";
 import { VerticalOrientationWizard } from "../../Data/Pages/Forms/DataFormWizard";
 import "./GuestServices.scss";
 
@@ -42,7 +43,9 @@ const GuestServices = () => {
                 </div>
                 <div className="tab-content">
                   <Tab.Content>
-                    <Tab.Pane eventKey="first"></Tab.Pane>
+                    <Tab.Pane eventKey="first">
+                      <RoomStatusTab />
+                    </Tab.Pane>
                     <Tab.Pane eventKey="second">
                       <Row>
                         <Col sm={12} lg={6}>

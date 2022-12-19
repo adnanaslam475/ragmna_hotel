@@ -32,8 +32,6 @@ function CreateLedgerAccountOrAccountTypeModal({
   children
 }: Props) {
 
-  // console.log("fhfiihf", props);
-
   return (
     <Modal size="lg" show={openModal} onHide={onHide}>
       <ModalHeader>

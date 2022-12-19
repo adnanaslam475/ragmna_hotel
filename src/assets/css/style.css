@@ -47770,6 +47770,9 @@ h6,
 .mx-auto {
 	margin-left: auto !important;
 }
+.ml-20{
+	margin-left:20px
+}
 
 @media (min-width: 576px) {
 	.m-sm-0 {
@@ -50693,5 +50696,27 @@ textarea.form-control {
 		width: auto !important;
 	}
 }
-
+.clr-red {
+	color: red !important;
+  }
+  .clr-green {
+	color: lightgreen !important;
+  }
+  .clr-orange {
+	color: orange !important;
+  }
+  .clr-black {
+	color: black !important;
+  }
+  
+  .clr-blue {
+	color: blue !important;
+  }
+  .clr-white {
+	color: white !important;
+  }
+  
+  .clr-gray {
+	color: gray !important;
+  }
 /*# sourceMappingURL=style.css.map */
