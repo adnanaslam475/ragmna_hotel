@@ -3,7 +3,7 @@ import { baseUrl } from "../../Api/baseURL";
 import { DangerLeft } from "./toaster-service";
 
 export const apiInstance = axios.create({
-  baseURL: baseUrl,
+  baseURL: "http://gtipms-env.eba-kx774cjf.us-east-1.elasticbeanstalk.com/",
 });
 
 apiInstance.interceptors.request.use(

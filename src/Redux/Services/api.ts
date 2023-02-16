@@ -5,7 +5,7 @@ import { RootState } from "../Store";
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: baseUrl,
+    baseUrl: 'http://gtipms-env.eba-kx774cjf.us-east-1.elasticbeanstalk.com/',
     // credentials: 'include',
     mode: "cors",
     prepareHeaders: async (headers, { getState, endpoint }) => {

@@ -7,12 +7,12 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 const Onhover = () => {
   if (document.querySelector(".app")?.classList.contains("sidenav-toggled"))
     document.querySelector(".app")?.classList.add("sidenav-toggled-open");
-
 }
 const Outhover = () => {
   document.querySelector(".app")?.classList.remove("sidenav-toggled-open");
 }
-let history:any = [];
+
+let history: any = [];
 
 export const Sidebar = () => {
 
@@ -20,8 +20,12 @@ export const Sidebar = () => {
   let location = useLocation();
   const [menuitems, setMenuitems] = useState(MENUITEMS);
   useEffect(() => {
-    
-    history.push(location.pathname);  // add  history to history  stack for current location.pathname to prevent multiple history calls innerWidth  and innerWidth calls from  multiple users. This is important because the history stack is not always empty when the user clicks  the history       
+
+    history.push(location.pathname);  // add  history to history  stack for current location.pathname 
+    // to prevent multiple history calls innerWidth  and innerWidth calls from  multiple users. 
+    // This is important because the history stack is not always empty 
+    // when the user clicks  the history       
+
     if (history.length > 2) {
       history.shift();
     }
@@ -64,7 +68,7 @@ export const Sidebar = () => {
         mainlevel.Items.map(sublevel => {
           sublevel.active = false;
           if (sublevel.children) {
-            sublevel.children.map((sublevel1:any) => {
+            sublevel.children.map((sublevel1: any) => {
               sublevel1.active = false;
               if (sublevel1?.children) {
                 sublevel1?.children.map(sublevel2 => {
@@ -86,7 +90,7 @@ export const Sidebar = () => {
   }
 
   function setSidemenu() {
-    
+
     if (menuitems) {
       menuitems.map(mainlevel => {
         if (mainlevel.Items) {
@@ -95,17 +99,16 @@ export const Sidebar = () => {
             items.selected = false;
             if (
               location.pathname === "" ||
-              location.pathname === "/")
-             {
+              location.pathname === "/") {
               location.pathname = "/dashboard/";
             }
-            
+
             if (location.pathname === items.path + '/') {
               items.active = true;
               items.selected = true;
             }
             if (items.children) {
-              items.children.map((submenu:any) => {
+              items.children.map((submenu: any) => {
                 submenu.active = false;
                 submenu.selected = false;
                 if (location.pathname === submenu.path + '/') {
@@ -154,7 +157,7 @@ export const Sidebar = () => {
                 sublevel.active = true;
               }
               if (sublevel.children) {
-                sublevel.children.map((sublevel1:any) => {
+                sublevel.children.map((sublevel1: any) => {
                   sublevel1.active = false;
                   if (item === sublevel1) {
                     sublevel.active = true;
@@ -191,7 +194,7 @@ export const Sidebar = () => {
     <Fragment>
       <div className="app-sidebar" onMouseOver={() => Onhover()}
         onMouseOut={() => Outhover()}>
-        <PerfectScrollbar options={{suppressScrollX:true, useBothWheelAxes:false}}>
+        <PerfectScrollbar options={{ suppressScrollX: true, useBothWheelAxes: false }}>
           <div className="side-header">
             <Link className="header-brand1" to={`/Dashboard/`}>
               <img src={require("../../assets/images/brand/logo.png")} className="header-brand-img desktop-logo" alt="logo1" />
@@ -209,10 +212,11 @@ export const Sidebar = () => {
               viewBox="0 0 24 24"
             >
               <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" />
-            </svg></div>
+            </svg>
+            </div>
             {/* first level */}
             <ul className="side-menu" style={{ marginLeft: "0px" }}>
-              {menuitems.map((Item:any, i) => (
+              {menuitems.map((Item: any, i) => (
                 <Fragment key={i + Math.random() * 100}>
                   <li className="sub-category"><h3>{Item.menutitle}</h3></li>
                   {Item.Items.map((menuItem, i) => (
@@ -275,87 +279,87 @@ export const Sidebar = () => {
                           }
                         >
                           <div className={`${menuItem.Name}`}>
-                          {menuItem.children.map((childrenItem, index) => {
-                            return (
-                              
-                              <li key={index} className={`sub-slide ${childrenItem.selected ? "is-expanded" : ""}`} >
-                                {childrenItem.type === "sub" ?
-                                  <Link
-                                    to="#"
-                                    className={`sub-side-menu__item ${childrenItem.selected ? "active" : ""}`}
-                                    onClick={(event) => { event.preventDefault(); toggleSidemenu(childrenItem); }}>
-                                    <span className="sub-side-menu__label">{childrenItem.title}{childrenItem.active}</span>
-                                    {childrenItem.active ?
-                                      <i className="sub-angle fa fa-angle-down"></i> : <i className="sub-angle fa fa-angle-right"></i>
-                                    }
-                                  </Link>
-                                  :
-                                  ""
-                                }
+                            {menuItem.children.map((childrenItem, index) => {
+                              return (
 
-                                {childrenItem.type === "link" ?
-                                  <NavLink
-                                    to={childrenItem.path + "/"}
-                                    className="slide-item"
-                                  >
-                                    {childrenItem.title}
-                                  </NavLink>
-                                  :
-                                  ""
-                                }
-                                {/* third lavel */}
-                                {childrenItem.children ? (
-                                  <ul
-                                    className="sub-slide-menu"
-                                    style={
-                                      childrenItem.active
-                                        ? { display: "block" }
-                                        : { display: "none" }
-                                    }
-                                  >
-                                    {childrenItem.children.map(
-                                      (childrenSubItem, key) => (
-                                        <li className={`${childrenSubItem.selected ? " is-expanded" : ""}`} key={key}>
-                                          {childrenSubItem.type === "link" ?
-                                            <NavLink
-                                              to={childrenSubItem.path + "/"}
-                                              className="sub-slide-item"
-                                            >
-                                              {childrenSubItem.title}
-                                            </NavLink>
-                                            :
-                                            ""
-                                          }
+                                <li key={index} className={`sub-slide ${childrenItem.selected ? "is-expanded" : ""}`} >
+                                  {childrenItem.type === "sub" ?
+                                    <Link
+                                      to="#"
+                                      className={`sub-side-menu__item ${childrenItem.selected ? "active" : ""}`}
+                                      onClick={(event) => { event.preventDefault(); toggleSidemenu(childrenItem); }}>
+                                      <span className="sub-side-menu__label">{childrenItem.title}{childrenItem.active}</span>
+                                      {childrenItem.active ?
+                                        <i className="sub-angle fa fa-angle-down"></i> : <i className="sub-angle fa fa-angle-right"></i>
+                                      }
+                                    </Link>
+                                    :
+                                    ""
+                                  }
 
-                                          {childrenSubItem.type === "sub" ?
-                                            <Link
-                                              to="#"
-                                              className={`"sub-slide-item" ${childrenSubItem.selected ? " is-expanded" : ""}`}
-                                              onClick={(event) => {
-                                                event.preventDefault();
-                                                toggleSidemenu(childrenSubItem)
-                                              }}
-                                            >
-                                              <span className="sub-side-menu__label">
+                                  {childrenItem.type === "link" ?
+                                    <NavLink
+                                      to={childrenItem.path + "/"}
+                                      className="slide-item"
+                                    >
+                                      {childrenItem.title}
+                                    </NavLink>
+                                    :
+                                    ""
+                                  }
+                                  {/* third lavel */}
+                                  {childrenItem.children ? (
+                                    <ul
+                                      className="sub-slide-menu"
+                                      style={
+                                        childrenItem.active
+                                          ? { display: "block" }
+                                          : { display: "none" }
+                                      }
+                                    >
+                                      {childrenItem.children.map(
+                                        (childrenSubItem, key) => (
+                                          <li className={`${childrenSubItem.selected ? " is-expanded" : ""}`} key={key}>
+                                            {childrenSubItem.type === "link" ?
+                                              <NavLink
+                                                to={childrenSubItem.path + "/"}
+                                                className="sub-slide-item"
+                                              >
                                                 {childrenSubItem.title}
-                                              </span>
-                                              {childrenSubItem.active ?
-                                                <i className="sub-angle fa fa-angle-down"></i> : <i className="sub-angle fa fa-angle-right"></i>}
-                                            </Link>
-                                            :
-                                            ""
-                                          }
-                                        </li>
-                                      )
-                                    )}
-                                  </ul>
-                                ) : (
-                                  ""
-                                )}
-                              </li>
-                              
-                            );
-                          })}
+                                              </NavLink>
+                                              :
+                                              ""
+                                            }
+
+                                            {childrenSubItem.type === "sub" ?
+                                              <Link
+                                                to="#"
+                                                className={`"sub-slide-item" ${childrenSubItem.selected ? " is-expanded" : ""}`}
+                                                onClick={(event) => {
+                                                  event.preventDefault();
+                                                  toggleSidemenu(childrenSubItem)
+                                                }}
+                                              >
+                                                <span className="sub-side-menu__label">
+                                                  {childrenSubItem.title}
+                                                </span>
+                                                {childrenSubItem.active ?
+                                                  <i className="sub-angle fa fa-angle-down"></i> : <i className="sub-angle fa fa-angle-right"></i>}
+                                              </Link>
+                                              :
+                                              ""
+                                            }
+                                          </li>
+                                        )
+                                      )}
+                                    </ul>
+                                  ) : (
+                                    ""
+                                  )}
+                                </li>
+
+                              );
+                            })}
                           </div>
                         </ul>
                       ) : (

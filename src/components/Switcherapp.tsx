@@ -28,8 +28,8 @@ const Switcherapp: FC<SwitcherappProps> = () => (
         </div>
         <Footer />
       </div>
-       
-        <Rightside />
+
+      <Rightside />
       {/* <Backtotop /> */}
     </div>
   </Fragment>

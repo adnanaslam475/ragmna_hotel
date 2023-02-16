@@ -4,9 +4,11 @@ import { useUser } from "./components/Authentication/firebaseAuth/firebaseAuthSl
 import AddProperty from "./components/Setup/PropertySetup/AddProperty/AddProperty/AddProperty";
 import { AddRoomType } from "./components/Setup/PropertySpace/AddRoomType/AddRoomType";
 import Loader from "./Layouts/Loader/Loader";
+
 const Auth = lazy(
   () => import("./components/Authentication/firebaseAuth/auth")
 );
+
 const App = lazy(() => import("./components/app"));
 
 const DefaultCalender = lazy(
@@ -82,6 +84,7 @@ const Editprofile = lazy(
   () => import("./components/pages/Editprofile/Editprofile")
 );
 const Profile = lazy(() => import("./components/Profile/Profile"));
+
 const AboutCompany = lazy(
   () => import("./components/pages/Extension/AboutCompany/AboutCompany")
 );
@@ -188,6 +191,7 @@ const Landing = lazy(() => import("./components/Landing"));
 const AuthLogin = lazy(
   () => import("./components/Authentication/firebaseAuth/AuthLogin")
 );
+
 const SignUp = lazy(
   () => import("./components/Authentication/firebaseAuth/Signup")
 );

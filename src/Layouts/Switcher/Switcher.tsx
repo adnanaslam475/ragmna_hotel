@@ -41,7 +41,7 @@ function changePrimaryColor(input: any) {
   localStorage.removeItem("sashtransparentBgColor");
   localStorage.removeItem("sashtransparent-bgImgPrimaryColor");
   localStorage.removeItem("sashBgImage");
-  
+
   SwitcherData.OpacityValuePrimary();
 }
 
@@ -230,18 +230,16 @@ const Switcher: FC<SwitcherProps> = () => {
 
   useEffect(() => {
     SwitcherData.localStorageBackUp();
-    
   })
-
 
   return (
     <React.Fragment>
 
       {/* <!-- Switcher --> */}
-      <div className="switcher-wrapper">
+      <div className="switcher-wrapper" style={{ border: '2px solid blue' }}>
         <div className="demo_changer">
           <div className="form_holder sidebar-right1">
-            <PerfectScrollbar options={{suppressScrollX:true, useBothWheelAxes:false}}>
+            <PerfectScrollbar options={{ suppressScrollX: true, useBothWheelAxes: false }}>
               <Row>
                 <div className="predefined_styles">
                   <div className="swichermainleft text-center">

@@ -218,7 +218,7 @@ export const LightTheme = () => {
     let html: any = document.querySelector("html")
     html.style = "";
     localStorage.removeItem('Sashdarktheme');
-    
+
     OpacityValuePrimary();
 
     localStorage.setItem("sashlighttheme", 'true')
@@ -251,7 +251,7 @@ export const dark = () => {
     OpacityValuePrimary();
 
     localStorage.setItem("Sashdarktheme", 'true')
-    
+
 };
 
 export const Transparent = () => {
@@ -273,8 +273,8 @@ export const Transparent = () => {
     document.querySelector(".app")?.classList.remove("gradient-header");
     document.querySelector(".app")?.classList.remove("header-light");
     document.querySelector(".app")?.classList.remove("dark-header");
-     let lightmenu = document.querySelector("#myonoffswitch3") as HTMLInputElement
-     lightmenu.checked = false;
+    let lightmenu = document.querySelector("#myonoffswitch3") as HTMLInputElement
+    lightmenu.checked = false;
     // let LightHeader = document.querySelector("#myonoffswitch6") as HTMLInputElement
     // LightHeader.checked = false;
     // let DarkHeader = document.querySelector("#myonoffswitch8") as HTMLInputElement
@@ -695,14 +695,14 @@ export function OpacityValuePrimary() {
     //     value = rgbColor.substring(5, rgbColor.length-1).replace(/ /g, '').split(',');
     // }
 
-    
+
     let colorData = hexToRgba(myVarVal, 0.1);
     document.querySelector("html")?.style.setProperty("--primary01", colorData);
-    
-    
+
+
     let colorData1 = hexToRgba(myVarVal, 0.2);
     document.querySelector("html")?.style.setProperty("--primary02", colorData1);
-    
+
     let colorData2 = hexToRgba(myVarVal, 0.3);
     document.querySelector("html")?.style.setProperty("--primary03", colorData2);
 
@@ -1186,6 +1186,7 @@ export function switcherArrowFn() {
 //Header page
 
 export const responsiveSidebarclose = () => {
+    console.log('responsiveSidebarclose')
     //leftsidemenu
     document.querySelector(".app")?.classList.remove("sidenav-toggled");
     //rightsidebar

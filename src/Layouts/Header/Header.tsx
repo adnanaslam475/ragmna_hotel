@@ -47,7 +47,7 @@ const Header = () => {
 
   return (
     <div className={styles.Header}>
-      <div className="header sticky app-header header1">
+      <div style={{ border: '1px solid red' }} className="header sticky app-header header1">
         <div className="container-fluid main-container">
           <div className="d-flex">
             <Link
@@ -55,7 +55,10 @@ const Header = () => {
               className="app-sidebar__toggle"
               data-bs-toggle="sidebar"
               to="#"
-              onClick={() => SideMenuIcon()}
+              onClick={() => {
+                console.log("SideMenuIcon");
+                SideMenuIcon();
+              }}
             />
             <Link className="logo-horizontal " to={`/Dashboard`}>
               <img
@@ -441,7 +444,7 @@ const Header = () => {
                         <div className="dropdown-divider m-0"></div>
                         <Dropdown.Item
                           className="dropdown-item"
-                          // href={`/Pages/profile`}
+                        // href={`/Pages/profile`}
                         >
                           <Link to={"/profile"} className="p-0">
                             <i className="dropdown-icon fe fe-user"></i> Profile
